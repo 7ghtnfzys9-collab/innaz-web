@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Buscador de la Zarzuteca INNAZ — partituras, libretos, vídeos y audios de zarzuela por compositor, libretista, década y teatro de estreno.">
+  <title>Buscador — Zarzuteca INNAZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="zarzuteca-data.js"></script>
+  <style>
+    :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;
+          /* ancho compartido por la entradilla y la caja de búsqueda (7-8-2026,
+             petición de César: la caja al mismo ancho que el texto). Si se
+             cambia, se cambia aquí y las dos siguen igualadas. */
+          --ancho-texto:700px;
+          /* alto común de las etiquetas de filtro y del botón «Limpiar filtros» */
+          --alto-pildora:32px;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);}
+    nav{position:fixed;top:0;width:100%;z-index:100;padding:1.1rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,238,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Cormorant SC',serif;font-size:1.65rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:.08em;}
+    .nav-logo span{color:var(--teal);}
+    .nav-back{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text);text-decoration:none;opacity:.65;transition:opacity .2s,color .2s;}
+    .nav-back:hover{opacity:1;color:var(--teal);}
+    header.page-head{padding:9rem 3.5rem 1.5rem;background:var(--cream);}
+    .inner{max-width:1120px;margin:0 auto;}
+    .section-label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.9rem;}
+    h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:600;line-height:1.08;color:var(--black);margin-bottom:.7rem;}
+    .intro{max-width:var(--ancho-texto);font-size:.9rem;line-height:1.7;color:var(--muted);}
+    main{padding:1.4rem 3.5rem 5rem;}
+    .filtros{padding:1rem 0 0;}
+
+    /* ── caja de búsqueda única ── */
+    .caja{position:relative;max-width:var(--ancho-texto);}
+    .caja input{width:100%;padding:1rem 1.1rem 1rem 3.1rem;border:1.5px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:1rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+    .caja input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(42,171,184,.12);}
+    .caja .lupa{position:absolute;left:1.15rem;top:1.45rem;transform:translateY(-50%);font-size:1.05rem;opacity:.35;pointer-events:none;}
+    .caja .pista{font-size:.75rem;color:var(--muted);margin-top:.5rem;}
+
+    /* ── desplegables encadenados ── */
+    .filtros-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;margin-top:1.2rem;}
+    .filtros label{display:block;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem;}
+    .filtros select{width:100%;padding:.6rem .7rem;border:1.5px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s,background .2s;cursor:pointer;}
+    .filtros select:focus{border-color:var(--teal);}
+    .filtros select.puesto{border-color:var(--teal);background:var(--teal-light);}
+
+    /* Etiquetas de filtro activo y «Limpiar filtros» comparten fila: las
+       etiquetas a la izquierda, el botón siempre a la derecha (7-8-2026,
+       petición de César). `--alto-pildora` iguala la altura de los dos, que
+       si no quedaban desalineados por llevar borde y relleno distintos. */
+    .barra-filtros{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-top:.9rem;min-height:var(--alto-pildora);}
+    .activos{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;flex:1 1 auto;min-width:0;}
+    .limpiar{display:inline-flex;align-items:center;justify-content:center;margin-left:auto;flex:0 0 auto;min-height:var(--alto-pildora);font-size:.75rem;padding:0 1rem;border:1.5px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;border-radius:20px;font-family:inherit;transition:all .15s;}
+    .limpiar:hover:not(:disabled){border-color:var(--teal);color:var(--teal-dark);background:var(--teal-light);}
+    .limpiar:disabled{opacity:.4;cursor:default;}
+    .tag{display:inline-flex;align-items:center;min-height:var(--alto-pildora);gap:.45rem;font-size:.73rem;background:var(--teal-light);border:1px solid rgba(42,171,184,.35);color:var(--teal-dark);padding:0 .5rem 0 .75rem;border-radius:3px;}
+    .tag b{font-weight:500;}
+    .tag button{background:none;border:none;color:var(--teal-dark);cursor:pointer;font-size:.95rem;line-height:1;padding:0 .1rem;opacity:.6;font-family:inherit;}
+    .tag button:hover{opacity:1;}
+
+    .resumen{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;padding:1.3rem 0 .9rem;border-bottom:1px solid var(--border);margin-top:.8rem;}
+    .cuenta{font-family:'Cormorant',serif;font-size:1.5rem;font-weight:600;color:var(--black);}
+    .cuenta span{font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:400;color:var(--muted);margin-left:.3rem;}
+    .orden{margin-left:auto;display:flex;align-items:center;gap:.45rem;}
+    .orden label{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+    .orden select{padding:.4rem .6rem;border:1.5px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:.78rem;outline:none;cursor:pointer;}
+
+    .lista{list-style:none;}
+    .obra{border-bottom:1px solid var(--border);}
+    .obra .row{display:block;padding:.95rem .3rem .7rem;text-decoration:none;color:inherit;transition:background .15s;}
+    .obra a.row:hover{background:var(--teal-light);}
+    .obra .row.sinficha{cursor:default;}
+    .tit{font-family:'Cormorant SC',serif;font-size:1.15rem;font-weight:600;color:var(--black);line-height:1.25;}
+    .verficha{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-dark);margin-left:.5rem;}
+    .pendiente{font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:.14rem .45rem;border-radius:3px;margin-left:.5rem;white-space:nowrap;}
+    .meta{font-size:.8rem;color:var(--muted);margin-top:.2rem;line-height:1.5;}
+    .meta b{color:var(--text);font-weight:500;}
+    mark{background:rgba(42,171,184,.22);color:inherit;padding:0 .1em;}
+    .mats-row{display:flex;gap:.35rem;flex-wrap:wrap;padding:0 .3rem .75rem;}
+    .mlink{font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;padding:.24rem .55rem;border-radius:3px;border:1px solid;transition:opacity .15s;}
+    .mlink:hover{opacity:.7;}
+    .mlink.p{color:var(--teal-dark);border-color:#bfe0e3;background:#eaf5f6;}
+    .mlink.l{color:#5c6b2f;border-color:#d6e0bf;background:#f1f4e9;}
+    .mlink.v{color:#8a4b1f;border-color:#e6cdb5;background:#f7efe6;}
+    .mlink.a{color:#6b4b9a;border-color:#d5c9ea;background:#efeaf7;}
+    .empty{color:var(--muted);font-size:.9rem;padding:2.5rem 0;text-align:center;}
+    .empty b{color:var(--text);}
+    footer{background:#080808;padding:2.4rem 3.5rem;}
+    .footer-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
+    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.6);}
+    .footer-logo span{color:var(--teal);}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.2);max-width:640px;line-height:1.6;}
+    @media(max-width:1180px){.filtros-grid{grid-template-columns:repeat(3,1fr);}}
+    @media(max-width:860px){nav,header.page-head,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.page-head{padding-top:7rem;}.filtros-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:560px){.filtros-grid{grid-template-columns:1fr;}}
+
+    .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;opacity:.65;transition:opacity .2s,color .2s;}
+    .nav-links a:hover{opacity:1;color:var(--teal);}
+    .nav-links a.active{opacity:1;color:var(--teal);}
+    .nav-links a.active:not(.nav-cta)::after{content:'';display:block;height:2px;background:var(--teal);margin-top:3px;border-radius:2px;}
+    .nav-cta{background:var(--teal)!important;color:#fff!important;opacity:1!important;padding:.5rem 1.3rem;border-radius:2px;}
+    .nav-cta:hover{background:var(--teal-dark)!important;}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:960px){.nav-links{display:none;}.nav-hamburger{display:flex;}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:var(--cream);padding:2.2rem 1.6rem;gap:1.3rem;align-items:flex-start;z-index:99;}.nav-links.open a{opacity:1;font-size:.95rem;}}
+  </style>
+</head>
+<body>
+<nav id="navbar">
+  <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html#innaz">Qué es INNAZ</a></li>
+    <li><a href="index.html#pilares">Pilares</a></li>
+    <li><a href="index.html#sello">Sello de Calidad</a></li>
+    <li><a href="index.html#biblioteca" class="active">Zarzuteca</a></li>
+    <li><a href="index.html#noticias">Noticias</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+    <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+<header class="page-head">
+  <div class="inner">
+    <p class="section-label">Zarzuteca INNAZ</p>
+    <h1 id="titulo">Catálogo</h1>
+    <p class="intro" id="intro">Obras con ficha documentada de la Zarzuteca. Busca por título, compositor, libretista o teatro en una sola caja; afina después con los filtros si lo necesitas.</p>
+  </div>
+</header>
+<main>
+  <div class="inner">
+    <div class="filtros">
+      <div class="caja">
+        <span class="lupa">⌕</span>
+        <input id="q" type="search" placeholder="Buscar por título, compositor, libretista o teatro…" autocomplete="off">
+        <p class="pista">Por ejemplo: <em>Chapí</em>, <em>Apolo</em>, <em>verbena</em>, <em>Ramos Carrión</em></p>
+      </div>
+      <div class="filtros-grid">
+        <div><label for="f-comp">Compositor</label><select id="f-comp"></select></div>
+        <div><label for="f-libr">Libretista</label><select id="f-libr"></select></div>
+        <div><label for="f-dec">Década de estreno</label><select id="f-dec"></select></div>
+        <div><label for="f-teatro">Teatro de estreno</label><select id="f-teatro"></select></div>
+        <div><label for="f-gg">Género</label><select id="f-gg"></select></div>
+      </div>
+      <div class="barra-filtros">
+        <div class="activos" id="activos"></div>
+        <button class="limpiar" id="btnLimpiar" disabled>Limpiar filtros</button>
+      </div>
+      <div class="resumen">
+        <p class="cuenta"><span id="cuenta">0</span><span id="cuentaTxt">obras</span></p>
+        <div class="orden">
+          <label for="f-orden">Ordenar</label>
+          <select id="f-orden">
+            <option value="az">Título (A–Z)</option>
+            <option value="za">Título (Z–A)</option>
+            <option value="anio-asc">Año (más antiguo)</option>
+            <option value="anio-desc">Año (más reciente)</option>
+            <option value="mats">Nº de materiales</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <ul class="lista" id="lista"></ul>
+    <p class="empty" id="vacio" style="display:none;"></p>
+  </div>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">INNA<span>Z</span></div>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela. Datos y enlaces de BNE, Fundación Juan March, Teatroteca (INAEM), Archive.org y otros repositorios; pertenecen a sus titulares.</p>
+  </div>
+</footer>
+<script>
+  /* ───────────────────────────────────────────────────────────────────────
+     Buscador de la Zarzuteca — reescrito el 7-8-2026 sobre la maqueta A
+     («compacta»), elegida por César. Cambios respecto de la versión anterior:
+
+     · Una sola caja que busca a la vez en título, compositor, libretista y
+       teatro, al mismo ancho que la entradilla (variable --ancho-texto).
+     · Fuera los botones Todo/Partituras/Libretos/Vídeos/Audios y fuera los
+       recuentos entre paréntesis de los desplegables.
+     · Los cuatro desplegables se ENCADENAN: cada uno ofrece solo lo que
+       existe en lo que dejan los demás filtros (ver `pasa`).
+     · Años sueltos (98 opciones) sustituidos por DÉCADAS (16).
+     · TEATROS: se filtra y se rotula por la CLAVE (o.teatroK), no por la
+       cadena de col3. col3 guarda la grafía del impreso —«Teatro Apolo»,
+       «Teatro Apolo, Madrid», «Teatro de Apolo de Madrid»…— y filtrar por
+       ella partía un mismo teatro en cuatro. La equivalencia la validó César
+       a mano el 30-7-2026; la clave es el par NOMBRE+CIUDAD, de modo que el
+       Apolo de Madrid y el de Valencia siguen separados.
+
+     Lo que NO se ha tocado, porque de ello dependen otras páginas:
+     · `sessionStorage.zzFichaIds` — ficha.html lo lee para las flechas
+       anterior/siguiente dentro de la lista filtrada (31-7-2026).
+     · El parámetro `?tipo=part|lib|vid|aud` sigue funcionando como filtro
+       inicial (por si hay enlaces o marcadores antiguos), pero ya no pinta
+       botones: aparece como una etiqueta que se puede quitar.
+     ─────────────────────────────────────────────────────────────────────── */
+  const $=id=>document.getElementById(id);
+  const norm=s=>(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const y4=s=>((s||'').match(/\d{4}/)||[''])[0];
+  const TL={part:['Partitura','p'],lib:['Libreto','l'],vid:['Vídeo','v'],aud:['Audio','a']};
+  const MATNOM={part:'Partituras',lib:'Libretos',vid:'Vídeos',aud:'Audios'};
+  const PP=(typeof PERSONAS!=='undefined'?PERSONAS:[]);
+  const NOMBRE={}; PP.forEach(p=>NOMBRE[p.id]=p.n);
+  /* Rótulo «Apellidos, nombre» para los DESPLEGABLES de compositor y libretista
+     (17-8-2026, decisión de César). Sale de la columna 5 de la pestaña Personas
+     del Excel, revisada nombre a nombre: no se deduce aquí, porque partir un
+     nombre español en nombre y apellidos no tiene regla fiable («Francisco
+     Asenjo Barbieri» lleva dos apellidos, «Felipe Pérez y González» también).
+     Si un id no la trae, se cae al nombre normal.
+     ⚠ SOLO el desplegable: la ficha, los enlaces de autor y las etiquetas de
+     filtro activo siguen mostrando el nombre en su orden natural. */
+  const INVERT={}; PP.forEach(p=>{if(p.inv) INVERT[p.id]=p.inv;});
+  const rotuloPersona=id=>INVERT[id]||NOMBRE[id]||id;
+  /* Orden del desplegable: por el apellido REAL, saltándose la partícula inicial
+     («de la Vega, Ventura» se ordena por «Vega»). La partícula se reconoce por ir
+     en minúscula, que es como se escribe en la columna del Excel. */
+  const clavePersona=s=>(s||'').replace(/^(?:[a-zà-öø-ÿ']+\s+)+/,'');
+  const TT=(typeof TEATROS!=='undefined'?TEATROS:[]);
+  const TEATRO_ROTULO={}; TT.forEach(t=>TEATRO_ROTULO[t.k]=t.n+' ('+t.c+')');
+  const rotuloTeatro=k=>TEATRO_ROTULO[k]||(k||'').replace(/^col3:/,'');
+
+  /* Género Chico/Grande — calculado en el cliente (vía A, 17-8-2026), sin
+     tocar el Excel ni zarzuteca-data.js. Método fijado y validado en la
+     sesión de géneros del 16-8-2026 (327/327 obras con actos determinables):
+     1. Se busca en o.gen el patrón «en <número|palabra> acto(s)/jornada(s)»
+        (o «acto único», que cuenta como 1).
+     2. Si o.gen no da el número, se cuentan las cabeceras {h:1} de o.num
+        (o de o.synA si o.num no las trae) que empiecen por «Acto» o
+        «Jornada»; una sola cabecera «Acto único»/«Jornada única» cuenta 1.
+     3. 1 acto → Género Chico; más de 1 → Género Grande.
+     El género NO se publica en la ficha (decisión de César, 16-8-2026):
+     esto solo alimenta el filtro del buscador. */
+  const NUM_PAL={un:1,una:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10};
+  function actosDeGen(gen){
+    gen=gen||'';
+    if(/acto\s+único/i.test(gen)) return 1;
+    const m=gen.match(/en\s+(un|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|\d+)\s+(actos?|actes?|jornadas?)\b/i);
+    if(m){ const w=m[1].toLowerCase(); return NUM_PAL[w]||parseInt(w,10)||null; }
+    return null;
+  }
+  function actosDeCabeceras(o){
+    for(const campo of ['num','synA']){
+      const arr=o[campo]||[];
+      const heads=arr.filter(x=>x.h===1).map(x=>x.t||'').filter(t=>/^(Acto|Jornada)/i.test(t));
+      if(heads.length){
+        if(heads.length===1 && /^(Acto único|Jornada única)/i.test(heads[0])) return 1;
+        return heads.length;
+      }
+    }
+    return null;
+  }
+  function generoChicoGrande(o){
+    const a=actosDeGen(o.gen)!==null?actosDeGen(o.gen):actosDeCabeceras(o);
+    if(a===null) return '';
+    return a===1?'chico':'grande';
+  }
+  const ETIQ_GG={chico:'Género Chico',grande:'Género Grande'};
+
+  const CAT=OBRAS.filter(o=>o.full);   // solo las fichas completas
+  CAT.forEach(o=>{
+    o._t=norm(o.t);
+    o._y=parseInt(y4(o.anio)||'0',10)||0;
+    o._dec=o._y?Math.floor(o._y/10)*10:0;
+    o._m=(o.part||[]).length+(o.lib||[]).length+(o.vid||[]).length+(o.aud||[]).length;
+    // sin clave de teatro (hoy no ocurre): se sirve col3 tal cual, como en la ficha
+    o._tk=o.teatroK||(o.teatro?'col3:'+o.teatro:'');
+    o._teatro=(o.teatroK&&TEATRO_ROTULO[o.teatroK])||o.teatro||'';
+    // el texto libre busca en las dos formas: la del impreso y la canónica
+    o._all=norm([o.t,o.comp,o.libr,o.teatro,o._teatro].join(' '));
+    o._gg=generoChicoGrande(o);
+  });
+
+  const est={q:'',comp:'',libr:'',dec:'',teatro:'',gg:''};
+  let tipo='';   // '' = todo el catálogo; part/lib/vid/aud desde ?tipo=
+  const SELS={comp:'f-comp',libr:'f-libr',dec:'f-dec',teatro:'f-teatro',gg:'f-gg'};
+
+  /* ¿esta obra cumple todos los filtros MENOS uno? Excluir el filtro propio
+     al calcular sus opciones es lo que permite seguir cambiando de selección:
+     si no, al elegir un compositor su desplegable se quedaría con esa única
+     opción y no se podría cambiar sin limpiar antes. */
+  function pasa(o,excluir){
+    const qn=norm(est.q.trim());
+    if(tipo && !((o[tipo]||[]).length)) return false;
+    if(qn && !o._all.includes(qn)) return false;
+    if(excluir!=='comp'   && est.comp   && !(o.cIds||[]).includes(est.comp)) return false;
+    if(excluir!=='libr'   && est.libr   && !(o.lIds||[]).includes(est.libr)) return false;
+    if(excluir!=='dec'    && est.dec    && String(o._dec)!==est.dec) return false;
+    if(excluir!=='teatro' && est.teatro && o._tk!==est.teatro) return false;
+    if(excluir!=='gg'     && est.gg     && o._gg!==est.gg) return false;
+    return true;
+  }
+  const subconjunto=excluir=>CAT.filter(o=>pasa(o,excluir));
+
+  function opciones(campo){
+    const base=subconjunto(campo), set=new Set(), out=[];
+    if(campo==='comp'||campo==='libr'){
+      const clave=campo==='comp'?'cIds':'lIds';
+      base.forEach(o=>(o[clave]||[]).forEach(id=>set.add(id)));
+      set.forEach(id=>out.push([id,rotuloPersona(id)]));
+      out.sort((a,b)=>clavePersona(a[1]).localeCompare(clavePersona(b[1]),'es'));
+    }else if(campo==='dec'){
+      base.forEach(o=>{if(o._dec)set.add(o._dec);});
+      [...set].sort((a,b)=>a-b).forEach(d=>out.push([String(d),d+'–'+(d+9)]));
+    }else if(campo==='gg'){
+      base.forEach(o=>{if(o._gg)set.add(o._gg);});
+      // orden fijo (Chico primero), no alfabético
+      ['chico','grande'].forEach(v=>{if(set.has(v))out.push([v,ETIQ_GG[v]]);});
+    }else{
+      base.forEach(o=>{if(o._tk)set.add(o._tk);});
+      set.forEach(k=>out.push([k,rotuloTeatro(k)]));
+      out.sort((a,b)=>a[1].localeCompare(b[1],'es'));
+    }
+    return out;
+  }
+
+  const ETIQ={comp:'Cualquier compositor',libr:'Cualquier libretista',dec:'Cualquier década',teatro:'Cualquier teatro',gg:'Cualquier género'};
+  function repoblar(){
+    Object.keys(SELS).forEach(campo=>{
+      const sel=$(SELS[campo]), lista=opciones(campo), actual=est[campo];
+      // red de seguridad: la selección vigente nunca desaparece de su lista
+      if(actual && !lista.some(([v])=>v===actual)){
+        const txt = campo==='dec' ? actual+'–'+(+actual+9)
+                  : campo==='gg' ? (ETIQ_GG[actual]||actual)
+                  : (campo==='teatro' ? rotuloTeatro(actual) : rotuloPersona(actual));
+        lista.unshift([actual,txt]);
+      }
+      sel.innerHTML='<option value="">'+esc(ETIQ[campo])+'</option>'+
+        lista.map(([v,t])=>'<option value="'+esc(v)+'">'+esc(t)+'</option>').join('');
+      sel.value=actual;
+      sel.classList.toggle('puesto',!!actual);
+    });
+  }
+
+  function resaltar(txt,q){
+    if(!q) return esc(txt);
+    const t=esc(txt), n=norm(txt), qn=norm(q); let out='',i=0;
+    while(true){const p=n.indexOf(qn,i); if(p<0){out+=t.slice(i);break;}
+      out+=t.slice(i,p)+'<mark>'+t.slice(p,p+qn.length)+'</mark>'; i=p+qn.length;}
+    return out;
+  }
+  function matLinks(o){
+    let h='';
+    const keys = tipo ? [tipo] : ['part','lib','vid','aud'];
+    for(const k of keys){const arr=o[k]||[];const[lab,cls]=TL[k];
+      arr.forEach((u,i)=>{h+=`<a class="mlink ${cls}" href="${esc(u)}" target="_blank" rel="noopener">${lab}${arr.length>1?' '+(i+1):''} ↗</a>`;});}
+    return h?`<div class="mats-row">${h}</div>`:'';
+  }
+  function metaLine(o){
+    const q=est.q, p=[];
+    if(o.comp)p.push('Música: <b>'+resaltar(o.comp,q)+'</b>');
+    if(o.libr)p.push('Libreto: <b>'+resaltar(o.libr,q)+'</b>');
+    if(o.anio)p.push(esc(o.anio));
+    if(o._teatro)p.push(resaltar(o._teatro,q));
+    return p.join(' · ');
+  }
+  function cuerpo(o){
+    return `<div class="tit">${resaltar(o.t,est.q)}${o.full?'<span class="verficha">Ver ficha →</span>':'<span class="pendiente">Ficha en preparación</span>'}</div>`+
+      (metaLine(o)?`<div class="meta">${metaLine(o)}</div>`:'');
+  }
+  function fila(o){
+    const head=o.full?`<a class="row" href="ficha.html?id=${encodeURIComponent(o.id)}">${cuerpo(o)}</a>`
+                     :`<div class="row sinficha">${cuerpo(o)}</div>`;
+    return `<li class="obra">${head}${matLinks(o)}</li>`;
+  }
+  function ordenar(res){
+    const m=$('f-orden').value;
+    if(m==='az') res.sort((a,b)=>a._t.localeCompare(b._t,'es'));
+    else if(m==='za') res.sort((a,b)=>b._t.localeCompare(a._t,'es'));
+    else if(m==='anio-asc') res.sort((a,b)=>(a._y||9999)-(b._y||9999)||a._t.localeCompare(b._t,'es'));
+    else if(m==='anio-desc') res.sort((a,b)=>(b._y||0)-(a._y||0)||a._t.localeCompare(b._t,'es'));
+    else if(m==='mats') res.sort((a,b)=>b._m-a._m||a._t.localeCompare(b._t,'es'));
+    return res;
+  }
+  function pintarActivos(){
+    const c=$('activos'); c.innerHTML='';
+    const tags=[];
+    if(est.q)      tags.push(['Texto','«'+est.q+'»',()=>{est.q='';$('q').value='';}]);
+    if(tipo)       tags.push(['Material',MATNOM[tipo],()=>{tipo='';rotulos();}]);
+    if(est.comp)   tags.push(['Compositor',NOMBRE[est.comp]||est.comp,()=>{est.comp='';}]);
+    if(est.libr)   tags.push(['Libretista',NOMBRE[est.libr]||est.libr,()=>{est.libr='';}]);
+    if(est.dec)    tags.push(['Década',est.dec+'–'+(+est.dec+9),()=>{est.dec='';}]);
+    if(est.teatro) tags.push(['Teatro',rotuloTeatro(est.teatro),()=>{est.teatro='';}]);
+    if(est.gg)     tags.push(['Género',ETIQ_GG[est.gg]||est.gg,()=>{est.gg='';}]);
+    tags.forEach(([k,v,quitar])=>{
+      const s=document.createElement('span'); s.className='tag';
+      s.innerHTML=`<b>${esc(k)}:</b> ${esc(v)}`;
+      const b=document.createElement('button'); b.textContent='✕'; b.title='Quitar este filtro';
+      b.setAttribute('aria-label','Quitar el filtro '+k);
+      b.onclick=()=>{quitar();filtrar();};
+      s.appendChild(b); c.appendChild(s);
+    });
+    $('btnLimpiar').disabled = tags.length===0;
+  }
+  function filtrar(){
+    repoblar();
+    const res=ordenar(CAT.filter(o=>pasa(o,null)));
+    const universo = tipo ? CAT.filter(o=>(o[tipo]||[]).length).length : CAT.length;
+    $('lista').innerHTML=res.map(fila).join('');
+    $('cuenta').textContent=res.length;
+    $('cuentaTxt').textContent=(res.length===1?'obra':'obras')+(res.length<universo?' de '+universo:'');
+    $('vacio').style.display=res.length?'none':'block';
+    $('vacio').innerHTML=res.length?'':'No hay ninguna obra que cumpla todo lo que has pedido.<br><b>Prueba a quitar alguno de los filtros de arriba.</b>';
+    pintarActivos();
+    // Navegación anterior/siguiente en la ficha (31/07/2026, petición de César):
+    // se guarda el orden EXACTO de lo que se está mostrando ahora mismo, para
+    // que al entrar en una ficha desde aquí se puedan ofrecer flechas dentro de
+    // esta misma lista filtrada. Se sobreescribe en cada filtrado/orden.
+    try{ sessionStorage.setItem('zzFichaIds', JSON.stringify(res.map(o=>o.id))); }catch(e){}
+  }
+  function limpiar(){
+    est.q='';est.comp='';est.libr='';est.dec='';est.teatro='';est.gg='';tipo='';
+    $('q').value='';
+    rotulos();
+  }
+  // título y entradilla según haya o no categoría de material (?tipo=)
+  function rotulos(){
+    const T={part:['Partituras','Obras del fondo que cuentan con partitura.'],
+             lib:['Libretos','Obras del fondo que cuentan con libreto.'],
+             vid:['Videoteca','Obras del fondo que cuentan con vídeo.'],
+             aud:['Fonoteca','Obras del fondo que cuentan con audio.']};
+    if(T[tipo]){ $('titulo').textContent=T[tipo][0];
+                 $('intro').textContent=T[tipo][1]+' Busca en una sola caja y afina después con los filtros.'; }
+    else { $('titulo').textContent='Catálogo';
+           $('intro').textContent='Obras con ficha documentada de la Zarzuteca. Busca por título, compositor, libretista o teatro en una sola caja; afina después con los filtros si lo necesitas.'; }
+    filtrar();
+  }
+
+  $('q').oninput=e=>{est.q=e.target.value;filtrar();};
+  Object.keys(SELS).forEach(campo=>{$(SELS[campo]).onchange=e=>{est[campo]=e.target.value;filtrar();};});
+  $('f-orden').onchange=filtrar;
+  $('btnLimpiar').onclick=limpiar;
+
+  // categoría desde la URL (?tipo=part|lib|vid|aud). Sin tipo, catálogo completo.
+  const TITU={part:'Partituras',lib:'Libretos',vid:'Videoteca',aud:'Fonoteca'};
+  const t0=(new URLSearchParams(location.search)).get('tipo')||'';
+  if(TL[t0]){ tipo=t0; document.title=TITU[t0]+' — Zarzuteca INNAZ'; }
+  rotulos();
+</script>
+</body>
+</html>

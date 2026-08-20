@@ -1,0 +1,612 @@
+{
+ "cadenas": {
+  "(México)": "el-pabellon-nacional-montevideo",
+  "Teatro particular condesa-duquesa de Benavente": "palacio-de-la-duquesa-de-benavente-y-osuna-madrid",
+  "Teatre Líric de Barcelona": "teatre-liric-barcelona",
+  "Teatro Nuevo de Barcelona": "teatre-nou-barcelona",
+  "Nuevo, Barcelona": "teatre-nou-barcelona",
+  "Teatro Nou de Barcelona": "teatre-nou-barcelona",
+  "Teatro Principal de Barcelona": "teatre-principal-barcelona",
+  "Teatro Principal (de Santa Cruz) de Barcelona": "teatre-principal-barcelona",
+  "Teatro Principal Palacio de Barcelona": "teatre-principal-barcelona",
+  "Teatro Alcázar de Madrid": "teatro-alcazar-madrid",
+  "Teatro Alhambra de La Habana": "teatro-alhambra-la-habana",
+  "Teatro de la Alhambra de La Habana": "teatro-alhambra-la-habana",
+  "Teatro de la Alhambra de Madrid": "teatro-alhambra-madrid",
+  "Teatro de la Alhambra": "teatro-alhambra-madrid",
+  "Alhambra, Madrid": "teatro-alhambra-madrid",
+  "Teatro Apolo de Barcelona": "teatro-apolo-barcelona",
+  "Teatro Apolo de Madrid": "teatro-apolo-madrid",
+  "Teatro Apolo, Madrid": "teatro-apolo-madrid",
+  "Apolo, Madrid": "teatro-apolo-madrid",
+  "Teatro de Apolo de Madrid": "teatro-apolo-madrid",
+  "Teatro Apolo": "teatro-apolo-madrid",
+  "Teatro Apolo, Valencia": "teatro-apolo-valencia",
+  "Teatro Arbeu de México": "teatro-arbeu-ciudad-de-mexico",
+  "Teatro Auditorium de La Habana": "teatro-auditorium-la-habana",
+  "Buen Retiro, Madrid": "teatro-buen-retiro-madrid",
+  "Teatro Calderón de Madrid": "teatro-calderon-madrid",
+  "Teatro Calderón, Madrid": "teatro-calderon-madrid",
+  "Teatro Centro de Madrid": "teatro-centro-madrid",
+  "Cervantes, Granada": "teatro-cervantes-granada",
+  "Cervantes, Sevilla": "teatro-cervantes-sevilla",
+  "Teatro Cervantes de Sevilla": "teatro-cervantes-sevilla",
+  "Teatro de los Bufos Arderius de Madrid": "teatro-circo-madrid",
+  "Teatro del Circo de Madrid": "teatro-circo-madrid",
+  "Teatro Circo": "teatro-circo-madrid",
+  "Circo, Madrid": "teatro-circo-madrid",
+  "Teatro Circo de Madrid": "teatro-circo-madrid",
+  "Teatro del Circo": "teatro-circo-madrid",
+  "Teatro Circo de Zaragoza": "teatro-circo-zaragoza",
+  "Teatro Circo del Príncipe Alfonso de Madrid": "teatro-circo-del-principe-alfonso-madrid",
+  "Teatro Circo Price, Madrid": "teatro-circo-price-madrid",
+  "Teatro Price de Madrid": "teatro-circo-price-madrid",
+  "Teatro Coliseum de Barcelona": "teatro-coliseum-barcelona",
+  "Teatro Cómico de Madrid": "teatro-comico-madrid",
+  "Cómico, Madrid": "teatro-comico-madrid",
+  "Teatro Cómico, Madrid": "teatro-comico-madrid",
+  "Teatro de la Cruz de Madrid": "teatro-cruz-madrid",
+  "Teatro de la Comedia": "teatro-de-la-comedia-madrid",
+  "Teatro de la Comedia de Madrid": "teatro-de-la-comedia-madrid",
+  "Comedia, Madrid": "teatro-de-la-comedia-madrid",
+  "Teatro Comedia": "teatro-de-la-comedia-madrid",
+  "Teatro de Jovellanos": "teatro-de-la-zarzuela-madrid",
+  "La Zarzuela, Madrid": "teatro-de-la-zarzuela-madrid",
+  "Teatro de la Zarzuela de Madrid": "teatro-de-la-zarzuela-madrid",
+  "Teatro de la Zarzuela": "teatro-de-la-zarzuela-madrid",
+  "Teatro de la Zarzuela, Madrid": "teatro-de-la-zarzuela-madrid",
+  "Teatro Basilios": "teatro-de-los-basilios-madrid",
+  "Teatro de los Bufos Madrileños": "teatro-de-variedades-madrid",
+  "Teatro de los Bufos madrileños": "teatro-de-variedades-madrid",
+  "Teatro de Variedades de Madrid": "teatro-de-variedades-madrid",
+  "Teatro de Variedades": "teatro-de-variedades-madrid",
+  "Teatro Variedades de Madrid": "teatro-de-variedades-madrid",
+  "Variedades, Madrid": "teatro-de-variedades-madrid",
+  "Teatro del Duque, Sevilla": "teatro-duque-sevilla",
+  "Teatro Eldorado de Barcelona": "teatro-eldorado-barcelona",
+  "Teatro Eldorado de Madrid": "teatro-el-dorado-madrid",
+  "Teatro Eslava de Madrid": "teatro-eslava-madrid",
+  "Eslava, Madrid": "teatro-eslava-madrid",
+  "Teatro Eslava": "teatro-eslava-madrid",
+  "Teatro Eslava, Madrid": "teatro-eslava-madrid",
+  "Teatro Español de Barcelona": "teatro-espanol-barcelona",
+  "Teatro Español de Madrid": "teatro-espanol-madrid",
+  "Teatro Felipe de Madrid": "teatro-felipe-madrid",
+  "Felipe, Madrid": "teatro-felipe-madrid",
+  "Teatro Felipe, Madrid": "teatro-felipe-madrid",
+  "Teatro Fontalba de Madrid": "teatro-fontalba-madrid",
+  "Teatro Fuencarral, Madrid": "teatro-fuencarral-madrid",
+  "Teatro Ideal de Madrid": "teatro-ideal-madrid",
+  "Teatro del Instituto de Madrid": "teatro-instituto-madrid",
+  "Teatro Jardín Español de Barcelona": "teatro-jardin-espanol-barcelona",
+  "Teatro de los Jardines del Buen Retiro de Madrid": "teatro-jardines-del-buen-retiro-madrid",
+  "La Latina, Madrid": "teatro-la-latina-madrid",
+  "Teatro de La Latina, Madrid": "teatro-la-latina-madrid",
+  "Teatro de la Latina de Madrid": "teatro-la-latina-madrid",
+  "Teatro Lara": "teatro-lara-madrid",
+  "Teatro del Liceo de Barcelona": "teatro-liceo-barcelona",
+  "Teatro Lírico (Cine Trianón) de Valencia": "teatro-lirico-valencia",
+  "Teatro Lope de Vega de Valladolid": "teatro-lope-de-vega-valladolid",
+  "Teatro Madrid de Madrid": "teatro-madrid-madrid",
+  "Madrileño, Madrid": "teatro-madrileno-madrid",
+  "Maravillas, Madrid": "teatro-maravillas-madrid",
+  "Teatro Maravillas": "teatro-maravillas-madrid",
+  "Teatro Maravillas de Madrid": "teatro-maravillas-madrid",
+  "Teatro Martí de La Habana": "teatro-marti-la-habana",
+  "Teatro Martín de Madrid": "teatro-martin-madrid",
+  "Martín, Madrid": "teatro-martin-madrid",
+  "Teatro Novedades de Barcelona": "teatro-novedades-barcelona",
+  "Teatro Novedades, Barcelona": "teatro-novedades-barcelona",
+  "Teatro de Novedades de Barcelona": "teatro-novedades-barcelona",
+  "Teatro Novetats de Barcelona": "teatro-novedades-barcelona",
+  "Novedades, Madrid": "teatro-novedades-madrid",
+  "Teatro Odeón de Barcelona": "teatro-odeon-barcelona",
+  "Odeón, Valparaíso (Chile)": "teatro-odeon-valparaiso",
+  "Teatro Parish de Madrid": "teatro-parish-madrid",
+  "Teatro de Parish de Madrid": "teatro-parish-madrid",
+  "Teatro Pavón de Madrid": "teatro-pavon-madrid",
+  "Teatro Payret de La Habana": "teatro-payret-la-habana",
+  "Teatro del Conservatorio de México": "teatro-principal-ciudad-de-mexico",
+  "Teatro Princesa de Valencia": "teatro-princesa-valencia",
+  "Teatro Principal de México": "teatro-principal-ciudad-de-mexico",
+  "Teatro Principal de San Sebastián": "teatro-principal-san-sebastian",
+  "Teatro del Príncipe de Madrid": "teatro-principe-madrid",
+  "Teatro Príncipe de San Sebastián": "teatro-principe-san-sebastian",
+  "Teatro del Príncipe Alfonso de Madrid": "teatro-principe-alfonso-madrid",
+  "Teatro Príncipe Alfonso de Madrid": "teatro-principe-alfonso-madrid",
+  "Teatro Príncipe Alfonso": "teatro-principe-alfonso-madrid",
+  "Real Conservatorio de Música de María Cristina de Madrid": "teatro-real-conservatorio-de-musica-de-maria-cristina-madrid",
+  "Recoletos, Madrid": "teatro-recoletos-madrid",
+  "Teatro Nacional de Panamá": "teatro-nacional-ciudad-de-panama",
+  "Teatro Regina de La Habana": "teatro-regina-la-habana",
+  "Regional, Valencia": "teatro-regional-valencia",
+  "Teatro Reina Victoria de Madrid": "teatro-reina-victoria-madrid",
+  "Romea, Madrid": "teatro-romea-madrid",
+  "Teatro Romea": "teatro-romea-madrid",
+  "Teatro de San Fernando de Sevilla": "teatro-san-fernando-sevilla",
+  "Coliseo Sevillano, Sevilla": "teatro-sevillano-sevilla",
+  "Teatro Tacón de La Habana": "teatro-tacon-la-habana",
+  "Teatro Tívoli de Barcelona": "teatro-tivoli-barcelona",
+  "Teatro Tívoli, Barcelona": "teatro-tivoli-barcelona",
+  "Teatro del Tívoli de Barcelona": "teatro-tivoli-barcelona",
+  "Teatro Victoria de Barcelona": "teatro-victoria-barcelona",
+  "Teatro Zorrilla": "teatro-zorrilla-madrid",
+  "Zorrilla, Gracia (España)": "teatro-zorrilla-madrid",
+  "Teatro Principal de Valencia": "teatro-principal-valencia",
+  "Teatro Circo Price de Madrid": "teatro-circo-price-madrid",
+  "Gran Teatro de Madrid": "gran-teatro-de-madrid-madrid",
+  "Teatro Recoletos de Madrid": "teatro-recoletos-madrid",
+  "Teatro Romea de Madrid": "teatro-romea-madrid",
+  "Teatro Olimpo de Buenos Aires": "teatro-olimpo-buenos-aires",
+  "Teatro de la Comedia de Buenos Aires": "teatro-de-la-comedia-buenos-aires",
+  "Teatro de la Reina Victoria de Madrid": "teatro-reina-victoria-madrid",
+  "Teatro Infanta Isabel de Madrid": "teatro-infanta-isabel-madrid",
+  "Teatro del Duque de Sevilla": "teatro-duque-sevilla",
+  "Teatro Lux Edén de Madrid": "teatro-lux-eden-madrid",
+  "Teatro Princesa de Madrid": "teatro-princesa-madrid",
+  "Teatro Principal de Alicante": "teatro-principal-alicante",
+  "Teatro Novedades de Madrid": "teatro-novedades-madrid",
+  "Circo de Paul": "circo-de-paul-madrid",
+  "Teatro del Tívoli de Madrid": "teatro-tivoli-madrid",
+  "Teatro Álvarez Quintero": "teatro-alvarez-quintero-madrid",
+  "Teatro Moderno": "teatro-moderno-madrid",
+  "Teatro Avenida de Buenos Aires": "teatro-avenida-buenos-aires"
+ },
+ "teatros": [
+  {
+   "k": "circo-de-paul-madrid",
+   "n": "Circo de Paul",
+   "c": "Madrid"
+  },
+  {
+   "k": "el-pabellon-nacional-montevideo",
+   "n": "El Pabellón Nacional",
+   "c": "Montevideo"
+  },
+  {
+   "k": "gran-teatro-de-madrid-madrid",
+   "n": "Gran Teatro de Madrid",
+   "c": "Madrid"
+  },
+  {
+   "k": "palacio-de-la-duquesa-de-benavente-y-osuna-madrid",
+   "n": "Palacio de la Duquesa de Benavente y Osuna",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatre-liric-barcelona",
+   "n": "Teatre Líric",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatre-nou-barcelona",
+   "n": "Teatre Nou",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatre-principal-barcelona",
+   "n": "Teatre Principal",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-alcazar-madrid",
+   "n": "Teatro Alcázar",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-alhambra-la-habana",
+   "n": "Teatro Alhambra",
+   "c": "La Habana"
+  },
+  {
+   "k": "teatro-alhambra-madrid",
+   "n": "Teatro Alhambra",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-alvarez-quintero-madrid",
+   "n": "Teatro Álvarez Quintero",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-apolo-barcelona",
+   "n": "Teatro Apolo",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-apolo-madrid",
+   "n": "Teatro Apolo",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-apolo-valencia",
+   "n": "Teatro Apolo",
+   "c": "Valencia"
+  },
+  {
+   "k": "teatro-arbeu-ciudad-de-mexico",
+   "n": "Teatro Arbeu",
+   "c": "Ciudad de México"
+  },
+  {
+   "k": "teatro-auditorium-la-habana",
+   "n": "Teatro Auditorium",
+   "c": "La Habana"
+  },
+  {
+   "k": "teatro-avenida-buenos-aires",
+   "n": "Teatro Avenida",
+   "c": "Buenos Aires"
+  },
+  {
+   "k": "teatro-buen-retiro-madrid",
+   "n": "Teatro Buen Retiro",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-calderon-madrid",
+   "n": "Teatro Calderón",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-centro-madrid",
+   "n": "Teatro Centro",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-cervantes-granada",
+   "n": "Teatro Cervantes",
+   "c": "Granada"
+  },
+  {
+   "k": "teatro-cervantes-sevilla",
+   "n": "Teatro Cervantes",
+   "c": "Sevilla"
+  },
+  {
+   "k": "teatro-circo-madrid",
+   "n": "Teatro Circo",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-circo-zaragoza",
+   "n": "Teatro Circo",
+   "c": "Zaragoza"
+  },
+  {
+   "k": "teatro-circo-del-principe-alfonso-madrid",
+   "n": "Teatro Circo del Príncipe Alfonso",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-circo-price-madrid",
+   "n": "Teatro Circo Price",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-coliseum-barcelona",
+   "n": "Teatro Coliseum",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-comico-madrid",
+   "n": "Teatro Cómico",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-cruz-madrid",
+   "n": "Teatro Cruz",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-de-la-comedia-buenos-aires",
+   "n": "Teatro de la Comedia",
+   "c": "Buenos Aires"
+  },
+  {
+   "k": "teatro-de-la-comedia-madrid",
+   "n": "Teatro de la Comedia",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-de-la-zarzuela-madrid",
+   "n": "Teatro de la Zarzuela",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-de-los-basilios-madrid",
+   "n": "Teatro de los Basilios",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-de-variedades-madrid",
+   "n": "Teatro de Variedades",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-duque-sevilla",
+   "n": "Teatro Duque",
+   "c": "Sevilla"
+  },
+  {
+   "k": "teatro-el-dorado-madrid",
+   "n": "Teatro El Dorado",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-eldorado-barcelona",
+   "n": "Teatro Eldorado",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-eslava-madrid",
+   "n": "Teatro Eslava",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-espanol-barcelona",
+   "n": "Teatro Español",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-espanol-madrid",
+   "n": "Teatro Español",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-felipe-madrid",
+   "n": "Teatro Felipe",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-fontalba-madrid",
+   "n": "Teatro Fontalba",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-fuencarral-madrid",
+   "n": "Teatro Fuencarral",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-ideal-madrid",
+   "n": "Teatro Ideal",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-infanta-isabel-madrid",
+   "n": "Teatro Infanta Isabel",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-instituto-madrid",
+   "n": "Teatro Instituto",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-jardin-espanol-barcelona",
+   "n": "Teatro Jardín Español",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-jardines-del-buen-retiro-madrid",
+   "n": "Teatro Jardines del Buen Retiro",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-la-latina-madrid",
+   "n": "Teatro La Latina",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-lara-madrid",
+   "n": "Teatro Lara",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-liceo-barcelona",
+   "n": "Teatro Liceo",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-lirico-valencia",
+   "n": "Teatro Lírico",
+   "c": "Valencia"
+  },
+  {
+   "k": "teatro-lope-de-vega-valladolid",
+   "n": "Teatro Lope de Vega",
+   "c": "Valladolid"
+  },
+  {
+   "k": "teatro-lux-eden-madrid",
+   "n": "Teatro Lux Edén",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-madrid-madrid",
+   "n": "Teatro Madrid",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-madrileno-madrid",
+   "n": "Teatro Madrileño",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-maravillas-madrid",
+   "n": "Teatro Maravillas",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-marti-la-habana",
+   "n": "Teatro Martí",
+   "c": "La Habana"
+  },
+  {
+   "k": "teatro-martin-madrid",
+   "n": "Teatro Martín",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-moderno-madrid",
+   "n": "Teatro Moderno",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-nacional-ciudad-de-panama",
+   "n": "Teatro Nacional",
+   "c": "Ciudad de Panamá"
+  },
+  {
+   "k": "teatro-novedades-barcelona",
+   "n": "Teatro Novedades",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-novedades-madrid",
+   "n": "Teatro Novedades",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-odeon-barcelona",
+   "n": "Teatro Odeón",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-odeon-valparaiso",
+   "n": "Teatro Odeón",
+   "c": "Valparaíso"
+  },
+  {
+   "k": "teatro-olimpo-buenos-aires",
+   "n": "Teatro Olimpo",
+   "c": "Buenos Aires"
+  },
+  {
+   "k": "teatro-parish-madrid",
+   "n": "Teatro Parish",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-pavon-madrid",
+   "n": "Teatro Pavón",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-payret-la-habana",
+   "n": "Teatro Payret",
+   "c": "La Habana"
+  },
+  {
+   "k": "teatro-princesa-madrid",
+   "n": "Teatro Princesa",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-princesa-valencia",
+   "n": "Teatro Princesa",
+   "c": "Valencia"
+  },
+  {
+   "k": "teatro-principal-alicante",
+   "n": "Teatro Principal",
+   "c": "Alicante"
+  },
+  {
+   "k": "teatro-principal-ciudad-de-mexico",
+   "n": "Teatro Principal",
+   "c": "Ciudad de México"
+  },
+  {
+   "k": "teatro-principal-san-sebastian",
+   "n": "Teatro Principal",
+   "c": "San Sebastián"
+  },
+  {
+   "k": "teatro-principal-valencia",
+   "n": "Teatro Principal",
+   "c": "Valencia"
+  },
+  {
+   "k": "teatro-principe-madrid",
+   "n": "Teatro Príncipe",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-principe-san-sebastian",
+   "n": "Teatro Príncipe",
+   "c": "San Sebastián"
+  },
+  {
+   "k": "teatro-principe-alfonso-madrid",
+   "n": "Teatro Príncipe Alfonso",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-real-conservatorio-de-musica-de-maria-cristina-madrid",
+   "n": "Teatro Real Conservatorio de Música de María Cristina",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-recoletos-madrid",
+   "n": "Teatro Recoletos",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-regina-la-habana",
+   "n": "Teatro Regina",
+   "c": "La Habana"
+  },
+  {
+   "k": "teatro-regional-valencia",
+   "n": "Teatro Regional",
+   "c": "Valencia"
+  },
+  {
+   "k": "teatro-reina-victoria-madrid",
+   "n": "Teatro Reina Victoria",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-romea-madrid",
+   "n": "Teatro Romea",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-san-fernando-sevilla",
+   "n": "Teatro San Fernando",
+   "c": "Sevilla"
+  },
+  {
+   "k": "teatro-sevillano-sevilla",
+   "n": "Teatro Sevillano",
+   "c": "Sevilla"
+  },
+  {
+   "k": "teatro-tacon-la-habana",
+   "n": "Teatro Tacón",
+   "c": "La Habana"
+  },
+  {
+   "k": "teatro-tivoli-barcelona",
+   "n": "Teatro Tívoli",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-tivoli-madrid",
+   "n": "Teatro Tívoli",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-victoria-barcelona",
+   "n": "Teatro Victoria",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-zorrilla-madrid",
+   "n": "Teatro Zorrilla",
+   "c": "Madrid"
+  }
+ ]
+}

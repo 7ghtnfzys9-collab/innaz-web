@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Autor — Zarzuteca INNAZ</title>
+  <!--
+    30 de julio de 2026: persona.html queda absorbida por listado.html, la
+    plantilla única de listado (?tipo=persona|teatro|anio). Este archivo se
+    conserva solo como redirección, para no romper los enlaces antiguos que
+    apuntaban a persona.html?id=… La página con el contenido es listado.html.
+    La versión anterior, con su propio maquetado, está en el zip de respaldo
+    innaz-backup-2026-07-22.zip y en el historial de la carpeta.
+  -->
+  <meta name="robots" content="noindex">
+  <script>
+    var id=new URLSearchParams(location.search).get('id')||'';
+    location.replace('listado.html?tipo=persona&v='+encodeURIComponent(id));
+  </script>
+</head>
+<body>
+  <p style="font-family:sans-serif;padding:2rem">
+    Esta página se ha trasladado.
+    <a id="l" href="listado.html?tipo=persona">Ir a la ficha del autor</a>.
+  </p>
+  <script>
+    document.getElementById('l').href='listado.html?tipo=persona&v='+
+      encodeURIComponent(new URLSearchParams(location.search).get('id')||'');
+  </script>
+</body>
+</html>

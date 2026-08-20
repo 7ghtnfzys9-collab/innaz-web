@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha — Zarzuteca INNAZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="zarzuteca-data.js"></script>
+  <style>
+    :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);}
+    nav{position:fixed;top:0;width:100%;z-index:100;padding:1.1rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,238,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Cormorant SC',serif;font-size:1.65rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:.08em;}
+    .nav-logo span{color:var(--teal);}
+    .nav-back{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text);text-decoration:none;opacity:.65;transition:opacity .2s,color .2s;}
+    .nav-back:hover{opacity:1;color:var(--teal);}
+    header.fh{padding:9rem 3.5rem 2.2rem;background:var(--cream);}
+    .inner{max-width:900px;margin:0 auto;}
+    .fh .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
+    h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
+    .genero{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;}
+    .chips{display:flex;flex-direction:column;gap:.55rem;margin-top:1.4rem;}
+    .chips-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
+    .lnk-mat{display:inline-flex;align-items:center;gap:.35rem;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1px solid var(--teal-dark);padding:.4rem .85rem;border-radius:20px;transition:all .15s;}
+    .lnk-mat:hover{background:var(--teal-dark);color:#fff;}
+    #materiales{scroll-margin-top:90px;}
+    .btn-nueva{display:flex;width:fit-content;margin-left:auto;align-items:center;gap:.4rem;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1.5px solid var(--teal-dark);padding:.5rem 1rem;border-radius:22px;transition:all .15s;}
+    .btn-nueva:hover{background:var(--teal-dark);color:#fff;}
+    /* 31/07/2026 (petición de César): «Nueva búsqueda» pasa a compartir fila
+       con «Materiales y descargas» (misma altura); las flechas de ficha
+       filtrada van justo debajo, alineadas con ese botón. */
+    .chips-row.final{margin-top:.5rem;}
+    .fh-nav{display:flex;gap:.5rem;align-items:center;width:fit-content;margin-left:auto;margin-top:.7rem;}
+    .fh-arrow{display:inline-flex;align-items:center;justify-content:center;width:2.15rem;height:2.15rem;border:1.5px solid var(--teal-dark);border-radius:50%;color:var(--teal-dark);text-decoration:none;font-size:1.15rem;line-height:1;transition:all .15s;}
+    .fh-arrow:hover{background:var(--teal-dark);color:#fff;}
+    .fh-arrow.disabled{opacity:.32;pointer-events:none;border-color:var(--border);color:var(--muted);}
+    /* Contador «12 de 221»: posición de esta ficha dentro de la lista con la
+       que se está navegando (31/07/2026, petición de César). */
+    .fh-pos{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;padding:0 .3rem;}
+    /* Segunda pareja de flechas al final de la ficha: al terminar de leer no
+       hay que subir hasta la cabecera para pasar a la obra siguiente. Ocupa
+       todo el ancho con una línea de separación y el grupo pegado a la
+       derecha, igual que arriba (31/07/2026, petición de César). */
+    .fh-nav-fin{width:100%;justify-content:flex-end;margin-top:0;padding-top:1.5rem;border-top:1px solid var(--border);}
+    .chip{font-size:.76rem;padding:.4rem .8rem;border-radius:20px;border:1.5px solid var(--border);color:var(--text);background:var(--white);display:inline-block;}
+    .chip .k{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:.35rem;}
+    .chip a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);transition:color .15s,border-color .15s;}
+    .chip a:hover{color:var(--black);border-bottom-color:var(--black);}
+    main{padding:2.6rem 3.5rem 6rem;}
+    .bloque{margin-bottom:2.6rem;}
+    .bloque h2{font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);}
+    .mats{display:flex;gap:.5rem;flex-wrap:wrap;}
+    .mat{font-size:.74rem;letter-spacing:.05em;text-decoration:none;padding:.5rem .9rem;border-radius:4px;border:1px solid;transition:opacity .15s;}
+    .mat:hover{opacity:.75;}
+    .mat.p{color:var(--teal-dark);border-color:#bfe0e3;background:#eaf5f6;}
+    .mat.l{color:#5c6b2f;border-color:#d6e0bf;background:#f1f4e9;}
+    .mat.v{color:#8a4b1f;border-color:#e6cdb5;background:#f7efe6;}
+    .mat.a{color:#6b4b9a;border-color:#d5c9ea;background:#efeaf7;}
+    .sinopsis{font-size:.98rem;line-height:1.85;color:var(--text);margin-bottom:.7rem;}
+    .acto-sub{font-family:'Cormorant SC',serif;font-weight:700;text-transform:uppercase;font-size:.82rem;letter-spacing:.05em;color:var(--black);margin:1.1rem 0 .5rem;}
+    .numeros{list-style:none;font-size:.94rem;line-height:1.5;}
+    .numeros li{padding:.35rem 0 .35rem 1.3rem;position:relative;border-bottom:1px solid var(--cream);}
+    .numeros li::before{content:'♪';position:absolute;left:0;color:var(--teal);font-size:.8rem;top:.5rem;}
+    .numeros li.acto{list-style:none;font-family:'Cormorant SC',serif;font-weight:700;color:var(--black);letter-spacing:.05em;padding-left:0;margin-top:.9rem;border-bottom:none;text-transform:uppercase;font-size:.82rem;}
+    .numeros li.acto::before{content:'';}
+    .nota{font-size:.8rem;color:var(--muted);font-style:italic;margin-top:.6rem;}
+    .vacio-ficha{background:var(--teal-light);border:1px dashed var(--teal);padding:1.2rem 1.4rem;font-size:.9rem;color:var(--teal-dark);line-height:1.6;border-radius:4px;}
+    .rel{display:flex;gap:.5rem;flex-wrap:wrap;}
+    /* Personajes en columna, uno por línea, de mayor a menor importancia:
+       orden de col17 y, donde col17 está vacía, el orden en que los lista la
+       fuente. El tipo de voz va entre paréntesis y en cursiva. */
+    .personajes{list-style:none;}
+    .personajes li{font-size:.94rem;line-height:1.55;padding:.32rem 0;border-bottom:1px solid var(--cream);}
+    .personajes li:last-child{border-bottom:none;}
+    .personajes .pn{color:var(--black);}
+    .personajes .pv{font-family:'Cormorant',serif;font-style:italic;font-size:1rem;color:var(--muted);}
+    /* Desplegable de personajes (30/07/2026): plegado por defecto se muestran
+       solo los primeros PERS_PREVIEW; el botón alterna. Si la obra tiene
+       PERS_PREVIEW+1 personajes o menos, se listan todos sin botón. */
+    .pers-wrap.plegado .personajes li:nth-child(n+7){display:none;}
+    .pers-toggle{display:inline-flex;align-items:center;gap:.35rem;margin-top:.7rem;font-family:'DM Sans',sans-serif;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);background:none;border:1px solid var(--teal-dark);padding:.4rem .85rem;border-radius:20px;cursor:pointer;transition:all .15s;}
+    .pers-toggle:hover{background:var(--teal-dark);color:#fff;}
+    /* Plegado del argumento (06/08/2026, petición de César): plegado se muestran
+       los primeros ARG_PREVIEW caracteres de PROSA del argumento completo y un
+       botón «Leer más» despliega el resto. Es SOLO presentación: el texto
+       íntegro está siempre en el HTML —se oculta con estas tres reglas—, así que
+       se copia entero, se imprime entero y los buscadores lo indexan entero.
+       col6 no se toca. */
+    .arg-wrap.plegado .arg-oculto{display:none;}
+    .arg-wrap.plegado .arg-rest{display:none;}
+    .arg-wrap.plegado .arg-corte::after{content:'…';}
+    .arg-toggle{margin-top:.2rem;}
+    /* Números musicales: un grupo por acto */
+    .acto-grupo{margin-bottom:1.3rem;}
+    .acto-grupo:last-child{margin-bottom:0;}
+    .acto-tit{font-family:'Cormorant SC',serif;font-weight:700;text-transform:uppercase;font-size:.82rem;letter-spacing:.05em;color:var(--black);margin-bottom:.35rem;}
+    footer{background:#080808;padding:2.4rem 3.5rem;margin-top:2rem;}
+    .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
+    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.6);}
+    .footer-logo span{color:var(--teal);}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.2);max-width:520px;line-height:1.6;}
+    @media(max-width:860px){nav,header.fh,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.fh{padding-top:7rem;}}
+  
+    .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;opacity:.65;transition:opacity .2s,color .2s;}
+    .nav-links a:hover{opacity:1;color:var(--teal);}
+    .nav-links a.active{opacity:1;color:var(--teal);}
+    .nav-links a.active:not(.nav-cta)::after{content:'';display:block;height:2px;background:var(--teal);margin-top:3px;border-radius:2px;}
+    .nav-cta{background:var(--teal)!important;color:#fff!important;opacity:1!important;padding:.5rem 1.3rem;border-radius:2px;}
+    .nav-cta:hover{background:var(--teal-dark)!important;}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:960px){.nav-links{display:none;}.nav-hamburger{display:flex;}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:var(--cream);padding:2.2rem 1.6rem;gap:1.3rem;align-items:flex-start;z-index:99;}.nav-links.open a{opacity:1;font-size:.95rem;}}
+  </style>
+</head>
+<body>
+<nav id="navbar">
+  <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html#innaz">Qué es INNAZ</a></li>
+    <li><a href="index.html#pilares">Pilares</a></li>
+    <li><a href="index.html#sello">Sello de Calidad</a></li>
+    <li><a href="index.html#biblioteca" class="active">Zarzuteca</a></li>
+    <li><a href="index.html#noticias">Noticias</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+    <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+<header class="fh">
+  <div class="inner">
+    <p class="label">Zarzuteca INNAZ · Ficha de obra</p>
+    <h1 id="fTitulo">…</h1>
+    <!-- Género / forma bajo el título: DESACTIVADO el 30 de julio de 2026 por
+         decisión de César. El dato NO se ha borrado: sigue en col14 del Excel y
+         el generador sigue emitiéndolo como o.gen. Para volver a mostrarlo,
+         descomentar esta línea y el bloque marcado «género» del script. -->
+    <!-- <p class="genero" id="fGenero" style="display:none;"></p> -->
+    <div class="chips" id="fChips"></div>
+    <div class="fh-nav" id="fhNav" style="display:none">
+      <a href="#" id="fhPrev" class="fh-arrow" aria-label="Ficha anterior">‹</a>
+      <span class="fh-pos" id="fhPos"></span>
+      <a href="#" id="fhNext" class="fh-arrow" aria-label="Ficha siguiente">›</a>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="inner" id="fBody"></div>
+  <div class="inner">
+    <div class="fh-nav fh-nav-fin" id="fhNavFin" style="display:none">
+      <a href="#" id="fhPrevFin" class="fh-arrow" aria-label="Ficha anterior">‹</a>
+      <span class="fh-pos" id="fhPosFin"></span>
+      <a href="#" id="fhNextFin" class="fh-arrow" aria-label="Ficha siguiente">›</a>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">INNA<span>Z</span></div>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela. Datos: libretos facsímiles digitalizados en Internet Archive, Diccionario de la Zarzuela (ICCMU), Archivo de la SGAE y Biblioteca Digital Hispánica (BNE). Los datos y textos digitalizados procedentes de la BNE se reutilizan bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener" style="color:rgba(255,255,255,.45);text-decoration:underline">CC BY 4.0</a>. Enlaces de BNE, Fundación Juan March, Teatroteca (INAEM), Archive.org y otros; pertenecen a sus titulares.</p>
+  </div>
+</footer>
+<script>
+  const $=id=>document.getElementById(id);
+  const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const id=new URLSearchParams(location.search).get('id');
+  const o=(typeof OBRAS!=='undefined')?OBRAS.find(x=>x.id===id):null;
+  function splitNames(s){return (s||'').split(/;\s*/).map(x=>x.trim()).filter(Boolean);} // 11-8-2026: «;» es el ÚNICO separador de col4/col5; el regex anterior partía también por « y » y rompía los enlaces de nombres que lo contienen (p. ej. Carlos Arniches y Barrera)
+  const TLAB={part:['Partitura','p'],lib:['Libreto','l'],vid:['Vídeo','v'],aud:['Audio','a']};
+  // Botón «Nueva búsqueda»: antes vivía suelto en el HTML, fuera de los
+  // chips. Ahora se genera siempre por JS, en la última fila de chips, junto
+  // al enlace de materiales cuando lo hay (31/07/2026, petición de César).
+  const NUEVA_BUSQUEDA='<a href="buscador.html" class="btn-nueva">← Nueva búsqueda en el catálogo</a>';
+  if(!o){
+    $('fTitulo').textContent='Obra no encontrada';
+    $('fBody').innerHTML='<p class="vacio-ficha">No se ha encontrado esta obra. Vuelve al <a href="buscador.html">buscador</a>.</p>';
+    $('fChips').innerHTML=`<div class="chips-row final">${NUEVA_BUSQUEDA}</div>`;
+  } else {
+    document.title=o.t+' — Zarzuteca INNAZ';
+    $('fTitulo').textContent=o.t;
+    // género/forma (subtítulo) — DESACTIVADO 30/07/2026, ver comentario en el
+    // <header>. El dato sigue en col14 y en o.gen; solo no se pinta.
+    // const genClean = (o.gen||'').replace(/\s*\/\/\s*/g,' · ').replace(/(\s·\s)+$/,'').replace(/\s+/g,' ').trim();
+    // if(genClean){ $('fGenero').textContent=genClean; $('fGenero').style.display=''; }
+
+    // chips apilados: Compositor(es), Libretista(s), Estreno.
+    // Compositor, libretista, teatro y año llevan enlace a listado.html. El
+    // teatro solo se enlaza cuando el generador ha podido darle clave: col3
+    // tiene varias escrituras del mismo teatro y la equivalencia la validó
+    // César a mano (ver el comentario de TEATROS_MAP en generar_datos.py).
+    const chip=(rotulo,cuerpo)=>`<span class="chip"><span class="k">${rotulo}</span>${cuerpo}</span>`;
+    const lnk=(tipo,valor,texto)=>
+      `<a href="listado.html?tipo=${tipo}&v=${encodeURIComponent(valor)}">${esc(texto)}</a>`;
+    // Cada nombre suelto enlaza a su propia ficha. cIds/lIds vienen del
+    // generador con el mismo splitNames, así que van en el mismo orden; si por
+    // lo que sea no cuadran, se deja el nombre sin enlazar antes que enlazar mal.
+    function nombresEnlazados(txt, ids){
+      const ns=splitNames(txt);
+      if(!ids || ids.length!==ns.length) return esc(txt);
+      return ns.map((n,i)=>lnk('persona', ids[i], n)).join(', ');
+    }
+    let rows='';
+    if(o.comp) rows+=`<div class="chips-row">${chip(splitNames(o.comp).length>1?'Compositores':'Compositor', nombresEnlazados(o.comp,o.cIds))}</div>`;
+    if(o.libr) rows+=`<div class="chips-row">${chip(splitNames(o.libr).length>1?'Libretistas':'Libretista', nombresEnlazados(o.libr,o.lIds))}</div>`;
+    // Estreno: teatro (enlazado solo si el generador dio teatroK, es decir solo
+    // si la cadena de col3 está en la tabla de teatros que validó César) · año
+    // El año se enlaza por los cuatro dígitos de o.anioN; el resto de la fecha
+    // («(25 de agosto)») se queda como texto.
+    // El teatro se rotula con su nombre canónico y la ciudad entre paréntesis
+    // —«Teatro Apolo (Madrid)»—, que salen de TEATROS. La ciudad es
+    // imprescindible: hay teatros homónimos en ciudades distintas y sin ella el
+    // rótulo sería ambiguo. Si la obra no tiene clave de teatro (su cadena de
+    // col3 no está en la tabla validada), se sirve col3 tal cual y sin enlace.
+    const teat=o.teatroK && typeof TEATROS!=='undefined' ? TEATROS.find(x=>x.k===o.teatroK) : null;
+    const teatroTxt = teat ? teat.n+(teat.c?' ('+teat.c+')':'') : o.teatro;
+    const partes=[];
+    if(teatroTxt) partes.push(o.teatroK ? lnk('teatro', o.teatroK, teatroTxt) : esc(teatroTxt));
+    if(o.anio){
+      if(o.anioN){
+        const resto=o.anio.replace(o.anioN,'').trim();
+        partes.push(lnk('anio', o.anioN, o.anioN)+(resto?' '+esc(resto):''));
+      } else partes.push(esc(o.anio));
+    }
+    const hasMat=['part','lib','vid','aud'].some(k=>(o[k]||[]).length);
+    if(partes.length) rows += `<div class="chips-row">${chip('Estreno', partes.join(' · '))}</div>`;
+    // Última fila: el enlace a materiales (si los hay) y «Nueva búsqueda», en
+    // la misma línea — este segundo se empuja a la derecha con su propio
+    // margin-left:auto, así que la fila funciona igual haya o no materiales.
+    const matLink = hasMat ? `<a class="lnk-mat" href="#materiales">Materiales y descargas ↓</a>` : '';
+    rows += `<div class="chips-row final">${matLink}${NUEVA_BUSQUEDA}</div>`;
+    $('fChips').innerHTML = rows;
+
+    let html='';
+    // El bloque «Autoría» (biografías desplegables de compositor y libretista)
+    // se eliminó el 30 de julio de 2026: la biografía vive ahora en la ficha
+    // propia de cada autor, a la que se llega desde los chips de la cabecera.
+
+    // 1) personajes — ENCIMA del argumento, en columna, de mayor a menor
+    // importancia. El orden lo fija el generador con col17; donde col17 está
+    // vacía se respeta el orden en que los lista la fuente. El tipo de voz va
+    // entre paréntesis y en cursiva, y donde no hay voz documentada no se
+    // escribe paréntesis: no se deduce la cuerda de un personaje.
+    // El bloque es DESPLEGABLE (30/07/2026): plegado por defecto, enseña los
+    // primeros PERS_PREVIEW como vista previa y un botón para ver el resto.
+    // Con PERS_PREVIEW+1 o menos, se listan todos y no hay botón (un botón
+    // para destapar una sola línea molesta más de lo que aporta). OJO: el CSS
+    // del plegado usa nth-child(n+7); si se cambia PERS_PREVIEW hay que
+    // cambiar también ese 7 (= PERS_PREVIEW+1).
+    const PERS_PREVIEW=6;
+    // Los rótulos de sección que la fuente intercala en el reparto —«Cuadro
+    // Primero…» en 806 La Gran Vía, «Primera lámina» en 1101 Un sarao y una
+    // soirée— llegan en col15 como una línea más porque así los lista el
+    // Diccionario, pero NO son personajes: se omiten al pintar (03/08/2026),
+    // igual que ya se hacía en el argumento y en los números musicales. El
+    // dato del Excel conserva la estructura por cuadros de la fuente.
+    const esRotuloPers=t=>{const x=(t||'').trim();
+      return /^(cuadros?|actos?|jornadas?|partes?|pr[oó]logo|ep[ií]logo)\b/i.test(x)
+          || /^(primera|segunda|tercera|cuarta|quinta|sexta|s[eé]ptima|octava)\s+l[áa]mina\b/i.test(x);};
+    const persVis=(o.pers||[]).filter(p=>!esRotuloPers(p.n));
+    if(persVis.length){
+      const items=persVis.map(p=>{
+        // espacio literal antes del paréntesis: así el texto también se copia
+        // y se lee bien ("Benamor (tiple)"), no solo se ve separado por CSS
+        const voz = p.v ? ` <span class="pv">(${esc(p.v.replace(/^\(|\)$/g,''))})</span>` : '';
+        return `<li><span class="pn">${esc(p.n)}</span>${voz}</li>`;
+      }).join('');
+      const N=persVis.length;
+      if(N>PERS_PREVIEW+1){
+        html+=`<div class="bloque"><h2>Personajes</h2>`+
+          `<div class="pers-wrap plegado" id="persWrap"><ul class="personajes">${items}</ul></div>`+
+          `<button type="button" class="pers-toggle" id="persBtn" aria-expanded="false" aria-controls="persWrap">Ver los ${N} personajes ▾</button></div>`;
+      }else{
+        html+=`<div class="bloque"><h2>Personajes</h2><ul class="personajes">${items}</ul></div>`;
+      }
+    }
+    // 2) argumento (por actos si existe synA; si no, texto plano) — el
+    // Diccionario de la Zarzuela llama "Argumento" a este mismo contenido.
+    // Los rótulos de CUADRO no se pintan (decisión de César, 30/07/2026): la
+    // ficha se estructura solo por ACTOS y el texto de cada cuadro queda
+    // integrado en su acto. El dato no se pierde: sigue en col6 y en synA;
+    // esta línea solo lo filtra al pintar. Jornada/Parte/Prólogo/Epílogo son
+    // divisiones de nivel de acto y SÍ se pintan.
+    const esCuadro=n=>n.h && /^cuadro\b/i.test(n.t.trim());
+    // El argumento se sirve PLEGADO (06/08/2026, petición de César): en la vista
+    // inicial se ven los primeros ARG_PREVIEW caracteres de prosa del argumento
+    // ENTERO —no por acto— y el resto se despliega con «Leer más». Los rótulos
+    // de acto no gastan presupuesto de caracteres, pero los posteriores al corte
+    // se ocultan con el texto que encabezan: enseñar «Acto III» sin su párrafo
+    // sería peor que no enseñarlo.
+    // No se recorta ningún dato: el texto completo va en el HTML y solo lo tapa
+    // el CSS. Si el argumento entero no llega a ARG_PREVIEW+ARG_MINIMO_OCULTO,
+    // se pinta sin botón (un botón que destapa cuatro palabras estorba).
+    const ARG_PREVIEW=700, ARG_MINIMO_OCULTO=120, ARG_CORTE_MIN=200;
+    // Corte limpio: se busca el final de frase más cercano dentro de la ventana
+    // [lim-200, lim+100]; si no hay ninguno, se corta en el último espacio antes
+    // del límite. Nunca se parte una palabra por la mitad.
+    const cortePreview=(txt,lim)=>{
+      if(txt.length<=lim) return txt.length;
+      const ini=Math.max(0,lim-200), fin=Math.min(txt.length,lim+100);
+      let mejor=-1, m; const re=/[.!?…](?:[»"')\]]+)?(?:\s|$)/g;
+      while((m=re.exec(txt))!==null){
+        const p=m.index+m[0].length;
+        if(p>fin) break;
+        if(p>=ini) mejor=p;
+      }
+      if(mejor>0) return mejor;
+      const esp=txt.lastIndexOf(' ',lim);
+      return esp>0 ? esp : lim;
+    };
+    const bloqueArgumento=(nodos)=>{
+      const totalProsa=nodos.reduce((a,n)=>a+(n.h?0:n.t.length),0);
+      const plegable=totalProsa>ARG_PREVIEW+ARG_MINIMO_OCULTO;
+      const trozos=[]; let resto=ARG_PREVIEW, cortado=false;
+      for(const n of nodos){
+        if(n.h){ trozos.push({h:`<h3 class="acto-sub">${esc(n.t)}</h3>`, off:plegable&&cortado}); continue; }
+        if(!plegable){ trozos.push({h:`<p class="sinopsis">${esc(n.t)}</p>`, off:false}); continue; }
+        if(cortado){ trozos.push({h:`<p class="sinopsis">${esc(n.t)}</p>`, off:true}); continue; }
+        if(n.t.length<=resto){
+          resto-=n.t.length;
+          trozos.push({h:`<p class="sinopsis">${esc(n.t)}</p>`, off:false}); continue;
+        }
+        // aquí cae el corte
+        cortado=true;
+        if(resto>=ARG_CORTE_MIN){
+          let c=cortePreview(n.t,resto);
+          // el espacio del corte se va con el trozo OCULTO, no se borra: si se
+          // borrara, al desplegar quedaría «…en jarras.Solo, el empresario…»
+          const sob=n.t.slice(0,c).match(/\s+$/); if(sob) c-=sob[0].length;
+          if(c>=n.t.length){ trozos.push({h:`<p class="sinopsis">${esc(n.t)}</p>`, off:false}); continue; }
+          const vis=n.t.slice(0,c);
+          // los puntos suspensivos solo cuando el corte cae a media frase: si el
+          // trozo visible ya termina en punto, «basta.…» queda feo y sobra
+          const cls='sinopsis'+(/[.!?…»"')\]]$/.test(vis)?'':' arg-corte');
+          trozos.push({h:`<p class="${cls}">${esc(vis)}<span class="arg-rest">${esc(n.t.slice(c))}</span></p>`, off:false});
+        } else {
+          // queda tan poco presupuesto que no merece la pena partir el párrafo:
+          // se oculta entero y los puntos suspensivos van al anterior visible
+          trozos.push({h:`<p class="sinopsis">${esc(n.t)}</p>`, off:true});
+        }
+      }
+      const cuerpo=trozos.map(t=>t.off?t.h.replace('class="','class="arg-oculto '):t.h).join('');
+      const btn=plegable?`<button type="button" class="pers-toggle arg-toggle" id="argBtn" aria-expanded="false" aria-controls="argWrap">Leer más ▾</button>`:'';
+      return `<div class="bloque"><h2>Argumento</h2><div class="arg-wrap${plegable?' plegado':''}" id="argWrap">${cuerpo}</div>${btn}</div>`;
+    };
+    if(o.synA && o.synA.length){
+      html+=bloqueArgumento(o.synA.filter(n=>!esCuadro(n)));
+    } else if(o.syn){
+      html+=bloqueArgumento([{t:o.syn}]);
+    }
+    // 3) números musicales, agrupados por actos. Las cabeceras de acto son las
+    // líneas que el generador marca con h:1 en col7. El texto de cada número se
+    // sirve TAL CUAL viene de la fuente: no se descompone en tipo + personaje +
+    // incipit porque en col7 esos tres datos van en prosa y con puntuación
+    // distinta según la obra, y separarlos automáticamente inventaría.
+    // Los números anteriores a la primera cabecera, y las obras que llegaron sin
+    // cabeceras, se sirven en un grupo sin título.
+    // Igual que en el argumento, los rótulos de CUADRO se omiten al pintar
+    // (30/07/2026): sus números quedan integrados en el grupo del acto.
+    if(o.num && o.num.length){
+      const grupos=[]; let g={tit:'',items:[]};
+      for(const n of o.num){
+        if(esCuadro(n)) continue;
+        if(n.h){ if(g.items.length) grupos.push(g); g={tit:n.t,items:[]}; }
+        else g.items.push(n.t);
+      }
+      if(g.items.length) grupos.push(g);
+      const cuerpo=grupos.map(gr=>
+        (gr.tit?`<div class="acto-tit">${esc(gr.tit)}</div>`:'')+
+        `<ul class="numeros">${gr.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`
+      ).map(s=>`<div class="acto-grupo">${s}</div>`).join('');
+      html+=`<div class="bloque"><h2>Números musicales</h2>${cuerpo}`+
+        (o.numP?`<p class="nota">Selección de números principales (no exhaustiva).</p>`:'')+`</div>`;
+    }
+    // 3) materiales y descargas — SIEMPRE AL FINAL
+    const matSecs=[];
+    for(const k in TLAB){ const arr=o[k]||[]; const [lab,cls]=TLAB[k];
+      if(arr.length){ matSecs.push(`<div style="margin-bottom:.8rem"><div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">${lab}${arr.length>1?' ('+arr.length+')':''}</div><div class="mats">`+
+        arr.map((u,i)=>`<a class="mat ${cls}" href="${esc(u)}" target="_blank" rel="noopener">${lab}${arr.length>1?' '+(i+1):''} ↗</a>`).join('')+`</div></div>`); } }
+    // 5-8-2026 (decision de Cesar): la ficha publica SOLO cuatro tipos de enlace
+    // -partitura, libreto, video y audio-. El quinto boton, «Texto digitalizado
+    // (BNE)» (col13), se retira: de sus 77 enlaces, 76 apuntaban al mismo
+    // documento que la partitura y hoy redirigen a la ficha de bnedigital.
+    // col13 se conserva en el Excel; el generador ya no la vuelca.
+    if(matSecs.length) html+=`<div class="bloque" id="materiales"><h2>Materiales y descargas</h2>${matSecs.join('')}</div>`;
+    // ficha en preparación si no se ha añadido ningún bloque
+    if(!html){
+      html=`<div class="bloque"><div class="vacio-ficha">Ficha en preparación: esta obra aún no tiene datos documentados. Se irá completando con información verificada.</div></div>`;
+    }
+    $('fBody').innerHTML=html;
+    // botón del desplegable de personajes (existe solo si N > PERS_PREVIEW+1)
+    const pb=$('persBtn');
+    if(pb){
+      const N=persVis.length;
+      pb.addEventListener('click',()=>{
+        const plegado=$('persWrap').classList.toggle('plegado');
+        pb.setAttribute('aria-expanded', String(!plegado));
+        pb.textContent = plegado ? `Ver los ${N} personajes ▾` : 'Mostrar menos ▴';
+      });
+    }
+    // botón del plegado del argumento (existe solo si el argumento pasa de
+    // ARG_PREVIEW + ARG_MINIMO_OCULTO caracteres de prosa)
+    const ab=$('argBtn');
+    if(ab){
+      ab.addEventListener('click',()=>{
+        const plegado=$('argWrap').classList.toggle('plegado');
+        ab.setAttribute('aria-expanded', String(!plegado));
+        ab.textContent = plegado ? 'Leer más ▾' : 'Leer menos ▴';
+      });
+    }
+    // Flechas anterior/siguiente entre fichas filtradas (31/07/2026, petición
+    // de César). buscador.html y listado.html guardan en sessionStorage, al
+    // filtrar o al pulsar una obra, el orden exacto de la lista que se
+    // estaba viendo; aquí se lee para ofrecer flechas dentro de ESA misma
+    // lista, sin importar qué filtro se aplicó. Si no hay lista guardada, o
+    // esta ficha no está en ella (enlace directo, marcador, lista ya
+    // obsoleta…), no se muestran flechas: mejor nada que una navegación que
+    // no lleve a donde promete.
+    (function(){
+      let ids=null;
+      try{ ids=JSON.parse(sessionStorage.getItem('zzFichaIds')||'null'); }catch(e){}
+      if(!Array.isArray(ids)) return;
+      // Se descartan los ids que ya no están en los datos. Una pestaña abierta
+      // desde antes de regenerar zarzuteca-data.js conserva en sessionStorage
+      // una lista con obras que ya no se sirven; sin este filtro la flecha
+      // llevaba a «Obra no encontrada», y esa página no tiene flechas: el
+      // usuario se quedaba en un callejón sin salida (31/07/2026).
+      const vivos=new Set(OBRAS.map(x=>x.id));
+      ids=ids.filter(x=>vivos.has(x));
+      const i=ids.indexOf(o.id);
+      if(i<0) return;
+      const prevId = i>0 ? ids[i-1] : null;
+      const nextId = i<ids.length-1 ? ids[i+1] : null;
+      if(!prevId && !nextId) return;   // lista de una sola obra: no hay a dónde ir
+      const armar=(elId,destId,etiqueta)=>{
+        const a=$(elId);
+        if(!a) return;
+        if(destId){
+          const dest=OBRAS.find(x=>x.id===destId);
+          a.href='ficha.html?id='+encodeURIComponent(destId);
+          a.title=etiqueta+(dest?': '+dest.t:'');
+          a.classList.remove('disabled');
+          a.removeAttribute('aria-disabled');
+        } else {
+          a.removeAttribute('href');
+          a.removeAttribute('title');
+          a.classList.add('disabled');
+          a.setAttribute('aria-disabled','true');
+        }
+      };
+      // Dos parejas idénticas: la de la cabecera y la del final de la ficha.
+      // El contador dice la posición dentro de la lista YA filtrada, que es
+      // por la que se navega de verdad.
+      const posicion=(i+1)+' de '+ids.length;
+      [['fhPrev','fhNext','fhPos','fhNav'],
+       ['fhPrevFin','fhNextFin','fhPosFin','fhNavFin']].forEach(function(g){
+        armar(g[0], prevId, 'Anterior');
+        armar(g[1], nextId, 'Siguiente');
+        const c=$(g[2]); if(c) c.textContent=posicion;
+        const w=$(g[3]); if(w) w.style.display='flex';
+      });
+    })();
+  }
+</script>
+</body>
+</html>

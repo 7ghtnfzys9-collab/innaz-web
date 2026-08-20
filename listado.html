@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listado — Zarzuteca INNAZ</title>
+  <!--
+    PLANTILLA ÚNICA DE LISTADO — Zarzuteca INNAZ, 30 de julio de 2026.
+
+    Sustituye a las cuatro páginas que harían falta si cada tipo de enlace de la
+    ficha tuviera la suya. Se parametriza por querystring:
+
+      listado.html?tipo=persona&v=<id-de-persona>   biografía + catálogo de obras
+                                                    como compositor y como
+                                                    libretista, por año de estreno
+      listado.html?tipo=teatro&v=<clave-de-teatro>  obras estrenadas en ese teatro,
+                                                    orden cronológico
+      listado.html?tipo=anio&v=<AAAA>               obras estrenadas ese año,
+                                                    orden cronológico
+
+    Absorbe a persona.html, que queda como redirección para no romper enlaces
+    antiguos.
+
+    NOTA SOBRE EL TEATRO: tipo=teatro funciona sobre o.teatroK, la clave que
+    combina NOMBRE + CIUDAD y que el generador toma de `_teatros.json`, la tabla
+    que validó César. La clave lleva ciudad porque nueve nombres se repiten en
+    ciudades distintas y son teatros que no tienen nada que ver entre sí. El
+    nombre y la ciudad que se pintan en la cabecera salen de la constante
+    TEATROS de zarzuteca-data.js, nunca de la URL. Una obra cuya cadena de col3
+    no esté en la tabla se sirve con el teatro como texto plano, sin enlace.
+
+    NOTA SOBRE LA COBERTURA: el catálogo web sirve hoy solo las obras cuya ficha
+    está publicada (filtro de generar_datos_125.py). Los listados no pueden
+    mostrar obras que no están en OBRAS, así que se avisa en pantalla de que la
+    lista no es el catálogo completo del autor, del teatro o del año.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="zarzuteca-data.js"></script>
+  <style>
+    :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);}
+    nav{position:fixed;top:0;width:100%;z-index:100;padding:1.1rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,238,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Cormorant SC',serif;font-size:1.65rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:.08em;}
+    .nav-logo span{color:var(--teal);}
+    header.lh{padding:9rem 3.5rem 2.2rem;background:var(--cream);}
+    .inner{max-width:900px;margin:0 auto;}
+    .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
+    h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
+    .sub{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;}
+    .btn-nueva{display:flex;width:fit-content;margin-left:auto;align-items:center;gap:.4rem;margin-top:1.4rem;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1.5px solid var(--teal-dark);padding:.5rem 1rem;border-radius:22px;transition:all .15s;}
+    .btn-nueva:hover{background:var(--teal-dark);color:#fff;}
+    main{padding:2.6rem 3.5rem 5rem;}
+    .bloque{margin-bottom:2.6rem;}
+    .bloque h2{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);}
+    .bio{font-size:.98rem;line-height:1.85;}
+    .pend{background:var(--teal-light);border:1px dashed var(--teal);padding:1.1rem 1.3rem;font-size:.9rem;color:var(--teal-dark);line-height:1.6;border-radius:4px;}
+    .cobertura{font-size:.78rem;color:var(--muted);font-style:italic;margin-bottom:.8rem;line-height:1.6;}
+    .obras{list-style:none;border:1px solid var(--border);border-radius:4px;}
+    .obras li{border-bottom:1px solid var(--border);display:flex;align-items:baseline;}
+    .obras li:last-child{border-bottom:none;}
+    .obras .yr{flex:0 0 5.6rem;padding:.8rem 0 .8rem 1rem;font-family:'Cormorant SC',serif;font-weight:700;font-size:.95rem;color:var(--teal-dark);}
+    .obras a,.obras .noficha{display:block;flex:1 1 auto;padding:.8rem 1rem;text-decoration:none;color:inherit;transition:background .15s;}
+    .obras a:hover{background:var(--teal-light);}
+    .obras .noficha{color:var(--muted);}
+    .ot{font-family:'Cormorant SC',serif;font-size:1.08rem;font-weight:600;color:var(--black);}
+    .om{font-size:.78rem;color:var(--muted);margin-top:.15rem;}
+    footer{background:#080808;padding:2.4rem 3.5rem;}
+    .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
+    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.6);}
+    .footer-logo span{color:var(--teal);}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.2);max-width:520px;line-height:1.6;}
+    @media(max-width:860px){nav,header.lh,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.lh{padding-top:7rem;}.obras li{flex-direction:column;align-items:stretch;}.obras .yr{padding:.7rem 1rem 0;}}
+
+    .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;opacity:.65;transition:opacity .2s,color .2s;}
+    .nav-links a:hover{opacity:1;color:var(--teal);}
+    .nav-links a.active{opacity:1;color:var(--teal);}
+    .nav-links a.active:not(.nav-cta)::after{content:'';display:block;height:2px;background:var(--teal);margin-top:3px;border-radius:2px;}
+    .nav-cta{background:var(--teal)!important;color:#fff!important;opacity:1!important;padding:.5rem 1.3rem;border-radius:2px;}
+    .nav-cta:hover{background:var(--teal-dark)!important;}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:960px){.nav-links{display:none;}.nav-hamburger{display:flex;}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:var(--cream);padding:2.2rem 1.6rem;gap:1.3rem;align-items:flex-start;z-index:99;}.nav-links.open a{opacity:1;font-size:.95rem;}}
+  </style>
+</head>
+<body>
+<nav id="navbar">
+  <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html#innaz">Qué es INNAZ</a></li>
+    <li><a href="index.html#pilares">Pilares</a></li>
+    <li><a href="index.html#sello">Sello de Calidad</a></li>
+    <li><a href="index.html#biblioteca" class="active">Zarzuteca</a></li>
+    <li><a href="index.html#noticias">Noticias</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+    <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+<header class="lh">
+  <div class="inner">
+    <p class="label" id="lLabel">Zarzuteca INNAZ</p>
+    <h1 id="lTitulo">…</h1>
+    <p class="sub" id="lSub"></p>
+    <a href="buscador.html" class="btn-nueva">← Nueva búsqueda en el catálogo</a>
+  </div>
+</header>
+<main><div class="inner" id="lBody"></div></main>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">INNA<span>Z</span></div>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela · Zarzuteca INNAZ</p>
+  </div>
+</footer>
+<script>
+  const $=id=>document.getElementById(id);
+  const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  // Navegación anterior/siguiente en la ficha (31/07/2026): al pulsar una
+  // obra de un listado (autor, teatro o año), se guarda el orden de ESA
+  // lista concreta —la ficha de un autor puede tener dos, como compositor y
+  // como libretista, y hay que guardar la que se ha pulsado, no la última
+  // que se pintó—. Delegado en #lBody porque el contenido se genera después.
+  $('lBody').addEventListener('click', e=>{
+    const a=e.target.closest('a[href^="ficha.html"]');
+    if(!a) return;
+    const ul=a.closest('ul[data-ids]');
+    if(!ul) return;
+    try{ sessionStorage.setItem('zzFichaIds', decodeURIComponent(ul.dataset.ids)); }catch(err){}
+  });
+  const qs=new URLSearchParams(location.search);
+  const tipo=(qs.get('tipo')||'').toLowerCase();
+  const v=qs.get('v')||'';
+  const OB=(typeof OBRAS!=='undefined')?OBRAS:[];
+  const PE=(typeof PERSONAS!=='undefined')?PERSONAS:[];
+
+  const MESES={enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,
+               septiembre:9,setiembre:9,octubre:10,noviembre:11,diciembre:12};
+  // Clave de orden cronológico. El año sale de o.anioN (cuatro dígitos, ya
+  // extraído por el generador). El día y el mes se leen de lo que col2 traiga
+  // entre paréntesis —"1888 (25 de agosto)"— solo para desempatar dentro del
+  // mismo año; si no hay fecha, la obra va al final de su año, por título.
+  // Nada de esto completa datos: si no está escrito, no se ordena por él.
+  function claveCron(o){
+    const anio=parseInt(o.anioN||'0',10)||9999;
+    const m=(o.anio||'').match(/(\d{1,2})\s+de\s+([a-záéíóú]+)/i);
+    let mes=13,dia=99;
+    if(m){ const nm=MESES[m[2].toLowerCase()]; if(nm){ mes=nm; dia=parseInt(m[1],10); } }
+    return [anio,mes,dia,(o.t||'').toLocaleLowerCase('es')];
+  }
+  function cmpCron(a,b){
+    const ka=claveCron(a), kb=claveCron(b);
+    for(let i=0;i<3;i++){ if(ka[i]!==kb[i]) return ka[i]-kb[i]; }
+    return String(ka[3]).localeCompare(String(kb[3]),'es');
+  }
+  const AVISO_COBERTURA='Esta lista recoge las obras que ya tienen ficha publicada en la Zarzuteca. '+
+    'El catálogo web se está completando, así que puede haber obras que falten aquí.';
+
+  // Nombre del teatro para las listas: el canónico de la tabla validada, para
+  // que un mismo teatro no aparezca escrito de tres formas dentro de la misma
+  // lista. La ficha de obra sigue mostrando lo que dice col3, que es la fuente.
+  const TE=(typeof TEATROS!=='undefined')?TEATROS:[];
+  function nombreTeatro(o){
+    const t=o.teatroK?TE.find(x=>x.k===o.teatroK):null;
+    return t ? t.n+(t.c?' ('+t.c+')':'') : (o.teatro||'');
+  }
+  // En la ficha de un teatro no se repite el teatro debajo de cada obra: ya es
+  // el encabezado de la página.
+  function listaObras(obras, conTeatro=true){
+    if(!obras.length) return '';
+    // data-ids (31/07/2026): el id de cada obra de ESTA lista, en su orden
+    // de pantalla, para que la ficha ofrezca flechas anterior/siguiente. Va
+    // codificado porque JSON.stringify trae comillas que rompen el atributo.
+    const idsAttr=encodeURIComponent(JSON.stringify(obras.map(o=>o.id)));
+    return `<ul class="obras" data-ids="${idsAttr}">`+obras.map(o=>{
+      const meta=conTeatro?nombreTeatro(o):'';
+      const inner=`<span class="ot">${esc(o.t)}</span>${meta?`<div class="om">${esc(meta)}</div>`:''}`;
+      const yr=`<div class="yr">${esc(o.anioN||o.anio||'')}</div>`;
+      return `<li>${yr}<a href="ficha.html?id=${encodeURIComponent(o.id)}">${inner}</a></li>`;
+    }).join('')+'</ul>';
+  }
+  function bloqueLista(titulo, obras, vacio, conTeatro=true){
+    const cuerpo = obras.length
+      ? `<p class="cobertura">${esc(AVISO_COBERTURA)}</p>`+listaObras(obras, conTeatro)
+      : `<p class="pend">${esc(vacio)}</p>`;
+    return `<div class="bloque"><h2>${esc(titulo)}</h2>${cuerpo}</div>`;
+  }
+  function noEncontrado(msg){
+    $('lTitulo').textContent='No encontrado';
+    $('lBody').innerHTML=`<p class="pend">${esc(msg)} Vuelve al <a href="buscador.html">buscador</a>.</p>`;
+  }
+
+  const ROL={compositor:'Compositor',libretista:'Libretista',ambos:'Compositor y libretista'};
+
+  if(tipo==='persona'){
+    const p=PE.find(x=>x.id===v);
+    if(!p){ noEncontrado('No se ha encontrado este autor.'); }
+    else{
+      document.title=p.n+' — Zarzuteca INNAZ';
+      $('lLabel').textContent='Zarzuteca INNAZ · '+(ROL[p.rol]||'Autor');
+      $('lTitulo').textContent=p.n;
+      $('lSub').textContent=ROL[p.rol]||'';
+      const byId=id=>OB.find(o=>o.id===id);
+      const comoC=(p.obrasC||[]).map(byId).filter(Boolean).sort(cmpCron);
+      const comoL=(p.obrasL||[]).map(byId).filter(Boolean).sort(cmpCron);
+      let html='<div class="bloque"><h2>Biografía</h2>'+
+        (p.bio ? `<p class="bio">${esc(p.bio)}</p>`
+               : '<p class="pend">Biografía pendiente de redactar. Se añade en la pestaña <strong>Personas</strong> del Excel de la Zarzuteca.</p>')+
+        '</div>';
+      if(comoC.length) html+=bloqueLista('Obras como compositor, por año de estreno', comoC, '');
+      if(comoL.length) html+=bloqueLista('Obras como libretista, por año de estreno', comoL, '');
+      if(!comoC.length && !comoL.length)
+        html+='<p class="pend">'+esc(AVISO_COBERTURA)+'</p>';
+      $('lBody').innerHTML=html;
+    }
+  } else if(tipo==='teatro'){
+    // v es la CLAVE del teatro, que combina nombre y ciudad: nueve nombres se
+    // repiten en ciudades distintas (Apolo en Madrid, Barcelona y Valencia;
+    // Alhambra en Madrid y La Habana…) y son teatros que no tienen nada que ver.
+    // El nombre y la ciudad para la cabecera salen de TEATROS, no de la URL.
+    const te=(typeof TEATROS!=='undefined')?TEATROS.find(x=>x.k===v):null;
+    const obras=OB.filter(o=>o.teatroK===v).sort(cmpCron);
+    if(!v){ noEncontrado('Falta el teatro.'); }
+    else if(!te && !obras.length){
+      noEncontrado('No se ha encontrado este teatro.');
+    } else {
+      const nom=te?te.n:v, ciu=te?te.c:'';
+      document.title=nom+(ciu?' ('+ciu+')':'')+' — Zarzuteca INNAZ';
+      $('lLabel').textContent='Zarzuteca INNAZ · Teatro';
+      $('lTitulo').textContent=nom;
+      $('lSub').textContent=[ciu,'Estrenos, por orden cronológico'].filter(Boolean).join(' · ');
+      $('lBody').innerHTML=obras.length
+        ? bloqueLista('Obras estrenadas en este teatro', obras, '', false)
+        : '<p class="pend">Todavía no hay obras con ficha publicada estrenadas en este teatro. '+esc(AVISO_COBERTURA)+'</p>';
+    }
+  } else if(tipo==='anio'){
+    const obras=OB.filter(o=>o.anioN===v).sort(cmpCron);
+    if(!/^\d{4}$/.test(v)){ noEncontrado('El año no es válido.'); }
+    else{
+      document.title=v+' — Zarzuteca INNAZ';
+      $('lLabel').textContent='Zarzuteca INNAZ · Año de estreno';
+      $('lTitulo').textContent=v;
+      $('lSub').textContent='Estrenos, por orden cronológico';
+      $('lBody').innerHTML=obras.length
+        ? bloqueLista('Obras estrenadas en '+v, obras, '')
+        : '<p class="pend">No hay obras publicadas con estreno en '+esc(v)+'. '+esc(AVISO_COBERTURA)+'</p>';
+    }
+  } else {
+    noEncontrado('Listado sin tipo. Los tipos válidos son persona, teatro y anio.');
+  }
+</script>
+</body>
+</html>
