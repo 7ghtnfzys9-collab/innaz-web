@@ -45,7 +45,28 @@
     .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
     .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--text);}
     @media(max-width:960px){.nav-links{display:none;}.nav-hamburger{display:flex;}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:var(--cream);padding:2.2rem 1.6rem;gap:1.3rem;align-items:flex-start;z-index:99;}.nav-links.open a{opacity:1;font-size:.95rem;}}
-  </style>
+  
+    /* ─── MENÚ DESPLEGABLE DE LA ZARZUTECA (30-8-2026) ─── */
+    .zz-drop{position:relative;}
+    .zz-drop-t{cursor:pointer;}
+    .zz-car{display:inline-block;margin-left:.35em;font-size:.8em;line-height:1;transition:transform .18s;}
+    .zz-drop.open .zz-car{transform:rotate(180deg);}
+    .zz-drop-m{display:none;list-style:none;position:absolute;top:calc(100% + .95rem);left:50%;
+      transform:translateX(-50%);min-width:12.5rem;background:#F8F4EE;border:1px solid #E2DAD0;
+      border-radius:4px;box-shadow:0 10px 28px rgba(0,0,0,.12);padding:.35rem 0;z-index:120;}
+    .zz-drop.open>.zz-drop-m{display:block;}
+    .zz-drop-m li{display:block;}
+    .zz-drop-m a{display:block;padding:.6rem 1.15rem;font-size:.72rem;letter-spacing:.12em;
+      text-transform:uppercase;white-space:nowrap;opacity:.75;}
+    .zz-drop-m a:hover{opacity:1;color:#2AABB8;background:rgba(42,171,184,.09);}
+    .zz-drop-m a::after{display:none!important;}
+    @media(max-width:960px){
+      .zz-drop{width:100%;}
+      .zz-drop-m{position:static;transform:none;min-width:0;border:none;background:transparent;
+        box-shadow:none;padding:.55rem 0 0 1rem;border-left:2px solid #E2DAD0;margin-top:.5rem;}
+      .zz-drop-m a{padding:.45rem 0;font-size:.8rem;}
+    }
+</style>
 </head>
 <body>
 <nav id="navbar">
@@ -54,7 +75,7 @@
     <li><a href="index.html#innaz">Qué es INNAZ</a></li>
     <li><a href="index.html#pilares">Pilares</a></li>
     <li><a href="index.html#sello">Sello de Calidad</a></li>
-    <li><a href="index.html#biblioteca" class="active">Zarzuteca</a></li>
+    <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
     <li><a href="index.html#noticias">Noticias</a></li>
     <li><a href="index.html#contacto">Contacto</a></li>
     <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
@@ -81,5 +102,31 @@
     <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela · Todos los derechos reservados</p>
   </div>
 </footer>
+
+<script>
+/* Menú desplegable de la Zarzuteca (30-8-2026). Se abre al hacer clic, no al
+   pasar por encima: en táctil el hover no existe. Se cierra al pulsar fuera,
+   con Escape, y al elegir una opción (llamando a closeMenu() si la página lo
+   define, que es el caso de index.html). */
+(function(){
+  var d=document.querySelector('.zz-drop'); if(!d) return;
+  var t=d.querySelector('.zz-drop-t');
+  function cerrar(){ d.classList.remove('open'); if(t) t.setAttribute('aria-expanded','false'); }
+  if(t) t.addEventListener('click',function(e){
+    e.preventDefault();
+    var abierto=d.classList.toggle('open');
+    t.setAttribute('aria-expanded',abierto?'true':'false');
+  });
+  document.addEventListener('click',function(e){ if(!d.contains(e.target)) cerrar(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrar(); });
+  d.querySelectorAll('.zz-drop-m a').forEach(function(a){
+    a.addEventListener('click',function(){
+      cerrar();
+      if(typeof closeMenu==='function'){ closeMenu(); return; }
+      var nl=document.getElementById('navlinks'); if(nl) nl.classList.remove('open');
+    });
+  });
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+# ─── Qué NO se publica en la web ─── 31-8-2026
+# Decisión de César: los verificadores son herramientas internas de control de
+# calidad y no tienen por qué estar al alcance de cualquiera. Siguen viviendo en
+# la carpeta del Mac; simplemente no viajan al repositorio ni, por tanto, a
+# Cloudflare Pages.
+_verificar_plantillas.js
+_verificar_ejes.mjs
+
+# Sobrantes a la espera de que César los revise y los borre.
+_to_delete/
+
+# Basura de macOS.
+.DS_Store
+._*

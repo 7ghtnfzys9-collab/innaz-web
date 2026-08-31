@@ -588,7 +588,28 @@
       .hero-cta { flex-direction: column; gap: .8rem; }
       .hero-cta .btn { text-align: center; }
     }
-  </style>
+  
+    /* ─── MENÚ DESPLEGABLE DE LA ZARZUTECA (30-8-2026) ─── */
+    .zz-drop{position:relative;}
+    .zz-drop-t{cursor:pointer;}
+    .zz-car{display:inline-block;margin-left:.35em;font-size:.8em;line-height:1;transition:transform .18s;}
+    .zz-drop.open .zz-car{transform:rotate(180deg);}
+    .zz-drop-m{display:none;list-style:none;position:absolute;top:calc(100% + .95rem);left:50%;
+      transform:translateX(-50%);min-width:12.5rem;background:#F8F4EE;border:1px solid #E2DAD0;
+      border-radius:4px;box-shadow:0 10px 28px rgba(0,0,0,.12);padding:.35rem 0;z-index:120;}
+    .zz-drop.open>.zz-drop-m{display:block;}
+    .zz-drop-m li{display:block;}
+    .zz-drop-m a{display:block;padding:.6rem 1.15rem;font-size:.72rem;letter-spacing:.12em;
+      text-transform:uppercase;white-space:nowrap;opacity:.75;}
+    .zz-drop-m a:hover{opacity:1;color:#2AABB8;background:rgba(42,171,184,.09);}
+    .zz-drop-m a::after{display:none!important;}
+    @media(max-width:960px){
+      .zz-drop{width:100%;}
+      .zz-drop-m{position:static;transform:none;min-width:0;border:none;background:transparent;
+        box-shadow:none;padding:.55rem 0 0 1rem;border-left:2px solid #E2DAD0;margin-top:.5rem;}
+      .zz-drop-m a{padding:.45rem 0;font-size:.8rem;}
+    }
+</style>
 </head>
 <body>
 
@@ -599,7 +620,7 @@
     <li><a href="#innaz" onclick="closeMenu()">Qué es INNAZ</a></li>
     <li><a href="#pilares" onclick="closeMenu()">Pilares</a></li>
     <li><a href="#sello" onclick="closeMenu()">Sello de Calidad</a></li>
-    <li><a href="#biblioteca" onclick="closeMenu()">Zarzuteca</a></li>
+    <li class="zz-drop"><a href="#biblioteca" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
     <li><a href="#noticias" onclick="closeMenu()">Noticias</a></li>
     <li><a href="#contacto" onclick="closeMenu()">Contacto</a></li>
     <li><a href="#socio" class="nav-cta" onclick="closeMenu()">Suscríbete</a></li>
@@ -1057,6 +1078,32 @@
       e.target.reset();
     }, 3500);
   }
+</script>
+
+<script>
+/* Menú desplegable de la Zarzuteca (30-8-2026). Se abre al hacer clic, no al
+   pasar por encima: en táctil el hover no existe. Se cierra al pulsar fuera,
+   con Escape, y al elegir una opción (llamando a closeMenu() si la página lo
+   define, que es el caso de index.html). */
+(function(){
+  var d=document.querySelector('.zz-drop'); if(!d) return;
+  var t=d.querySelector('.zz-drop-t');
+  function cerrar(){ d.classList.remove('open'); if(t) t.setAttribute('aria-expanded','false'); }
+  if(t) t.addEventListener('click',function(e){
+    e.preventDefault();
+    var abierto=d.classList.toggle('open');
+    t.setAttribute('aria-expanded',abierto?'true':'false');
+  });
+  document.addEventListener('click',function(e){ if(!d.contains(e.target)) cerrar(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrar(); });
+  d.querySelectorAll('.zz-drop-m a').forEach(function(a){
+    a.addEventListener('click',function(){
+      cerrar();
+      if(typeof closeMenu==='function'){ closeMenu(); return; }
+      var nl=document.getElementById('navlinks'); if(nl) nl.classList.remove('open');
+    });
+  });
+})();
 </script>
 </body>
 </html>

@@ -16,10 +16,31 @@
       listado.html?tipo=teatro&v=<clave-de-teatro>  obras estrenadas en ese teatro,
                                                     orden cronológico
       listado.html?tipo=anio&v=<AAAA>               obras estrenadas ese año,
-                                                    orden cronológico
+                                                    orden cronológico, más el
+                                                    análisis de su década
+      listado.html?tipo=decada&v=<AAA0>             análisis del momento
+                                                    histórico y estrenos de
+                                                    los diez años
 
     Absorbe a persona.html, que queda como redirección para no romper enlaces
     antiguos.
+
+    AMPLIACIÓN DEL 30-8-2026 (decisión de César). La Zarzuteca se recorre
+    también por Autores, Teatros y Años desde tres índices propios
+    (autores.html, teatros.html, anios.html), y cada eje tiene ficha
+    informativa:
+
+      · Autor  — biografía y catálogo. Ya funcionaba.
+      · Teatro — datos duros (inauguración, arquitecto, dirección, aforo,
+        cierre o derribo, nombres sucesivos) e historia, de la pestaña
+        «Teatros» del maestro, más los estrenos.
+      · Año    — los estrenos del año y el análisis del momento histórico,
+        que se escribe POR DÉCADA: el catálogo publicado abarca cien años
+        distintos y dieciséis décadas, y cien análisis documentados no son
+        abordables. La ficha de década (tipo=decada) los reúne los diez.
+
+    Mientras un texto esté sin escribir, la ficha lo dice y sirve lo demás.
+    Ninguna de estas páginas rellena un dato que no esté en el maestro.
 
     NOTA SOBRE EL TEATRO: tipo=teatro funciona sobre o.teatroK, la clave que
     combina NOMBRE + CIUDAD y que el generador toma de `_teatros.json`, la tabla
@@ -56,6 +77,9 @@
     .bloque{margin-bottom:2.6rem;}
     .bloque h2{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);}
     .bio{font-size:.98rem;line-height:1.85;}
+    .persona-bio::after{content:'';display:table;clear:both;}
+    .foto-persona{float:right;width:180px;max-width:42%;height:auto;margin:0 0 1.2rem 1.8rem;border:1px solid var(--border);border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.08);}
+    @media(max-width:560px){.foto-persona{float:none;width:140px;margin:0 0 1rem;}}
     .pend{background:var(--teal-light);border:1px dashed var(--teal);padding:1.1rem 1.3rem;font-size:.9rem;color:var(--teal-dark);line-height:1.6;border-radius:4px;}
     .cobertura{font-size:.78rem;color:var(--muted);font-style:italic;margin-bottom:.8rem;line-height:1.6;}
     .obras{list-style:none;border:1px solid var(--border);border-radius:4px;}
@@ -65,6 +89,15 @@
     .obras a,.obras .noficha{display:block;flex:1 1 auto;padding:.8rem 1rem;text-decoration:none;color:inherit;transition:background .15s;}
     .obras a:hover{background:var(--teal-light);}
     .obras .noficha{color:var(--muted);}
+    .datos{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.1rem 1.6rem;}
+    .datos div{padding:.55rem 0;border-bottom:1px solid var(--border);}
+    .datos dt{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.2rem;}
+    .datos dd{font-size:.95rem;line-height:1.5;}
+    .ensayo{font-size:.98rem;line-height:1.85;}
+    .ensayo+.ensayo{margin-top:1.1rem;}
+    .ensayo h3{font-family:'Cormorant SC',serif;font-size:1.12rem;font-weight:700;color:var(--black);margin-bottom:.3rem;}
+    .verdec{display:inline-block;margin-top:.9rem;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1.5px solid var(--teal-dark);padding:.45rem .95rem;border-radius:22px;}
+    .verdec:hover{background:var(--teal-dark);color:#fff;}
     .ot{font-family:'Cormorant SC',serif;font-size:1.08rem;font-weight:600;color:var(--black);}
     .om{font-size:.78rem;color:var(--muted);margin-top:.15rem;}
     footer{background:#080808;padding:2.4rem 3.5rem;}
@@ -84,7 +117,28 @@
     .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
     .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--text);}
     @media(max-width:960px){.nav-links{display:none;}.nav-hamburger{display:flex;}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:var(--cream);padding:2.2rem 1.6rem;gap:1.3rem;align-items:flex-start;z-index:99;}.nav-links.open a{opacity:1;font-size:.95rem;}}
-  </style>
+  
+    /* ─── MENÚ DESPLEGABLE DE LA ZARZUTECA (30-8-2026) ─── */
+    .zz-drop{position:relative;}
+    .zz-drop-t{cursor:pointer;}
+    .zz-car{display:inline-block;margin-left:.35em;font-size:.8em;line-height:1;transition:transform .18s;}
+    .zz-drop.open .zz-car{transform:rotate(180deg);}
+    .zz-drop-m{display:none;list-style:none;position:absolute;top:calc(100% + .95rem);left:50%;
+      transform:translateX(-50%);min-width:12.5rem;background:#F8F4EE;border:1px solid #E2DAD0;
+      border-radius:4px;box-shadow:0 10px 28px rgba(0,0,0,.12);padding:.35rem 0;z-index:120;}
+    .zz-drop.open>.zz-drop-m{display:block;}
+    .zz-drop-m li{display:block;}
+    .zz-drop-m a{display:block;padding:.6rem 1.15rem;font-size:.72rem;letter-spacing:.12em;
+      text-transform:uppercase;white-space:nowrap;opacity:.75;}
+    .zz-drop-m a:hover{opacity:1;color:#2AABB8;background:rgba(42,171,184,.09);}
+    .zz-drop-m a::after{display:none!important;}
+    @media(max-width:960px){
+      .zz-drop{width:100%;}
+      .zz-drop-m{position:static;transform:none;min-width:0;border:none;background:transparent;
+        box-shadow:none;padding:.55rem 0 0 1rem;border-left:2px solid #E2DAD0;margin-top:.5rem;}
+      .zz-drop-m a{padding:.45rem 0;font-size:.8rem;}
+    }
+</style>
 </head>
 <body>
 <nav id="navbar">
@@ -93,7 +147,7 @@
     <li><a href="index.html#innaz">Qué es INNAZ</a></li>
     <li><a href="index.html#pilares">Pilares</a></li>
     <li><a href="index.html#sello">Sello de Calidad</a></li>
-    <li><a href="index.html#biblioteca" class="active">Zarzuteca</a></li>
+    <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
     <li><a href="index.html#noticias">Noticias</a></li>
     <li><a href="index.html#contacto">Contacto</a></li>
     <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
@@ -194,6 +248,44 @@
 
   const ROL={compositor:'Compositor',libretista:'Libretista',ambos:'Compositor y libretista'};
 
+  // --- Ficha de teatro y ficha de década (30-8-2026) ---------------------
+  // Los textos y los datos duros viven en las pestañas «Teatros» y «Decadas»
+  // del maestro y llegan aquí dentro de TEATROS y DECADAS. Nada se completa
+  // por programa: si una celda está vacía, la fila no se pinta.
+  const DE=(typeof DECADAS!=='undefined')?DECADAS:[];
+  const decadaDe=a=>Math.floor(parseInt(a,10)/10)*10;
+  const buscaDec=d=>DE.find(x=>+x.d===+d)||null;
+  const rotuloDec=d=>{const x=buscaDec(d); return (x&&x.rot)||(d+'-'+(+d+9));};
+  const decConTexto=x=>!!(x&&(x.pol||x.art||x.lir));
+
+  const DATOS_TEATRO=[['inaug','Inauguración'],['arq','Arquitecto'],['dir','Dirección'],
+                      ['aforo','Aforo'],['cierre','Cierre o derribo'],['otros','Otros nombres']];
+  function bloqueDatosTeatro(t){
+    if(!t) return '';
+    const filas=DATOS_TEATRO.filter(([k])=>t[k]&&String(t[k]).trim())
+      .map(([k,r])=>`<div><dt>${esc(r)}</dt><dd>${esc(t[k])}</dd></div>`).join('');
+    return filas?`<div class="bloque"><h2>Datos del teatro</h2><dl class="datos">${filas}</dl></div>`:'';
+  }
+  function bloqueHistoriaTeatro(t){
+    const h=t&&t.his&&String(t.his).trim();
+    return '<div class="bloque"><h2>Historia</h2>'+
+      (h?`<p class="ensayo">${esc(h)}</p>`
+        :'<p class="pend">La historia de esta sala está pendiente de redactar. Se escribe en la '+
+          'pestaña <strong>Teatros</strong> del Excel de la Zarzuteca, con las fuentes declaradas, '+
+          'igual que las biografías de los autores.</p>')+'</div>';
+  }
+  // Los tres bloques del análisis de década. Se pintan solo los que tienen
+  // texto; si no hay ninguno, un aviso de que está pendiente.
+  const PARTES_DEC=[['pol','La política'],['art','Las artes y la cultura'],['lir','El teatro lírico']];
+  function cuerpoDecada(x){
+    if(!decConTexto(x))
+      return '<p class="pend">El análisis de esta década está pendiente de redactar: qué ocurría en la '+
+             'política y en las demás artes mientras se estrenaban estas obras. Se escribe en la pestaña '+
+             '<strong>Decadas</strong> del Excel de la Zarzuteca, con las fuentes declaradas.</p>';
+    return PARTES_DEC.filter(([k])=>x[k]&&String(x[k]).trim())
+      .map(([k,r])=>`<div class="ensayo"><h3>${esc(r)}</h3>${esc(x[k])}</div>`).join('');
+  }
+
   if(tipo==='persona'){
     const p=PE.find(x=>x.id===v);
     if(!p){ noEncontrado('No se ha encontrado este autor.'); }
@@ -205,7 +297,8 @@
       const byId=id=>OB.find(o=>o.id===id);
       const comoC=(p.obrasC||[]).map(byId).filter(Boolean).sort(cmpCron);
       const comoL=(p.obrasL||[]).map(byId).filter(Boolean).sort(cmpCron);
-      let html='<div class="bloque"><h2>Biografía</h2>'+
+      let html='<div class="bloque persona-bio"><h2>Biografía</h2>'+
+        (p.foto ? `<img class="foto-persona" src="personas/${esc(p.foto)}" alt="${esc(p.n)}" loading="lazy">` : '')+
         (p.bio ? `<p class="bio">${esc(p.bio)}</p>`
                : '<p class="pend">Biografía pendiente de redactar. Se añade en la pestaña <strong>Personas</strong> del Excel de la Zarzuteca.</p>')+
         '</div>';
@@ -231,25 +324,88 @@
       $('lLabel').textContent='Zarzuteca INNAZ · Teatro';
       $('lTitulo').textContent=nom;
       $('lSub').textContent=[ciu,'Estrenos, por orden cronológico'].filter(Boolean).join(' · ');
-      $('lBody').innerHTML=obras.length
-        ? bloqueLista('Obras estrenadas en este teatro', obras, '', false)
-        : '<p class="pend">Todavía no hay obras con ficha publicada estrenadas en este teatro. '+esc(AVISO_COBERTURA)+'</p>';
+      $('lBody').innerHTML=
+        bloqueDatosTeatro(te)+
+        bloqueHistoriaTeatro(te)+
+        (obras.length
+          ? bloqueLista('Obras estrenadas en este teatro', obras, '', false)
+          : '<div class="bloque"><h2>Estrenos</h2><p class="pend">Todavía no hay obras con ficha '+
+            'publicada estrenadas en este teatro. '+esc(AVISO_COBERTURA)+'</p></div>');
     }
   } else if(tipo==='anio'){
     const obras=OB.filter(o=>o.anioN===v).sort(cmpCron);
     if(!/^\d{4}$/.test(v)){ noEncontrado('El año no es válido.'); }
     else{
+      const d=decadaDe(v), xd=buscaDec(d);
       document.title=v+' — Zarzuteca INNAZ';
       $('lLabel').textContent='Zarzuteca INNAZ · Año de estreno';
       $('lTitulo').textContent=v;
       $('lSub').textContent='Estrenos, por orden cronológico';
-      $('lBody').innerHTML=obras.length
+      // El análisis histórico se escribe por década (decisión de César,
+      // 30-8-2026): aquí se muestra el de la década a la que pertenece el
+      // año, diciéndolo con todas las letras para que nadie lo lea como un
+      // texto escrito sobre este año concreto.
+      const ctx='<div class="bloque"><h2>El momento histórico · '+esc(rotuloDec(d))+'</h2>'+
+        (decConTexto(xd)
+          ? '<p class="cobertura">Este análisis está escrito sobre el conjunto de la década de '+
+            esc(rotuloDec(d))+', no sobre '+esc(v)+' en particular.</p>'
+          : '')+
+        cuerpoDecada(xd)+
+        '<a class="verdec" href="listado.html?tipo=decada&v='+d+'">Ver la década completa</a></div>';
+      $('lBody').innerHTML=(obras.length
         ? bloqueLista('Obras estrenadas en '+v, obras, '')
-        : '<p class="pend">No hay obras publicadas con estreno en '+esc(v)+'. '+esc(AVISO_COBERTURA)+'</p>';
+        : '<div class="bloque"><h2>Estrenos</h2><p class="pend">No hay obras publicadas con estreno en '+
+          esc(v)+'. '+esc(AVISO_COBERTURA)+'</p></div>')+ctx;
+    }
+  } else if(tipo==='decada'){
+    // v es el primer año de la década: 1880, 1890… Se admite cualquier año
+    // de cuatro dígitos y se redondea, para que un enlace a 1884 no rompa.
+    if(!/^\d{4}$/.test(v)){ noEncontrado('La década no es válida.'); }
+    else{
+      const d=decadaDe(v), xd=buscaDec(d);
+      const obras=OB.filter(o=>o.anioN&&decadaDe(o.anioN)===d).sort(cmpCron);
+      document.title='Década de '+rotuloDec(d)+' — Zarzuteca INNAZ';
+      $('lLabel').textContent='Zarzuteca INNAZ · Década';
+      $('lTitulo').textContent=rotuloDec(d);
+      $('lSub').textContent=obras.length
+        ? obras.length+(obras.length===1?' estreno publicado':' estrenos publicados')
+        : 'Sin estrenos publicados';
+      $('lBody').innerHTML=
+        '<div class="bloque"><h2>El momento histórico</h2>'+cuerpoDecada(xd)+'</div>'+
+        (obras.length
+          ? bloqueLista('Estrenos de la década, por orden cronológico', obras, '')
+          : '<div class="bloque"><h2>Estrenos</h2><p class="pend">No hay obras publicadas con estreno en '+
+            'esta década. '+esc(AVISO_COBERTURA)+'</p></div>');
     }
   } else {
-    noEncontrado('Listado sin tipo. Los tipos válidos son persona, teatro y anio.');
+    noEncontrado('Listado sin tipo. Los tipos válidos son persona, teatro, anio y decada.');
   }
+</script>
+
+<script>
+/* Menú desplegable de la Zarzuteca (30-8-2026). Se abre al hacer clic, no al
+   pasar por encima: en táctil el hover no existe. Se cierra al pulsar fuera,
+   con Escape, y al elegir una opción (llamando a closeMenu() si la página lo
+   define, que es el caso de index.html). */
+(function(){
+  var d=document.querySelector('.zz-drop'); if(!d) return;
+  var t=d.querySelector('.zz-drop-t');
+  function cerrar(){ d.classList.remove('open'); if(t) t.setAttribute('aria-expanded','false'); }
+  if(t) t.addEventListener('click',function(e){
+    e.preventDefault();
+    var abierto=d.classList.toggle('open');
+    t.setAttribute('aria-expanded',abierto?'true':'false');
+  });
+  document.addEventListener('click',function(e){ if(!d.contains(e.target)) cerrar(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrar(); });
+  d.querySelectorAll('.zz-drop-m a').forEach(function(a){
+    a.addEventListener('click',function(){
+      cerrar();
+      if(typeof closeMenu==='function'){ closeMenu(); return; }
+      var nl=document.getElementById('navlinks'); if(nl) nl.classList.remove('open');
+    });
+  });
+})();
 </script>
 </body>
 </html>

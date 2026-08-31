@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teatros — Zarzuteca INNAZ</title>
+  <!--
+    ÍNDICE DE TEATROS — Zarzuteca INNAZ, 30 de agosto de 2026.
+
+    Puerta de entrada al eje «Teatros». Sirve la constante TEATROS de
+    zarzuteca-data.js, que trae SOLO los teatros con alguna obra publicada
+    (el generador filtra por o.teatroK). El nombre y la ciudad salen de la
+    tabla que validó César teatro a teatro (_teatros.json), nunca de col3:
+    col3 trae la cadena de la fuente y una misma sala aparece escrita de
+    varias formas.
+
+    La clave lleva ciudad porque nueve nombres se repiten en ciudades
+    distintas (Apolo en Madrid, Barcelona y Valencia; Alhambra en Madrid y
+    La Habana) y son teatros que no tienen nada que ver entre sí.
+
+    El recuento de estrenos es el de obras CON FICHA PUBLICADA, no el
+    histórico real de la sala: se avisa en pantalla.
+
+    La marca «Historia» se enciende sola cuando la pestaña «Teatros» del
+    maestro tiene texto en ese teatro. Mientras esté vacía, la ficha sirve
+    los estrenos y dice que la historia está pendiente. Aquí no se inventa
+    ni una fecha.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="zarzuteca-data.js"></script>
+  <style>
+    :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);}
+    nav{position:fixed;top:0;width:100%;z-index:100;padding:1.1rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,238,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Cormorant SC',serif;font-size:1.65rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:.08em;}
+    .nav-logo span{color:var(--teal);}
+    header.lh{padding:9rem 3.5rem 2.2rem;background:var(--cream);}
+    .inner{max-width:900px;margin:0 auto;}
+    .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
+    h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
+    .sub{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;}
+    main{padding:2.6rem 3.5rem 5rem;}
+    .filtros{display:flex;flex-wrap:wrap;gap:.9rem;align-items:flex-end;margin-bottom:1.4rem;}
+    .filtros label{display:block;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.35rem;}
+    .filtros input,.filtros select{font-family:'DM Sans',sans-serif;font-size:.92rem;padding:.6rem .8rem;border:1px solid var(--border);border-radius:3px;background:var(--white);color:var(--text);}
+    .filtros input{min-width:19rem;}
+    .fbusca{flex:1 1 19rem;}
+    .cuenta{font-size:.8rem;color:var(--muted);margin-bottom:1rem;}
+    .cuenta b{color:var(--teal-dark);font-weight:600;}
+    .aviso{font-size:.78rem;color:var(--muted);font-style:italic;line-height:1.6;margin-bottom:1.6rem;}
+    .grupo{margin-bottom:2.2rem;}
+    .grupo h2{font-family:'Cormorant SC',serif;font-size:1.5rem;font-weight:700;color:var(--teal-dark);border-bottom:1px solid var(--border);padding-bottom:.4rem;margin-bottom:.2rem;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;}
+    .grupo h2 small{font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+    ul.idx{list-style:none;}
+    ul.idx li{border-bottom:1px solid var(--border);}
+    ul.idx li:last-child{border-bottom:none;}
+    ul.idx a{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;padding:.7rem .4rem;text-decoration:none;color:inherit;transition:background .15s;}
+    ul.idx a:hover{background:var(--teal-light);}
+    .nm{font-family:'Cormorant SC',serif;font-size:1.08rem;font-weight:600;color:var(--black);flex:1 1 16rem;}
+    .meta{font-size:.76rem;color:var(--muted);}
+    .tag{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--teal);color:var(--teal-dark);border-radius:20px;padding:.15rem .55rem;}
+    .tag.off{border-color:var(--border);color:#aaa;}
+    .vacio{padding:2rem 0;color:var(--muted);font-style:italic;}
+    footer{background:#080808;padding:2.4rem 3.5rem;}
+    .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
+    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.6);}
+    .footer-logo span{color:var(--teal);}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.2);max-width:520px;line-height:1.6;}
+    @media(max-width:860px){nav,header.lh,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.lh{padding-top:7rem;}.filtros input{min-width:0;width:100%;}}
+
+    .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;opacity:.65;transition:opacity .2s,color .2s;}
+    .nav-links a:hover{opacity:1;color:var(--teal);}
+    .nav-links a.active{opacity:1;color:var(--teal);}
+    .nav-links a.active:not(.nav-cta)::after{content:'';display:block;height:2px;background:var(--teal);margin-top:3px;border-radius:2px;}
+    .nav-cta{background:var(--teal)!important;color:#fff!important;opacity:1!important;padding:.5rem 1.3rem;border-radius:2px;}
+    .nav-cta:hover{background:var(--teal-dark)!important;}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:960px){.nav-links{display:none;}.nav-hamburger{display:flex;}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:var(--cream);padding:2.2rem 1.6rem;gap:1.3rem;align-items:flex-start;z-index:99;overflow-y:auto;}.nav-links.open a{opacity:1;font-size:.95rem;}}
+  
+    /* ─── MENÚ DESPLEGABLE DE LA ZARZUTECA (30-8-2026) ─── */
+    .zz-drop{position:relative;}
+    .zz-drop-t{cursor:pointer;}
+    .zz-car{display:inline-block;margin-left:.35em;font-size:.8em;line-height:1;transition:transform .18s;}
+    .zz-drop.open .zz-car{transform:rotate(180deg);}
+    .zz-drop-m{display:none;list-style:none;position:absolute;top:calc(100% + .95rem);left:50%;
+      transform:translateX(-50%);min-width:12.5rem;background:#F8F4EE;border:1px solid #E2DAD0;
+      border-radius:4px;box-shadow:0 10px 28px rgba(0,0,0,.12);padding:.35rem 0;z-index:120;}
+    .zz-drop.open>.zz-drop-m{display:block;}
+    .zz-drop-m li{display:block;}
+    .zz-drop-m a{display:block;padding:.6rem 1.15rem;font-size:.72rem;letter-spacing:.12em;
+      text-transform:uppercase;white-space:nowrap;opacity:.75;}
+    .zz-drop-m a:hover{opacity:1;color:#2AABB8;background:rgba(42,171,184,.09);}
+    .zz-drop-m a::after{display:none!important;}
+    @media(max-width:960px){
+      .zz-drop{width:100%;}
+      .zz-drop-m{position:static;transform:none;min-width:0;border:none;background:transparent;
+        box-shadow:none;padding:.55rem 0 0 1rem;border-left:2px solid #E2DAD0;margin-top:.5rem;}
+      .zz-drop-m a{padding:.45rem 0;font-size:.8rem;}
+    }
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html#innaz">Qué es INNAZ</a></li>
+    <li><a href="index.html#pilares">Pilares</a></li>
+    <li><a href="index.html#sello">Sello de Calidad</a></li>
+    <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
+    <li><a href="index.html#noticias">Noticias</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+    <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+<header class="lh">
+  <div class="inner">
+    <p class="label">Zarzuteca INNAZ · Índice</p>
+    <h1>Teatros</h1>
+    <p class="sub" id="sub">…</p>
+  </div>
+</header>
+<main><div class="inner">
+
+  <div class="filtros">
+    <div class="fbusca">
+      <label for="q">Buscar</label>
+      <input id="q" type="search" placeholder="Nombre del teatro o ciudad…" autocomplete="off">
+    </div>
+    <div>
+      <label for="f-ciu">Ciudad</label>
+      <select id="f-ciu"><option value="">Todas</option></select>
+    </div>
+  </div>
+
+  <p class="cuenta"><b id="cuenta">0</b> <span id="cuentaTxt">teatros</span></p>
+  <p class="aviso" id="aviso"></p>
+  <div id="body"></div>
+
+</div></main>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">INNA<span>Z</span></div>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela · Zarzuteca INNAZ</p>
+  </div>
+</footer>
+<script>
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const deacc=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const norm=s=>deacc(s).toLowerCase().trim();
+  const OB=(typeof OBRAS!=='undefined')?OBRAS:[];
+  const TE=(typeof TEATROS!=='undefined')?TEATROS:[];
+
+  // Estrenos por teatro: solo obras con ficha publicada.
+  const cuenta={};
+  OB.forEach(o=>{ if(o.teatroK) cuenta[o.teatroK]=(cuenta[o.teatroK]||0)+1; });
+
+  const T=TE.map(t=>({
+    k:t.k, n:t.n||t.k, c:t.c||'', obras:cuenta[t.k]||0,
+    // «datos» se enciende si la pestaña Teatros trae algún dato duro escrito
+    datos:!!(t.inaug||t.arq||t.dir||t.aforo||t.cierre||t.otros),
+    his:!!(t.his&&String(t.his).trim()),
+    busca:norm(t.n)+' '+norm(t.c)
+  })).sort((a,b)=> b.obras-a.obras || norm(a.n).localeCompare(norm(b.n),'es'));
+
+  const ciudades=[...new Set(T.map(t=>t.c).filter(Boolean))]
+    .sort((a,b)=>norm(a).localeCompare(norm(b),'es'));
+  $('f-ciu').innerHTML='<option value="">Todas</option>'+
+    ciudades.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');
+
+  const conHis=T.filter(t=>t.his).length;
+  $('sub').textContent=T.length+' teatros con estreno documentado en '+ciudades.length+' ciudades';
+  $('aviso').textContent='El índice recoge las salas donde se estrenó alguna obra con ficha ya publicada, '+
+    'y el número que acompaña a cada una cuenta esos estrenos, no el historial completo de la sala. '+
+    'Los nombres son los de la tabla de teatros validada uno a uno; la ciudad forma parte del nombre '+
+    'porque varias salas homónimas de ciudades distintas no tienen nada que ver entre sí. '+
+    'Las historias de teatro se redactan por tandas, con fuentes declaradas: '+conHis+' de '+T.length+' están escritas.';
+
+  function pinta(){
+    const q=norm($('q').value), ciu=$('f-ciu').value;
+    const lista=T.filter(t=>{
+      if(q && t.busca.indexOf(q)<0) return false;
+      if(ciu && t.c!==ciu) return false;
+      return true;
+    });
+    $('cuenta').textContent=lista.length;
+    $('cuentaTxt').textContent=lista.length===1?'teatro':'teatros';
+    if(!lista.length){ $('body').innerHTML='<p class="vacio">Ningún teatro responde a esa búsqueda.</p>'; return; }
+    // Agrupados por ciudad; las ciudades, por número de teatros y luego alfabético.
+    const grupos=new Map();
+    lista.forEach(t=>{ const k=t.c||'Sin ciudad'; if(!grupos.has(k)) grupos.set(k,[]); grupos.get(k).push(t); });
+    const claves=[...grupos.keys()].sort((a,b)=>
+      grupos.get(b).length-grupos.get(a).length || norm(a).localeCompare(norm(b),'es'));
+    $('body').innerHTML=claves.map(k=>{
+      const g=grupos.get(k);
+      const estrenos=g.reduce((s,t)=>s+t.obras,0);
+      const filas=g.map(t=>{
+        const tag=t.his?'<span class="tag">Historia</span>'
+                       :(t.datos?'<span class="tag">Datos</span>':'<span class="tag off">Sin historia</span>');
+        return '<li><a href="listado.html?tipo=teatro&v='+encodeURIComponent(t.k)+'">'+
+               '<span class="nm">'+esc(t.n)+'</span>'+
+               '<span class="meta">'+t.obras+(t.obras===1?' estreno':' estrenos')+'</span>'+tag+'</a></li>';
+      }).join('');
+      return '<div class="grupo"><h2>'+esc(k)+
+             '<small>'+g.length+(g.length===1?' teatro':' teatros')+' · '+estrenos+
+             (estrenos===1?' estreno':' estrenos')+'</small></h2><ul class="idx">'+filas+'</ul></div>';
+    }).join('');
+  }
+  ['q','f-ciu'].forEach(id=>{
+    $(id).addEventListener('input',pinta);
+    $(id).addEventListener('change',pinta);
+  });
+  pinta();
+</script>
+
+<script>
+/* Menú desplegable de la Zarzuteca (30-8-2026). Se abre al hacer clic, no al
+   pasar por encima: en táctil el hover no existe. Se cierra al pulsar fuera,
+   con Escape, y al elegir una opción (llamando a closeMenu() si la página lo
+   define, que es el caso de index.html). */
+(function(){
+  var d=document.querySelector('.zz-drop'); if(!d) return;
+  var t=d.querySelector('.zz-drop-t');
+  function cerrar(){ d.classList.remove('open'); if(t) t.setAttribute('aria-expanded','false'); }
+  if(t) t.addEventListener('click',function(e){
+    e.preventDefault();
+    var abierto=d.classList.toggle('open');
+    t.setAttribute('aria-expanded',abierto?'true':'false');
+  });
+  document.addEventListener('click',function(e){ if(!d.contains(e.target)) cerrar(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrar(); });
+  d.querySelectorAll('.zz-drop-m a').forEach(function(a){
+    a.addEventListener('click',function(){
+      cerrar();
+      if(typeof closeMenu==='function'){ closeMenu(); return; }
+      var nl=document.getElementById('navlinks'); if(nl) nl.classList.remove('open');
+    });
+  });
+})();
+</script>
+</body>
+</html>

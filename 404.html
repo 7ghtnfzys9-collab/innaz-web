@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página no encontrada — INNAZ</title>
+  <!--
+    PÁGINA 404 — Zarzuteca INNAZ, 31 de agosto de 2026.
+
+    Cloudflare Pages sirve este archivo, con código 404, cuando una dirección
+    no existe. Antes de que existiera, el sitio devolvía la PORTADA con código
+    200 para cualquier dirección inventada: un enlace roto no se notaba, los
+    buscadores indexaban páginas duplicadas y no se podía comprobar si un
+    archivo estaba realmente subido.
+
+    ⚠ Si aun con este archivo el sitio sigue devolviendo la portada, es que en
+    el proyecto de Cloudflare Pages hay un archivo `_redirects` con la regla
+    `/*  /index.html  200` o una Redirect Rule equivalente en el panel: hay que
+    quitarla, porque tiene prioridad sobre este 404.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+    nav{padding:1.1rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,238,.97);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Cormorant SC',serif;font-size:1.65rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:.08em;}
+    .nav-logo span{color:var(--teal);}
+    main{flex:1;display:flex;align-items:center;justify-content:center;padding:4rem 1.5rem 5rem;}
+    .caja{max-width:620px;text-align:center;}
+    .cifra{font-family:'Cormorant SC',serif;font-size:clamp(4.5rem,16vw,9rem);font-weight:700;line-height:.9;color:var(--teal);letter-spacing:.04em;}
+    h1{font-family:'Cormorant SC',serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:600;color:var(--black);margin:1.2rem 0 .8rem;}
+    p{font-size:1rem;line-height:1.8;color:var(--muted);}
+    p.cita{font-family:'Cormorant',serif;font-style:italic;font-size:1.05rem;margin-top:1.6rem;color:var(--teal-dark);}
+    .enlaces{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:2.2rem;}
+    .enlaces a{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--teal-dark);border:1.5px solid var(--teal-dark);padding:.6rem 1.2rem;border-radius:24px;transition:all .15s;}
+    .enlaces a:hover{background:var(--teal-dark);color:#fff;}
+    .enlaces a.pral{background:var(--teal-dark);color:#fff;}
+    .enlaces a.pral:hover{background:var(--black);border-color:var(--black);}
+    footer{background:#080808;padding:2.2rem 3.5rem;}
+    .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.6);}
+    .footer-logo span{color:var(--teal);}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.25);}
+    @media(max-width:860px){nav,footer{padding-left:1.4rem;padding-right:1.4rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
+</nav>
+<main>
+  <div class="caja">
+    <div class="cifra">404</div>
+    <h1>Esta página no existe</h1>
+    <p>La dirección que has escrito o el enlace que has seguido no lleva a ninguna parte
+       del Instituto Nacional de Zarzuela. Puede que la página se haya movido o que la
+       dirección tenga alguna errata.</p>
+    <p class="cita">«Aquí no hay nada que representar.»</p>
+    <div class="enlaces">
+      <a class="pral" href="/buscador.html">Buscar en la Zarzuteca</a>
+      <a href="/autores.html">Autores</a>
+      <a href="/teatros.html">Teatros</a>
+      <a href="/anios.html">Años</a>
+      <a href="/index.html#inicio">Portada</a>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">INNA<span>Z</span></div>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela</p>
+  </div>
+</footer>
+</body>
+</html>
