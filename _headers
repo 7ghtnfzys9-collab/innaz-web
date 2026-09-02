@@ -1,0 +1,15 @@
+# Cabeceras para Cloudflare Pages — Zarzuteca INNAZ
+#
+# Los dos archivos de datos se cargan sin parametro de version, asi que sin
+# esto el navegador del visitante se los queda hasta 4 horas (max-age=14400) y
+# sigue viendo el catalogo viejo despues de publicar. Con "no-cache" el
+# navegador pregunta siempre; como los dos llevan ETag, la respuesta habitual
+# es un 304 de unos pocos bytes y no se nota en la velocidad.
+#
+# El HTML no necesita regla: Cloudflare Pages ya lo sirve con max-age=0.
+
+/zarzuteca-data.js
+  Cache-Control: no-cache
+
+/sello-data.js
+  Cache-Control: no-cache
