@@ -299,12 +299,19 @@
     }
     // 2) argumento (por actos si existe synA; si no, texto plano) — el
     // Diccionario de la Zarzuela llama "Argumento" a este mismo contenido.
-    // Los rótulos de CUADRO no se pintan (decisión de César, 30/07/2026): la
-    // ficha se estructura solo por ACTOS y el texto de cada cuadro queda
-    // integrado en su acto. El dato no se pierde: sigue en col6 y en synA;
-    // esta línea solo lo filtra al pintar. Jornada/Parte/Prólogo/Epílogo son
-    // divisiones de nivel de acto y SÍ se pintan.
-    const esCuadro=n=>n.h && /^cuadro\b/i.test(n.t.trim());
+    // Los rótulos de CUADRO que son SOLO un número de orden no se pintan
+    // (decisión de César, 30/07/2026): la ficha se estructura por ACTOS y el
+    // texto de esos cuadros queda integrado en su acto. El dato no se pierde:
+    // sigue en col6 y en synA; esta línea solo lo filtra al pintar.
+    // MATIZ DEL 4/09/2026, decisión de César: cuando el libreto le pone NOMBRE
+    // al cuadro —La Marsellesa nombra los suyos «La patria en peligro», «La
+    // Marsellesa», «El Terror» y «La Conserjería»— ese nombre es contenido y SÍ
+    // se pinta, como subcabecera dentro de su acto. Se filtra, por tanto, solo
+    // el ordinal desnudo. Jornada/Parte/Prólogo/Epílogo son divisiones de nivel
+    // de acto y siempre se pintan.
+    const ORD='[uú]nico|primero?|segundo|tercero?|cuarto|quinto|sexto|s[eé]ptimo|octavo|noveno|d[eé]cimo|[ivxlcdm]+|\\d+';
+    const CUADRO_DESNUDO=new RegExp('^(?:cuadro\\s+(?:'+ORD+')|(?:primer|segundo|tercer|cuarto|quinto|sexto|s[eé]ptimo|octavo|noveno|d[eé]cimo|[uú]ltimo)\\s+cuadro)[.º°ª]?$','i');
+    const esCuadro=n=>n.h && CUADRO_DESNUDO.test(n.t.trim());
     // El argumento se sirve PLEGADO (06/08/2026, petición de César): en la vista
     // inicial se ven los primeros ARG_PREVIEW caracteres de prosa del argumento
     // ENTERO —no por acto— y el resto se despliega con «Leer más». Los rótulos
