@@ -98,6 +98,19 @@
     .ensayo h3{font-family:'Cormorant SC',serif;font-size:1.12rem;font-weight:700;color:var(--black);margin-bottom:.3rem;}
     .verdec{display:inline-block;margin-top:.9rem;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1.5px solid var(--teal-dark);padding:.45rem .95rem;border-radius:22px;}
     .verdec:hover{background:var(--teal-dark);color:#fff;}
+    /* Momento histórico plegable (4-9-2026). Plegado deja asomar el arranque
+       del texto bajo un degradado; el botón lo abre entero. La clase que
+       pliega la pone el script al construir el bloque: sin JavaScript el
+       texto se ve completo, nunca cortado. */
+    .mh-cuerpo{position:relative;overflow:hidden;}
+    .mh.plegado .mh-cuerpo{max-height:9rem;}
+    .mh.plegado .mh-cuerpo::after{content:'';position:absolute;left:0;right:0;bottom:0;height:5rem;background:linear-gradient(to bottom,rgba(255,255,255,0),var(--white) 85%);pointer-events:none;}
+    .mh-acciones{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-top:.9rem;}
+    .mh-acciones .verdec{margin-top:0;}
+    .mh-btn{display:inline-flex;align-items:center;gap:.45rem;font-family:inherit;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark);background:none;border:1.5px solid var(--teal-dark);padding:.45rem .95rem;border-radius:22px;cursor:pointer;transition:all .15s;}
+    .mh-btn:hover{background:var(--teal-dark);color:#fff;}
+    .mh-btn .flecha{font-size:.85em;line-height:1;transition:transform .15s;}
+    .mh:not(.plegado) .mh-btn .flecha{transform:rotate(180deg);}
     .ot{font-family:'Cormorant SC',serif;font-size:1.08rem;font-weight:600;color:var(--black);}
     .om{font-size:.78rem;color:var(--muted);margin-top:.15rem;}
     footer{background:#080808;padding:2.4rem 3.5rem;}
@@ -277,11 +290,32 @@
   // Los tres bloques del análisis de década. Se pintan solo los que tienen
   // texto; si no hay ninguno, un aviso de que está pendiente.
   const PARTES_DEC=[['pol','La política'],['art','Las artes y la cultura'],['lir','El teatro lírico']];
-  function cuerpoDecada(x){
+
+  // El momento histórico va SIEMPRE antes de las obras y se puede plegar
+  // (decisión de César, 4-9-2026). En la ficha de año arranca plegado: lo que
+  // se ha ido a ver ahí son los estrenos, y el contexto es un añadido. En la
+  // de década arranca abierto, que es la página que existe para leerlo.
+  let nMH=0;
+  function bloqueMomento(x,op){
+    const hay=decConTexto(x), id='mh'+(++nMH), plegar=hay&&op.plegado;
+    const acciones=(hay?'<button class="mh-btn" type="button" data-mh="'+id+'" '+
+        'aria-expanded="'+(plegar?'false':'true')+'" aria-controls="'+id+'-c">'+
+        '<span class="txt">'+(plegar?'Leer el momento histórico':'Plegar el texto')+
+        '</span><span class="flecha">&#9662;</span></button>':'')+(op.pie||'');
+    return '<div class="bloque mh'+(plegar?' plegado':'')+'" id="'+id+'">'+
+      '<h2>'+op.titulo+'</h2>'+(op.aviso||'')+
+      '<div class="mh-cuerpo" id="'+id+'-c">'+cuerpoDecada(x,op.breve)+'</div>'+
+      (acciones?'<div class="mh-acciones">'+acciones+'</div>':'')+
+    '</div>';
+  }
+
+  function cuerpoDecada(x,breve){
     if(!decConTexto(x))
-      return '<p class="pend">El análisis de esta década está pendiente de redactar: qué ocurría en la '+
-             'política y en las demás artes mientras se estrenaban estas obras. Se escribe en la pestaña '+
-             '<strong>Decadas</strong> del Excel de la Zarzuteca, con las fuentes declaradas.</p>';
+      return breve
+        ? '<p class="pend">El análisis de esta década todavía no está escrito.</p>'
+        : '<p class="pend">El análisis de esta década todavía no está escrito: qué ocurría en la '+
+          'política y en las demás artes mientras se estrenaban estas obras. Se publica por tandas, '+
+          'con las fuentes declaradas.</p>';
     return PARTES_DEC.filter(([k])=>x[k]&&String(x[k]).trim())
       .map(([k,r])=>`<div class="ensayo"><h3>${esc(r)}</h3>${esc(x[k])}</div>`).join('');
   }
@@ -345,17 +379,18 @@
       // 30-8-2026): aquí se muestra el de la década a la que pertenece el
       // año, diciéndolo con todas las letras para que nadie lo lea como un
       // texto escrito sobre este año concreto.
-      const ctx='<div class="bloque"><h2>El momento histórico · '+esc(rotuloDec(d))+'</h2>'+
-        (decConTexto(xd)
+      const ctx=bloqueMomento(xd,{
+        titulo:'El momento histórico · '+esc(rotuloDec(d)),
+        aviso:(decConTexto(xd)
           ? '<p class="cobertura">Este análisis está escrito sobre el conjunto de la década de '+
             esc(rotuloDec(d))+', no sobre '+esc(v)+' en particular.</p>'
-          : '')+
-        cuerpoDecada(xd)+
-        '<a class="verdec" href="listado.html?tipo=decada&v='+d+'">Ver la década completa</a></div>';
-      $('lBody').innerHTML=(obras.length
+          : ''),
+        pie:'<a class="verdec" href="listado.html?tipo=decada&v='+d+'">Ver la década completa</a>',
+        plegado:true, breve:true});
+      $('lBody').innerHTML=ctx+(obras.length
         ? bloqueLista('Obras estrenadas en '+v, obras, '')
         : '<div class="bloque"><h2>Estrenos</h2><p class="pend">No hay obras publicadas con estreno en '+
-          esc(v)+'. '+esc(AVISO_COBERTURA)+'</p></div>')+ctx;
+          esc(v)+'. '+esc(AVISO_COBERTURA)+'</p></div>');
     }
   } else if(tipo==='decada'){
     // v es el primer año de la década: 1880, 1890… Se admite cualquier año
@@ -371,7 +406,7 @@
         ? obras.length+(obras.length===1?' estreno publicado':' estrenos publicados')
         : 'Sin estrenos publicados';
       $('lBody').innerHTML=
-        '<div class="bloque"><h2>El momento histórico</h2>'+cuerpoDecada(xd)+'</div>'+
+        bloqueMomento(xd,{titulo:'El momento histórico',plegado:false})+
         (obras.length
           ? bloqueLista('Estrenos de la década, por orden cronológico', obras, '')
           : '<div class="bloque"><h2>Estrenos</h2><p class="pend">No hay obras publicadas con estreno en '+
@@ -380,6 +415,20 @@
   } else {
     noEncontrado('Listado sin tipo. Los tipos válidos son persona, teatro, anio y decada.');
   }
+
+  // Abrir y plegar el momento histórico. Delegado en el documento porque el
+  // bloque se construye con innerHTML después de cargar la página.
+  document.addEventListener('click',function(e){
+    var b=e.target.closest?e.target.closest('.mh-btn'):null;
+    if(!b) return;
+    var caja=document.getElementById(b.getAttribute('data-mh'));
+    if(!caja) return;
+    var plegado=caja.classList.toggle('plegado');
+    b.setAttribute('aria-expanded',plegado?'false':'true');
+    var t=b.querySelector('.txt');
+    if(t) t.textContent=plegado?'Leer el momento histórico':'Plegar el texto';
+    if(plegado) caja.scrollIntoView({block:'nearest'});
+  });
 </script>
 
 <script>
