@@ -76,7 +76,8 @@
     main{padding:2.6rem 3.5rem 5rem;}
     .bloque{margin-bottom:2.6rem;}
     .bloque h2{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);}
-    .bio{font-size:.98rem;line-height:1.85;}
+    .bio{font-size:.98rem;line-height:1.85;margin:0 0 1.05em;}
+    .bio:last-child{margin-bottom:0;}
     .persona-bio::after{content:'';display:table;clear:both;}
     .foto-persona{float:right;width:180px;max-width:42%;height:auto;margin:0 0 1.2rem 1.8rem;border:1px solid var(--border);border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.08);}
     @media(max-width:560px){.foto-persona{float:none;width:140px;margin:0 0 1rem;}}
@@ -333,7 +334,7 @@
       const comoL=(p.obrasL||[]).map(byId).filter(Boolean).sort(cmpCron);
       let html='<div class="bloque persona-bio"><h2>Biografía</h2>'+
         (p.foto ? `<img class="foto-persona" src="personas/${esc(p.foto)}" alt="${esc(p.n)}" loading="lazy">` : '')+
-        (p.bio ? `<p class="bio">${esc(p.bio)}</p>`
+        (p.bio ? esc(p.bio).split(/\n{2,}/).map(x=>`<p class="bio">${x.replace(/\n/g,' ').trim()}</p>`).join('')
                : '<p class="pend">Biografía pendiente de redactar. Se añade en la pestaña <strong>Personas</strong> del Excel de la Zarzuteca.</p>')+
         '</div>';
       if(comoC.length) html+=bloqueLista('Obras como compositor, por año de estreno', comoC, '');
