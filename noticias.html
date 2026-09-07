@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noticias — Zarzuteca INNAZ</title>
+  <meta name="description" content="Noticias sobre zarzuela y teatro lírico español, con enlace a las fichas del catálogo de la Zarzuteca INNAZ.">
+  <!--
+    NOTICIAS — Zarzuteca INNAZ, 7 de septiembre de 2026.
+
+    Archivo de noticias con búsqueda por texto libre y filtros por año, medio,
+    país y etiqueta. Todo en el navegador, sin servidor, igual que buscador.html
+    y listado.html.
+
+    LOS DATOS los genera  06 Scripts/Noticias/generar_noticias.py  desde
+    06 Scripts/Noticias/noticias.json.
+
+    REGLA DE LA CASA (dictamen de derechos del 6-9-2026): de cada noticia se
+    publica un TÍTULO PROPIO y un TEXTO PROPIO, con atribución visible al medio
+    y enlace al original. NUNCA el titular ajeno, nunca el resumen del medio y
+    nunca sus fotografías. El titular original se guarda solo en noticias.json,
+    como trazabilidad interna, y el generador NO lo saca a la web.
+
+    ⭐ EL BLOQUE «EN LA ZARZUTECA» es la razón de ser de esta página: cada
+    noticia enlaza con las fichas de las obras y las personas del catálogo que
+    menciona. El generador comprueba que esos ids existen; si alguno no está
+    publicado, se para y avisa, para que no salga un enlace roto.
+
+    ⚠ El sellado del ?v= de noticias-data.js lo hace SUBIR_WEB.command a través
+    de 06 Scripts/sellar_version.py. Sin él, un visitante que ya haya entrado
+    seguiría viendo las noticias de la semana pasada hasta cuatro horas.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="noticias-data.js"></script>
+  <style>
+    :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);}
+    nav{position:fixed;top:0;width:100%;z-index:100;padding:1.1rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,238,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Cormorant SC',serif;font-size:1.65rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:.08em;}
+    .nav-logo span{color:var(--teal);}
+    .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;opacity:.65;transition:opacity .2s,color .2s;}
+    .nav-links a:hover{opacity:1;color:var(--teal);}
+    .nav-links a.active{opacity:1;color:var(--teal);}
+    .nav-links a.active:not(.nav-cta)::after{content:'';display:block;height:2px;background:var(--teal);margin-top:3px;border-radius:2px;}
+    .nav-cta{background:var(--teal)!important;color:#fff!important;opacity:1!important;padding:.5rem 1.3rem;border-radius:2px;}
+    .nav-cta:hover{background:var(--teal-dark)!important;}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:960px){.nav-links{display:none;}.nav-hamburger{display:flex;}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:var(--cream);padding:2.2rem 1.6rem;gap:1.3rem;align-items:flex-start;z-index:99;}.nav-links.open a{opacity:1;font-size:.95rem;}}
+    .zz-drop{position:relative;}
+    .zz-drop-t{cursor:pointer;}
+    .zz-car{display:inline-block;margin-left:.35em;font-size:.8em;line-height:1;transition:transform .18s;}
+    .zz-drop.open .zz-car{transform:rotate(180deg);}
+    .zz-drop-m{display:none;list-style:none;position:absolute;top:calc(100% + .95rem);left:50%;transform:translateX(-50%);min-width:12.5rem;background:#F8F4EE;border:1px solid #E2DAD0;border-radius:4px;box-shadow:0 10px 28px rgba(0,0,0,.12);padding:.35rem 0;z-index:120;}
+    .zz-drop.open>.zz-drop-m{display:block;}
+    .zz-drop-m li{display:block;}
+    .zz-drop-m a{display:block;padding:.6rem 1.15rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;opacity:.75;}
+    .zz-drop-m a:hover{opacity:1;color:#2AABB8;background:rgba(42,171,184,.09);}
+    .zz-drop-m a::after{display:none!important;}
+    @media(max-width:960px){.zz-drop{width:100%;}.zz-drop-m{position:static;transform:none;min-width:0;border:none;background:transparent;box-shadow:none;padding:.55rem 0 0 1rem;border-left:2px solid #E2DAD0;margin-top:.5rem;}.zz-drop-m a{padding:.45rem 0;font-size:.8rem;}}
+
+    header.lh{padding:9rem 3.5rem 2.2rem;background:var(--cream);}
+    .inner{max-width:900px;margin:0 auto;}
+    .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
+    h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
+    .sub{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;}
+    main{padding:2.6rem 3.5rem 5rem;}
+
+    /* ─── BUSCADOR Y FILTROS ─── */
+    .filtros{max-width:900px;margin:0 auto 2.2rem;}
+    .busca{width:100%;padding:.85rem 1.1rem;font-family:inherit;font-size:.95rem;color:var(--text);background:var(--white);border:1px solid var(--border);border-radius:4px;}
+    .busca:focus{outline:none;border-color:var(--teal);}
+    .selects{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.7rem;margin-top:.7rem;}
+    .selects select{width:100%;padding:.6rem .7rem;font-family:inherit;font-size:.82rem;color:var(--text);background:var(--white);border:1px solid var(--border);border-radius:4px;cursor:pointer;}
+    .selects select:focus{outline:none;border-color:var(--teal);}
+    .barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;margin-top:.9rem;}
+    .cuenta{font-size:.78rem;color:var(--muted);}
+    .limpiar{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark);background:none;border:1.5px solid var(--teal-dark);padding:.4rem .9rem;border-radius:22px;cursor:pointer;font-family:inherit;transition:all .15s;}
+    .limpiar:hover{background:var(--teal-dark);color:#fff;}
+
+    /* ─── LISTA DE NOTICIAS ─── */
+    .lista{max-width:900px;margin:0 auto;list-style:none;}
+    .noticia{border-top:1px solid var(--border);padding:1.9rem 0;}
+    .noticia:last-child{border-bottom:1px solid var(--border);}
+    .meta{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem;font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.6rem;}
+    .meta .pt{color:var(--muted);}
+    .noticia h2{font-family:'Cormorant SC',serif;font-size:1.42rem;font-weight:600;line-height:1.25;color:var(--black);margin-bottom:.55rem;}
+    .cuerpo{font-size:.97rem;line-height:1.8;}
+    .zarz{margin-top:1rem;padding:.85rem 1.05rem;background:var(--teal-light);border-radius:4px;font-size:.86rem;line-height:1.9;}
+    .zarz .zt{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);display:block;margin-bottom:.25rem;}
+    .zarz a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
+    .zarz a:hover{border-bottom-color:var(--teal-dark);}
+    .fuente{margin-top:.9rem;font-size:.79rem;color:var(--muted);}
+    .fuente a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
+    .fuente a:hover{border-bottom-color:var(--teal-dark);}
+    .etqs{margin-top:.75rem;display:flex;flex-wrap:wrap;gap:.4rem;}
+    .etq{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:22px;padding:.24rem .7rem;background:none;cursor:pointer;font-family:inherit;transition:all .15s;}
+    .etq:hover{border-color:var(--teal);color:var(--teal-dark);}
+    .vacio{max-width:900px;margin:0 auto;background:var(--teal-light);border:1px dashed var(--teal);padding:1.6rem;border-radius:4px;font-size:.92rem;color:var(--teal-dark);line-height:1.7;}
+    .nota-pie{max-width:900px;margin:2.6rem auto 0;font-size:.76rem;color:var(--muted);font-style:italic;line-height:1.7;border-top:1px solid var(--border);padding-top:1.1rem;}
+
+    footer{background:#080808;padding:2.4rem 3.5rem;}
+    .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
+    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.6);}
+    .footer-logo span{color:var(--teal);}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.2);max-width:520px;line-height:1.6;}
+    @media(max-width:860px){nav,header.lh,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.lh{padding-top:7rem;}}
+  </style>
+</head>
+<body>
+<nav id="navbar">
+  <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html#innaz">Qué es INNAZ</a></li>
+    <li><a href="index.html#pilares">Pilares</a></li>
+    <li><a href="index.html#sello">Sello de Calidad</a></li>
+    <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
+    <li><a href="noticias.html" class="active">Noticias</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+    <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+
+<header class="lh">
+  <div class="inner">
+    <p class="label">Zarzuteca INNAZ</p>
+    <h1>Noticias</h1>
+    <p class="sub">La zarzuela y el teatro lírico español en la prensa especializada</p>
+  </div>
+</header>
+
+<main>
+  <div class="filtros">
+    <input type="search" id="q" class="busca" placeholder="Buscar en las noticias: una obra, un autor, un teatro…" autocomplete="off">
+    <div class="selects">
+      <select id="fAnio"><option value="">Todos los años</option></select>
+      <select id="fMedio"><option value="">Todos los medios</option></select>
+      <select id="fPais"><option value="">Todos los países</option></select>
+      <select id="fEtq"><option value="">Todas las etiquetas</option></select>
+    </div>
+    <div class="barra">
+      <span class="cuenta" id="cuenta"></span>
+      <button class="limpiar" id="limpiar" type="button">Quitar filtros</button>
+    </div>
+  </div>
+
+  <ul class="lista" id="lista"></ul>
+  <div class="vacio" id="vacio" hidden></div>
+
+  <p class="nota-pie">
+    De cada noticia, INNAZ redacta su propio título y su propio texto, cita al medio que la publicó
+    y enlaza con el artículo original. No se reproducen los textos ni las imágenes de los medios.
+    Cuando una noticia menciona una obra o un autor del catálogo, se enlaza con su ficha.
+  </p>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">INNA<span>Z</span></div>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela · Zarzuteca INNAZ</p>
+  </div>
+</footer>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const N = (typeof NOTICIAS !== 'undefined' && Array.isArray(NOTICIAS)) ? NOTICIAS : [];
+
+  // Sin acentos y en minúscula, para que «Barbieri» encuentre «BARBIERI»
+  // y «version» encuentre «versión». Mismo criterio que el buscador de obras.
+  const norm = s => (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  function fechaLarga(iso) {
+    const p = (iso || '').split('-');
+    if (p.length !== 3) return iso || '';
+    return parseInt(p[2], 10) + ' de ' + MESES[parseInt(p[1], 10) - 1] + ' de ' + p[0];
+  }
+
+  // Texto sobre el que busca el cuadro de búsqueda: todo lo visible, más los
+  // nombres de las obras y personas enlazadas.
+  N.forEach(n => {
+    n._buscable = norm([
+      n.titulo, n.texto, n.medio, n.pais, (n.etiquetas || []).join(' '),
+      (n.obras || []).map(o => o.t).join(' '),
+      (n.personas || []).map(p => p.n).join(' '),
+      fechaLarga(n.fecha)
+    ].join(' '));
+  });
+
+  function rellena(sel, valores, etiqueta) {
+    valores.forEach(v => {
+      const o = document.createElement('option');
+      o.value = v; o.textContent = v;
+      sel.appendChild(o);
+    });
+    if (!valores.length) sel.disabled = true;
+  }
+  rellena($('fAnio'), [...new Set(N.map(n => n.anio))].sort().reverse());
+  rellena($('fMedio'), [...new Set(N.map(n => n.medio))].sort());
+  rellena($('fPais'), [...new Set(N.map(n => n.pais).filter(Boolean))].sort());
+  rellena($('fEtq'), [...new Set(N.flatMap(n => n.etiquetas || []))].sort());
+
+  function bloqueZarzuteca(n) {
+    const enlaces = []
+      .concat((n.obras || []).map(o => '<a href="ficha.html?id=' + encodeURIComponent(o.id) + '">' + esc(o.t) + '</a>'))
+      .concat((n.personas || []).map(p => '<a href="listado.html?tipo=persona&v=' + encodeURIComponent(p.id) + '">' + esc(p.n) + '</a>'));
+    if (!enlaces.length) return '';
+    return '<div class="zarz"><span class="zt">En la Zarzuteca</span>' + enlaces.join(' · ') + '</div>';
+  }
+
+  function pinta(lista) {
+    $('lista').innerHTML = lista.map(n =>
+      '<li class="noticia">' +
+        '<div class="meta"><span>' + esc(n.medio) + '</span><span class="pt">·</span><span>' + esc(fechaLarga(n.fecha)) + '</span></div>' +
+        '<h2>' + esc(n.titulo) + '</h2>' +
+        '<p class="cuerpo">' + esc(n.texto) + '</p>' +
+        bloqueZarzuteca(n) +
+        '<p class="fuente">Fuente: ' + esc(n.medio) + ' · <a href="' + esc(n.url) + '" target="_blank" rel="noopener">leer la noticia original</a></p>' +
+        ((n.etiquetas || []).length
+          ? '<div class="etqs">' + n.etiquetas.map(e => '<button class="etq" data-etq="' + esc(e) + '" type="button">' + esc(e) + '</button>').join('') + '</div>'
+          : '') +
+      '</li>'
+    ).join('');
+
+    const total = N.length;
+    $('cuenta').textContent = lista.length === total
+      ? (total === 1 ? '1 noticia' : total + ' noticias')
+      : lista.length + ' de ' + total + ' noticias';
+
+    const v = $('vacio');
+    if (!lista.length) {
+      v.hidden = false;
+      v.textContent = 'Ninguna noticia coincide con esa búsqueda. Prueba con menos filtros, o busca el nombre de una obra o de un autor.';
+    } else {
+      v.hidden = true;
+    }
+  }
+
+  function filtra() {
+    const q = norm($('q').value.trim());
+    const a = $('fAnio').value, m = $('fMedio').value, p = $('fPais').value, e = $('fEtq').value;
+    pinta(N.filter(n =>
+      (!q || n._buscable.includes(q)) &&
+      (!a || n.anio === a) &&
+      (!m || n.medio === m) &&
+      (!p || n.pais === p) &&
+      (!e || (n.etiquetas || []).includes(e))
+    ));
+  }
+
+  ['q', 'fAnio', 'fMedio', 'fPais', 'fEtq'].forEach(id => {
+    $(id).addEventListener('input', filtra);
+    $(id).addEventListener('change', filtra);
+  });
+
+  $('limpiar').addEventListener('click', () => {
+    $('q').value = '';
+    ['fAnio', 'fMedio', 'fPais', 'fEtq'].forEach(id => $(id).value = '');
+    filtra();
+  });
+
+  // Pulsar una etiqueta filtra por ella. Delegado, porque la lista se repinta.
+  $('lista').addEventListener('click', ev => {
+    const b = ev.target.closest('.etq');
+    if (!b) return;
+    $('fEtq').value = b.dataset.etq;
+    filtra();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Menú desplegable de la Zarzuteca, igual que en el resto del sitio.
+  document.querySelectorAll('.zz-drop-t').forEach(t => {
+    t.addEventListener('click', ev => {
+      if (window.innerWidth <= 960) {
+        ev.preventDefault();
+        t.parentElement.classList.toggle('open');
+        t.setAttribute('aria-expanded', t.parentElement.classList.contains('open'));
+      }
+    });
+  });
+  document.querySelectorAll('.zz-drop').forEach(d => {
+    d.addEventListener('mouseenter', () => { if (window.innerWidth > 960) d.classList.add('open'); });
+    d.addEventListener('mouseleave', () => { if (window.innerWidth > 960) d.classList.remove('open'); });
+  });
+
+  if (!N.length) {
+    $('vacio').hidden = false;
+    $('vacio').textContent = 'Todavía no hay ninguna noticia publicada.';
+  }
+  filtra();
+</script>
+</body>
+</html>
