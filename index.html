@@ -817,11 +817,18 @@
          Las cuatro ultimas de noticias-data.js. La lista completa, con
          buscador y filtros, esta en noticias.html. De cada noticia se
          publica titulo y texto propios, con enlace al medio: nunca el
-         titular ajeno ni sus fotografias. -->
-    <ul class="nt-lista reveal" id="ntUltimas"></ul>
-    <a href="noticias.html" class="nt-todas reveal" id="ntTodas" hidden>Todas las noticias &rarr;</a>
+         titular ajeno ni sus fotografias.
 
-    <p class="nt-social reveal">También en Instagram</p>
+         ⚠ SIN class="reveal", A PROPOSITO (7-9-2026). El observer de la
+         portada revela con threshold 0.08: un elemento MAS ALTO QUE LA
+         PANTALLA no llega nunca a ese 8 % de superficie visible y se queda
+         con opacity 0 para siempre. Con cuatro noticias enteras, esta lista
+         mide varios miles de pixeles. Los datos estaban, el DOM estaba
+         pintado y no se veia nada. No volver a ponerle la clase. -->
+    <ul class="nt-lista" id="ntUltimas"></ul>
+    <a href="noticias.html" class="nt-todas" id="ntTodas" hidden>Todas las noticias &rarr;</a>
+
+    <p class="nt-social">También en Instagram</p>
 
     <div class="feed-wrapper reveal">
       <!--
@@ -1159,6 +1166,10 @@
     '</li>';
   }).join('');
   document.getElementById('ntTodas').hidden = false;
+  // Cinturon y tirantes: si alguna vez se le vuelve a poner class="reveal" a
+  // estos dos, que no dependan del observer para verse.
+  cont.classList.add('visible');
+  document.getElementById('ntTodas').classList.add('visible');
 })();
 </script>
 </body>
