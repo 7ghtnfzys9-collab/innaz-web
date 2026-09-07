@@ -94,6 +94,24 @@
     .zarz .zt{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);display:block;margin-bottom:.25rem;}
     .zarz a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
     .zarz a:hover{border-bottom-color:var(--teal-dark);}
+    /* Comprobado con el archivo de INNAZ — plegable, cerrado por defecto */
+    .comp{margin-top:.75rem;border:1px solid var(--border);border-radius:4px;background:var(--cream);}
+    .comp>summary{cursor:pointer;list-style:none;padding:.6rem 1.05rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.5rem;}
+    .comp>summary::-webkit-details-marker{display:none;}
+    .comp>summary::after{content:'▾';margin-left:auto;font-size:.8rem;transition:transform .2s;}
+    .comp[open]>summary::after{transform:rotate(180deg);}
+    .comp>summary:hover{color:var(--teal-dark);}
+    .comp .cn{background:var(--teal-light);color:var(--teal-dark);border-radius:999px;padding:.05rem .45rem;font-size:.68rem;letter-spacing:0;}
+    .comp ul{list-style:none;margin:0;padding:0 1.05rem .9rem;}
+    .comp li{display:flex;gap:.6rem;font-size:.85rem;line-height:1.65;padding:.35rem 0;border-top:1px solid var(--border);}
+    .comp li:first-child{border-top:none;}
+    .comp .mk{flex:0 0 1.1rem;text-align:center;font-weight:700;}
+    .comp .ok .mk{color:var(--teal-dark);}
+    .comp .mas .mk{color:var(--teal-dark);}
+    .comp .no .mk{color:var(--muted);font-weight:400;}
+    .comp a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
+    .comp a:hover{border-bottom-color:var(--teal-dark);}
+    .comp .pie{padding:0 1.05rem .9rem;font-size:.74rem;color:var(--muted);line-height:1.6;}
     .fuente{margin-top:.9rem;font-size:.79rem;color:var(--muted);}
     .fuente a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
     .fuente a:hover{border-bottom-color:var(--teal-dark);}
@@ -187,6 +205,7 @@
   N.forEach(n => {
     n._buscable = norm([
       n.titulo, n.texto, n.medio, n.pais, (n.etiquetas || []).join(' '),
+      (n.comp || []).map(c => c.txt).join(' '),
       (n.obras || []).map(o => o.t).join(' '),
       (n.personas || []).map(p => p.n).join(' '),
       fechaLarga(n.fecha)
@@ -214,6 +233,34 @@
     return '<div class="zarz"><span class="zt">En la Zarzuteca</span>' + enlaces.join(' · ') + '</div>';
   }
 
+  // Bloque «Comprobado con el archivo de INNAZ». Decision de Cesar del 7-9-2026:
+  // se dice lo que nuestras fuentes refrendan y lo que aportan de mas, y lo que no
+  // podemos comprobar se dice en neutro — nunca como error del medio.
+  const MARCA = { consta: '\u2713', aporta: '+', nocons: '\u25CB' };
+  const CLASE = { consta: 'ok', aporta: 'mas', nocons: 'no' };
+
+  function bloqueComprobacion(n) {
+    const c = n.comp || [];
+    if (!c.length) return '';
+    const filas = c.map(x => {
+      let t = esc(x.txt);
+      if (x.ficha) {
+        const href = x.ficha.tipo === 'obra'
+          ? 'ficha.html?id=' + encodeURIComponent(x.ficha.id)
+          : 'listado.html?tipo=persona&v=' + encodeURIComponent(x.ficha.id);
+        t += ' <a href="' + href + '">' + esc(x.ficha.n) + ' \u203A</a>';
+      }
+      return '<li class="' + (CLASE[x.t] || 'no') + '"><span class="mk">' +
+             (MARCA[x.t] || '\u25CB') + '</span><span>' + t + '</span></li>';
+    }).join('');
+    return '<details class="comp">' +
+      '<summary>Comprobado con el archivo de INNAZ <span class="cn">' + c.length + '</span></summary>' +
+      '<ul>' + filas + '</ul>' +
+      '<p class="pie">\u2713 lo que consta en nuestras fuentes \u00b7 + lo que el archivo a\u00f1ade \u00b7 ' +
+      '\u25CB lo que queda fuera de nuestras fuentes y no se ha podido comprobar aqu\u00ed.</p>' +
+      '</details>';
+  }
+
   function pinta(lista) {
     $('lista').innerHTML = lista.map(n =>
       '<li class="noticia">' +
@@ -221,6 +268,7 @@
         '<h2>' + esc(n.titulo) + '</h2>' +
         '<p class="cuerpo">' + esc(n.texto) + '</p>' +
         bloqueZarzuteca(n) +
+        bloqueComprobacion(n) +
         '<p class="fuente">Fuente: ' + esc(n.medio) + ' · <a href="' + esc(n.url) + '" target="_blank" rel="noopener">leer la noticia original</a></p>' +
         ((n.etiquetas || []).length
           ? '<div class="etqs">' + n.etiquetas.map(e => '<button class="etq" data-etq="' + esc(e) + '" type="button">' + esc(e) + '</button>').join('') + '</div>'
