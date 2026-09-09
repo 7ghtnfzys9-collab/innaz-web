@@ -71,6 +71,10 @@
     .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
     h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
     .sub{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;max-width:58rem;line-height:1.45;}
+    /* 9-9-2026: la cabecera de la ficha de autor va en dos líneas — nacimiento y
+       muerte en cursiva, como el resto de subtítulos, y debajo las profesiones en
+       redonda y en negro. */
+    .sub .oficios{display:block;font-style:normal;color:var(--text);margin-top:.15rem;}
     .btn-nueva{display:flex;width:fit-content;margin-left:auto;align-items:center;gap:.4rem;margin-top:1.4rem;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1.5px solid var(--teal-dark);padding:.5rem 1rem;border-radius:22px;transition:all .15s;}
     .btn-nueva:hover{background:var(--teal-dark);color:#fff;}
     main{padding:2.6rem 3.5rem 5rem;}
@@ -218,16 +222,18 @@
   // fecha de nacimiento y de muerte, y las profesiones—, en lugar del rol; y
   // esa frase se quita del cuerpo del texto para no repetirla. La cabecera se
   // reconoce por el paréntesis inicial seguido de UNA sola frase, que es como
-  // se redactan todas. Si una biografía no siguiera ese patrón, no se recorta
+  // se redactan todas, y se sirve en DOS LÍNEAS: el nacimiento y la muerte en
+  // cursiva, y debajo las profesiones en redonda y en negro. Si una biografía
+  // no siguiera ese patrón, no se recorta
   // nada: se deja el rol debajo del nombre y el texto entero como está.
-  const RX_CAB=/^(\([^()]*(?:\([^()]*\)[^()]*)*\)\.\s+[^.]+\.)\s*/;
+  const RX_CAB=/^(\([^()]*(?:\([^()]*\)[^()]*)*\)\.)\s+([^.]+\.)\s*/;
   function cabeceraBio(bio){
     const t=(bio||'').trim();
     const m=t.match(RX_CAB);
-    if(!m) return {cabecera:'',resto:t};
+    if(!m) return {fechas:'',oficios:'',resto:t};
     const resto=t.slice(m[0].length).trim();
-    if(!resto) return {cabecera:'',resto:t};
-    return {cabecera:m[1],resto:resto};
+    if(!resto) return {fechas:'',oficios:'',resto:t};
+    return {fechas:m[1],oficios:m[2],resto:resto};
   }
   const OB=(typeof OBRAS!=='undefined')?OBRAS:[];
   const PE=(typeof PERSONAS!=='undefined')?PERSONAS:[];
@@ -357,7 +363,8 @@
       document.title=p.n+' — Zarzuteca INNAZ';
       $('lLabel').textContent='Zarzuteca INNAZ · '+(ROL[p.rol]||'Autor');
       $('lTitulo').textContent=p.n;
-      $('lSub').textContent=cab.cabecera||ROL[p.rol]||'';
+      if(cab.fechas) $('lSub').innerHTML=esc(cab.fechas)+'<span class="oficios">'+esc(cab.oficios)+'</span>';
+      else $('lSub').textContent=ROL[p.rol]||'';
       const byId=id=>OB.find(o=>o.id===id);
       const comoC=(p.obrasC||[]).map(byId).filter(Boolean).sort(cmpCron);
       const comoL=(p.obrasL||[]).map(byId).filter(Boolean).sort(cmpCron);
