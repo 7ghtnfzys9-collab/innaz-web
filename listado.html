@@ -70,7 +70,7 @@
     .inner{max-width:900px;margin:0 auto;}
     .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
     h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
-    .sub{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;}
+    .sub{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;max-width:58rem;line-height:1.45;}
     .btn-nueva{display:flex;width:fit-content;margin-left:auto;align-items:center;gap:.4rem;margin-top:1.4rem;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1.5px solid var(--teal-dark);padding:.5rem 1rem;border-radius:22px;transition:all .15s;}
     .btn-nueva:hover{background:var(--teal-dark);color:#fff;}
     main{padding:2.6rem 3.5rem 5rem;}
@@ -173,7 +173,7 @@
     <p class="label" id="lLabel">Zarzuteca INNAZ</p>
     <h1 id="lTitulo">…</h1>
     <p class="sub" id="lSub"></p>
-    <a href="buscador.html" class="btn-nueva">← Nueva búsqueda en el catálogo</a>
+    <a href="buscador.html" class="btn-nueva" id="lNueva">← Nueva búsqueda</a>
   </div>
 </header>
 <main><div class="inner" id="lBody"></div></main>
@@ -201,6 +201,34 @@
   const qs=new URLSearchParams(location.search);
   const tipo=(qs.get('tipo')||'').toLowerCase();
   const v=qs.get('v')||'';
+
+  // ── «NUEVA BÚSQUEDA» (9-9-2026, petición de César) ──────────────────────
+  // El botón ya no lleva siempre al buscador de obras: vuelve al buscador del
+  // eje por el que se está navegando —autores, teatros o años—. Y se anota el
+  // destino en sessionStorage para que la ficha de obra a la que se salte
+  // desde este listado vuelva también a ese mismo buscador.
+  const BUSCADOR={persona:'autores.html',teatro:'teatros.html',
+                  anio:'anios.html',decada:'anios.html'};
+  const destinoBusq=BUSCADOR[tipo]||'buscador.html';
+  (function(){ const b=$('lNueva'); if(b) b.setAttribute('href',destinoBusq); })();
+  try{ sessionStorage.setItem('zzBuscador',destinoBusq); }catch(err){}
+
+  // ── CABECERA DE LA BIOGRAFÍA (9-9-2026, petición de César) ──────────────
+  // Bajo el nombre del autor va la primera frase de su biografía —lugar y
+  // fecha de nacimiento y de muerte, y las profesiones—, en lugar del rol; y
+  // esa frase se quita del cuerpo del texto para no repetirla. La cabecera se
+  // reconoce por el paréntesis inicial seguido de UNA sola frase, que es como
+  // se redactan todas. Si una biografía no siguiera ese patrón, no se recorta
+  // nada: se deja el rol debajo del nombre y el texto entero como está.
+  const RX_CAB=/^(\([^()]*(?:\([^()]*\)[^()]*)*\)\.\s+[^.]+\.)\s*/;
+  function cabeceraBio(bio){
+    const t=(bio||'').trim();
+    const m=t.match(RX_CAB);
+    if(!m) return {cabecera:'',resto:t};
+    const resto=t.slice(m[0].length).trim();
+    if(!resto) return {cabecera:'',resto:t};
+    return {cabecera:m[1],resto:resto};
+  }
   const OB=(typeof OBRAS!=='undefined')?OBRAS:[];
   const PE=(typeof PERSONAS!=='undefined')?PERSONAS:[];
 
@@ -325,16 +353,17 @@
     const p=PE.find(x=>x.id===v);
     if(!p){ noEncontrado('No se ha encontrado este autor.'); }
     else{
+      const cab=cabeceraBio(p.bio);
       document.title=p.n+' — Zarzuteca INNAZ';
       $('lLabel').textContent='Zarzuteca INNAZ · '+(ROL[p.rol]||'Autor');
       $('lTitulo').textContent=p.n;
-      $('lSub').textContent=ROL[p.rol]||'';
+      $('lSub').textContent=cab.cabecera||ROL[p.rol]||'';
       const byId=id=>OB.find(o=>o.id===id);
       const comoC=(p.obrasC||[]).map(byId).filter(Boolean).sort(cmpCron);
       const comoL=(p.obrasL||[]).map(byId).filter(Boolean).sort(cmpCron);
       let html='<div class="bloque persona-bio"><h2>Biografía</h2>'+
         (p.foto ? `<img class="foto-persona" src="personas/${esc(p.foto)}" alt="${esc(p.n)}" loading="lazy">` : '')+
-        (p.bio ? esc(p.bio).split(/\n{2,}/).map(x=>`<p class="bio">${x.replace(/\n/g,' ').trim()}</p>`).join('')
+        (p.bio ? esc(cab.resto).split(/\n{2,}/).map(x=>`<p class="bio">${x.replace(/\n/g,' ').trim()}</p>`).join('')
                : '<p class="pend">Biografía pendiente de redactar. Se añade en la pestaña <strong>Personas</strong> del Excel de la Zarzuteca.</p>')+
         '</div>';
       if(comoC.length) html+=bloqueLista('Obras como compositor, por año de estreno', comoC, '');

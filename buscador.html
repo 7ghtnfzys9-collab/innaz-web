@@ -488,5 +488,11 @@
   });
 })();
 </script>
+<script>
+/* 9-9-2026 (petición de César). Se anota cuál es el buscador por el que se
+   está navegando, para que el botón «Nueva búsqueda» de las fichas vuelva a
+   ÉL y no siempre al de obras. Lo leen ficha.html y listado.html. */
+try{ sessionStorage.setItem('zzBuscador','buscador.html'); }catch(e){}
+</script>
 </body>
 </html>

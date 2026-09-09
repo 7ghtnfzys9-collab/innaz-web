@@ -194,7 +194,17 @@
   // Botón «Nueva búsqueda»: antes vivía suelto en el HTML, fuera de los
   // chips. Ahora se genera siempre por JS, en la última fila de chips, junto
   // al enlace de materiales cuando lo hay (31/07/2026, petición de César).
-  const NUEVA_BUSQUEDA='<a href="buscador.html" class="btn-nueva">← Nueva búsqueda en el catálogo</a>';
+  // 9-9-2026 (petición de César): el rótulo pasa a ser solo «Nueva búsqueda» y
+  // el destino es el buscador por el que se llegó hasta aquí —obras, autores,
+  // teatros o años—, que los índices y los listados dejan anotado en
+  // sessionStorage. Si no hay nada anotado (enlace directo, QR, marcador), se
+  // vuelve al buscador de obras, que es el de la propia ficha de obra.
+  let destinoBusq='buscador.html';
+  try{
+    const d=sessionStorage.getItem('zzBuscador');
+    if(['buscador.html','autores.html','teatros.html','anios.html'].includes(d)) destinoBusq=d;
+  }catch(e){}
+  const NUEVA_BUSQUEDA='<a href="'+destinoBusq+'" class="btn-nueva">← Nueva búsqueda</a>';
   if(!o){
     $('fTitulo').textContent='Obra no encontrada';
     $('fBody').innerHTML='<p class="vacio-ficha">No se ha encontrado esta obra. Vuelve al <a href="buscador.html">buscador</a>.</p>';
