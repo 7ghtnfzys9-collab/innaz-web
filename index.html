@@ -365,7 +365,7 @@
     @media (max-width: 960px) { .zarz-panel { padding: 2.2rem 1.6rem; } }
 
     /* ─── NOTICIAS / FEED ─── */
-    /* Bloque de noticias propias (7-9-2026). Las cuatro ultimas entradas de
+    /* Bloque de noticias propias (7-9-2026). Las tres ultimas entradas de
        noticias-data.js, encima del feed social, con enlace al archivo
        completo. Los datos y el archivo: noticias.html. */
     .nt-lista{list-style:none;margin-top:3rem;}
@@ -814,7 +814,7 @@
     </div>
 
     <!-- ── Noticias propias (7-9-2026) ────────────────────────────────
-         Las cuatro ultimas de noticias-data.js. La lista completa, con
+         Las tres ultimas de noticias-data.js. La lista completa, con
          buscador y filtros, esta en noticias.html. De cada noticia se
          publica titulo y texto propios, con enlace al medio: nunca el
          titular ajeno ni sus fotografias.
@@ -822,7 +822,7 @@
          ⚠ SIN class="reveal", A PROPOSITO (7-9-2026). El observer de la
          portada revela con threshold 0.08: un elemento MAS ALTO QUE LA
          PANTALLA no llega nunca a ese 8 % de superficie visible y se queda
-         con opacity 0 para siempre. Con cuatro noticias enteras, esta lista
+         con opacity 0 para siempre. Con tres noticias enteras, esta lista
          mide varios miles de pixeles. Los datos estaban, el DOM estaba
          pintado y no se veia nada. No volver a ponerle la clase. -->
     <ul class="nt-lista" id="ntUltimas"></ul>
@@ -1156,7 +1156,7 @@
       .concat((n.personas||[]).map(function(p){return '<a href="listado.html?tipo=persona&v='+encodeURIComponent(p.id)+'">'+esc(p.n)+'</a>';}));
     return e.length ? '<div class="nt-zarz"><span class="zt">En la Zarzuteca</span>'+e.join(' · ')+'</div>' : '';
   }
-  cont.innerHTML = NOTICIAS.slice(0, 4).map(function (n) {
+  cont.innerHTML = NOTICIAS.slice(0, 3).map(function (n) {
     return '<li class="nt">' +
       '<div class="nt-meta"><span>'+esc(n.medio)+'</span><span class="pt">·</span><span>'+esc(fecha(n.fecha))+'</span></div>' +
       '<h3>'+esc(n.titulo)+'</h3>' +
