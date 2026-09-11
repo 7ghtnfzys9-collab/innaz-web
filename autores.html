@@ -60,13 +60,14 @@
     /* ── «Limpiar filtros» (11-9-2026, petición de César) ──────────────────
        Mismo botón que el del Catálogo: se enciende solo cuando hay algún
        filtro puesto, y devuelve la página a su estado inicial. */
-    .limpiar{display:inline-flex;align-items:center;justify-content:center;margin-left:auto;
+    .barra-limpiar{flex:1 0 100%;display:flex;justify-content:flex-end;}
+    .limpiar{display:inline-flex;align-items:center;justify-content:center;
       flex:0 0 auto;min-height:2.45rem;font-size:.75rem;padding:0 1.1rem;border:1.5px solid var(--border);
       background:var(--white);color:var(--muted);cursor:pointer;border-radius:20px;
       font-family:inherit;transition:border-color .15s,color .15s,background .15s;}
     .limpiar:hover:not(:disabled){border-color:var(--teal);color:var(--teal-dark);background:var(--teal-light);}
     .limpiar:disabled{opacity:.4;cursor:default;}
-    @media(max-width:860px){.limpiar{margin-left:0;width:100%;}}
+    @media(max-width:860px){.barra-limpiar{justify-content:stretch;}.limpiar{width:100%;}}
     .vacio{padding:2rem 0;color:var(--muted);font-style:italic;}
     footer{background:#080808;padding:2.4rem 3.5rem;}
     .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
@@ -153,7 +154,12 @@
         <option value="no">Pendiente</option>
       </select>
     </div>
-    <button class="limpiar" id="btnLimpiar" type="button" disabled>Limpiar filtros</button>
+    <!-- En su propia fila, siempre debajo de los filtros y a la derecha, como en el
+         Catálogo (petición de César, 11-9-2026). Sin el envoltorio, en las páginas
+         con pocos filtros el botón se colaba en la misma línea. -->
+    <div class="barra-limpiar">
+      <button class="limpiar" id="btnLimpiar" type="button" disabled>Limpiar filtros</button>
+    </div>
   </div>
 
   <p class="cuenta"><b id="cuenta">0</b> <span id="cuentaTxt">autores</span></p>
