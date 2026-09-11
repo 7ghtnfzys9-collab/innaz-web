@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=2af69973"></script>
+  <script src="zarzuteca-data.js?v=0e39c187"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -126,12 +126,12 @@
       <input id="q" type="search" placeholder="Título de la obra…" autocomplete="off">
     </div>
     <div>
-      <label for="f-actos">Actos</label>
-      <select id="f-actos"><option value="">Todos</option></select>
+      <label for="f-gc">Género</label>
+      <select id="f-gc"><option value="">Todos</option></select>
     </div>
     <div>
-      <label for="f-tipo">Género</label>
-      <select id="f-tipo"><option value="">Todos</option></select>
+      <label for="f-actos">Actos</label>
+      <select id="f-actos"><option value="">Todos</option></select>
     </div>
     <div>
       <label for="f-mat">Material</label>
@@ -178,21 +178,23 @@
     busca:norm(o.t)
   })).sort((a,b)=>norm(a.t).localeCompare(norm(b.t),'es'));
 
-  // ── LOS DOS FILTROS DE GÉNERO (11-9-2026, decisión de César) ──────────────
+  // ── LOS FILTROS DE GÉNERO (11-9-2026, decisión de César) ──────────────────
   // El género se escribe en la ficha tal como viene del impreso, y eso daba 201
-  // valores distintos en un solo desplegable. Se parte en los dos ejes con que
-  // se habla del repertorio: el NÚMERO DE ACTOS (que es lo que separa el género
-  // grande del chico) y el TÉRMINO con que la obra se anuncia.
+  // valores distintos en un solo desplegable. Se filtra por lo que de verdad
+  // divide el repertorio: GÉNERO GRANDE o CHICO, y el NÚMERO DE ACTOS.
   //
-  // Ninguno de los dos se inventa: los dos se leen del propio texto del género.
-  //   · Actos — «en un/dos/tres/cuatro… actos», «acto único», y las dos formas
-  //     equivalentes que aparecen en el catálogo: «actes» (una obra en catalán)
-  //     y «jornadas». Las obras cuyo género no dice cuántos actos tiene —las que
-  //     solo hablan de cuadros, o no dicen nada— quedan en «Sin especificar»: no
-  //     se les supone un acto.
-  //   · Género — la primera palabra del texto, que es el sustantivo con que se
-  //     anuncia la obra («Zarzuela cómica en un acto» → Zarzuela). Solo se
-  //     unifican variantes ortográficas y de caja, declaradas una a una abajo.
+  // El número de actos se lee del propio texto del género —«en un/dos/tres…
+  // actos», «acto único», y las dos formas equivalentes que aparecen en el
+  // catálogo: «actes» (una obra en catalán) y «jornadas»—. Las obras cuyo
+  // género no dice cuántos actos tiene —las que solo hablan de cuadros, o no
+  // dicen nada— quedan en «Sin especificar»: no se les supone un acto.
+  //
+  // ⚠ CRITERIO, no dato: género chico = un acto; género grande = dos o más.
+  // Es la división operativa por extensión, la que se puede sostener con lo
+  // que dice cada ficha. El género chico histórico es además un fenómeno de
+  // fechas (el teatro por horas, de 1868 a 1910 largo): una obra en un acto de
+  // 1750 aparecerá aquí como «chico» por su extensión, no por su escuela. Si
+  // se quiere afinar por fecha, se hace aquí.
   const NUM={'un':1,'uno':1,'dos':2,'tres':3,'cuatro':4,'cinco':5,'seis':6,'siete':7};
   function actosDe(g){
     const t=norm(g);
@@ -201,21 +203,18 @@
     if(/acto unico/.test(t)) return 1;
     return 0;                       // 0 = el género no lo dice
   }
-  // Variantes ortográficas y de caja. A la izquierda, la primera palabra tal
-  // como está escrita en la ficha; a la derecha, el término con que se agrupa.
-  const TERMINO={'juguete':'Juguete','revista':'Revista','cuadro':'Cuadro',
-                 'tertulia':'Tertulia','bufonada':'Bufonada','sainete':'Sainete',
-                 'entremes':'Entremés','zarzuela-disparate':'Zarzuela',
-                 'casi':'Sainete'};     // «Casi saínete, en un acto»
-  function terminoDe(g){
-    const w=String(g||'').trim().split(/[ ,]/)[0];
-    if(!w) return '';
-    const k=norm(w);
-    if(TERMINO[k]) return TERMINO[k];
-    if(k==='en') return '';           // «En un acto, dividido en tres cuadros…»
-    return w.charAt(0).toUpperCase()+w.slice(1);
-  }
-  O.forEach(o=>{ o.actos=actosDe(o.gen); o.term=terminoDe(o.gen); });
+  O.forEach(o=>{
+    o.actos=actosDe(o.gen);
+    o.gc = o.actos===0 ? '' : (o.actos===1 ? 'chico' : 'grande');
+  });
+
+  const nChico=O.filter(o=>o.gc==='chico').length;
+  const nGrande=O.filter(o=>o.gc==='grande').length;
+  const nSin=O.filter(o=>!o.gc).length;
+  $('f-gc').innerHTML='<option value="">Todos</option>'+
+    '<option value="grande">Género grande ('+nGrande+')</option>'+
+    '<option value="chico">Género chico ('+nChico+')</option>'+
+    (nSin?'<option value="sin">Sin especificar ('+nSin+')</option>':'');
 
   const ROTA={1:'Un acto',2:'Dos actos',3:'Tres actos',4:'Cuatro actos',
               5:'Cinco actos',6:'Seis actos',7:'Siete actos'};
@@ -227,21 +226,13 @@
       return '<option value="'+n+'">'+esc(rot)+' ('+cuantas+')</option>';
     }).join('');
 
-  const terminos=[...new Set(O.map(o=>o.term).filter(Boolean))]
-    .sort((a,b)=>norm(a).localeCompare(norm(b),'es'));
-  $('f-tipo').innerHTML='<option value="">Todos</option>'+
-    terminos.map(t=>{
-      const cuantas=O.filter(o=>o.term===t).length;
-      return '<option value="'+esc(t)+'">'+esc(t)+' ('+cuantas+')</option>';
-    }).join('');
-
   const conMat=O.filter(o=>o.mats.length).length;
   $('sub').textContent=O.length+' obras con ficha publicada en la Zarzuteca';
   $('aviso').textContent='Este índice recoge las obras que ya tienen ficha publicada, ordenadas por título. '+
     'El catálogo se está completando, así que hay obras registradas cuya ficha aún se está preparando: '+
     'para buscar por compositor, libretista, década o teatro, usa el Catálogo. '+
-    'El género se filtra por sus dos ejes: el número de actos —lo que separa el género grande '+
-    'del chico— y el término con que la obra se anuncia. '+conMat+' de las '+O.length+' fichas enlazan ya algún material digitalizado.';
+    'El género se filtra por extensión: género chico el de un acto, género grande el de dos o más, '+
+    'según lo que dice el género de cada ficha. '+conMat+' de las '+O.length+' fichas enlazan ya algún material digitalizado.';
 
   function inicial(o){
     const c=deacc(o.t).trim().charAt(0).toUpperCase();
@@ -249,12 +240,12 @@
   }
 
   function pinta(){
-    const q=norm($('q').value), act=$('f-actos').value,
-          tip=$('f-tipo').value, mat=$('f-mat').value;
+    const q=norm($('q').value), gc=$('f-gc').value,
+          act=$('f-actos').value, mat=$('f-mat').value;
     const lista=O.filter(o=>{
       if(q && o.busca.indexOf(q)<0) return false;
+      if(gc==='sin' ? !!o.gc : (gc && o.gc!==gc)) return false;
       if(act!=='' && o.actos!==Number(act)) return false;
-      if(tip && o.term!==tip) return false;
       if(mat && !o.mats.some(m=>m[0]===mat)) return false;
       return true;
     });
@@ -280,7 +271,7 @@
       return '<div class="grupo"><h2>'+esc(k)+'</h2><ul class="idx">'+filas+'</ul></div>';
     }).join('');
   }
-  ['q','f-actos','f-tipo','f-mat'].forEach(id=>{
+  ['q','f-gc','f-actos','f-mat'].forEach(id=>{
     $(id).addEventListener('input',pinta);
     $(id).addEventListener('change',pinta);
   });
