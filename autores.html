@@ -57,6 +57,16 @@
     .meta{font-size:.76rem;color:var(--muted);}
     .tag{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--teal);color:var(--teal-dark);border-radius:20px;padding:.15rem .55rem;}
     .tag.off{border-color:var(--border);color:#aaa;}
+    /* ── «Limpiar filtros» (11-9-2026, petición de César) ──────────────────
+       Mismo botón que el del Catálogo: se enciende solo cuando hay algún
+       filtro puesto, y devuelve la página a su estado inicial. */
+    .limpiar{display:inline-flex;align-items:center;justify-content:center;margin-left:auto;
+      flex:0 0 auto;min-height:2.45rem;font-size:.75rem;padding:0 1.1rem;border:1.5px solid var(--border);
+      background:var(--white);color:var(--muted);cursor:pointer;border-radius:20px;
+      font-family:inherit;transition:border-color .15s,color .15s,background .15s;}
+    .limpiar:hover:not(:disabled){border-color:var(--teal);color:var(--teal-dark);background:var(--teal-light);}
+    .limpiar:disabled{opacity:.4;cursor:default;}
+    @media(max-width:860px){.limpiar{margin-left:0;width:100%;}}
     .vacio{padding:2rem 0;color:var(--muted);font-style:italic;}
     footer{background:#080808;padding:2.4rem 3.5rem;}
     .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
@@ -143,6 +153,7 @@
         <option value="no">Pendiente</option>
       </select>
     </div>
+    <button class="limpiar" id="btnLimpiar" type="button" disabled>Limpiar filtros</button>
   </div>
 
   <p class="cuenta"><b id="cuenta">0</b> <span id="cuentaTxt">autores</span></p>
@@ -216,11 +227,20 @@
       return '<div class="grupo"><h2>'+esc(k)+'</h2><ul class="idx">'+filas+'</ul></div>';
     }).join('');
   }
-  ['q','f-rol','f-bio'].forEach(id=>{
-    $(id).addEventListener('input',pinta);
-    $(id).addEventListener('change',pinta);
+    // ── «Limpiar filtros» ──────────────────────────────────────────────────
+  const CONTROLES=['q','f-rol','f-bio'];
+  function sincLimpiar(){
+    $('btnLimpiar').disabled=!CONTROLES.some(id=>$(id).value!=='');
+  }
+  $('btnLimpiar').addEventListener('click',function(){
+    CONTROLES.forEach(id=>{ $(id).value=''; });
+    pinta(); sincLimpiar(); $('q').focus();
   });
-  pinta();
+  CONTROLES.forEach(id=>{
+    $(id).addEventListener('input',function(){ pinta(); sincLimpiar(); });
+    $(id).addEventListener('change',function(){ pinta(); sincLimpiar(); });
+  });
+  pinta(); sincLimpiar();
 </script>
 
 <script>
