@@ -21,12 +21,11 @@
     .inner{max-width:900px;margin:0 auto;}
     .fh .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
     h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
-    /* Rótulo de portada (col14) bajo el título — REACTIVADO el 12-9-2026 a
-       petición de César. Misma familia y mismo color que el rótulo de rol de
-       los chips de autor (.chip .k): DM Sans y var(--muted). Se deja en .8rem
-       y SIN convertir a mayúsculas porque col14 es CITA LITERAL de la portada
-       del impreso y llega a 104 caracteres. */
-    .genero{font-family:'DM Sans',sans-serif;font-size:.8rem;line-height:1.5;color:var(--muted);margin-top:.55rem;max-width:64ch;}
+    /* Rótulo de portada (género / forma, col14) bajo el título — REACTIVADO el
+       12-9-2026 a petición de César. Calca la regla .sub de listado.html, que
+       es la que pinta el rol bajo el nombre en la ficha de autor: Cormorant
+       en cursiva, 1.15rem, var(--muted). Si allí se cambia, cámbiese aquí. */
+    .genero{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;max-width:58rem;line-height:1.45;}
     .chips{display:flex;flex-direction:column;gap:.55rem;margin-top:1.4rem;}
     .chips-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
     .lnk-mat{display:inline-flex;align-items:center;gap:.35rem;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1px solid var(--teal-dark);padding:.4rem .85rem;border-radius:20px;transition:all .15s;}
