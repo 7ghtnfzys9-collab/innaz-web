@@ -21,7 +21,12 @@
     .inner{max-width:900px;margin:0 auto;}
     .fh .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
     h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
-    .genero{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;}
+    /* Rótulo de portada (col14) bajo el título — REACTIVADO el 12-9-2026 a
+       petición de César. Misma familia y mismo color que el rótulo de rol de
+       los chips de autor (.chip .k): DM Sans y var(--muted). Se deja en .8rem
+       y SIN convertir a mayúsculas porque col14 es CITA LITERAL de la portada
+       del impreso y llega a 104 caracteres. */
+    .genero{font-family:'DM Sans',sans-serif;font-size:.8rem;line-height:1.5;color:var(--muted);margin-top:.55rem;max-width:64ch;}
     .chips{display:flex;flex-direction:column;gap:.55rem;margin-top:1.4rem;}
     .chips-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
     .lnk-mat{display:inline-flex;align-items:center;gap:.35rem;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1px solid var(--teal-dark);padding:.4rem .85rem;border-radius:20px;transition:all .15s;}
@@ -155,11 +160,12 @@
   <div class="inner">
     <p class="label">Zarzuteca INNAZ · Ficha de obra</p>
     <h1 id="fTitulo">…</h1>
-    <!-- Género / forma bajo el título: DESACTIVADO el 30 de julio de 2026 por
-         decisión de César. El dato NO se ha borrado: sigue en col14 del Excel y
-         el generador sigue emitiéndolo como o.gen. Para volver a mostrarlo,
-         descomentar esta línea y el bloque marcado «género» del script. -->
-    <!-- <p class="genero" id="fGenero" style="display:none;"></p> -->
+    <!-- Rótulo de portada (género / forma, col14) bajo el título. Desactivado
+         el 30 de julio de 2026 y REACTIVADO el 12 de septiembre de 2026, las
+         dos veces por decisión de César. El dato sale de col14 del Excel y el
+         generador lo emite como o.gen. Ver también el bloque «género» del
+         script y la regla .genero de la hoja de estilo. -->
+    <p class="genero" id="fGenero" style="display:none;"></p>
     <div class="chips" id="fChips"></div>
     <div class="fh-nav" id="fhNav" style="display:none">
       <a href="#" id="fhPrev" class="fh-arrow" aria-label="Ficha anterior">‹</a>
@@ -212,10 +218,13 @@
   } else {
     document.title=o.t+' — Zarzuteca INNAZ';
     $('fTitulo').textContent=o.t;
-    // género/forma (subtítulo) — DESACTIVADO 30/07/2026, ver comentario en el
-    // <header>. El dato sigue en col14 y en o.gen; solo no se pinta.
-    // const genClean = (o.gen||'').replace(/\s*\/\/\s*/g,' · ').replace(/(\s·\s)+$/,'').replace(/\s+/g,' ').trim();
-    // if(genClean){ $('fGenero').textContent=genClean; $('fGenero').style.display=''; }
+    // Rótulo de portada (género / forma, col14) — REACTIVADO 12/09/2026, ver
+    // comentario en el <header>. Se pinta tal cual lo dice la portada; lo
+    // único que se toca es la presentación: «//» pasa a « · », se colapsan
+    // espacios y se quita el separador si quedase colgando al final. Si col14
+    // está vacía no se pinta nada y el párrafo sigue oculto.
+    const genClean = (o.gen||'').replace(/\s*\/\/\s*/g,' · ').replace(/(\s·\s)+$/,'').replace(/\s+/g,' ').trim();
+    if(genClean){ $('fGenero').textContent=genClean; $('fGenero').style.display=''; }
 
     // chips apilados: Compositor(es), Libretista(s), Estreno.
     // Compositor, libretista, teatro y año llevan enlace a listado.html. El
