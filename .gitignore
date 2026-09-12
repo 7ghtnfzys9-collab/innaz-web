@@ -5,6 +5,7 @@
 # Cloudflare Pages.
 _verificar_plantillas.js
 _verificar_ejes.mjs
+_verificar_filtro_actos.mjs
 
 # Sobrantes a la espera de que César los revise y los borre.
 _to_delete/
