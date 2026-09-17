@@ -49,8 +49,10 @@
        todo el ancho con una línea de separación y el grupo pegado a la
        derecha, igual que arriba (31/07/2026, petición de César). */
     .fh-nav-fin{width:100%;justify-content:flex-end;margin-top:0;padding-top:1.5rem;border-top:1px solid var(--border);}
-    .chip{font-size:.76rem;padding:.4rem .8rem;border-radius:20px;border:1.5px solid var(--border);color:var(--text);background:var(--white);display:inline-block;}
-    .chip .k{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:.35rem;}
+    /* 17/09/2026 (petición de César): compositores, libretistas y estreno,
+       más grandes (antes .76rem y rótulo .6rem). */
+    .chip{font-size:.95rem;padding:.45rem .95rem;border-radius:20px;border:1.5px solid var(--border);color:var(--text);background:var(--white);display:inline-block;}
+    .chip .k{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:.35rem;}
     .chip a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);transition:color .15s,border-color .15s;}
     .chip a:hover{color:var(--black);border-bottom-color:var(--black);}
     main{padding:2.6rem 3.5rem 6rem;}
@@ -103,9 +105,9 @@
     .acto-tit{font-family:'Cormorant SC',serif;font-weight:700;text-transform:uppercase;font-size:.82rem;letter-spacing:.05em;color:var(--black);margin-bottom:.35rem;}
     footer{background:#080808;padding:2.4rem 3.5rem;margin-top:2rem;}
     .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
-    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.6);}
+    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.88);}
     .footer-logo span{color:var(--teal);}
-    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.2);max-width:520px;line-height:1.6;}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.6);max-width:520px;line-height:1.6;}
     @media(max-width:860px){nav,header.fh,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.fh{padding-top:7rem;}}
   
     .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
@@ -186,7 +188,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">INNA<span>Z</span></div>
-    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela. Datos: libretos facsímiles digitalizados en Internet Archive, Diccionario de la Zarzuela (ICCMU), Archivo de la SGAE y Biblioteca Digital Hispánica (BNE). Los datos y textos digitalizados procedentes de la BNE se reutilizan bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener" style="color:rgba(255,255,255,.45);text-decoration:underline">CC BY 4.0</a>. Enlaces de BNE, Fundación Juan March, Teatroteca (INAEM), Archive.org y otros; pertenecen a sus titulares.</p>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela. Datos: libretos facsímiles digitalizados en Internet Archive, Diccionario de la Zarzuela (ICCMU), Archivo de la SGAE y Biblioteca Digital Hispánica (BNE). Los datos y textos digitalizados procedentes de la BNE se reutilizan bajo licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener" style="color:rgba(255,255,255,.8);text-decoration:underline">CC BY 4.0</a>. Enlaces de BNE, Fundación Juan March, Teatroteca (INAEM), Archive.org y otros; pertenecen a sus titulares.</p>
   </div>
 </footer>
 <script>
