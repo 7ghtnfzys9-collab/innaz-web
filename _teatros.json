@@ -24,7 +24,7 @@
   "Teatro Apolo, Valencia": "teatro-apolo-valencia",
   "Teatro Arbeu de México": "teatro-arbeu-ciudad-de-mexico",
   "Teatro Auditorium de La Habana": "teatro-auditorium-la-habana",
-  "Buen Retiro, Madrid": "teatro-buen-retiro-madrid",
+  "Buen Retiro, Madrid": "teatro-jardines-del-buen-retiro-madrid",
   "Teatro Calderón de Madrid": "teatro-calderon-madrid",
   "Teatro Calderón, Madrid": "teatro-calderon-madrid",
   "Teatro Centro de Madrid": "teatro-centro-madrid",
@@ -239,11 +239,6 @@
    "c": "Buenos Aires"
   },
   {
-   "k": "teatro-buen-retiro-madrid",
-   "n": "Teatro Buen Retiro",
-   "c": "Madrid"
-  },
-  {
    "k": "teatro-calderon-madrid",
    "n": "Teatro Calderón",
    "c": "Madrid"
@@ -390,7 +385,7 @@
   },
   {
    "k": "teatro-jardines-del-buen-retiro-madrid",
-   "n": "Teatro Jardines del Buen Retiro",
+   "n": "Teatro de los Jardines del Buen Retiro",
    "c": "Madrid"
   },
   {
