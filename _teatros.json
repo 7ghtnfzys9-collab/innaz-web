@@ -150,7 +150,12 @@
   "Teatro del Tívoli de Madrid": "teatro-tivoli-madrid",
   "Teatro Álvarez Quintero": "teatro-alvarez-quintero-madrid",
   "Teatro Moderno": "teatro-moderno-madrid",
-  "Teatro Avenida de Buenos Aires": "teatro-avenida-buenos-aires"
+  "Teatro Avenida de Buenos Aires": "teatro-avenida-buenos-aires",
+  "Teatro Real de Madrid": "teatro-real-madrid",
+  "Teatro de la Bolsa de Madrid": "teatro-de-la-bolsa-madrid",
+  "Teatro de Capellanes de Madrid": "teatro-de-capellanes-madrid",
+  "Teatro Arriaga de Bilbao": "teatro-arriaga-bilbao",
+  "Teatro de Mayo de Buenos Aires": "teatro-de-mayo-buenos-aires"
  },
  "teatros": [
   {
@@ -602,6 +607,31 @@
    "k": "teatro-zorrilla-madrid",
    "n": "Teatro Zorrilla",
    "c": "Madrid"
+  },
+  {
+   "k": "teatro-real-madrid",
+   "n": "Teatro Real",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-de-la-bolsa-madrid",
+   "n": "Teatro de la Bolsa",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-de-capellanes-madrid",
+   "n": "Teatro de Capellanes",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-arriaga-bilbao",
+   "n": "Teatro Arriaga",
+   "c": "Bilbao"
+  },
+  {
+   "k": "teatro-de-mayo-buenos-aires",
+   "n": "Teatro de Mayo",
+   "c": "Buenos Aires"
   }
  ]
 }
