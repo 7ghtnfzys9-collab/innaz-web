@@ -102,6 +102,9 @@
     /* Título de bloque con un botón en la misma línea, a la derecha (18-9-2026). */
     .bloque h2.con-accion{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap;}
     .bloque h2.con-accion .verdec{margin-top:0;margin-left:auto;flex-shrink:0;}
+    /* Los tres botones de la ficha con el mismo formato que «Nueva búsqueda»
+       (petición de César, 18-9-2026): letra normal aunque vaya dentro de un h2. */
+    .bloque .verdec,.bloque .mh-btn{font-family:inherit;font-weight:400;font-size:.74rem;letter-spacing:.08em;line-height:normal;padding:.5rem 1rem;border-radius:22px;}
     /* Momento histórico plegable (4-9-2026). Plegado deja asomar el arranque
        del texto bajo un degradado; el botón lo abre entero. La clase que
        pliega la pone el script al construir el bloque: sin JavaScript el
