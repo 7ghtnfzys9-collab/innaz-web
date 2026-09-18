@@ -99,6 +99,9 @@
     .ensayo h3{font-family:'Cormorant SC',serif;font-size:1.12rem;font-weight:700;color:var(--black);margin-bottom:.3rem;}
     .verdec{display:inline-block;margin-top:.9rem;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1.5px solid var(--teal-dark);padding:.45rem .95rem;border-radius:22px;}
     .verdec:hover{background:var(--teal-dark);color:#fff;}
+    /* Título de bloque con un botón en la misma línea, a la derecha (18-9-2026). */
+    .bloque h2.con-accion{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap;}
+    .bloque h2.con-accion .verdec{margin-top:0;margin-left:auto;flex-shrink:0;}
     /* Momento histórico plegable (4-9-2026). Plegado deja asomar el arranque
        del texto bajo un degradado; el botón lo abre entero. La clase que
        pliega la pone el script al construir el bloque: sin JavaScript el
@@ -277,11 +280,14 @@
       return `<li>${yr}<a href="ficha.html?id=${encodeURIComponent(o.id)}">${inner}</a></li>`;
     }).join('')+'</ul>';
   }
-  function bloqueLista(titulo, obras, vacio, conTeatro=true){
+  function bloqueLista(titulo, obras, vacio, conTeatro=true, accion=''){
     const cuerpo = obras.length
       ? `<p class="cobertura">${esc(AVISO_COBERTURA)}</p>`+listaObras(obras, conTeatro)
       : `<p class="pend">${esc(vacio)}</p>`;
-    return `<div class="bloque"><h2>${esc(titulo)}</h2>${cuerpo}</div>`;
+    const h2 = accion
+      ? `<h2 class="con-accion"><span>${esc(titulo)}</span>${accion}</h2>`
+      : `<h2>${esc(titulo)}</h2>`;
+    return `<div class="bloque">${h2}${cuerpo}</div>`;
   }
   function noEncontrado(msg){
     $('lTitulo').textContent='No encontrado';
@@ -321,9 +327,8 @@
   const PARTES_DEC=[['pol','La política'],['art','Las artes y la cultura'],['lir','El teatro lírico']];
 
   // El momento histórico va SIEMPRE antes de las obras y se puede plegar
-  // (decisión de César, 4-9-2026). En la ficha de año arranca plegado: lo que
-  // se ha ido a ver ahí son los estrenos, y el contexto es un añadido. En la
-  // de década arranca abierto, que es la página que existe para leerlo.
+  // (decisión de César, 4-9-2026). Arranca SIEMPRE plegado, en la ficha de año
+  // y en la de década (decisión de César, 18-9-2026); el botón lo despliega.
   let nMH=0;
   function bloqueMomento(x,op){
     const hay=decConTexto(x), id='mh'+(++nMH), plegar=hay&&op.plegado;
@@ -415,11 +420,13 @@
           ? '<p class="cobertura">Este análisis está escrito sobre el conjunto de la década de '+
             esc(rotuloDec(d))+', no sobre '+esc(v)+' en particular.</p>'
           : ''),
-        pie:'<a class="verdec" href="listado.html?tipo=decada&v='+d+'">Ver la década completa</a>',
         plegado:true, breve:true});
+      // «Ver la década completa» va en la línea del título de los estrenos,
+      // a la derecha (decisión de César, 18-9-2026).
+      const verDec='<a class="verdec" href="listado.html?tipo=decada&v='+d+'">Ver la década completa</a>';
       $('lBody').innerHTML=ctx+(obras.length
-        ? bloqueLista('Obras estrenadas en '+v, obras, '')
-        : '<div class="bloque"><h2>Estrenos</h2><p class="pend">No hay obras publicadas con estreno en '+
+        ? bloqueLista('Obras estrenadas en '+v, obras, '', true, verDec)
+        : '<div class="bloque"><h2 class="con-accion"><span>Estrenos</span>'+verDec+'</h2><p class="pend">No hay obras publicadas con estreno en '+
           esc(v)+'. '+esc(AVISO_COBERTURA)+'</p></div>');
     }
   } else if(tipo==='decada'){
@@ -436,7 +443,7 @@
         ? obras.length+(obras.length===1?' estreno publicado':' estrenos publicados')
         : 'Sin estrenos publicados';
       $('lBody').innerHTML=
-        bloqueMomento(xd,{titulo:'El momento histórico',plegado:false})+
+        bloqueMomento(xd,{titulo:'El momento histórico',plegado:true})+
         (obras.length
           ? bloqueLista('Estrenos de la década, por orden cronológico', obras, '')
           : '<div class="bloque"><h2>Estrenos</h2><p class="pend">No hay obras publicadas con estreno en '+

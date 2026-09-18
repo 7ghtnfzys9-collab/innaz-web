@@ -167,16 +167,14 @@
       if(!porAnio[a]) continue;
       chips.push('<a href="listado.html?tipo=anio&v='+a+'"><b>'+a+'</b><span>'+porAnio[a]+'</span></a>');
     }
-    const tieneTexto=!!(d.pol||d.art||d.lir);
-    const enlaceCtx=tieneTexto
-      ? '<a class="ctx" href="listado.html?tipo=decada&v='+d.d+'">Ver el análisis</a>'
-      : '<a class="ctx off" href="listado.html?tipo=decada&v='+d.d+'">Análisis pendiente</a>';
+    // Sin botón «Ver el análisis» (decisión de César, 18-9-2026): se entra en la
+    // década por su rótulo, y el análisis va dentro, plegado.
     return '<div class="dec">'+
       '<div class="dec-cab">'+
         '<div><a class="rot" href="listado.html?tipo=decada&v='+d.d+'">'+esc(d.rot||(d.d+'-'+(d.d+9)))+'</a>'+
         '<div class="barra" style="width:'+Math.round(100*n/maxDec)+'%"></div></div>'+
         '<div style="display:flex;align-items:center;gap:.7rem;">'+
-          '<span class="n">'+n+(n===1?' estreno':' estrenos')+'</span>'+enlaceCtx+
+          '<span class="n">'+n+(n===1?' estreno':' estrenos')+'</span>'+
         '</div>'+
       '</div>'+
       (chips.length?'<div class="anios">'+chips.join('')+'</div>':'')+
