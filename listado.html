@@ -31,8 +31,9 @@
     informativa:
 
       · Autor  — biografía y catálogo. Ya funcionaba.
-      · Teatro — datos duros (inauguración, arquitecto, dirección, aforo,
-        cierre o derribo, nombres sucesivos) e historia, de la pestaña
+      · Teatro — la DIRECCIÓN va en la cabecera, debajo del nombre (24-9-2026);
+        los demás datos duros (inauguración, arquitecto, aforo, cierre o
+        derribo, nombres sucesivos) e historia, de la pestaña
         «Teatros» del maestro, más los estrenos.
       · Año    — los estrenos del año y el análisis del momento histórico,
         que se escribe POR DÉCADA: el catálogo publicado abarca cien años
@@ -58,7 +59,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=33988bf6"></script>
+  <script src="zarzuteca-data.js?v=b9c9c62b"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -90,10 +91,19 @@
     .obras a,.obras .noficha{display:block;flex:1 1 auto;padding:.8rem 1rem;text-decoration:none;color:inherit;transition:background .15s;}
     .obras a:hover{background:var(--teal-light);}
     .obras .noficha{color:var(--muted);}
-    .datos{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.1rem 1.6rem;}
-    .datos div{padding:.55rem 0;border-bottom:1px solid var(--border);}
+    /* 24-9-2026, decisión de César: los datos del teatro van en una rejilla REGULAR
+       de TRES COLUMNAS, un campo por columna, que ocupa todo el ancho de la caja
+       sin dejar espacio en los márgenes, y con el texto JUSTIFICADO. Las columnas
+       son 1fr, así que las tres miden igual y la última llega al borde derecho.
+       En pantalla mediana bajan a dos y en móvil a una, porque tres columnas de
+       ciento y pico píxeles no se leen. */
+    .datos{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:.1rem 1.6rem;}
+    .datos div{padding:.55rem 0;border-bottom:1px solid var(--border);min-width:0;}
     .datos dt{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.2rem;}
-    .datos dd{font-size:.95rem;line-height:1.5;}
+    .datos dd{font-size:.95rem;line-height:1.5;text-align:justify;text-justify:inter-word;
+              hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;}
+    @media(max-width:860px){.datos{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:560px){.datos{grid-template-columns:1fr;}.datos dd{text-align:left;hyphens:manual;}}
     .ensayo{font-size:.98rem;line-height:1.85;}
     .ensayo+.ensayo{margin-top:1.1rem;}
     .ensayo h3{font-family:'Cormorant SC',serif;font-size:1.12rem;font-weight:700;color:var(--black);margin-bottom:.3rem;}
@@ -309,8 +319,10 @@
   const rotuloDec=d=>{const x=buscaDec(d); return (x&&x.rot)||(d+'-'+(+d+9));};
   const decConTexto=x=>!!(x&&(x.pol||x.art||x.lir));
 
-  const DATOS_TEATRO=[['inaug','Inauguración'],['arq','Arquitecto'],['dir','Dirección'],
-                      ['aforo','Aforo'],['cierre','Cierre o derribo'],['otros','Otros nombres']];
+  // 24-9-2026, decisión de César: la DIRECCIÓN no va aquí, sube a la cabecera,
+  // debajo del nombre del teatro (ver más abajo, el lSub de la ficha de teatro).
+  const DATOS_TEATRO=[['inaug','Inauguración'],['arq','Arquitecto'],['aforo','Aforo'],
+                      ['cierre','Cierre o derribo'],['otros','Otros nombres']];
   function bloqueDatosTeatro(t){
     if(!t) return '';
     const filas=DATOS_TEATRO.filter(([k])=>t[k]&&String(t[k]).trim())
@@ -395,7 +407,10 @@
       document.title=nom+(ciu?' ('+ciu+')':'')+' — Zarzuteca INNAZ';
       $('lLabel').textContent='Zarzuteca INNAZ · Teatro';
       $('lTitulo').textContent=nom;
-      $('lSub').textContent=[ciu,'Estrenos, por orden cronológico'].filter(Boolean).join(' · ');
+      // 24-9-2026: la dirección va aquí, debajo del nombre, delante de la ciudad.
+      // El campo «Dirección» del Excel se escribe SIN ciudad, para no repetirla.
+      const dir=(te&&te.dir)?String(te.dir).trim():'';
+      $('lSub').textContent=[dir,ciu].filter(Boolean).join(' · ');
       $('lBody').innerHTML=
         bloqueDatosTeatro(te)+
         bloqueHistoriaTeatro(te)+
