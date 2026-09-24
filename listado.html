@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=03ce59ab"></script>
+  <script src="zarzuteca-data.js?v=b3bcd081"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -333,12 +333,21 @@
   // debajo del nombre del teatro (ver más abajo, el lSub de la ficha de teatro).
   // 24-9-2026, tarde, decisión de César: los datos del teatro son SOLO aforo, inauguración y
   // arquitectos originales. Cierre y otros nombres siguen en el Excel y se cuentan en la historia.
-  const DATOS_TEATRO=[['aforo','Aforo'],['inaug','Inauguración'],['arq','Arquitectos']];
+  // 24-9-2026, noche: «Inauguración y cierre» en dos líneas (col4 y col8 del Excel).
+  const DATOS_TEATRO=[['aforo','Aforo'],['inaug','Inauguración y cierre'],['arq','Arquitectos']];
+  const SIN_DATOS='Sin datos documentados';
   function bloqueDatosTeatro(t){
     if(!t) return '';
     // 24-9-2026, noche, decisión de César: los tres campos salen SIEMPRE; si falta el dato, se avisa.
-    const filas=DATOS_TEATRO.map(([k,r])=>{const v=t[k]&&String(t[k]).trim();
-      return `<div><dt>${esc(r)}</dt><dd>${esc(v||'Sin datos documentados')}</dd></div>`;}).join('');
+    const val=k=>{const v=t[k]&&String(t[k]).trim();return v||SIN_DATOS;};
+    const filas=DATOS_TEATRO.map(([k,r])=>{
+      let dd=esc(val(k));
+      if(k==='inaug'){
+        const ini=val('inaug'), fin=val('cierre');
+        dd=esc(ini===SIN_DATOS?'Inauguración: sin datos documentados':ini)+'<br>'+
+           esc(fin===SIN_DATOS?'Cierre: sin datos documentados':fin);
+      }
+      return `<div><dt>${esc(r)}</dt><dd>${dd}</dd></div>`;}).join('');
     return filas?`<div class="bloque"><h2>Datos del teatro</h2><dl class="datos">${filas}</dl></div>`:'';
   }
   function bloqueHistoriaTeatro(t){
