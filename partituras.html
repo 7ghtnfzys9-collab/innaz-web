@@ -87,6 +87,11 @@
        el contenedor del menú desplegable (position:fixed), que se quedaba con la altura de la barra y
        dejaba los enlaces flotando sin fondo sobre la página. No volver a ponerlo en móvil. */
     @media(max-width:960px){nav{backdrop-filter:none;-webkit-backdrop-filter:none;}}
+    /* 24-9-2026 (2): el menú abierto es una caja crema translúcida que solo ocupa lo que sus enlaces
+       (crece al desplegar «Zarzuteca»); si no cabe en la pantalla, se desplaza por dentro. */
+    @media(max-width:960px){.nav-links.open{bottom:auto;max-height:calc(100dvh - 58px);overflow-y:auto;
+      background:rgba(248,244,238,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      border-bottom:1px solid #E2DAD0;box-shadow:0 12px 28px rgba(0,0,0,.14);padding:1.6rem 1.6rem 1.8rem;}}
 </style>
 </head>
 <body>
