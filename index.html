@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <!-- Datos compartidos del Sello de Calidad (producciones y votos) -->
-  <script src="sello-data.js?v=f04224e8"></script>
+  <script src="sello-data.js?v=669b01a6"></script>
 
   <style>
     /* ─── VARIABLES ─── */
@@ -673,7 +673,8 @@
       de la Zarzuela, el género musical más genuinamente español.
     </p>
     <div class="hero-cta">
-      <a href="#innaz" class="btn btn-primary">Descúbrenos</a>
+      <a href="#innaz" class="btn btn-ghost">Descúbrenos</a>
+      <a href="buscador.html" target="_blank" rel="noopener" class="btn btn-primary">Catálogo</a>
       <a href="#socio" class="btn btn-ghost">Suscríbete</a>
     </div>
   </div>
@@ -730,28 +731,28 @@
         <div class="pilar-icon">📚</div>
         <h3>Formación</h3>
         <p>Transmitir el género: formación de intérpretes en sus exigencias propias, colaboración con conservatorios y universidades, y actividades divulgativas para crear público nuevo.</p>
-        <a class="pilar-link" href="proyecto-formacion.html">Ver pilar →</a>
+        <a class="pilar-link" href="proyecto-formacion.html">Ver más →</a>
       </div>
       <div class="pilar-card reveal">
         <span class="pilar-num">02</span>
         <div class="pilar-icon">𝄞</div>
         <h3>Recuperación</h3>
         <p>Localizar, documentar y publicar el repertorio disperso en archivos, bibliotecas y colecciones privadas. De este trabajo nace la Zarzuteca, el catálogo documental del Instituto.</p>
-        <a class="pilar-link" href="proyecto-recuperacion.html">Ver pilar →</a>
+        <a class="pilar-link" href="proyecto-recuperacion.html">Ver más →</a>
       </div>
       <div class="pilar-card reveal">
         <span class="pilar-num">03</span>
         <div class="pilar-icon">🎭</div>
         <h3>Interpretación</h3>
         <p>Que la Zarzuela vuelva a los escenarios: apoyo documental a las compañías, Sello de Calidad INNAZ y el Festival Anual como cita de referencia del género.</p>
-        <a class="pilar-link" href="proyecto-interpretacion.html">Ver pilar →</a>
+        <a class="pilar-link" href="proyecto-interpretacion.html">Ver más →</a>
       </div>
       <div class="pilar-card reveal">
         <span class="pilar-num">04</span>
         <div class="pilar-icon">✒️</div>
         <h3>Creación</h3>
         <p>Impulsar la obra nueva y el estudio del género: encargos y convocatorias de nueva creación lírica, y una colección editorial propia de estudios y ediciones.</p>
-        <a class="pilar-link" href="proyecto-creacion.html">Ver pilar →</a>
+        <a class="pilar-link" href="proyecto-creacion.html">Ver más →</a>
       </div>
     </div>
   </div>
@@ -779,7 +780,8 @@
       ════════════════════════════════════════════════════
     -->
     <div class="sello-grid reveal" id="selloGrid"></div>
-    <div class="reveal" style="margin-top:2.5rem; display:flex; gap:1.1rem; flex-wrap:wrap;">
+    <p class="sello-intro" id="selloVacio" hidden>Próximamente se publicarán aquí las primeras producciones con el Sello de Calidad INNAZ.</p>
+    <div class="reveal" id="selloBotones" style="margin-top:2.5rem; display:flex; gap:1.1rem; flex-wrap:wrap;">
       <a href="sello.html" class="btn btn-primary">Ver todas las producciones</a>
       <a href="qr-imprimir.html" class="btn-votar" style="text-decoration:none; display:inline-block; padding:.85rem 2.2rem;">Imprimir códigos QR</a>
     </div>
@@ -1007,6 +1009,12 @@
   function renderSello() {
     const grid = document.getElementById('selloGrid');
     grid.innerHTML = '';
+    /* Sin producciones (29-9-2026): se oculta la rejilla y los botones y se
+       muestra el aviso. Vuelven solos en cuanto sello-data.js tenga alguna. */
+    const vacio = PRODUCCIONES.length === 0;
+    grid.hidden = vacio;
+    document.getElementById('selloVacio').hidden = !vacio;
+    document.getElementById('selloBotones').style.display = vacio ? 'none' : 'flex';
     PRODUCCIONES.forEach(p => {
       const { media, count } = mediaDe(p);
       const card = document.createElement('article');
