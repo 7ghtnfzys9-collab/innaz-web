@@ -161,6 +161,26 @@
     .zl-nota { font-size: .78rem !important; color: rgba(255,255,255,.55) !important; margin-top: -.6rem; font-style: italic; }
     .zl .cta-pilar { margin-top: 1.8rem; }
     @media (max-width: 600px) { .zl { padding: 2rem 1.4rem; } .zl-datos { grid-template-columns: 1fr; } .zl-ancho { grid-column: auto; } }
+
+    /* ─── Líneas de trabajo en tarjetas (29-9-2026), mismo formato que los planes de «Suscríbete a INNAZ» ─── */
+    .lineas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.2rem; }
+    .linea-card { background: var(--white); border: 1.5px solid var(--border); padding: 2rem 1.6rem;
+      display: flex; flex-direction: column; transition: transform .22s, box-shadow .22s, border-color .22s; }
+    .linea-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.07); border-color: var(--teal); }
+    .linea-card.featured { background: var(--black); border-color: var(--teal); }
+    .bloque .linea-name { font-family: 'Cormorant SC', serif; font-size: 1.25rem; font-weight: 600; line-height: 1.2; color: var(--black); min-height: 3em; }
+    .bloque .linea-card.featured .linea-name { color: var(--white); }
+    .linea-num { font-family: 'Cormorant', serif; font-size: 3rem; font-weight: 700; color: var(--teal); line-height: 1; margin: .8rem 0 1.2rem; }
+    .linea-feats { list-style: none; margin-bottom: 1.8rem; flex: 1; }
+    .linea-feats li { font-size: .86rem; color: var(--muted); padding: .38rem 0; display: flex; gap: .6rem;
+      align-items: flex-start; line-height: 1.5; border-bottom: 1px solid var(--border); }
+    .linea-card.featured .linea-feats li { color: rgba(255,255,255,.8); border-bottom-color: rgba(255,255,255,.08); }
+    .linea-feats li::before { content: '✦'; color: var(--teal); font-size: .48rem; margin-top: .42em; flex-shrink: 0; }
+    .btn-linea { display: block; text-align: center; text-decoration: none; padding: .82rem; border: 1.5px solid var(--teal);
+      color: var(--teal); font-size: .76rem; letter-spacing: .13em; text-transform: uppercase; font-weight: 500;
+      transition: background .2s, color .2s; }
+    .btn-linea:hover, .linea-card.featured .btn-linea { background: var(--teal); color: var(--white); }
+    @media (max-width: 760px) { .lineas-grid { grid-template-columns: 1fr; } .linea-name { min-height: 0; } }
 </style>
 </head>
 <body>
@@ -196,7 +216,7 @@
       del género: enseñar a cantarlo, a dirigirlo, a ponerlo en escena y a escucharlo.</p>
 
     <!-- ── ZLabs 2027 ── -->
-    <section class="zl">
+    <section class="zl" id="zlabs" style="scroll-margin-top:90px;">
       <h2>Z<span>Labs</span></h2>
       <p class="zl-sub">Laboratorios de Zarzuela</p>
       <p>ZLabs es el programa formativo del Instituto. Cada Laboratorio está dirigido a un grupo
@@ -230,20 +250,45 @@
 
     <div class="bloque">
       <h2>Líneas de trabajo</h2>
-      <ul class="lineas">
-        <li><b>ZLabs · Laboratorios de Zarzuela</b>El programa formativo propio del Instituto. Laboratorios dirigidos a alumnos o profesionales del mundo de la zarzuela, con montaje completo de obras del repertorio, conciertos en teatros y grabación en audio y vídeo para su promoción.</li>
-        <li><b>Talleres y clases magistrales</b>Impartidos por intérpretes, directores musicales y directores de escena en activo.</li>
-        <li><b>Convenios con centros de enseñanza</b>Con escuelas de música y de artes escénicas, para incorporar repertorio lírico español a sus programas.</li>
-        <li><b>Materiales didácticos</b>Elaborados sobre el fondo de la Zarzuteca: fichas de obra, libretos y partituras de dominio público, listos para llevar al aula.</li>
-        <li><b>Acompañamiento a jóvenes intérpretes</b>Para quienes quieran incorporar el género a su repertorio y no sepan por dónde empezar.</li>
-      </ul>
+      <!-- 29-9-2026: tres líneas, en tarjetas con el formato de «Suscríbete a INNAZ» de la portada -->
+      <div class="lineas-grid">
+        <div class="linea-card featured">
+          <p class="linea-name">ZLabs · Laboratorios de Zarzuela</p>
+          <div class="linea-num">01</div>
+          <ul class="linea-feats">
+            <li>Laboratorios dirigidos a alumnos o profesionales del mundo de la zarzuela</li>
+            <li>Montaje completo de obras del repertorio</li>
+            <li>Conciertos en teatros</li>
+            <li>Grabación en audio y vídeo para la promoción de los participantes</li>
+          </ul>
+          <a class="btn-linea" href="#zlabs">Ver ZLabs</a>
+        </div>
+        <div class="linea-card">
+          <p class="linea-name">Convenios con centros de enseñanza</p>
+          <div class="linea-num">02</div>
+          <ul class="linea-feats">
+            <li>Con escuelas de música y de artes escénicas</li>
+            <li>Para incorporar repertorio lírico español a sus programas</li>
+          </ul>
+          <a class="btn-linea" href="mailto:info@innaz.es?subject=Convenios%20con%20centros%20de%20ense%C3%B1anza">Quiero información</a>
+        </div>
+        <div class="linea-card">
+          <p class="linea-name">Acompañamiento a jóvenes intérpretes</p>
+          <div class="linea-num">03</div>
+          <ul class="linea-feats">
+            <li>Para quienes quieran incorporar el género a su repertorio</li>
+            <li>Y no sepan por dónde empezar</li>
+          </ul>
+          <a class="btn-linea" href="mailto:info@innaz.es?subject=Acompa%C3%B1amiento%20a%20j%C3%B3venes%20int%C3%A9rpretes">Quiero información</a>
+        </div>
+      </div>
     </div>
 
     <div class="bloque">
       <h2>Participa</h2>
       <p>¿Quieres colaborar? Escríbenos a
       <a href="mailto:info@innaz.es" style="color: var(--teal-dark);">info@innaz.es</a>
-      o suscríbete a la Zarzuteca.</p>
+      o <a href="index.html#socio" style="color: var(--teal-dark);">suscríbete a INNAZ</a>.</p>
     </div>
 
     <div class="otros-pilares">
