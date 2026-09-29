@@ -147,7 +147,8 @@ const vacio=document.getElementById('vacio');
 const contador=document.getElementById('contador');
 function norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-const TODAS = OBRAS.concat(MARCH).sort((a,b)=>norm(a.t).localeCompare(norm(b.t),'es'));
+// Orden sin signos de admiración ni de interrogación (decisión de César, 29-9-2026).
+const TODAS = OBRAS.concat(MARCH).sort((a,b)=>norm(a.t).replace(/[¡!¿?]/g,'').trim().localeCompare(norm(b.t).replace(/[¡!¿?]/g,'').trim(),'es'));
 function fila(o){return `<li class="obra"><a href="${esc(o.u)}" target="_blank" rel="noopener">
       <span class="tt">${esc(o.t)}</span>
       <span class="badge b-${o.s}">${o.s}</span>

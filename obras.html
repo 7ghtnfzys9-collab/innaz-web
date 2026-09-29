@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=374d168c"></script>
+  <script src="zarzuteca-data.js?v=f4b94b89"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -188,6 +188,8 @@
   const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const deacc=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   const norm=s=>deacc(s).toLowerCase().trim();
+  // Orden por título sin signos de admiración ni de interrogación (decisión de César, 29-9-2026).
+  const clave=s=>norm(s).replace(/[¡!¿?]/g,'').trim();
   const OB=(typeof OBRAS!=='undefined')?OBRAS:[];
   const TE=(typeof TEATROS!=='undefined')?TEATROS:[];
 
@@ -204,7 +206,7 @@
     synA:o.synA||null, syn:o.syn||'',
     mats:MAT.filter(m=>(o[m[0]]||[]).length),
     busca:norm(o.t)
-  })).sort((a,b)=>norm(a.t).localeCompare(norm(b.t),'es'));
+  })).sort((a,b)=>clave(a.t).localeCompare(clave(b.t),'es'));
 
   // ── LOS FILTROS DE GÉNERO (11-9-2026, decisión de César) ──────────────────
   // El género se escribe en la ficha tal como viene del impreso, y eso daba 201
@@ -296,7 +298,7 @@
     'del argumento. '+conMat+' de las '+O.length+' fichas enlazan ya algún material digitalizado.';
 
   function inicial(o){
-    const c=deacc(o.t).trim().charAt(0).toUpperCase();
+    const c=deacc(o.t).replace(/[¡!¿?]/g,'').trim().charAt(0).toUpperCase();
     return /[A-Z]/.test(c)?c:'#';
   }
 
