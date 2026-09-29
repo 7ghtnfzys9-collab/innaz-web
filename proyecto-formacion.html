@@ -167,19 +167,37 @@
     .linea-card { background: var(--white); border: 1.5px solid var(--border); padding: 2rem 1.6rem;
       display: flex; flex-direction: column; transition: transform .22s, box-shadow .22s, border-color .22s; }
     .linea-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.07); border-color: var(--teal); }
-    .linea-card.featured { background: var(--black); border-color: var(--teal); }
+    .linea-card.negra { background: var(--black); border-color: var(--black); }
+    .linea-card.turquesa { background: var(--teal); border-color: var(--teal); }
     .bloque .linea-name { font-family: 'Cormorant SC', serif; font-size: 1.25rem; font-weight: 600; line-height: 1.2; color: var(--black); min-height: 3em; }
-    .bloque .linea-card.featured .linea-name { color: var(--white); }
+    .bloque .linea-card.negra .linea-name, .bloque .linea-card.turquesa .linea-name { color: var(--white); }
     .linea-num { font-family: 'Cormorant', serif; font-size: 3rem; font-weight: 700; color: var(--teal); line-height: 1; margin: .8rem 0 1.2rem; }
     .linea-feats { list-style: none; margin-bottom: 1.8rem; flex: 1; }
     .linea-feats li { font-size: .86rem; color: var(--muted); padding: .38rem 0; display: flex; gap: .6rem;
       align-items: flex-start; line-height: 1.5; border-bottom: 1px solid var(--border); }
-    .linea-card.featured .linea-feats li { color: rgba(255,255,255,.8); border-bottom-color: rgba(255,255,255,.08); }
+    .linea-card.negra .linea-feats li { color: rgba(255,255,255,.8); border-bottom-color: rgba(255,255,255,.08); }
+    .linea-card.turquesa .linea-feats li { color: var(--white); border-bottom-color: rgba(255,255,255,.28); }
+    .linea-card.turquesa .linea-feats li::before { color: var(--white); }
+    .linea-card.turquesa .linea-num { color: var(--white); }
     .linea-feats li::before { content: '✦'; color: var(--teal); font-size: .48rem; margin-top: .42em; flex-shrink: 0; }
     .btn-linea { display: block; text-align: center; text-decoration: none; padding: .82rem; border: 1.5px solid var(--teal);
       color: var(--teal); font-size: .76rem; letter-spacing: .13em; text-transform: uppercase; font-weight: 500;
       transition: background .2s, color .2s; }
-    .btn-linea:hover, .linea-card.featured .btn-linea { background: var(--teal); color: var(--white); }
+    .btn-linea { width: 100%; background: transparent; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+    .btn-linea:hover, .linea-card.negra .btn-linea { background: var(--teal); color: var(--white); }
+    .linea-card.turquesa .btn-linea { background: var(--white); color: var(--teal-dark); border-color: var(--white); }
+    .linea-card.turquesa .btn-linea:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .btn-linea[aria-expanded="true"]::after { content: ' ▴'; }
+    .btn-linea[aria-expanded="false"]::after { content: ' ▾'; }
+    /* Paneles desplegables */
+    .bloque .zl h2 { color: var(--white); } /* dentro de .bloque, el h2 heredaba el negro de .bloque h2 */
+    .linea-panel { margin-top: 1.2rem; scroll-margin-top: 90px; animation: panelIn .25s ease; }
+    .linea-panel[hidden] { display: none; }
+    #panel-zlabs { border-top: 4px solid var(--teal); }
+    #panel-convenios { border-top: 4px solid var(--border); }
+    #panel-acompanamiento { border-top: 4px solid var(--teal); }
+    .zl .zl-titulo { font-family: 'Cormorant SC', serif; font-size: 1.9rem; font-weight: 700; color: var(--white); margin: 0 0 1rem; }
+    @keyframes panelIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
     @media (max-width: 760px) { .lineas-grid { grid-template-columns: 1fr; } .linea-name { min-height: 0; } }
 </style>
 </head>
@@ -227,9 +245,10 @@
 
     <div class="bloque">
       <h2>Líneas de trabajo</h2>
-      <!-- 29-9-2026: tres líneas, en tarjetas con el formato de «Suscríbete a INNAZ» de la portada -->
+      <!-- 29-9-2026: tres líneas en tarjetas (formato de «Suscríbete a INNAZ»).
+           Cada botón «Ver más» despliega su panel de información debajo de las tarjetas. -->
       <div class="lineas-grid">
-        <div class="linea-card featured">
+        <div class="linea-card negra">
           <p class="linea-name">ZLabs · Laboratorios de Zarzuela</p>
           <div class="linea-num">01</div>
           <ul class="linea-feats">
@@ -238,7 +257,7 @@
             <li>Conciertos en teatros</li>
             <li>Grabación en audio y vídeo para la promoción de los participantes</li>
           </ul>
-          <a class="btn-linea" href="#zlabs">Ver ZLabs</a>
+          <button class="btn-linea" type="button" aria-controls="panel-zlabs" aria-expanded="false">Ver más</button>
         </div>
         <div class="linea-card">
           <p class="linea-name">Convenios con centros de enseñanza</p>
@@ -247,22 +266,23 @@
             <li>Con escuelas de música y de artes escénicas</li>
             <li>Para incorporar repertorio lírico español a sus programas</li>
           </ul>
-          <a class="btn-linea" href="mailto:info@innaz.es?subject=Convenios%20con%20centros%20de%20ense%C3%B1anza">Quiero información</a>
+          <button class="btn-linea" type="button" aria-controls="panel-convenios" aria-expanded="false">Ver más</button>
         </div>
-        <div class="linea-card">
-          <p class="linea-name">Acompañamiento a jóvenes intérpretes</p>
+        <div class="linea-card negra">
+          <p class="linea-name">Acompañamiento a jóvenes</p>
           <div class="linea-num">03</div>
           <ul class="linea-feats">
-            <li>Para quienes quieran incorporar el género a su repertorio</li>
-            <li>Y no sepan por dónde empezar</li>
+            <li>Solución de dudas</li>
+            <li>Gestión de patrimonio</li>
+            <li>Cómo enfrentarse a una audición o a una entrevista de trabajo</li>
+            <li>Cómo buscar agencia</li>
           </ul>
-          <a class="btn-linea" href="mailto:info@innaz.es?subject=Acompa%C3%B1amiento%20a%20j%C3%B3venes%20int%C3%A9rpretes">Quiero información</a>
+          <button class="btn-linea" type="button" aria-controls="panel-acompanamiento" aria-expanded="false">Ver más</button>
         </div>
       </div>
-    </div>
 
     <!-- ── ZLabs 2027 ── -->
-    <section class="zl" id="zlabs" style="scroll-margin-top:90px;">
+    <section class="zl linea-panel" id="panel-zlabs" hidden>
       <h2>Z<span>Labs</span></h2>
       <p class="zl-sub">Laboratorios de Zarzuela</p>
       <p>ZLabs es el programa formativo del Instituto. Cada Laboratorio está dirigido a un grupo
@@ -283,6 +303,32 @@
       <p class="zl-nota">Títulos, fechas y teatros se anunciarán próximamente.</p>
       <a class="cta-pilar" href="mailto:info@innaz.es?subject=ZLabs%202027">Quiero información</a>
     </section>
+
+    <!-- ── Convenios con centros de enseñanza ── -->
+    <section class="zl linea-panel" id="panel-convenios" hidden>
+      <h2 class="zl-titulo">Convenios con centros de enseñanza</h2>
+      <p>INNAZ quiere llevar la Zarzuela a la enseñanza reglada, de la mano de conservatorios,
+      escuelas de canto, escuelas de música y de artes escénicas y universidades, para incorporar
+      el repertorio lírico español a sus programas.</p>
+      <p class="zl-nota" style="margin-top:1.4rem;">Si representas a un centro de enseñanza y te interesa colaborar, escríbenos.</p>
+      <a class="cta-pilar" href="mailto:info@innaz.es?subject=Convenios%20con%20centros%20de%20ense%C3%B1anza">Quiero información</a>
+    </section>
+
+    <!-- ── Acompañamiento a jóvenes ── -->
+    <section class="zl linea-panel" id="panel-acompanamiento" hidden>
+      <h2 class="zl-titulo">Acompañamiento a jóvenes</h2>
+      <p>Orientación para jóvenes que empiezan su carrera en el mundo de la zarzuela: un espacio
+      donde resolver las dudas que surgen fuera del aula.</p>
+      <dl class="zl-datos">
+        <div class="zl-dato"><dt>Dudas</dt><dd>Solución de las dudas que surgen al empezar la carrera profesional</dd></div>
+        <div class="zl-dato"><dt>Patrimonio</dt><dd>Gestión de patrimonio</dd></div>
+        <div class="zl-dato"><dt>Audiciones y entrevistas</dt><dd>Cómo enfrentarse a una audición o a una entrevista de trabajo</dd></div>
+        <div class="zl-dato"><dt>Agencias</dt><dd>Cómo buscar agencia</dd></div>
+      </dl>
+      <a class="cta-pilar" href="mailto:info@innaz.es?subject=Acompa%C3%B1amiento%20a%20j%C3%B3venes">Quiero información</a>
+    </section>
+    </div>
+
 
     <div class="bloque">
       <h2>Participa</h2>
@@ -331,6 +377,24 @@
       cerrar();
       if(typeof closeMenu==='function'){ closeMenu(); return; }
       var nl=document.getElementById('navlinks'); if(nl) nl.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+<script>
+/* Desplegables de las líneas de trabajo (29-9-2026): cada «Ver más» abre su
+   panel y cierra los demás; volver a pulsarlo lo cierra. */
+(function(){
+  var btns=document.querySelectorAll('.btn-linea[aria-controls]');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var panel=document.getElementById(b.getAttribute('aria-controls'));
+      var abrir=panel.hidden;
+      btns.forEach(function(o){ o.setAttribute('aria-expanded','false'); o.firstChild.nodeValue='Ver más';
+        document.getElementById(o.getAttribute('aria-controls')).hidden=true; });
+      if(abrir){ panel.hidden=false; b.setAttribute('aria-expanded','true'); b.firstChild.nodeValue='Cerrar';
+        panel.scrollIntoView({behavior:'smooth',block:'start'}); }
     });
   });
 })();
