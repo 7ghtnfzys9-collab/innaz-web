@@ -195,10 +195,21 @@
     .linea-panel[hidden] { display: none; }
     #panel-zlabs { border-top: 4px solid var(--teal); }
     #panel-convenios { border-top: 4px solid var(--border); }
+    /* 30-9-2026: cada desplegable con la gama de su tarjeta — Convenios es blanca */
+    .zl.clara { background: var(--white); color: var(--text); border: 1.5px solid var(--border); border-top: 4px solid var(--teal); }
+    .bloque .zl.clara .zl-titulo { color: var(--black); }
+    .bloque .zl.clara p { color: var(--muted); }
+    .bloque .zl.clara .zl-nota { color: var(--muted) !important; }
     #panel-acompanamiento { border-top: 4px solid var(--teal); }
     .zl .zl-titulo { font-family: 'Cormorant SC', serif; font-size: 1.9rem; font-weight: 700; color: var(--white); margin: 0 0 1rem; }
     @keyframes panelIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
     @media (max-width: 760px) { .lineas-grid { grid-template-columns: 1fr; } .linea-name { min-height: 0; } }
+
+    /* 30-9-2026: los paneles están dentro de la rejilla, cada uno tras su tarjeta.
+       En ordenador se colocan todos debajo de las tres tarjetas (order + ancho completo);
+       en móvil (una columna) quedan justo debajo de su tarjeta y empujan a las siguientes. */
+    .lineas-grid > .linea-panel { order: 1; grid-column: 1 / -1; margin: 0; }
+    @media (max-width: 760px) { .lineas-grid > .linea-panel { order: 0; } }
 </style>
 </head>
 <body>
@@ -259,6 +270,28 @@
           </ul>
           <button class="btn-linea" type="button" aria-controls="panel-zlabs" aria-expanded="false">Ver más</button>
         </div>
+      <!-- ── ZLabs 2027 ── -->
+      <section class="zl linea-panel" id="panel-zlabs" hidden>
+        <h2>Z<span>Labs</span></h2>
+        <p class="zl-sub">Laboratorios de Zarzuela</p>
+        <p>ZLabs es el programa formativo del Instituto. Cada Laboratorio está dirigido a un grupo
+        concreto de alumnos o profesionales del mundo de la zarzuela y monta obras completas del
+        repertorio, que los participantes muestran ante público, agentes y directores artísticos de
+        teatros y festivales. Después del Laboratorio, las producciones se presentan en concierto
+        en diferentes teatros del territorio español.</p>
+        <dl class="zl-datos">
+          <div class="zl-dato"><dt>Cuándo</dt><dd>Julio de 2027</dd></div>
+          <div class="zl-dato"><dt>Dónde</dt><dd>Escuela de verano de la Escuela Superior de Canto de Madrid</dd></div>
+          <div class="zl-dato"><dt>Dirigido a</dt><dd>Alumnos de canto</dd></div>
+          <div class="zl-dato"><dt>Repertorio</dt><dd>Dos obras del género chico</dd></div>
+          <div class="zl-dato"><dt>Elencos</dt><dd>Dos por obra, cada uno con soprano, mezzosoprano, tenor y barítono: 16 cantantes en total</dd></div>
+          <div class="zl-dato"><dt>Ponentes</dt><dd>Francisco Matilla<br>Carlos Díez</dd></div>
+          <div class="zl-dato"><dt>Grabación</dt><dd>Audio y vídeo de las producciones, para la promoción de los propios alumnos</dd></div>
+          <div class="zl-dato"><dt>Conciertos</dt><dd>En diferentes teatros del territorio español</dd></div>
+        </dl>
+        <p class="zl-nota">Títulos, fechas y teatros se anunciarán próximamente.</p>
+        <a class="cta-pilar" href="mailto:info@innaz.es?subject=ZLabs%202027">Quiero información</a>
+      </section>
         <div class="linea-card">
           <p class="linea-name">Convenios con centros de enseñanza</p>
           <div class="linea-num">02</div>
@@ -268,6 +301,15 @@
           </ul>
           <button class="btn-linea" type="button" aria-controls="panel-convenios" aria-expanded="false">Ver más</button>
         </div>
+      <!-- ── Convenios con centros de enseñanza ── -->
+      <section class="zl clara linea-panel" id="panel-convenios" hidden>
+        <h2 class="zl-titulo">Convenios con centros de enseñanza</h2>
+        <p>INNAZ quiere llevar la Zarzuela a la enseñanza reglada, de la mano de conservatorios,
+        escuelas de canto, escuelas de música y de artes escénicas y universidades, para incorporar
+        el repertorio lírico español a sus programas.</p>
+        <p class="zl-nota" style="margin-top:1.4rem;">Si representas a un centro de enseñanza y te interesa colaborar, escríbenos.</p>
+        <a class="cta-pilar" href="mailto:info@innaz.es?subject=Convenios%20con%20centros%20de%20ense%C3%B1anza">Quiero información</a>
+      </section>
         <div class="linea-card negra">
           <p class="linea-name">Acompañamiento a jóvenes</p>
           <div class="linea-num">03</div>
@@ -279,54 +321,21 @@
           </ul>
           <button class="btn-linea" type="button" aria-controls="panel-acompanamiento" aria-expanded="false">Ver más</button>
         </div>
+      <!-- ── Acompañamiento a jóvenes ── -->
+      <section class="zl linea-panel" id="panel-acompanamiento" hidden>
+        <h2 class="zl-titulo">Acompañamiento a jóvenes</h2>
+        <p>Orientación para jóvenes que empiezan su carrera en el mundo de la zarzuela: un espacio
+        donde resolver las dudas que surgen fuera del aula.</p>
+        <dl class="zl-datos">
+          <div class="zl-dato"><dt>Dudas</dt><dd>Solución de las dudas que surgen al empezar la carrera profesional</dd></div>
+          <div class="zl-dato"><dt>Patrimonio</dt><dd>Gestión de patrimonio</dd></div>
+          <div class="zl-dato"><dt>Audiciones y entrevistas</dt><dd>Cómo enfrentarse a una audición o a una entrevista de trabajo</dd></div>
+          <div class="zl-dato"><dt>Agencias</dt><dd>Cómo buscar agencia</dd></div>
+        </dl>
+        <a class="cta-pilar" href="mailto:info@innaz.es?subject=Acompa%C3%B1amiento%20a%20j%C3%B3venes">Quiero información</a>
+      </section>
       </div>
 
-    <!-- ── ZLabs 2027 ── -->
-    <section class="zl linea-panel" id="panel-zlabs" hidden>
-      <h2>Z<span>Labs</span></h2>
-      <p class="zl-sub">Laboratorios de Zarzuela</p>
-      <p>ZLabs es el programa formativo del Instituto. Cada Laboratorio está dirigido a un grupo
-      concreto de alumnos o profesionales del mundo de la zarzuela y monta obras completas del
-      repertorio, que los participantes muestran ante público, agentes y directores artísticos de
-      teatros y festivales. Después del Laboratorio, las producciones se presentan en concierto
-      en diferentes teatros del territorio español.</p>
-      <dl class="zl-datos">
-        <div class="zl-dato"><dt>Cuándo</dt><dd>Julio de 2027</dd></div>
-        <div class="zl-dato"><dt>Dónde</dt><dd>Escuela de verano de la Escuela Superior de Canto de Madrid</dd></div>
-        <div class="zl-dato"><dt>Dirigido a</dt><dd>Alumnos de canto</dd></div>
-        <div class="zl-dato"><dt>Repertorio</dt><dd>Dos obras del género chico</dd></div>
-        <div class="zl-dato"><dt>Elencos</dt><dd>Dos por obra, cada uno con soprano, mezzosoprano, tenor y barítono: 16 cantantes en total</dd></div>
-        <div class="zl-dato"><dt>Ponentes</dt><dd>Francisco Matilla<br>Carlos Díez</dd></div>
-        <div class="zl-dato"><dt>Grabación</dt><dd>Audio y vídeo de las producciones, para la promoción de los propios alumnos</dd></div>
-        <div class="zl-dato"><dt>Conciertos</dt><dd>En diferentes teatros del territorio español</dd></div>
-      </dl>
-      <p class="zl-nota">Títulos, fechas y teatros se anunciarán próximamente.</p>
-      <a class="cta-pilar" href="mailto:info@innaz.es?subject=ZLabs%202027">Quiero información</a>
-    </section>
-
-    <!-- ── Convenios con centros de enseñanza ── -->
-    <section class="zl linea-panel" id="panel-convenios" hidden>
-      <h2 class="zl-titulo">Convenios con centros de enseñanza</h2>
-      <p>INNAZ quiere llevar la Zarzuela a la enseñanza reglada, de la mano de conservatorios,
-      escuelas de canto, escuelas de música y de artes escénicas y universidades, para incorporar
-      el repertorio lírico español a sus programas.</p>
-      <p class="zl-nota" style="margin-top:1.4rem;">Si representas a un centro de enseñanza y te interesa colaborar, escríbenos.</p>
-      <a class="cta-pilar" href="mailto:info@innaz.es?subject=Convenios%20con%20centros%20de%20ense%C3%B1anza">Quiero información</a>
-    </section>
-
-    <!-- ── Acompañamiento a jóvenes ── -->
-    <section class="zl linea-panel" id="panel-acompanamiento" hidden>
-      <h2 class="zl-titulo">Acompañamiento a jóvenes</h2>
-      <p>Orientación para jóvenes que empiezan su carrera en el mundo de la zarzuela: un espacio
-      donde resolver las dudas que surgen fuera del aula.</p>
-      <dl class="zl-datos">
-        <div class="zl-dato"><dt>Dudas</dt><dd>Solución de las dudas que surgen al empezar la carrera profesional</dd></div>
-        <div class="zl-dato"><dt>Patrimonio</dt><dd>Gestión de patrimonio</dd></div>
-        <div class="zl-dato"><dt>Audiciones y entrevistas</dt><dd>Cómo enfrentarse a una audición o a una entrevista de trabajo</dd></div>
-        <div class="zl-dato"><dt>Agencias</dt><dd>Cómo buscar agencia</dd></div>
-      </dl>
-      <a class="cta-pilar" href="mailto:info@innaz.es?subject=Acompa%C3%B1amiento%20a%20j%C3%B3venes">Quiero información</a>
-    </section>
     </div>
 
 
