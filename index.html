@@ -276,7 +276,7 @@
     .pilar-link:hover { color: var(--white); transform: translateX(4px); }
 
     /* ─── SELLO DE CALIDAD ─── */
-    #sello { background: var(--cream); }
+    #sello { background: var(--white); } /* 30-9-2026: blanco, porque ahora va tras Noticias (crema) */
     .sello-intro {
       max-width: 620px; font-size: .97rem;
       line-height: 1.82; color: var(--muted); margin-bottom: 3.5rem;
@@ -724,36 +724,6 @@
   </div>
 </section>
 
-<!-- ── SELLO DE CALIDAD ── -->
-<section id="sello">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-label">Certificación</p>
-      <h2 class="section-title">Sello de Calidad INNAZ</h2>
-      <p class="sello-intro">
-        Producciones certificadas por el INNAZ y valoradas por el propio público.
-        Cada programa de mano impreso incluye un código QR: al escanearlo, el
-        espectador puntúa el espectáculo de 1 a 5 estrellas. La puntuación es
-        pública y puede consultarse aquí en todo momento.
-      </p>
-    </div>
-    <!--
-      ════════════════════════════════════════════════════
-      Las producciones se definen en el archivo compartido
-      sello-data.js. Para añadir o quitar una producción,
-      edita solo ese archivo: aparecerá automáticamente
-      aquí, en sello.html y en qr-imprimir.html.
-      ════════════════════════════════════════════════════
-    -->
-    <div class="sello-grid reveal" id="selloGrid"></div>
-    <p class="sello-intro" id="selloVacio" hidden>Próximamente se publicarán aquí las primeras producciones con el Sello de Calidad INNAZ.</p>
-    <div class="reveal" id="selloBotones" style="margin-top:2.5rem; display:flex; gap:1.1rem; flex-wrap:wrap;">
-      <a href="sello.html" class="btn btn-primary">Ver todas las producciones</a>
-      <a href="qr-imprimir.html" class="btn-votar" style="text-decoration:none; display:inline-block; padding:.85rem 2.2rem;">Imprimir códigos QR</a>
-    </div>
-  </div>
-</section>
-
 <!-- ── ZARZUTECA INNAZ ── -->
 <section id="biblioteca">
   <div class="section-inner">
@@ -811,6 +781,36 @@
          .feed-wrapper, .feed-placeholder) se conserva por si se vuelve a montar.
          La cuenta es @institutonacionaldezarzuela. -->
 
+  </div>
+</section>
+
+<!-- ── SELLO DE CALIDAD ── -->
+<section id="sello">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label">Certificación</p>
+      <h2 class="section-title">Sello de Calidad INNAZ</h2>
+      <p class="sello-intro">
+        Producciones certificadas por el INNAZ y valoradas por el propio público.
+        Cada programa de mano impreso incluye un código QR: al escanearlo, el
+        espectador puntúa el espectáculo de 1 a 5 estrellas. La puntuación es
+        pública y puede consultarse aquí en todo momento.
+      </p>
+    </div>
+    <!--
+      ════════════════════════════════════════════════════
+      Las producciones se definen en el archivo compartido
+      sello-data.js. Para añadir o quitar una producción,
+      edita solo ese archivo: aparecerá automáticamente
+      aquí, en sello.html y en qr-imprimir.html.
+      ════════════════════════════════════════════════════
+    -->
+    <div class="sello-grid reveal" id="selloGrid"></div>
+    <p class="sello-intro" id="selloVacio" hidden>Próximamente se publicarán aquí las primeras producciones con el Sello de Calidad INNAZ.</p>
+    <div class="reveal" id="selloBotones" style="margin-top:2.5rem; display:flex; gap:1.1rem; flex-wrap:wrap;">
+      <a href="sello.html" class="btn btn-primary">Ver todas las producciones</a>
+      <a href="qr-imprimir.html" class="btn-votar" style="text-decoration:none; display:inline-block; padding:.85rem 2.2rem;">Imprimir códigos QR</a>
+    </div>
   </div>
 </section>
 
