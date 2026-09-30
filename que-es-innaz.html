@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Creación — Pilares INNAZ</title>
+  <title>Qué es INNAZ — Instituto Nacional de Zarzuela</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -143,6 +143,23 @@
     @media(max-width:960px){.nav-links.open{bottom:auto;max-height:calc(100dvh - 58px);overflow-y:auto;
       background:rgba(248,244,238,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
       border-bottom:1px solid #E2DAD0;box-shadow:0 12px 28px rgba(0,0,0,.14);padding:1.6rem 1.6rem 1.8rem;}}
+
+    /* ─── Página «Qué es INNAZ» (30-9-2026) ─── */
+    .big-quote { font-family: 'Cormorant', serif; font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-style: italic; font-weight: 300;
+      line-height: 1.6; color: var(--black); border-left: 3px solid var(--teal); padding-left: 1.8rem; margin-bottom: 3.5rem; }
+    .mvv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 4rem; }
+    .mvv div { background: var(--white); border-top: 3px solid var(--teal); padding: 1.6rem 1.5rem; }
+    .mvv h2 { font-family: 'Cormorant SC', serif; font-size: 1.35rem; font-weight: 600; color: var(--black); margin-bottom: .6rem; }
+    .mvv p { font-size: .9rem; line-height: 1.8; color: var(--muted); }
+    .personas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.4rem; margin-top: 1.2rem; }
+    .persona-card { background: var(--white); border: 1px solid var(--border); }
+    .persona-card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; background: var(--border); }
+    .persona-card .pc-txt { padding: 1.1rem 1.2rem 1.3rem; }
+    .persona-card h3 { font-family: 'Cormorant SC', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); }
+    .persona-card .pc-cargo { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--teal-dark); margin: .25rem 0 .7rem; }
+    .persona-card .pc-cv { font-size: .86rem; line-height: 1.7; color: var(--muted); }
+    .proximamente { font-size: .9rem; font-style: italic; color: var(--muted); }
+    @media (max-width: 760px) { .mvv { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -150,8 +167,8 @@
 <nav id="navbar">
   <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
   <ul class="nav-links" id="navlinks">
-    <li><a href="que-es-innaz.html">Qué es INNAZ</a></li>
-    <li><a href="index.html#pilares" class="active">Pilares</a></li>
+    <li><a href="que-es-innaz.html" class="active">Qué es INNAZ</a></li>
+    <li><a href="index.html#pilares">Pilares</a></li>
     <li><a href="index.html#sello">Sello de Calidad</a></li>
     <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Catálogo</a></li><li><a href="obras.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
     <li><a href="index.html#noticias">Noticias</a></li>
@@ -163,53 +180,54 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="hero-num">04</span>
-    <p class="hero-label">Pilares INNAZ</p>
-    <div class="hero-icon">🔬</div>
-    <h1>Creación</h1>
-    <p class="hero-lema">Impulsar la nueva creación y el estudio del género</p>
+    <p class="hero-label">Instituto Nacional de Zarzuela</p>
+    <h1>Qué es INNAZ</h1>
+    <p class="hero-lema">Un objetivo a largo plazo</p>
   </div>
 </header>
 
 <main>
   <div class="main-inner">
-    <p class="intro">Un género vivo produce obra nueva y produce pensamiento sobre sí mismo. Este pilar
-      atiende las dos cosas: la escritura de zarzuela contemporánea y la publicación de
-      estudios y ediciones sobre el género.</p>
+    <blockquote class="big-quote">"Ser la institución de referencia en el mundo de la Zarzuela, asegurando su legado para las futuras generaciones."</blockquote>
 
-    <div class="bloque">
-      <h2>Objetivos</h2>
-      <ul class="objetivos">
-        <li>Estimular la escritura de nuevas obras líricas en español, en diálogo con la tradición del género y sin quedar presas de ella.</li>
-        <li>Poner en contacto a compositores con libretistas, dramaturgos y compañías.</li>
-        <li>Publicar estudios, ediciones y trabajos de investigación sobre el teatro lírico español.</li>
-        <li>Acompañar el paso del papel al escenario, que es donde la mayoría de las obras nuevas se detiene.</li>
-      </ul>
+    <div class="mvv">
+        <div><h2>Misión</h2><p>Preservar, promover y revitalizar la Zarzuela como género musical y teatral, fomentando su estudio, interpretación y difusión a nivel nacional e internacional. Servimos como punto de encuentro para artistas, investigadores y todo el público que ama este patrimonio.</p></div>
+        <div><h2>Visión</h2><p>Posicionar la Zarzuela en el panorama de las artes escénicas del siglo XXI a través de programas educativos, producciones innovadoras y una plataforma de documentación y promoción única en el mundo.</p></div>
+        <div><h2>Valores</h2><p>Excelencia artística, rigor académico, acceso universal a la cultura y colaboración con instituciones, compañías y artistas que comparten nuestra pasión por este legado irrepetible.</p></div>
     </div>
 
-    <div class="bloque">
-      <h2>Líneas de trabajo</h2>
-      <ul class="lineas">
-        <li><b>Encargos y convocatorias</b>Dirigidos a compositores y libretistas que quieran escribir obra nueva para el teatro lírico.</li>
-        <li><b>Colección editorial del Instituto</b>Estudios especializados y ediciones de las obras recuperadas.</li>
-        <li><b>Colaboración con archivos y colecciones privadas</b>Para la edición de materiales inéditos que hoy no están al alcance de nadie.</li>
-        <li><b>Talleres de escritura y composición</b>Centrados en las exigencias concretas de la escena lírica.</li>
-      </ul>
+    <!-- ── FUNDADORES ─────────────────────────────────────────────
+         Para añadir a una persona, copia este bloque dentro de
+         <div class="personas-grid"> y quita la línea «proximamente»:
+         <article class="persona-card">
+           <img src="equipo/nombre-apellido.jpg" alt="Nombre Apellido">
+           <div class="pc-txt">
+             <h3>Nombre Apellido</h3>
+             <p class="pc-cargo">Cargo en INNAZ</p>
+             <p class="pc-cv">Resumen del currículum.</p>
+           </div>
+         </article>
+    ─────────────────────────────────────────────────────────── -->
+    <div class="bloque" id="fundadores">
+      <h2>Fundadores</h2>
+      <p class="proximamente">Próximamente presentaremos aquí a los fundadores del Instituto.</p>
+      <div class="personas-grid"></div>
     </div>
 
-    <div class="bloque">
-      <h2>Participa</h2>
-      <p>¿Quieres colaborar? Escríbenos a
-      <a href="mailto:info@innaz.es" style="color: var(--teal-dark);">info@innaz.es</a>
-      o <a href="index.html#socio" style="color: var(--teal-dark);">suscríbete a INNAZ</a>.</p>
+    <!-- ── EMBAJADORES HONORÍFICOS: mismo bloque, sin currículum si no hace falta ── -->
+    <div class="bloque" id="embajadores">
+      <h2>Embajadores honoríficos</h2>
+      <p class="proximamente">Próximamente presentaremos aquí a los embajadores honoríficos del Instituto.</p>
+      <div class="personas-grid"></div>
     </div>
 
     <div class="otros-pilares">
-      <p class="ol">Los otros pilares</p>
+      <p class="ol">Nuestros pilares</p>
       <div class="ops">
         <a href="proyecto-formacion.html">Formación →</a>
         <a href="proyecto-recuperacion.html">Recuperación →</a>
         <a href="proyecto-interpretacion.html">Interpretación →</a>
+        <a href="proyecto-creacion.html">Creación →</a>
       </div>
     </div>
   </div>
