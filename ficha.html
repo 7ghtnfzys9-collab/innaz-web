@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=f8ce15f2"></script>
+  <script src="zarzuteca-data.js?v=52ed32c8"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -340,7 +340,7 @@
     // el ordinal desnudo. Jornada/Parte/Prólogo/Epílogo son divisiones de nivel
     // de acto y siempre se pintan.
     const ORD='[uú]nico|primero?|segundo|tercero?|cuarto|quinto|sexto|s[eé]ptimo|octavo|noveno|d[eé]cimo|[ivxlcdm]+|\\d+';
-    const CUADRO_DESNUDO=new RegExp('^(?:cuadro\\s+(?:'+ORD+')|(?:primer|segundo|tercer|cuarto|quinto|sexto|s[eé]ptimo|octavo|noveno|d[eé]cimo|[uú]ltimo)\\s+cuadro)[.º°ª]?$','i');
+    const CUADRO_DESNUDO=new RegExp('^(?:cuadro\\s+(?:'+ORD+')|(?:primer|segundo|tercer|cuarto|quinto|sexto|s[eé]ptimo|octavo|noveno|d[eé]cimo|[uú]ltimo)\\s+cuadro)\\.?[º°ª]?\\.?$','i'); // 30/09/2026: también «Cuadro 1.º» (Doña Francisquita)
     const esCuadro=n=>n.h && CUADRO_DESNUDO.test(n.t.trim());
     // El argumento se sirve PLEGADO (06/08/2026, petición de César): en la vista
     // inicial se ven los primeros ARG_PREVIEW caracteres de prosa del argumento
