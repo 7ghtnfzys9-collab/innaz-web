@@ -155,7 +155,8 @@
   "Teatro de la Bolsa de Madrid": "teatro-de-la-bolsa-madrid",
   "Teatro de Capellanes de Madrid": "teatro-de-capellanes-madrid",
   "Teatro Arriaga de Bilbao": "teatro-arriaga-bilbao",
-  "Teatro de Mayo de Buenos Aires": "teatro-de-mayo-buenos-aires"
+  "Teatro de Mayo de Buenos Aires": "teatro-de-mayo-buenos-aires",
+  "Casino Municipal de Niza": "casino-municipal-niza"
  },
  "teatros": [
   {
@@ -632,6 +633,11 @@
    "k": "teatro-de-mayo-buenos-aires",
    "n": "Teatro de Mayo",
    "c": "Buenos Aires"
+  },
+  {
+   "k": "casino-municipal-niza",
+   "n": "Casino Municipal",
+   "c": "Niza"
   }
  ]
 }
