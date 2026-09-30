@@ -637,6 +637,14 @@
     @media(max-width:960px){.nav-links.open{bottom:auto;max-height:calc(100dvh - 58px);overflow-y:auto;
       background:rgba(248,244,238,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
       border-bottom:1px solid #E2DAD0;box-shadow:0 12px 28px rgba(0,0,0,.14);padding:1.6rem 1.6rem 1.8rem;}}
+
+    /* 30-9-2026: secciones de la Zarzuteca en lugar de la línea de cifras */
+    .zarz-secciones { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: .2rem 2.2rem; margin: 1.6rem 0 2rem; }
+    .zarz-secciones li { font-size: .88rem; line-height: 1.65; color: var(--muted); padding: .7rem 0; border-top: 1px solid var(--border); }
+    .zarz-secciones a { display: block; text-decoration: none; }
+    .zarz-secciones b { font-family: 'Cormorant SC', serif; font-size: 1.1rem; font-weight: 600; color: var(--black); transition: color .2s; }
+    .zarz-secciones a:hover b { color: var(--teal); }
+    @media (max-width: 720px) { .zarz-secciones { grid-template-columns: 1fr; } }
 </style>
   <script src="noticias-data.js?v=1f871ecf"></script>
 </head>
@@ -669,7 +677,7 @@
     <p class="hero-subtitle">Preservamos cada nota de nuestro patrimonio</p>
     <div class="hero-rule"></div>
     <p class="hero-desc">
-      La institución de referencia para la conservación, promoción y difusión
+      Una de las instituciones de referencia para la conservación, promoción y difusión
       de la Zarzuela, el género musical más genuinamente español.
     </p>
     <div class="hero-cta">
@@ -690,7 +698,7 @@
       <p class="section-label">Los cuatro pilares</p>
       <h2 class="section-title">Nuestros Pilares</h2>
     </div>
-    <p class="pilares-intro">Cuatro frentes que se sostienen entre sí: se recupera para poder interpretar, se interpreta para que haya a quien formar, y se forma para que el género siga creando.</p>
+    <p class="pilares-intro">Cuatro frentes que forman un círculo: se recupera para poder interpretar, se interpreta para que haya a quien formar, se forma para que el género siga creando, y lo que se crea vuelve a ser patrimonio que recuperar. Cada pilar depende de los otros tres.</p>
     <div class="pilares-grid">
       <div class="pilar-card reveal">
         <span class="pilar-num">01</span>
@@ -703,21 +711,21 @@
         <span class="pilar-num">02</span>
         <div class="pilar-icon">𝄞</div>
         <h3>Recuperación</h3>
-        <p>Localizar, documentar y publicar el repertorio disperso en archivos, bibliotecas y colecciones privadas. De este trabajo nace la Zarzuteca, el catálogo documental del Instituto.</p>
+        <p>Localizar, documentar y publicar el repertorio disperso en archivos, bibliotecas y colecciones privadas. De este trabajo nacen la Zarzuteca, el catálogo documental del Instituto, y una editorial libre de derechos, con descarga de las obras en dominio público.</p>
         <a class="pilar-link" href="proyecto-recuperacion.html">Ver más →</a>
       </div>
       <div class="pilar-card reveal">
         <span class="pilar-num">03</span>
         <div class="pilar-icon">🎭</div>
         <h3>Interpretación</h3>
-        <p>Que la Zarzuela vuelva a los escenarios: apoyo documental a las compañías, Sello de Calidad INNAZ y el Festival Anual como cita de referencia del género.</p>
+        <p>Apoyo documental a las compañías, Sello de Calidad INNAZ y el Festival Anual como cita de referencia del género.</p>
         <a class="pilar-link" href="proyecto-interpretacion.html">Ver más →</a>
       </div>
       <div class="pilar-card reveal">
         <span class="pilar-num">04</span>
         <div class="pilar-icon">✒️</div>
         <h3>Creación</h3>
-        <p>Impulsar la obra nueva y el estudio del género: encargos y convocatorias de nueva creación lírica, y una colección editorial propia de estudios y ediciones.</p>
+        <p>Impulsar la obra nueva y el estudio del género: encargos y concursos de nueva creación lírica, y una colección editorial propia de estudios y ediciones.</p>
         <a class="pilar-link" href="proyecto-creacion.html">Ver más →</a>
       </div>
     </div>
@@ -747,7 +755,13 @@
         materiales digitalizados disponibles, listos para el estudio, la lectura,
         la puesta en escena o la escucha.
       </p>
-      <p class="zarz-cifra">1.241 obras registradas · más de 300 fichas ya publicadas · en ampliación constante</p>
+      <ul class="zarz-secciones">
+        <li><a href="buscador.html"><b>Catálogo</b></a>El buscador completo: título, compositor, libretista o teatro en una sola caja, con filtros para afinar.</li>
+        <li><a href="obras.html"><b>Obras</b></a>Todas las obras con ficha publicada.</li>
+        <li><a href="autores.html"><b>Autores</b></a>Compositores y libretistas con obra en la Zarzuteca, con su biografía cuando ya está redactada.</li>
+        <li><a href="teatros.html"><b>Teatros</b></a>Los teatros con estreno documentado, ciudad por ciudad.</li>
+        <li><a href="anios.html"><b>Años</b></a>Los estrenos ordenados en el tiempo, año a año.</li>
+      </ul>
       <a href="buscador.html" target="_blank" rel="noopener" class="btn btn-primary">Acceder a la Zarzuteca</a>
     </div>
   </div>
