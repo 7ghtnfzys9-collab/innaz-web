@@ -144,12 +144,12 @@
   <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
   <ul class="nav-links" id="navlinks">
     <li><a href="que-es-innaz.html">Qué es INNAZ</a></li>
-    <li><a href="index.html#pilares">Pilares</a></li>
-    <li><a href="index.html#sello">Sello de Calidad</a></li>
+    <li class="zz-drop"><a href="index.html#pilares" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="proyecto-formacion.html">Formación</a></li><li><a href="proyecto-recuperacion.html">Recuperación</a></li><li><a href="proyecto-interpretacion.html">Interpretación</a></li><li><a href="proyecto-creacion.html">Creación</a></li></ul></li>
     <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Catálogo</a></li><li><a href="obras.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
     <li><a href="noticias.html" class="active">Noticias</a></li>
-    <li><a href="index.html#contacto">Contacto</a></li>
+    <li><a href="index.html#sello">Sello de Calidad</a></li>
     <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
   </ul>
   <button class="nav-hamburger" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú"><span></span><span></span><span></span></button>
 </nav>
@@ -332,20 +332,30 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Menú desplegable de la Zarzuteca, igual que en el resto del sitio.
-  document.querySelectorAll('.zz-drop-t').forEach(t => {
-    t.addEventListener('click', ev => {
-      if (window.innerWidth <= 960) {
-        ev.preventDefault();
-        t.parentElement.classList.toggle('open');
-        t.setAttribute('aria-expanded', t.parentElement.classList.contains('open'));
-      }
+  // Menús desplegables (Pilares y Zarzuteca), igual que en el resto del sitio.
+(function(){
+  /* 30-9-2026: ahora hay dos desplegables (Pilares y Zarzuteca). Abrir uno cierra el otro. */
+  var ds=document.querySelectorAll('.zz-drop'); if(!ds.length) return;
+  function cerrar(d){ d.classList.remove('open'); var t=d.querySelector('.zz-drop-t'); if(t) t.setAttribute('aria-expanded','false'); }
+  ds.forEach(function(d){
+    var t=d.querySelector('.zz-drop-t');
+    if(t) t.addEventListener('click',function(e){
+      e.preventDefault();
+      ds.forEach(function(o){ if(o!==d) cerrar(o); });
+      var abierto=d.classList.toggle('open');
+      t.setAttribute('aria-expanded',abierto?'true':'false');
+    });
+    d.querySelectorAll('.zz-drop-m a').forEach(function(a){
+      a.addEventListener('click',function(){
+        cerrar(d);
+        if(typeof closeMenu==='function'){ closeMenu(); return; }
+        var nl=document.getElementById('navlinks'); if(nl) nl.classList.remove('open');
+      });
     });
   });
-  document.querySelectorAll('.zz-drop').forEach(d => {
-    d.addEventListener('mouseenter', () => { if (window.innerWidth > 960) d.classList.add('open'); });
-    d.addEventListener('mouseleave', () => { if (window.innerWidth > 960) d.classList.remove('open'); });
-  });
+  document.addEventListener('click',function(e){ ds.forEach(function(d){ if(!d.contains(e.target)) cerrar(d); }); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') ds.forEach(cerrar); });
+})();
 
   if (!N.length) {
     $('vacio').hidden = false;
