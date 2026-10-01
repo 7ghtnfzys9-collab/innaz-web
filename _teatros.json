@@ -156,7 +156,8 @@
   "Teatro de Capellanes de Madrid": "teatro-de-capellanes-madrid",
   "Teatro Arriaga de Bilbao": "teatro-arriaga-bilbao",
   "Teatro de Mayo de Buenos Aires": "teatro-de-mayo-buenos-aires",
-  "Casino Municipal de Niza": "casino-municipal-niza"
+  "Casino Municipal de Niza": "casino-municipal-niza",
+  "Teatro de los Basilios de Madrid": "teatro-de-los-basilios-madrid"
  },
  "teatros": [
   {
@@ -331,7 +332,7 @@
   },
   {
    "k": "teatro-el-dorado-madrid",
-   "n": "Teatro El Dorado",
+   "n": "Teatro Eldorado",
    "c": "Madrid"
   },
   {
