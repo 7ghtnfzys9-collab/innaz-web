@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=fd50fad8"></script>
+  <script src="zarzuteca-data.js?v=c535bb5b"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -337,7 +337,10 @@
   // 24-9-2026, tarde, decisión de César: los datos del teatro son SOLO aforo, inauguración y
   // arquitectos originales. Cierre y otros nombres siguen en el Excel y se cuentan en la historia.
   // 24-9-2026, noche: «Inauguración y cierre» en dos líneas (col4 y col8 del Excel).
-  const DATOS_TEATRO=[['aforo','Aforo'],['inaug','Inauguración y cierre'],['arq','Arquitectos']];
+  // 1-10-2026, noche, decisión de César: el cuadro «Inauguración y cierre» pasa a llamarse «Cronología»
+  // y lleva tres líneas rotuladas: Inauguración (col4), Nombres (col9, «Nombres sucesivos», solo si
+  // está rellena) y Situación actual (col8; antes «Cierre», que no cuadraba con «En activo»).
+  const DATOS_TEATRO=[['aforo','Aforo'],['inaug','Cronología'],['arq','Arquitectos']];
   const SIN_DATOS='Sin datos documentados';
   function bloqueDatosTeatro(t){
     if(!t) return '';
@@ -347,8 +350,10 @@
       let dd=esc(val(k));
       if(k==='inaug'){
         const ini=val('inaug'), fin=val('cierre');
-        dd=esc(ini===SIN_DATOS?'Inauguración: sin datos documentados':ini)+'<br>'+
-           esc(fin===SIN_DATOS?'Cierre: sin datos documentados':fin);
+        const nom=t.otros&&String(t.otros).trim();
+        dd='<strong>Inauguración:</strong> '+esc(ini===SIN_DATOS?'sin datos documentados':ini)+
+           (nom?'<br><strong>Nombres:</strong> '+esc(nom):'')+
+           '<br><strong>Situación actual:</strong> '+esc(fin===SIN_DATOS?'sin datos documentados':fin);
       }
       return `<div><dt>${esc(r)}</dt><dd>${dd}</dd></div>`;}).join('');
     return filas?`<div class="bloque"><h2>Datos del teatro</h2><dl class="datos">${filas}</dl></div>`:'';

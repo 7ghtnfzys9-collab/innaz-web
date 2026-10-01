@@ -110,7 +110,7 @@
   "Teatro Princesa de Valencia": "teatro-princesa-valencia",
   "Teatro Principal de México": "teatro-principal-ciudad-de-mexico",
   "Teatro Principal de San Sebastián": "teatro-principal-san-sebastian",
-  "Teatro del Príncipe de Madrid": "teatro-principe-madrid",
+  "Teatro del Príncipe de Madrid": "teatro-espanol-madrid",
   "Teatro Príncipe de San Sebastián": "teatro-principe-san-sebastian",
   "Teatro del Príncipe Alfonso de Madrid": "teatro-principe-alfonso-madrid",
   "Teatro Príncipe Alfonso de Madrid": "teatro-principe-alfonso-madrid",
@@ -238,7 +238,7 @@
   },
   {
    "k": "teatro-auditorium-la-habana",
-   "n": "Teatro Auditorium",
+   "n": "Teatro Amadeo Roldán",
    "c": "La Habana"
   },
   {
@@ -383,7 +383,7 @@
   },
   {
    "k": "teatro-instituto-madrid",
-   "n": "Teatro Instituto",
+   "n": "Teatro del Instituto",
    "c": "Madrid"
   },
   {
@@ -648,6 +648,8 @@
   "Teatro Centro de Madrid": "Teatro Centro",
   "Teatro de los Basilios de Madrid": "Teatro de los Basilios",
   "Teatro Basilios": "Teatro de los Basilios",
-  "Teatro Folies Arderíus de Madrid": "Folies Arderíus"
+  "Teatro Folies Arderíus de Madrid": "Folies Arderíus",
+  "Teatro del Príncipe de Madrid": "Teatro del Príncipe",
+  "Teatro Auditorium de La Habana": "Teatro Auditorium"
  }
 }
