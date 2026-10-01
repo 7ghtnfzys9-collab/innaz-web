@@ -27,7 +27,7 @@
   "Buen Retiro, Madrid": "teatro-jardines-del-buen-retiro-madrid",
   "Teatro Calderón de Madrid": "teatro-calderon-madrid",
   "Teatro Calderón, Madrid": "teatro-calderon-madrid",
-  "Teatro Centro de Madrid": "teatro-centro-madrid",
+  "Teatro Centro de Madrid": "teatro-calderon-madrid",
   "Cervantes, Granada": "teatro-cervantes-granada",
   "Cervantes, Sevilla": "teatro-cervantes-sevilla",
   "Teatro Cervantes de Sevilla": "teatro-cervantes-sevilla",
@@ -102,8 +102,8 @@
   "Novedades, Madrid": "teatro-novedades-madrid",
   "Teatro Odeón de Barcelona": "teatro-odeon-barcelona",
   "Odeón, Valparaíso (Chile)": "teatro-odeon-valparaiso",
-  "Teatro Parish de Madrid": "teatro-parish-madrid",
-  "Teatro de Parish de Madrid": "teatro-parish-madrid",
+  "Teatro Parish de Madrid": "teatro-circo-price-madrid",
+  "Teatro de Parish de Madrid": "teatro-circo-price-madrid",
   "Teatro Pavón de Madrid": "teatro-pavon-madrid",
   "Teatro Payret de La Habana": "teatro-payret-la-habana",
   "Teatro del Conservatorio de México": "teatro-principal-ciudad-de-mexico",
@@ -639,5 +639,10 @@
    "n": "Casino Municipal",
    "c": "Niza"
   }
- ]
+ ],
+ "rotulos": {
+  "Teatro Parish de Madrid": "Teatro Parish",
+  "Teatro de Parish de Madrid": "Teatro Parish",
+  "Teatro Centro de Madrid": "Teatro Centro"
+ }
 }

@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=9c6ec6ea"></script>
+  <script src="zarzuteca-data.js?v=098421d3"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -286,7 +286,8 @@
   const TE=(typeof TEATROS!=='undefined')?TEATROS:[];
   function nombreTeatro(o){
     const t=o.teatroK?TE.find(x=>x.k===o.teatroK):null;
-    return t ? t.n+(t.c?' ('+t.c+')':'') : (o.teatro||'');
+    // 1-10-2026: sala fusionada -> nombre que tenía en la fecha del estreno.
+    return t ? (o.teatroR||t.n)+(t.c?' ('+t.c+')':'') : (o.teatro||'');
   }
   // En la ficha de un teatro no se repite el teatro debajo de cada obra: ya es
   // el encabezado de la página.
@@ -297,7 +298,9 @@
     // codificado porque JSON.stringify trae comillas que rompen el atributo.
     const idsAttr=encodeURIComponent(JSON.stringify(obras.map(o=>o.id)));
     return `<ul class="obras" data-ids="${idsAttr}">`+obras.map(o=>{
-      const meta=conTeatro?nombreTeatro(o):'';
+      // En la ficha de un teatro no se repite el teatro, salvo cuando la obra se
+      // estrenó con otro nombre de la sala (fusiones, 1-10-2026).
+      const meta=conTeatro?nombreTeatro(o):(o.teatroR?'Estrenada como '+o.teatroR:'');
       const inner=`<span class="ot">${esc(o.t)}</span>${meta?`<div class="om">${esc(meta)}</div>`:''}`;
       const yr=`<div class="yr">${esc(o.anioN||o.anio||'')}</div>`;
       return `<li>${yr}<a href="ficha.html?id=${encodeURIComponent(o.id)}">${inner}</a></li>`;

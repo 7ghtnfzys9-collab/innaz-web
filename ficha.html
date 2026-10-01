@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=9c6ec6ea"></script>
+  <script src="zarzuteca-data.js?v=098421d3"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -266,7 +266,10 @@
     // rótulo sería ambiguo. Si la obra no tiene clave de teatro (su cadena de
     // col3 no está en la tabla validada), se sirve col3 tal cual y sin enlace.
     const teat=o.teatroK && typeof TEATROS!=='undefined' ? TEATROS.find(x=>x.k===o.teatroK) : null;
-    const teatroTxt = teat ? teat.n+(teat.c?' ('+teat.c+')':'') : o.teatro;
+    // 1-10-2026 (fusiones de salas, decisión de César del 25-9): si la sala se
+    // llamaba de otro modo en la fecha del estreno, se rotula con ESE nombre
+    // (o.teatroR) y se enlaza a la ficha del edificio (o.teatroK).
+    const teatroTxt = teat ? (o.teatroR||teat.n)+(teat.c?' ('+teat.c+')':'') : o.teatro;
     const partes=[];
     if(teatroTxt) partes.push(o.teatroK ? lnk('teatro', o.teatroK, teatroTxt) : esc(teatroTxt));
     if(o.anio){
