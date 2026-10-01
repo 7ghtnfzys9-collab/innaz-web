@@ -55,7 +55,7 @@
   "Teatro de la Zarzuela de Madrid": "teatro-de-la-zarzuela-madrid",
   "Teatro de la Zarzuela": "teatro-de-la-zarzuela-madrid",
   "Teatro de la Zarzuela, Madrid": "teatro-de-la-zarzuela-madrid",
-  "Teatro Basilios": "teatro-de-los-basilios-madrid",
+  "Teatro Basilios": "teatro-de-variedades-madrid",
   "Teatro de los Bufos Madrileños": "teatro-de-variedades-madrid",
   "Teatro de los Bufos madrileños": "teatro-de-variedades-madrid",
   "Teatro de Variedades de Madrid": "teatro-de-variedades-madrid",
@@ -157,7 +157,8 @@
   "Teatro Arriaga de Bilbao": "teatro-arriaga-bilbao",
   "Teatro de Mayo de Buenos Aires": "teatro-de-mayo-buenos-aires",
   "Casino Municipal de Niza": "casino-municipal-niza",
-  "Teatro de los Basilios de Madrid": "teatro-de-los-basilios-madrid"
+  "Teatro de los Basilios de Madrid": "teatro-de-variedades-madrid",
+  "Teatro Folies Arderíus de Madrid": "teatro-alhambra-madrid"
  },
  "teatros": [
   {
@@ -644,6 +645,9 @@
  "rotulos": {
   "Teatro Parish de Madrid": "Teatro Parish",
   "Teatro de Parish de Madrid": "Teatro Parish",
-  "Teatro Centro de Madrid": "Teatro Centro"
+  "Teatro Centro de Madrid": "Teatro Centro",
+  "Teatro de los Basilios de Madrid": "Teatro de los Basilios",
+  "Teatro Basilios": "Teatro de los Basilios",
+  "Teatro Folies Arderíus de Madrid": "Folies Arderíus"
  }
 }
