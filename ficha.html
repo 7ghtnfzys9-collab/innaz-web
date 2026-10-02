@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=6e033bb2"></script>
+  <script src="zarzuteca-data.js?v=68585728"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -61,7 +61,9 @@
     .bloque{margin-bottom:2.6rem;}
     .bloque h2{font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);}
     .mats{display:flex;gap:.5rem;flex-wrap:wrap;}
-    .mat{font-size:.74rem;letter-spacing:.05em;text-decoration:none;padding:.5rem .9rem;border-radius:4px;border:1px solid;transition:opacity .15s;}
+    .mat{display:flex;flex-direction:column;gap:.15rem;min-width:9.5rem;text-decoration:none;padding:.55rem .9rem;border-radius:6px;border:1px solid;transition:opacity .15s;} /* 2-10-2026: tarjeta de dos líneas */
+    .mat-t{font-size:.86rem;font-weight:600;}
+    .mat-f{font-size:.72rem;opacity:.8;}
     .mat:hover{opacity:.75;}
     .mat.p{color:var(--teal-dark);border-color:#bfe0e3;background:#eaf5f6;}
     .mat.l{color:#5c6b2f;border-color:#d6e0bf;background:#f1f4e9;}
@@ -223,23 +225,29 @@
   const o=(typeof OBRAS!=='undefined')?OBRAS.find(x=>x.id===id):null;
   function splitNames(s){return (s||'').split(/;\s*/).map(x=>x.trim()).filter(Boolean);} // 11-8-2026: «;» es el ÚNICO separador de col4/col5; el regex anterior partía también por « y » y rompía los enlaces de nombres que lo contienen (p. ej. Carlos Arniches y Barrera)
   const TLAB={part:['Partitura','p'],lib:['Libreto','l'],vid:['Vídeo','v'],aud:['Audio','a']};
-  // 2-10-2026 (decisión de César): cada botón de enlace lleva las INICIALES de su fuente
-  // (el nombre completo va en el «title», al pasar el ratón). Si en un mismo apartado hay
-  // dos ficheros distintos de la misma fuente, se numeran: «BNE 1», «BNE 2». En partituras
-  // se añade el tipo («Orquesta» / «Cantopiano») cuando el Excel lo trae («Tipo :: URL»).
-  const FUENTES=[[/bne\.es/i,'BNE','Biblioteca Nacional de España'],[/march\.es/i,'FJM','Fundación Juan March'],
-    [/archive\.org/i,'IA','Internet Archive'],[/d1ojt5ed83j740\.cloudfront\.net|sgae\.es/i,'SGAE','Archivo de la SGAE'],
-    [/mdc\.csuc\.cat/i,'MDC','Memòria Digital de Catalunya'],[/bibliotecadigitaldeandalucia/i,'BDA','Biblioteca Digital de Andalucía'],
-    [/jcyl\.es/i,'BDCYL','Biblioteca Digital de Castilla y León'],[/teatrodelazarzuela/i,'TZ','Teatro de la Zarzuela'],
-    [/teatroteca|teatro\.es/i,'CDAEM','Teatroteca del CDAEM (INAEM)'],[/hathitrust/i,'HT','HathiTrust'],
-    [/usf\.edu/i,'USF','Universidad del Sur de Florida'],[/maestroalonso/i,'MA','Web oficial del maestro Alonso'],
-    [/el-atril/i,'EA','El Atril'],[/todalamusica/i,'TLM','Toda la Música'],
-    [/spotify/i,'Spotify','Spotify'],[/youtube|youtu\.be/i,'YouTube','YouTube']];
-  function fuenteDe(u){for(const [re,a,n] of FUENTES) if(re.test(u)) return [a,n];
-    let h='';try{h=new URL(u).hostname.replace(/^www\./,'');}catch(e){} return [h||'Enlace',h||''];}
-  function rotulosEnlaces(arr,tipos){const f=arr.map(fuenteDe),c={},i={};f.forEach(([a])=>c[a]=(c[a]||0)+1);
-    return f.map(([a,n],k)=>{let r=a; if(c[a]>1){i[a]=(i[a]||0)+1; r+=' '+i[a];} const t=(tipos&&tipos[k])||'';
-      return {lab:r+(t?' · '+t:''), tit:n+(t?' — '+t:'')};});}
+  // 2-10-2026 (decisión de César, opción B): cada enlace es una TARJETA de dos líneas.
+  //   Línea 1: el tipo y la fecha del documento, tal como la trae el propio documento
+  //            (partitura: «Orquesta 1902», «Cantopiano»; libreto: «Libreto 1902»; vídeo: «Vídeo 1983»).
+  //            Sale del Excel, escrito delante de la URL: «Orquesta 1902 :: https://…» (libreto: «1902 :: https://…»).
+  //   Línea 2: el NOMBRE de la fuente, sin iniciales.
+  //   Sin flecha. Si dos tarjetas de un apartado quedan iguales (fichas aún sin fecha), se numeran.
+  const FUENTES=[[/bne\.es/i,'Biblioteca Nacional de España'],[/march\.es/i,'Fundación Juan March'],
+    [/archive\.org/i,'Internet Archive'],[/d1ojt5ed83j740\.cloudfront\.net|sgae\.es/i,'Archivo de la SGAE'],
+    [/mdc\.csuc\.cat/i,'Memòria Digital de Catalunya'],[/bibliotecadigitaldeandalucia/i,'Biblioteca Digital de Andalucía'],
+    [/jcyl\.es/i,'Biblioteca Digital de Castilla y León'],[/teatrodelazarzuela/i,'Teatro de la Zarzuela'],
+    [/teatroteca|teatro\.es/i,'Teatroteca (INAEM)'],[/hathitrust/i,'HathiTrust'],
+    [/usf\.edu/i,'Universidad del Sur de Florida'],[/maestroalonso/i,'Web del maestro Alonso'],
+    [/el-atril/i,'El Atril'],[/todalamusica/i,'Toda la Música'],
+    [/spotify/i,'Spotify'],[/youtube|youtu\.be/i,'YouTube']];
+  function fuenteDe(u){for(const [re,n] of FUENTES) if(re.test(u)) return n;
+    try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return 'Enlace';}}
+  function tarjetasEnlaces(k,arr,desc){const base={part:'Partitura',lib:'Libreto',vid:'Vídeo',aud:'Audio'}[k];
+    const T=arr.map((u,i)=>{const d=((desc&&desc[i])||'').trim(); let t;
+      if(k==='part') t=d?(/^\d/.test(d)?base+' '+d:d):base; else t=d?base+' '+d:base;
+      return {t, f:fuenteDe(u)};});
+    const c={},n={}; T.forEach(x=>{const key=x.t+'|'+x.f; c[key]=(c[key]||0)+1;});
+    T.forEach(x=>{const key=x.t+'|'+x.f; if(c[key]>1){n[key]=(n[key]||0)+1; x.t+=' ('+n[key]+')';}});
+    return T;}
 
   // Botón «Nueva búsqueda»: antes vivía suelto en el HTML, fuera de los
   // chips. Ahora se genera siempre por JS, en la última fila de chips, junto
@@ -486,8 +494,8 @@
     // 3) materiales y descargas — SIEMPRE AL FINAL
     const matSecs=[];
     for(const k in TLAB){ const arr=o[k]||[]; const [lab,cls]=TLAB[k];
-      if(arr.length){ matSecs.push(`<div style="margin-bottom:.8rem"><div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">${lab}${arr.length>1?' ('+arr.length+')':''}</div><div class="mats">`+
-        (()=>{const R=rotulosEnlaces(arr,o[k+'T']);return arr.map((u,i)=>`<a class="mat ${cls}" href="${esc(u)}" target="_blank" rel="noopener" title="${esc(lab+': '+R[i].tit)}">${esc(R[i].lab)} ↗</a>`).join('');})()+`</div></div>`); } }
+      if(arr.length){ matSecs.push(`<div style="margin-bottom:.8rem"><div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">${lab}</div><div class="mats">`+
+        tarjetasEnlaces(k,arr,o[k+'T']).map((x,i)=>`<a class="mat ${cls}" href="${esc(arr[i])}" target="_blank" rel="noopener"><span class="mat-t">${esc(x.t)}</span><span class="mat-f">${esc(x.f)}</span></a>`).join('')+`</div></div>`); } }
     // 5-8-2026 (decision de Cesar): la ficha publica SOLO cuatro tipos de enlace
     // -partitura, libreto, video y audio-. El quinto boton, «Texto digitalizado
     // (BNE)» (col13), se retira: de sus 77 enlaces, 76 apuntaban al mismo
