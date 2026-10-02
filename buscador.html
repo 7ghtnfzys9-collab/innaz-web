@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=51a7b566"></script>
+  <script src="zarzuteca-data.js?v=6e033bb2"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;
           /* ancho compartido por la entradilla y la caja de búsqueda (7-8-2026,
@@ -234,6 +234,24 @@
   const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const y4=s=>((s||'').match(/\d{4}/)||[''])[0];
   const TL={part:['Partitura','p'],lib:['Libreto','l'],vid:['Vídeo','v'],aud:['Audio','a']};
+  // 2-10-2026 (decisión de César): cada botón de enlace lleva las INICIALES de su fuente
+  // (el nombre completo va en el «title», al pasar el ratón). Si en un mismo apartado hay
+  // dos ficheros distintos de la misma fuente, se numeran: «BNE 1», «BNE 2». En partituras
+  // se añade el tipo («Orquesta» / «Cantopiano») cuando el Excel lo trae («Tipo :: URL»).
+  const FUENTES=[[/bne\.es/i,'BNE','Biblioteca Nacional de España'],[/march\.es/i,'FJM','Fundación Juan March'],
+    [/archive\.org/i,'IA','Internet Archive'],[/d1ojt5ed83j740\.cloudfront\.net|sgae\.es/i,'SGAE','Archivo de la SGAE'],
+    [/mdc\.csuc\.cat/i,'MDC','Memòria Digital de Catalunya'],[/bibliotecadigitaldeandalucia/i,'BDA','Biblioteca Digital de Andalucía'],
+    [/jcyl\.es/i,'BDCYL','Biblioteca Digital de Castilla y León'],[/teatrodelazarzuela/i,'TZ','Teatro de la Zarzuela'],
+    [/teatroteca|teatro\.es/i,'CDAEM','Teatroteca del CDAEM (INAEM)'],[/hathitrust/i,'HT','HathiTrust'],
+    [/usf\.edu/i,'USF','Universidad del Sur de Florida'],[/maestroalonso/i,'MA','Web oficial del maestro Alonso'],
+    [/el-atril/i,'EA','El Atril'],[/todalamusica/i,'TLM','Toda la Música'],
+    [/spotify/i,'Spotify','Spotify'],[/youtube|youtu\.be/i,'YouTube','YouTube']];
+  function fuenteDe(u){for(const [re,a,n] of FUENTES) if(re.test(u)) return [a,n];
+    let h='';try{h=new URL(u).hostname.replace(/^www\./,'');}catch(e){} return [h||'Enlace',h||''];}
+  function rotulosEnlaces(arr,tipos){const f=arr.map(fuenteDe),c={},i={};f.forEach(([a])=>c[a]=(c[a]||0)+1);
+    return f.map(([a,n],k)=>{let r=a; if(c[a]>1){i[a]=(i[a]||0)+1; r+=' '+i[a];} const t=(tipos&&tipos[k])||'';
+      return {lab:r+(t?' · '+t:''), tit:n+(t?' — '+t:'')};});}
+
   const MATNOM={part:'Partituras',lib:'Libretos',vid:'Vídeos',aud:'Audios'};
   const PP=(typeof PERSONAS!=='undefined'?PERSONAS:[]);
   const NOMBRE={}; PP.forEach(p=>NOMBRE[p.id]=p.n);
@@ -379,7 +397,7 @@
     let h='';
     const keys = tipo ? [tipo] : ['part','lib','vid','aud'];
     for(const k of keys){const arr=o[k]||[];const[lab,cls]=TL[k];
-      arr.forEach((u,i)=>{h+=`<a class="mlink ${cls}" href="${esc(u)}" target="_blank" rel="noopener">${lab}${arr.length>1?' '+(i+1):''} ↗</a>`;});}
+      const R=rotulosEnlaces(arr,o[k+'T']); arr.forEach((u,i)=>{h+=`<a class="mlink ${cls}" href="${esc(u)}" target="_blank" rel="noopener" title="${esc(lab+': '+R[i].tit)}">${esc(lab+' '+R[i].lab)} ↗</a>`;});}
     return h?`<div class="mats-row">${h}</div>`:'';
   }
   function metaLine(o){
