@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=6515297b"></script>
+  <script src="zarzuteca-data.js?v=d507536c"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -25,6 +25,8 @@
        12-9-2026 a petición de César. Calca la regla .sub de listado.html, que
        es la que pinta el rol bajo el nombre en la ficha de autor: Cormorant
        en cursiva, 1.15rem, var(--muted). Si allí se cambia, cámbiese aquí. */
+    /* Segundo título de la obra (col18; 2-10-2026, decisión de César): misma letra que el título, más pequeña. */
+    .subtitulo{font-family:'Cormorant SC',serif;font-size:clamp(1.25rem,3vw,1.9rem);font-weight:600;line-height:1.15;color:var(--black);margin-top:.25rem;}
     .genero{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;max-width:58rem;line-height:1.45;}
     .chips{display:flex;flex-direction:column;gap:.55rem;margin-top:1.4rem;}
     .chips-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
@@ -183,6 +185,7 @@
   <div class="inner">
     <p class="label">Zarzuteca INNAZ · Ficha de obra</p>
     <h1 id="fTitulo">…</h1>
+    <p class="subtitulo" id="fSub" style="display:none;"></p>
     <!-- Rótulo de portada (género / forma, col14) bajo el título. Desactivado
          el 30 de julio de 2026 y REACTIVADO el 12 de septiembre de 2026, las
          dos veces por decisión de César. El dato sale de col14 del Excel y el
@@ -241,6 +244,7 @@
   } else {
     document.title=o.t+' — Zarzuteca INNAZ';
     $('fTitulo').textContent=o.t;
+    if(o.sub){ $('fSub').textContent=o.sub; $('fSub').style.display=''; }
     // Rótulo de portada (género / forma, col14) — REACTIVADO 12/09/2026, ver
     // comentario en el <header>. Se pinta tal cual lo dice la portada; lo
     // único que se toca es la presentación: «//» pasa a « · », se colapsan
