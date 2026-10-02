@@ -53,10 +53,14 @@
     ul.idx a:hover{background:var(--teal-light);}
     .nm{font-family:'Cormorant SC',serif;font-size:1.08rem;font-weight:600;color:var(--black);flex:1 1 16rem;}
     .meta{font-size:.76rem;color:var(--muted);}
-    .f-mats{display:flex;align-items:center;gap:.4rem 1.2rem;flex-wrap:wrap;align-self:flex-end;padding-bottom:.65rem;}
-    .f-mats .rot{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-right:.2rem;}
-    .filtros .f-mats label{display:inline-flex;align-items:center;gap:.4rem;font-size:.9rem;letter-spacing:0;text-transform:none;color:var(--text);margin:0;cursor:pointer;}
-    .filtros .f-mats input{min-width:0;width:1rem;height:1rem;padding:0;accent-color:var(--teal);cursor:pointer;margin:0;}
+    .msel{position:relative;}
+    .msel-b{font-family:'DM Sans',sans-serif;font-size:.92rem;padding:.6rem 2.2rem .6rem .8rem;border:1px solid var(--border);border-radius:3px;background:var(--white);color:var(--text);cursor:pointer;text-align:left;min-width:11rem;position:relative;}
+    .msel-b::after{content:'';position:absolute;right:.8rem;top:50%;width:.4rem;height:.4rem;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-70%) rotate(45deg);}
+    .msel-p{display:none;position:absolute;z-index:30;top:calc(100% + 4px);left:0;min-width:100%;background:var(--white);border:1px solid var(--border);border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.08);padding:.4rem 0;}
+    .msel.open .msel-p{display:block;}
+    .filtros .msel-p label{display:flex;align-items:center;gap:.5rem;margin:0;padding:.45rem .9rem;font-size:.9rem;letter-spacing:0;text-transform:none;color:var(--text);cursor:pointer;white-space:nowrap;}
+    .filtros .msel-p label:hover{background:var(--teal-light);}
+    .filtros .msel-p input{min-width:0;width:1rem;height:1rem;padding:0;margin:0;accent-color:var(--teal);cursor:pointer;}
     .tag{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--teal);color:var(--teal-dark);border-radius:20px;padding:.15rem .55rem;}
     .tag.off{border-color:var(--border);color:#aaa;}
     .sinficha{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;padding:.7rem .4rem;opacity:.55;}
@@ -158,14 +162,19 @@
       <label for="f-actos">Actos</label>
       <select id="f-actos"><option value="">Todos</option></select>
     </div>
-    <!-- 2-10-2026 (César): el filtro de material admite VARIOS a la vez (la obra debe tenerlos
-         TODOS, como en el Catálogo) y el listado ya no pinta las etiquetas de material. -->
-    <div class="f-mats" id="f-mats" role="group" aria-label="Material">
-      <span class="rot">Material</span>
-      <label><input type="checkbox" value="part"> Partitura</label>
-      <label><input type="checkbox" value="lib"> Libreto</label>
-      <label><input type="checkbox" value="vid"> Vídeo</label>
-      <label><input type="checkbox" value="aud"> Audio</label>
+    <div>
+      <label for="f-mat">Material</label>
+      <!-- 2-10-2026 (César): desplegable como los demás, pero con selección MÚLTIPLE.
+           La obra debe tener TODOS los materiales marcados (igual que el Catálogo). -->
+      <div class="msel" id="f-mat">
+        <button type="button" class="msel-b" aria-haspopup="true" aria-expanded="false"><span class="msel-v">Todos</span></button>
+        <div class="msel-p" role="group" aria-label="Material">
+          <label><input type="checkbox" value="part"> Con partitura</label>
+          <label><input type="checkbox" value="lib"> Con libreto</label>
+          <label><input type="checkbox" value="vid"> Con vídeo</label>
+          <label><input type="checkbox" value="aud"> Con audio</label>
+        </div>
+      </div>
     </div>
     <!-- En su propia fila, siempre debajo de los filtros y a la derecha, como en el
          Catálogo (petición de César, 11-9-2026). Sin el envoltorio, en las páginas
@@ -305,7 +314,15 @@
     return /[A-Z]/.test(c)?c:'#';
   }
 
-  function matsMarcados(){ return [...document.querySelectorAll('#f-mats input:checked')].map(i=>i.value); }
+  // ── Desplegable «Material» de selección múltiple (2-10-2026) ──
+  const MSEL=$('f-mat'), MSELB=MSEL.querySelector('.msel-b');
+  function matsMarcados(){ return [...MSEL.querySelectorAll('input:checked')].map(i=>i.value); }
+  function rotuloMat(){ const n={part:'Partitura',lib:'Libreto',vid:'Vídeo',aud:'Audio'}, m=matsMarcados();
+    MSEL.querySelector('.msel-v').textContent = m.length ? m.map(k=>n[k]).join(' + ') : 'Todos'; }
+  function abreMat(si){ MSEL.classList.toggle('open',si); MSELB.setAttribute('aria-expanded',si?'true':'false'); }
+  MSELB.addEventListener('click',function(e){ e.stopPropagation(); abreMat(!MSEL.classList.contains('open')); });
+  document.addEventListener('click',function(e){ if(!MSEL.contains(e.target)) abreMat(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') abreMat(false); });
   function pinta(){
     const q=norm($('q').value), gc=$('f-gc').value,
           act=$('f-actos').value, mats=matsMarcados();
@@ -329,7 +346,7 @@
         if(o.anioN||o.anio) meta.push(esc(o.anioN||o.anio));
         if(o.teatro) meta.push(esc(o.teatro));
         const cuerpo='<span class="nm">'+esc(o.t)+'</span>'+
-                     '<span class="meta">'+meta.join(' · ')+'</span>';   // 2-10-2026: sin etiquetas de material
+                     '<span class="meta">'+meta.join(' · ')+'</span>';   // 2-10-2026 (César): sin etiquetas de material
         return o.full
           ? '<li><a href="ficha.html?id='+encodeURIComponent(o.id)+'">'+cuerpo+'</a></li>'
           : '<li><span class="sinficha">'+cuerpo+'</span></li>';
@@ -342,10 +359,10 @@
   function sincLimpiar(){
     $('btnLimpiar').disabled=!(CONTROLES.some(id=>$(id).value!=='') || matsMarcados().length);
   }
-  document.querySelectorAll('#f-mats input').forEach(i=>i.addEventListener('change',function(){ pinta(); sincLimpiar(); }));
+  MSEL.querySelectorAll('input').forEach(i=>i.addEventListener('change',function(){ rotuloMat(); pinta(); sincLimpiar(); }));
   $('btnLimpiar').addEventListener('click',function(){
     CONTROLES.forEach(id=>{ $(id).value=''; });
-    document.querySelectorAll('#f-mats input').forEach(i=>{ i.checked=false; });
+    MSEL.querySelectorAll('input').forEach(i=>{ i.checked=false; }); rotuloMat();
     pinta(); sincLimpiar(); $('q').focus();
   });
   CONTROLES.forEach(id=>{
