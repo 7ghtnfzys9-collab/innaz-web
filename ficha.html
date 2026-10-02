@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=6b95af80"></script>
+  <script src="zarzuteca-data.js?v=e8ddc018"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -438,9 +438,11 @@
     // (30/07/2026): sus números quedan integrados en el grupo del acto.
     // 2-10-2026 (norma de César): «Nº 1 «…» | 5 personajes · … | grupos | baile».
     // Sin barra, el número se pinta exactamente como antes.
+    // 2-10-2026 (César): *palabra* en col7 = cursiva (vulgarismos que el impreso da en cursiva, p. ej. «*sinco*»).
+    const cur=x=>esc(x).replace(/\*([^*]+)\*/g,'<em>$1</em>');
     const fmtNum=t=>{ const p=String(t).split('|').map(x=>x.trim()).filter(Boolean);
-      if(p.length<2) return esc(t);
-      return `<span class="num-tit">${esc(p[0])}</span>`+p.slice(1).map(x=>`<span class="num-det">${esc(x)}</span>`).join(''); };
+      if(p.length<2) return cur(t);
+      return `<span class="num-tit">${cur(p[0])}</span>`+p.slice(1).map(x=>`<span class="num-det">${cur(x)}</span>`).join(''); };
     if(o.num && o.num.length){
       // 30/09/2026 (decisión de César, opción A): en las obras SIN números
       // propiamente dichos —ningún elemento con «N.º», p. ej. La vida breve, de
