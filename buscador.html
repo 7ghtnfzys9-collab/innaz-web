@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=68585728"></script>
+  <script src="zarzuteca-data.js?v=79b97585"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;
           /* ancho compartido por la entradilla y la caja de búsqueda (7-8-2026,
@@ -79,6 +79,11 @@
     .meta b{color:var(--text);font-weight:500;}
     mark{background:rgba(42,171,184,.22);color:inherit;padding:0 .1em;}
     .mats-row{display:flex;gap:.35rem;flex-wrap:wrap;padding:0 .3rem .75rem;}
+    /* 2-10-2026 (César): filtro de materiales con casillas; se pueden marcar varias (la obra debe tenerlas TODAS) */
+    .f-mats{display:flex;align-items:center;gap:.4rem 1.2rem;flex-wrap:wrap;margin-top:.9rem;}
+    .f-mats .rot{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:.2rem;}
+    .f-mats label{display:inline-flex;align-items:center;gap:.4rem;font-size:.86rem;cursor:pointer;}
+    .f-mats input{width:1rem;height:1rem;accent-color:var(--teal);cursor:pointer;margin:0;}
     .mlink{font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;padding:.24rem .55rem;border-radius:3px;border:1px solid;transition:opacity .15s;}
     .mlink:hover{opacity:.7;}
     .mlink.p{color:var(--teal-dark);border-color:#bfe0e3;background:#eaf5f6;}
@@ -174,6 +179,13 @@
         <div><label for="f-dec">Década de estreno</label><select id="f-dec"></select></div>
         <div><label for="f-teatro">Teatro de estreno</label><select id="f-teatro"></select></div>
         <div><label for="f-gg">Género</label><select id="f-gg"></select></div>
+      </div>
+      <div class="f-mats" id="f-mats" role="group" aria-label="Materiales disponibles">
+        <span class="rot">Materiales disponibles</span>
+        <label><input type="checkbox" value="part"> Partitura</label>
+        <label><input type="checkbox" value="lib"> Libreto</label>
+        <label><input type="checkbox" value="vid"> Vídeo</label>
+        <label><input type="checkbox" value="aud"> Audio</label>
       </div>
       <div class="barra-filtros">
         <div class="activos" id="activos"></div>
@@ -332,7 +344,9 @@
   });
 
   const est={q:'',comp:'',libr:'',dec:'',teatro:'',gg:''};
-  let tipo='';   // '' = todo el catálogo; part/lib/vid/aud desde ?tipo=
+  // 2-10-2026 (César): `mats` = materiales marcados en las casillas. La obra debe tenerlos TODOS.
+  // ?tipo=part|lib|vid|aud marca la casilla correspondiente al abrir la página.
+  const mats=new Set();
   const SELS={comp:'f-comp',libr:'f-libr',dec:'f-dec',teatro:'f-teatro',gg:'f-gg'};
 
   /* ¿esta obra cumple todos los filtros MENOS uno? Excluir el filtro propio
@@ -341,7 +355,7 @@
      opción y no se podría cambiar sin limpiar antes. */
   function pasa(o,excluir){
     const qn=norm(est.q.trim());
-    if(tipo && !((o[tipo]||[]).length)) return false;
+    for(const k of mats) if(!((o[k]||[]).length)) return false;
     if(qn && !o._all.includes(qn)) return false;
     if(excluir!=='comp'   && est.comp   && !(o.cIds||[]).includes(est.comp)) return false;
     if(excluir!=='libr'   && est.libr   && !(o.lIds||[]).includes(est.libr)) return false;
@@ -421,7 +435,7 @@
   function fila(o){
     const head=o.full?`<a class="row" href="ficha.html?id=${encodeURIComponent(o.id)}">${cuerpo(o)}</a>`
                      :`<div class="row sinficha">${cuerpo(o)}</div>`;
-    return `<li class="obra">${head}${matLinks(o)}</li>`;
+    return `<li class="obra">${head}</li>`;   // 2-10-2026 (César): el listado ya no muestra los enlaces; están en la ficha
   }
   function ordenar(res){
     const m=$('f-orden').value;
@@ -436,7 +450,7 @@
     const c=$('activos'); c.innerHTML='';
     const tags=[];
     if(est.q)      tags.push(['Texto','«'+est.q+'»',()=>{est.q='';$('q').value='';}]);
-    if(tipo)       tags.push(['Material',MATNOM[tipo],()=>{tipo='';rotulos();}]);
+    ['part','lib','vid','aud'].forEach(k=>{ if(mats.has(k)) tags.push(['Material',MATNOM[k],()=>{mats.delete(k);sincroMats();rotulos();}]); });
     if(est.comp)   tags.push(['Compositor',NOMBRE[est.comp]||est.comp,()=>{est.comp='';}]);
     if(est.libr)   tags.push(['Libretista',NOMBRE[est.libr]||est.libr,()=>{est.libr='';}]);
     if(est.dec)    tags.push(['Década',est.dec+'–'+(+est.dec+9),()=>{est.dec='';}]);
@@ -455,7 +469,7 @@
   function filtrar(){
     repoblar();
     const res=ordenar(CAT.filter(o=>pasa(o,null)));
-    const universo = tipo ? CAT.filter(o=>(o[tipo]||[]).length).length : CAT.length;
+    const universo = CAT.length;
     $('lista').innerHTML=res.map(fila).join('');
     $('cuenta').textContent=res.length;
     $('cuentaTxt').textContent=(res.length===1?'obra':'obras')+(res.length<universo?' de '+universo:'');
@@ -469,7 +483,7 @@
     try{ sessionStorage.setItem('zzFichaIds', JSON.stringify(res.map(o=>o.id))); }catch(e){}
   }
   function limpiar(){
-    est.q='';est.comp='';est.libr='';est.dec='';est.teatro='';est.gg='';tipo='';
+    est.q='';est.comp='';est.libr='';est.dec='';est.teatro='';est.gg='';mats.clear();sincroMats();
     $('q').value='';
     rotulos();
   }
@@ -479,8 +493,9 @@
              lib:['Libretos','Obras del fondo que cuentan con libreto.'],
              vid:['Videoteca','Obras del fondo que cuentan con vídeo.'],
              aud:['Fonoteca','Obras del fondo que cuentan con audio.']};
-    if(T[tipo]){ $('titulo').textContent=T[tipo][0];
-                 $('intro').textContent=T[tipo][1]+' Busca en una sola caja y afina después con los filtros.'; }
+    const uno = mats.size===1 ? [...mats][0] : '';
+    if(T[uno]){ $('titulo').textContent=T[uno][0];
+                 $('intro').textContent=T[uno][1]+' Busca en una sola caja y afina después con los filtros.'; }
     else { $('titulo').textContent='Catálogo';
            $('intro').textContent='Obras con ficha documentada de la Zarzuteca. Busca por título, compositor, libretista o teatro en una sola caja; afina después con los filtros si lo necesitas.'; }
     filtrar();
@@ -490,11 +505,13 @@
   Object.keys(SELS).forEach(campo=>{$(SELS[campo]).onchange=e=>{est[campo]=e.target.value;filtrar();};});
   $('f-orden').onchange=filtrar;
   $('btnLimpiar').onclick=limpiar;
+  function sincroMats(){ document.querySelectorAll('#f-mats input').forEach(c=>{c.checked=mats.has(c.value);}); }
+  document.querySelectorAll('#f-mats input').forEach(c=>{c.onchange=()=>{ if(c.checked) mats.add(c.value); else mats.delete(c.value); rotulos(); };});
 
   // categoría desde la URL (?tipo=part|lib|vid|aud). Sin tipo, catálogo completo.
   const TITU={part:'Partituras',lib:'Libretos',vid:'Videoteca',aud:'Fonoteca'};
   const t0=(new URLSearchParams(location.search)).get('tipo')||'';
-  if(TL[t0]){ tipo=t0; document.title=TITU[t0]+' — Zarzuteca INNAZ'; }
+  if(TL[t0]){ mats.add(t0); sincroMats(); document.title=TITU[t0]+' — Zarzuteca INNAZ'; }
   rotulos();
 </script>
 

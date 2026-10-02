@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=68585728"></script>
+  <script src="zarzuteca-data.js?v=79b97585"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -53,6 +53,10 @@
     ul.idx a:hover{background:var(--teal-light);}
     .nm{font-family:'Cormorant SC',serif;font-size:1.08rem;font-weight:600;color:var(--black);flex:1 1 16rem;}
     .meta{font-size:.76rem;color:var(--muted);}
+    .f-mats{display:flex;align-items:center;gap:.4rem 1.2rem;flex-wrap:wrap;align-self:flex-end;padding-bottom:.65rem;}
+    .f-mats .rot{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-right:.2rem;}
+    .filtros .f-mats label{display:inline-flex;align-items:center;gap:.4rem;font-size:.9rem;letter-spacing:0;text-transform:none;color:var(--text);margin:0;cursor:pointer;}
+    .filtros .f-mats input{min-width:0;width:1rem;height:1rem;padding:0;accent-color:var(--teal);cursor:pointer;margin:0;}
     .tag{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--teal);color:var(--teal-dark);border-radius:20px;padding:.15rem .55rem;}
     .tag.off{border-color:var(--border);color:#aaa;}
     .sinficha{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;padding:.7rem .4rem;opacity:.55;}
@@ -154,15 +158,14 @@
       <label for="f-actos">Actos</label>
       <select id="f-actos"><option value="">Todos</option></select>
     </div>
-    <div>
-      <label for="f-mat">Material</label>
-      <select id="f-mat">
-        <option value="">Todos</option>
-        <option value="part">Con partitura</option>
-        <option value="lib">Con libreto</option>
-        <option value="vid">Con vídeo</option>
-        <option value="aud">Con audio</option>
-      </select>
+    <!-- 2-10-2026 (César): el filtro de material admite VARIOS a la vez (la obra debe tenerlos
+         TODOS, como en el Catálogo) y el listado ya no pinta las etiquetas de material. -->
+    <div class="f-mats" id="f-mats" role="group" aria-label="Material">
+      <span class="rot">Material</span>
+      <label><input type="checkbox" value="part"> Partitura</label>
+      <label><input type="checkbox" value="lib"> Libreto</label>
+      <label><input type="checkbox" value="vid"> Vídeo</label>
+      <label><input type="checkbox" value="aud"> Audio</label>
     </div>
     <!-- En su propia fila, siempre debajo de los filtros y a la derecha, como en el
          Catálogo (petición de César, 11-9-2026). Sin el envoltorio, en las páginas
@@ -302,14 +305,15 @@
     return /[A-Z]/.test(c)?c:'#';
   }
 
+  function matsMarcados(){ return [...document.querySelectorAll('#f-mats input:checked')].map(i=>i.value); }
   function pinta(){
     const q=norm($('q').value), gc=$('f-gc').value,
-          act=$('f-actos').value, mat=$('f-mat').value;
+          act=$('f-actos').value, mats=matsMarcados();
     const lista=O.filter(o=>{
       if(q && o.busca.indexOf(q)<0) return false;
       if(gc==='sin' ? !!o.gc : (gc && o.gc!==gc)) return false;
       if(act!=='' && o.actos!==Number(act)) return false;
-      if(mat && !o.mats.some(m=>m[0]===mat)) return false;
+      for(const k of mats) if(!o.mats.some(m=>m[0]===k)) return false;
       return true;
     });
     $('cuenta').textContent=lista.length;
@@ -324,9 +328,8 @@
         if(o.comp) meta.push(esc(o.comp));
         if(o.anioN||o.anio) meta.push(esc(o.anioN||o.anio));
         if(o.teatro) meta.push(esc(o.teatro));
-        const tags=o.mats.map(m=>'<span class="tag">'+m[1]+'</span>').join('');
         const cuerpo='<span class="nm">'+esc(o.t)+'</span>'+
-                     '<span class="meta">'+meta.join(' · ')+'</span>'+tags;
+                     '<span class="meta">'+meta.join(' · ')+'</span>';   // 2-10-2026: sin etiquetas de material
         return o.full
           ? '<li><a href="ficha.html?id='+encodeURIComponent(o.id)+'">'+cuerpo+'</a></li>'
           : '<li><span class="sinficha">'+cuerpo+'</span></li>';
@@ -335,12 +338,14 @@
     }).join('');
   }
     // ── «Limpiar filtros» ──────────────────────────────────────────────────
-  const CONTROLES=['q','f-gc','f-actos','f-mat'];
+  const CONTROLES=['q','f-gc','f-actos'];
   function sincLimpiar(){
-    $('btnLimpiar').disabled=!CONTROLES.some(id=>$(id).value!=='');
+    $('btnLimpiar').disabled=!(CONTROLES.some(id=>$(id).value!=='') || matsMarcados().length);
   }
+  document.querySelectorAll('#f-mats input').forEach(i=>i.addEventListener('change',function(){ pinta(); sincLimpiar(); }));
   $('btnLimpiar').addEventListener('click',function(){
     CONTROLES.forEach(id=>{ $(id).value=''; });
+    document.querySelectorAll('#f-mats input').forEach(i=>{ i.checked=false; });
     pinta(); sincLimpiar(); $('q').focus();
   });
   CONTROLES.forEach(id=>{
