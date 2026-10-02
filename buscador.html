@@ -180,13 +180,8 @@
         <div><label for="f-teatro">Teatro de estreno</label><select id="f-teatro"></select></div>
         <div><label for="f-gg">Género</label><select id="f-gg"></select></div>
       </div>
-      <div class="f-mats" id="f-mats" role="group" aria-label="Materiales disponibles">
-        <span class="rot">Materiales disponibles</span>
-        <label><input type="checkbox" value="part"> Partitura</label>
-        <label><input type="checkbox" value="lib"> Libreto</label>
-        <label><input type="checkbox" value="vid"> Vídeo</label>
-        <label><input type="checkbox" value="aud"> Audio</label>
-      </div>
+      <!-- 2-10-2026 (César): el filtro de materiales NO va en el Catálogo; solo en Obras.
+           (El parámetro ?tipo= sigue filtrando si alguien llega con él.) -->
       <div class="barra-filtros">
         <div class="activos" id="activos"></div>
         <button class="limpiar" id="btnLimpiar" disabled>Limpiar filtros</button>
