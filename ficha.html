@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=45c5ddde"></script>
+  <script src="zarzuteca-data.js?v=5109834b"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -99,8 +99,20 @@
     .arg-wrap.plegado .arg-rest{display:none;}
     .arg-wrap.plegado .arg-corte::after{content:'…';}
     .arg-toggle{margin-top:.2rem;}
+    /* Plegado de los números musicales (2-10-2026, petición de César): plegado,
+       el bloque ocupa EXACTAMENTE la misma altura que el argumento plegado (se
+       mide en pantalla, porque depende del ancho); si la obra no tiene argumento
+       plegable, la de un párrafo de ARG_PREVIEW caracteres. Es solo presentación:
+       todos los números están siempre en el HTML. */
+    #numBtn[hidden]{display:none;}
+    .num-wrap.plegado{overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 3.2rem),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 3.2rem),transparent);}
     /* Números musicales: un grupo por acto */
     .acto-grupo{margin-bottom:1.3rem;}
+    /* 2-10-2026 (norma de César): un número puede llevar líneas de detalle
+       separadas por «|» en col7: título en la primera, y debajo, en gris, la
+       línea de personajes, la de grupos y la de bailes o partes instrumentales. */
+    .num-tit{font-weight:500;color:var(--black);}
+    .num-det{display:block;font-size:.84rem;line-height:1.45;color:var(--muted);margin-top:.15rem;}
     .acto-grupo:last-child{margin-bottom:0;}
     .acto-tit{font-family:'Cormorant SC',serif;font-weight:700;text-transform:uppercase;font-size:.82rem;letter-spacing:.05em;color:var(--black);margin-bottom:.35rem;}
     footer{background:#080808;padding:2.4rem 3.5rem;margin-top:2rem;}
@@ -420,6 +432,11 @@
     // cabeceras, se sirven en un grupo sin título.
     // Igual que en el argumento, los rótulos de CUADRO se omiten al pintar
     // (30/07/2026): sus números quedan integrados en el grupo del acto.
+    // 2-10-2026 (norma de César): «Nº 1 «…» | 5 personajes · … | grupos | baile».
+    // Sin barra, el número se pinta exactamente como antes.
+    const fmtNum=t=>{ const p=String(t).split('|').map(x=>x.trim()).filter(Boolean);
+      if(p.length<2) return esc(t);
+      return `<span class="num-tit">${esc(p[0])}</span>`+p.slice(1).map(x=>`<span class="num-det">${esc(x)}</span>`).join(''); };
     if(o.num && o.num.length){
       // 30/09/2026 (decisión de César, opción A): en las obras SIN números
       // propiamente dichos —ningún elemento con «N.º», p. ej. La vida breve, de
@@ -436,9 +453,10 @@
       if(g.items.length) grupos.push(g);
       const cuerpo=grupos.map(gr=>
         (gr.tit?`<div class="acto-tit">${esc(gr.tit)}</div>`:'')+
-        `<ul class="numeros">${gr.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`
+        `<ul class="numeros">${gr.items.map(t=>`<li>${fmtNum(t)}</li>`).join('')}</ul>`
       ).map(s=>`<div class="acto-grupo">${s}</div>`).join('');
-      html+=`<div class="bloque"><h2>Números musicales</h2>${cuerpo}`+
+      html+=`<div class="bloque"><h2>Números musicales</h2><div class="num-wrap" id="numWrap">${cuerpo}</div>`+
+        `<button type="button" class="pers-toggle arg-toggle" id="numBtn" hidden aria-expanded="false" aria-controls="numWrap">Ver todos los números ▾</button>`+
         (o.numP?`<p class="nota">Selección de números principales (no exhaustiva).</p>`:'')+`</div>`;
     }
     // 3) materiales y descargas — SIEMPRE AL FINAL
@@ -476,6 +494,41 @@
         ab.setAttribute('aria-expanded', String(!plegado));
         ab.textContent = plegado ? 'Leer más ▾' : 'Leer menos ▴';
       });
+    }
+    // plegado de los números musicales (2-10-2026): ver el comentario del CSS.
+    // Solo se pliega si lo oculto merece un botón (más de NUM_MINIMO_OCULTO px).
+    const nw=$('numWrap'), nb=$('numBtn');
+    if(nw && nb){
+      const NUM_MINIMO_OCULTO=60;
+      let refAlto=0;
+      const altoReferencia=()=>{
+        const aw=$('argWrap');
+        if(aw && aw.classList.contains('plegado')) return aw.offsetHeight;
+        if(aw && $('argBtn')) return refAlto;          // argumento abierto: se conserva la última medida
+        const pr=document.createElement('p'); pr.className='sinopsis';
+        pr.style.cssText='visibility:hidden;position:absolute;left:0;right:0;margin:0';
+        pr.textContent='De madrugada, ante la fachada iluminada del teatro, '.repeat(20).slice(0,ARG_PREVIEW);
+        const cont=document.createElement('div'); cont.style.cssText='position:relative;visibility:hidden;height:0;overflow:hidden';
+        cont.appendChild(pr); nw.parentNode.insertBefore(cont,nw);
+        const h=pr.offsetHeight; cont.remove(); return h;
+      };
+      const ajustarNum=()=>{
+        const r=altoReferencia(); if(r) refAlto=r;
+        const abierto=nb.getAttribute('aria-expanded')==='true';
+        nw.classList.remove('plegado'); nw.style.maxHeight='';
+        if(nw.scrollHeight<=refAlto+NUM_MINIMO_OCULTO){ nb.hidden=true; return; }
+        nb.hidden=false;
+        if(!abierto){ nw.classList.add('plegado'); nw.style.maxHeight=refAlto+'px'; }
+      };
+      nb.addEventListener('click',()=>{
+        const abrir=nb.getAttribute('aria-expanded')!=='true';
+        nb.setAttribute('aria-expanded',String(abrir));
+        nb.textContent = abrir ? 'Mostrar menos ▴' : 'Ver todos los números ▾';
+        ajustarNum();
+      });
+      ajustarNum();
+      if(document.fonts && document.fonts.ready) document.fonts.ready.then(ajustarNum);
+      window.addEventListener('resize',ajustarNum);
     }
     // Flechas anterior/siguiente entre fichas filtradas (31/07/2026, petición
     // de César). buscador.html y listado.html guardan en sessionStorage, al
