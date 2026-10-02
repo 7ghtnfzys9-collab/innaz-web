@@ -54,7 +54,11 @@
     .nm{font-family:'Cormorant SC',serif;font-size:1.08rem;font-weight:600;color:var(--black);flex:1 1 16rem;}
     .meta{font-size:.76rem;color:var(--muted);}
     .msel{position:relative;}
-    .msel-b{font-family:'DM Sans',sans-serif;font-size:.92rem;padding:.6rem 2.2rem .6rem .8rem;border:1px solid var(--border);border-radius:3px;background:var(--white);color:var(--text);cursor:pointer;text-align:left;min-width:11rem;position:relative;}
+    /* 2-10-2026 (César): Género, Actos y Material, del mismo tamaño */
+    .filtros select,.msel-b{width:11rem;height:2.45rem;box-sizing:border-box;}
+    .msel-b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    @media(max-width:860px){.filtros select,.msel-b{width:11rem;}}
+    .msel-b{font-family:'DM Sans',sans-serif;font-size:.92rem;padding:.6rem 2.2rem .6rem .8rem;border:1px solid var(--border);border-radius:3px;background:var(--white);color:var(--text);cursor:pointer;text-align:left;position:relative;}
     .msel-b::after{content:'';position:absolute;right:.8rem;top:50%;width:.4rem;height:.4rem;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-70%) rotate(45deg);}
     .msel-p{display:none;position:absolute;z-index:30;top:calc(100% + 4px);left:0;min-width:100%;background:var(--white);border:1px solid var(--border);border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.08);padding:.4rem 0;}
     .msel.open .msel-p{display:block;}
@@ -318,7 +322,7 @@
   const MSEL=$('f-mat'), MSELB=MSEL.querySelector('.msel-b');
   function matsMarcados(){ return [...MSEL.querySelectorAll('input:checked')].map(i=>i.value); }
   function rotuloMat(){ const n={part:'Partitura',lib:'Libreto',vid:'Vídeo',aud:'Audio'}, m=matsMarcados();
-    MSEL.querySelector('.msel-v').textContent = m.length ? m.map(k=>n[k]).join(' + ') : 'Todos'; }
+    MSEL.querySelector('.msel-v').textContent = !m.length ? 'Todos' : m.length>2 ? m.length+' materiales' : m.map(k=>n[k]).join(' + '); }
   function abreMat(si){ MSEL.classList.toggle('open',si); MSELB.setAttribute('aria-expanded',si?'true':'false'); }
   MSELB.addEventListener('click',function(e){ e.stopPropagation(); abreMat(!MSEL.classList.contains('open')); });
   document.addEventListener('click',function(e){ if(!MSEL.contains(e.target)) abreMat(false); });
