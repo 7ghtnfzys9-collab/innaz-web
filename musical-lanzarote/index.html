@@ -18,13 +18,13 @@ img{max-width:100%}
   --font-body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
 }
 /* La Geria · estilo claro y oscuro: fondos de cal y basalto alternados; verde viña, ocre y tierra rojiza en titulares, botones y menú */
-:root{--p-dark:#1b1d1c;--p-light:#f4f3ee;--p-acc:#65924f;--blend:240px}
-.s1{--sbg:#f2efe6;--sprev:#f2efe6;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#65924f;--sacc-ink:#1b1d1c;--stitle:#65924f;--smenu:#65924f}
-.s2{--sbg:#2b2e2c;--sprev:#f2efe6;--sfg:#f2efe6;--smuted:#c0bfb8;--sline:#4f514d;--sacc:#a6823a;--sacc-ink:#1b1d1c;--stitle:#a6823a;--smenu:#a6823a}
-.s3{--sbg:#f2efe6;--sprev:#2b2e2c;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#c1715c;--sacc-ink:#1b1d1c;--stitle:#c1715c;--smenu:#c1715c}
-.s4{--sbg:#2b2e2c;--sprev:#f2efe6;--sfg:#f2efe6;--smuted:#c0bfb8;--sline:#4f514d;--sacc:#65924f;--sacc-ink:#1b1d1c;--stitle:#65924f;--smenu:#65924f}
-.s5{--sbg:#f2efe6;--sprev:#2b2e2c;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#a6823a;--sacc-ink:#1b1d1c;--stitle:#a6823a;--smenu:#a6823a}
-.s6{--sbg:#2b2e2c;--sprev:#f2efe6;--sfg:#f2efe6;--smuted:#c0bfb8;--sline:#4f514d;--sacc:#c1715c;--sacc-ink:#1b1d1c;--stitle:#c1715c;--smenu:#c1715c}
+:root{--p-dark:#1b1d1c;--p-light:#f4f3ee;--p-acc:#65924f}
+.s1{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#65924f;--sacc-ink:#1b1d1c;--stitle:#65924f;--smenu:#65924f}
+.s2{--sbg:#232624;--sfg:#f2efe6;--smuted:#bebdb6;--sline:#484a47;--sacc:#a6823a;--sacc-ink:#1b1d1c;--stitle:#a6823a;--smenu:#a6823a}
+.s3{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#c1715c;--sacc-ink:#1b1d1c;--stitle:#c1715c;--smenu:#c1715c}
+.s4{--sbg:#232624;--sfg:#f2efe6;--smuted:#bebdb6;--sline:#484a47;--sacc:#65924f;--sacc-ink:#1b1d1c;--stitle:#65924f;--smenu:#65924f}
+.s5{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#a6823a;--sacc-ink:#1b1d1c;--stitle:#a6823a;--smenu:#a6823a}
+.s6{--sbg:#232624;--sfg:#f2efe6;--smuted:#bebdb6;--sline:#484a47;--sacc:#c1715c;--sacc-ink:#1b1d1c;--stitle:#c1715c;--smenu:#c1715c}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;color-scheme:light}
@@ -47,13 +47,11 @@ h1,h2,h3{font-family:var(--font-display);font-weight:500;line-height:1.05;text-w
 .logo-btn[aria-pressed="true"] svg{--logo-cut:#26282a}
 .brand-name{font-family:var(--font-display);font-style:italic;font-size:24px}
 nav{display:flex;gap:2px;overflow-x:auto;margin-left:auto;max-width:100%}
-nav a{transition:color .45s ease,border-color .45s ease;color:color-mix(in srgb,var(--hfg) 68%,transparent);text-decoration:none;padding:8px 12px;font-size:14px;font-weight:500;white-space:nowrap;border-bottom:3px solid transparent}
+nav a{color:color-mix(in srgb,var(--hfg) 68%,transparent);text-decoration:none;padding:8px 12px;font-size:14px;font-weight:500;white-space:nowrap;border-bottom:3px solid transparent}
 nav a:hover{color:var(--hfg)}
 nav a[aria-current="true"]{color:var(--hacc);border-bottom-color:var(--hacc)}
 
 /* Paneles: todos del mismo alto */
-/* Cambio de sección suave: cada panel empieza con un degradado desde el fondo del anterior */
-.band.panel{background:linear-gradient(to bottom,color-mix(in oklab,var(--sprev) 100%,var(--sbg)) calc(var(--blend) * 0),color-mix(in oklab,var(--sprev) 96%,var(--sbg)) calc(var(--blend) * 0.15),color-mix(in oklab,var(--sprev) 85%,var(--sbg)) calc(var(--blend) * 0.3),color-mix(in oklab,var(--sprev) 65%,var(--sbg)) calc(var(--blend) * 0.45),color-mix(in oklab,var(--sprev) 40%,var(--sbg)) calc(var(--blend) * 0.6),color-mix(in oklab,var(--sprev) 18%,var(--sbg)) calc(var(--blend) * 0.75),color-mix(in oklab,var(--sprev) 5%,var(--sbg)) calc(var(--blend) * 0.9),color-mix(in oklab,var(--sprev) 0%,var(--sbg)) calc(var(--blend) * 1)) var(--sbg)}
 .panel{min-height:clamp(460px,64vh,620px);min-height:clamp(460px,64svh,620px);display:flex;align-items:center;padding:44px 16px;scroll-margin-top:var(--hh)}
 /* Hueco bajo la página para la barra de prueba de paletas (se quitará con ella) */
 main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
@@ -206,6 +204,18 @@ td:first-child{font-style:italic}
         <circle cx="32" cy="40" r="7.2" style="fill:var(--logo-cut)"/>
       </g>
     </symbol>
+    <!-- 7 · Boca y notas: el aro abierto en el cuarto inferior derecho; dos cuerdas acaban en cabeza de nota -->
+    <symbol id="logo-7" viewBox="0 0 64 72">
+      <path d="M39.49 54.54 A20 20 0 1 1 51.56 40.16" style="fill:none;stroke:currentColor;stroke-width:5;stroke-linecap:round"/>
+      <g style="stroke:currentColor;stroke-width:2.6;stroke-linecap:round"><line x1="21.6" y1="7.0" x2="21.6" y2="53.1"/><line x1="26.8" y1="4.5" x2="26.8" y2="66.5"/><line x1="32.0" y1="2.0" x2="32.0" y2="56.0"/><line x1="37.2" y1="4.5" x2="37.2" y2="55.3"/><line x1="42.4" y1="7.0" x2="42.4" y2="62.0"/></g>
+      <g style="fill:currentColor"><ellipse cx="23.30" cy="67.10" rx="5" ry="3.6" transform="rotate(-22 23.30 67.10)"/><ellipse cx="38.90" cy="62.60" rx="5" ry="3.6" transform="rotate(-22 38.90 62.60)"/></g>
+    </symbol>
+    <!-- 8 · Boca y nota: el aro abierto; la quinta cuerda sale por la abertura convertida en nota -->
+    <symbol id="logo-8" viewBox="0 0 64 72">
+      <path d="M39.49 54.54 A20 20 0 1 1 51.56 40.16" style="fill:none;stroke:currentColor;stroke-width:5;stroke-linecap:round"/>
+      <g style="stroke:currentColor;stroke-width:2.6;stroke-linecap:round"><line x1="21.6" y1="7.0" x2="21.6" y2="53.1"/><line x1="26.8" y1="4.5" x2="26.8" y2="55.3"/><line x1="32.0" y1="2.0" x2="32.0" y2="56.0"/><line x1="37.2" y1="4.5" x2="37.2" y2="55.3"/><line x1="42.4" y1="7.0" x2="42.4" y2="62.0"/></g>
+      <g style="fill:currentColor"><ellipse cx="38.90" cy="62.60" rx="5" ry="3.6" transform="rotate(-22 38.90 62.60)"/></g>
+    </symbol>
   </defs>
 </svg>
 
@@ -326,7 +336,7 @@ td:first-child{font-style:italic}
 
 <div class="pal-bar" id="palbar" role="group" aria-label="Probar logo">
   
-  <span class="pal-group" id="logobar"><span class="l">Logo:</span><button class="pal-btn logo-btn" type="button" data-logo="1"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-1"/></svg>1 Silueta</button><button class="pal-btn logo-btn" type="button" data-logo="2"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-2"/></svg>2 Línea</button><button class="pal-btn logo-btn" type="button" data-logo="3"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-3"/></svg>3 Emblema</button><button class="pal-btn logo-btn" type="button" data-logo="4"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-4"/></svg>4 Contorno</button><button class="pal-btn logo-btn" type="button" data-logo="5"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-5"/></svg>5 Boca</button><button class="pal-btn logo-btn" type="button" data-logo="6"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-6"/></svg>6 Cuerdas</button></span>
+  <span class="pal-group" id="logobar"><span class="l">Logo:</span><button class="pal-btn logo-btn" type="button" data-logo="1"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-1"/></svg>1 Silueta</button><button class="pal-btn logo-btn" type="button" data-logo="2"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-2"/></svg>2 Línea</button><button class="pal-btn logo-btn" type="button" data-logo="3"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-3"/></svg>3 Emblema</button><button class="pal-btn logo-btn" type="button" data-logo="4"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-4"/></svg>4 Contorno</button><button class="pal-btn logo-btn" type="button" data-logo="5"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-5"/></svg>5 Boca</button><button class="pal-btn logo-btn" type="button" data-logo="6"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-6"/></svg>6 Cuerdas</button><button class="pal-btn logo-btn" type="button" data-logo="7"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-7"/></svg>7 Boca y notas</button><button class="pal-btn logo-btn" type="button" data-logo="8"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-8"/></svg>8 Boca y nota</button></span>
 </div>
 
 <script>
