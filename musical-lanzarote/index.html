@@ -17,22 +17,14 @@ img{max-width:100%}
     --font-display:"Bodoni Moda","Didot","Times New Roman",serif;
   --font-body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
 }
-/* La Geria: viñedos sobre ceniza volcánica — cal, verde viña, arena y tierra rojiza */
-:root{--p-dark:#1b1d1c;--p-light:#f4f3ee;--p-acc:#a3bf86}
-/* Estilo A · Fondos de color: base clara alternada con tres colores que no se repiten */
-.s1{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#4a4b48;--sline:#cbc9c2;--sacc:#2f4f2a;--sacc-ink:#ffffff;--stitle:#1b1d1c;--smenu:#f2efe6}
-.s2{--sbg:#a3bf86;--sfg:#1b1d1c;--smuted:#394133;--sline:#8ba273;--sacc:#2f4f2a;--sacc-ink:#ffffff;--stitle:#1b1d1c;--smenu:#a3bf86}
-.s3{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#4a4b48;--sline:#cbc9c2;--sacc:#2f4f2a;--sacc-ink:#ffffff;--stitle:#1b1d1c;--smenu:#f2efe6}
-.s4{--sbg:#dcc79b;--sfg:#1b1d1c;--smuted:#454238;--sline:#b9a884;--sacc:#2f4f2a;--sacc-ink:#ffffff;--stitle:#1b1d1c;--smenu:#dcc79b}
-.s5{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#4a4b48;--sline:#cbc9c2;--sacc:#2f4f2a;--sacc-ink:#ffffff;--stitle:#1b1d1c;--smenu:#f2efe6}
-.s6{--sbg:#dc9f8f;--sfg:#1b1d1c;--smuted:#453a35;--sline:#b9887a;--sacc:#2f4f2a;--sacc-ink:#ffffff;--stitle:#1b1d1c;--smenu:#dc9f8f}
-/* Estilo B · Claro y oscuro: dos fondos alternados; los colores de La Geria van en los titulares, botones y menú */
-:root[data-style="b"] .s1{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#65924f;--sacc-ink:#1b1d1c;--stitle:#65924f;--smenu:#65924f}
-:root[data-style="b"] .s2{--sbg:#232624;--sfg:#f2efe6;--smuted:#bebdb6;--sline:#484a47;--sacc:#a6823a;--sacc-ink:#1b1d1c;--stitle:#a6823a;--smenu:#a6823a}
-:root[data-style="b"] .s3{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#c1715c;--sacc-ink:#1b1d1c;--stitle:#c1715c;--smenu:#c1715c}
-:root[data-style="b"] .s4{--sbg:#232624;--sfg:#f2efe6;--smuted:#bebdb6;--sline:#484a47;--sacc:#65924f;--sacc-ink:#1b1d1c;--stitle:#65924f;--smenu:#65924f}
-:root[data-style="b"] .s5{--sbg:#f2efe6;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#a6823a;--sacc-ink:#1b1d1c;--stitle:#a6823a;--smenu:#a6823a}
-:root[data-style="b"] .s6{--sbg:#232624;--sfg:#f2efe6;--smuted:#bebdb6;--sline:#484a47;--sacc:#c1715c;--sacc-ink:#1b1d1c;--stitle:#c1715c;--smenu:#c1715c}
+/* La Geria · estilo claro y oscuro: fondos de cal y basalto alternados; verde viña, ocre y tierra rojiza en titulares, botones y menú */
+:root{--p-dark:#1b1d1c;--p-light:#f4f3ee;--p-acc:#65924f;--blend:240px}
+.s1{--sbg:#f2efe6;--sprev:#f2efe6;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#65924f;--sacc-ink:#1b1d1c;--stitle:#65924f;--smenu:#65924f}
+.s2{--sbg:#2b2e2c;--sprev:#f2efe6;--sfg:#f2efe6;--smuted:#c0bfb8;--sline:#4f514d;--sacc:#a6823a;--sacc-ink:#1b1d1c;--stitle:#a6823a;--smenu:#a6823a}
+.s3{--sbg:#f2efe6;--sprev:#2b2e2c;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#c1715c;--sacc-ink:#1b1d1c;--stitle:#c1715c;--smenu:#c1715c}
+.s4{--sbg:#2b2e2c;--sprev:#f2efe6;--sfg:#f2efe6;--smuted:#c0bfb8;--sline:#4f514d;--sacc:#65924f;--sacc-ink:#1b1d1c;--stitle:#65924f;--smenu:#65924f}
+.s5{--sbg:#f2efe6;--sprev:#2b2e2c;--sfg:#1b1d1c;--smuted:#51524e;--sline:#cbc9c2;--sacc:#a6823a;--sacc-ink:#1b1d1c;--stitle:#a6823a;--smenu:#a6823a}
+.s6{--sbg:#2b2e2c;--sprev:#f2efe6;--sfg:#f2efe6;--smuted:#c0bfb8;--sline:#4f514d;--sacc:#c1715c;--sacc-ink:#1b1d1c;--stitle:#c1715c;--smenu:#c1715c}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;color-scheme:light}
@@ -41,7 +33,7 @@ body{background:var(--p-dark);color:var(--p-light);font-family:var(--font-body);
 :focus-visible{outline:3px solid var(--p-acc);outline-offset:2px}
 h1,h2,h3{font-family:var(--font-display);font-weight:500;line-height:1.05;text-wrap:balance;margin:0}
 
-.band,.sheet{background:var(--sbg);color:var(--sfg);transition:background-color .3s,color .3s;--scard:color-mix(in srgb,var(--sfg) 7%,var(--sbg))}
+.band,.sheet{background:var(--sbg);color:var(--sfg);--scard:color-mix(in srgb,var(--sfg) 7%,var(--sbg))}
 .band a,.sheet a{color:inherit}
 
 /* Cabecera */
@@ -55,11 +47,13 @@ h1,h2,h3{font-family:var(--font-display);font-weight:500;line-height:1.05;text-w
 .logo-btn[aria-pressed="true"] svg{--logo-cut:#26282a}
 .brand-name{font-family:var(--font-display);font-style:italic;font-size:24px}
 nav{display:flex;gap:2px;overflow-x:auto;margin-left:auto;max-width:100%}
-nav a{color:color-mix(in srgb,var(--hfg) 68%,transparent);text-decoration:none;padding:8px 12px;font-size:14px;font-weight:500;white-space:nowrap;border-bottom:3px solid transparent}
+nav a{transition:color .45s ease,border-color .45s ease;color:color-mix(in srgb,var(--hfg) 68%,transparent);text-decoration:none;padding:8px 12px;font-size:14px;font-weight:500;white-space:nowrap;border-bottom:3px solid transparent}
 nav a:hover{color:var(--hfg)}
 nav a[aria-current="true"]{color:var(--hacc);border-bottom-color:var(--hacc)}
 
 /* Paneles: todos del mismo alto */
+/* Cambio de sección suave: cada panel empieza con un degradado desde el fondo del anterior */
+.band.panel{background:linear-gradient(to bottom,color-mix(in oklab,var(--sprev) 100%,var(--sbg)) calc(var(--blend) * 0),color-mix(in oklab,var(--sprev) 96%,var(--sbg)) calc(var(--blend) * 0.15),color-mix(in oklab,var(--sprev) 85%,var(--sbg)) calc(var(--blend) * 0.3),color-mix(in oklab,var(--sprev) 65%,var(--sbg)) calc(var(--blend) * 0.45),color-mix(in oklab,var(--sprev) 40%,var(--sbg)) calc(var(--blend) * 0.6),color-mix(in oklab,var(--sprev) 18%,var(--sbg)) calc(var(--blend) * 0.75),color-mix(in oklab,var(--sprev) 5%,var(--sbg)) calc(var(--blend) * 0.9),color-mix(in oklab,var(--sprev) 0%,var(--sbg)) calc(var(--blend) * 1)) var(--sbg)}
 .panel{min-height:clamp(460px,64vh,620px);min-height:clamp(460px,64svh,620px);display:flex;align-items:center;padding:44px 16px;scroll-margin-top:var(--hh)}
 /* Hueco bajo la página para la barra de prueba de paletas (se quitará con ella) */
 main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
@@ -330,8 +324,8 @@ td:first-child{font-style:italic}
   <div class="sheet-in" id="sheet-in"></div>
 </div>
 
-<div class="pal-bar" id="palbar" role="group" aria-label="Probar estilo y logo">
-  <span class="pal-group" id="stylebar"><span class="l">Estilo:</span><button class="pal-btn" type="button" data-style="a"><span class="sw"><i style="background:#f2efe6"></i><i style="background:#a3bf86"></i><i style="background:#dcc79b"></i><i style="background:#dc9f8f"></i></span>A Fondos de color</button><button class="pal-btn" type="button" data-style="b"><span class="sw"><i style="background:#f2efe6"></i><i style="background:#232624"></i><i style="background:#65924f"></i><i style="background:#a6823a"></i><i style="background:#c1715c"></i></span>B Claro y oscuro</button></span>
+<div class="pal-bar" id="palbar" role="group" aria-label="Probar logo">
+  
   <span class="pal-group" id="logobar"><span class="l">Logo:</span><button class="pal-btn logo-btn" type="button" data-logo="1"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-1"/></svg>1 Silueta</button><button class="pal-btn logo-btn" type="button" data-logo="2"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-2"/></svg>2 Línea</button><button class="pal-btn logo-btn" type="button" data-logo="3"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-3"/></svg>3 Emblema</button><button class="pal-btn logo-btn" type="button" data-logo="4"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-4"/></svg>4 Contorno</button><button class="pal-btn logo-btn" type="button" data-logo="5"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-5"/></svg>5 Boca</button><button class="pal-btn logo-btn" type="button" data-logo="6"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-6"/></svg>6 Cuerdas</button></span>
 </div>
 
@@ -465,7 +459,7 @@ td:first-child{font-style:italic}
   var links={};document.querySelectorAll("#nav a").forEach(function(a){links[a.getAttribute("data-go")]=a;});
   var secs=[].slice.call(document.querySelectorAll("section.band")), ticking=false;
   /* Palabra activa del menú y su subrayado: color de fondo exacto de la sección */
-  /* Palabra activa del menú y su subrayado: el color propio de la sección (fondo en el estilo A, titular en el B) */
+  /* Palabra activa del menú y su subrayado: el mismo color que el titular de la sección */
   function applyHead(sec){
     head.style.setProperty("--hacc",getComputedStyle(sec).getPropertyValue("--smenu").trim());
   }
@@ -482,17 +476,7 @@ td:first-child{font-style:italic}
   window.addEventListener("scroll",onScroll,{passive:true});
   window.addEventListener("resize",onScroll);
 
-  /* Estilos de prueba */
-  var root=document.documentElement, styleBtns=document.querySelectorAll("button[data-style]");
-  function setStyle(n){
-    if(n==="b")root.setAttribute("data-style","b");else root.removeAttribute("data-style");
-    styleBtns.forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-style")===n));});
-    try{localStorage.setItem("ml-style",n);}catch(e){}
-    updateActive();
-  }
-  document.getElementById("stylebar").addEventListener("click",function(e){var b=e.target.closest("button[data-style]");if(b)setStyle(b.getAttribute("data-style"));});
-  var savedStyle="a";try{savedStyle=localStorage.getItem("ml-style")||"a";}catch(e){}
-  setStyle(savedStyle);
+  updateActive();
 
   /* Logos de prueba */
   var logoUse=document.querySelector("#logo use"), logoBtns=document.querySelectorAll("[data-logo]");
