@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Musical Lanzarote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<style>
+[hidden]{display:none!important}
+img{max-width:100%}
+/* Layout: seis paneles a pantalla completa y del mismo alto (Agencia, Artistas, Producciones, Redes, Blog) más Contacto al final; cada panel tiene su propio color para renovar la atención al hacer scroll. Look comprometido (no sigue el tema del sistema): todos los colores son explícitos y vienen de tres paletas de prueba. */
+:root{
+  --hh:64px;
+    --font-display:"Bodoni Moda","Didot","Times New Roman",serif;
+  --font-body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+}
+/* Paleta 1 · La Geria: viñedos sobre picón negro (verde viña, picón gris, arena volcánica) */
+:root{--p-dark:#2e3230;--p-light:#f3f2ec;--p-acc:#9bb98a}
+.s1{--sbg:#f3f2ec;--sfg:#26292b;--smuted:#5d625f;--sline:#d4d3c9;--sacc:#4f7a4a;--sacc-ink:#ffffff}
+.s2{--sbg:#2e3230;--sfg:#f3f2ec;--smuted:#b1b6b1;--sline:#474c49;--sacc:#9bb98a;--sacc-ink:#1f2321}
+.s3{--sbg:#d9cba9;--sfg:#26292b;--smuted:#5a5239;--sline:#bfae85;--sacc:#4f7a4a;--sacc-ink:#ffffff}
+.s4{--sbg:#e9ece4;--sfg:#26292b;--smuted:#5d625f;--sline:#cdd2c6;--sacc:#2e3230;--sacc-ink:#f3f2ec}
+.s5{--sbg:#4f7a4a;--sfg:#ffffff;--smuted:#ffffff;--sline:#7d9c78;--sacc:#f3f2ec;--sacc-ink:#26292b}
+.s6{--sbg:#2e3230;--sfg:#f3f2ec;--smuted:#b1b6b1;--sline:#474c49;--sacc:#9bb98a;--sacc-ink:#1f2321}
+/* Paleta 2 · Famara: dunas de arena y mar Atlántico */
+:root[data-pal="2"]{--p-dark:#25292b;--p-light:#f4f2ea;--p-acc:#e3d2ae}
+:root[data-pal="2"] .s1{--sbg:#f4f2ea;--sfg:#25292b;--smuted:#5b6162;--sline:#d8d6cb;--sacc:#2f6b7d;--sacc-ink:#ffffff}
+:root[data-pal="2"] .s2{--sbg:#2f6b7d;--sfg:#ffffff;--smuted:#e1eef2;--sline:#5b8e9d;--sacc:#e6d3a8;--sacc-ink:#25292b}
+:root[data-pal="2"] .s3{--sbg:#e3d2ae;--sfg:#25292b;--smuted:#5b5033;--sline:#c4b186;--sacc:#2f6b7d;--sacc-ink:#ffffff}
+:root[data-pal="2"] .s4{--sbg:#e8eceb;--sfg:#25292b;--smuted:#565d5f;--sline:#cfd6d4;--sacc:#25292b;--sacc-ink:#f4f2ea}
+:root[data-pal="2"] .s5{--sbg:#86a9b3;--sfg:#1f2426;--smuted:#2f3a3e;--sline:#6a8f9a;--sacc:#1f2426;--sacc-ink:#f4f2ea}
+:root[data-pal="2"] .s6{--sbg:#25292b;--sfg:#f4f2ea;--smuted:#b7bbbb;--sline:#43484a;--sacc:#e3d2ae;--sacc-ink:#25292b}
+/* Paleta 3 · Manrique: cal blanca, verde y azul de carpintería, picón */
+:root[data-pal="3"]{--p-dark:#2b2e30;--p-light:#f5f4ef;--p-acc:#8fc3ad}
+:root[data-pal="3"] .s1{--sbg:#f5f4ef;--sfg:#26292b;--smuted:#5a5d57;--sline:#d9d8cf;--sacc:#2f6f5a;--sacc-ink:#ffffff}
+:root[data-pal="3"] .s2{--sbg:#2f6f5a;--sfg:#ffffff;--smuted:#e0eee8;--sline:#5b8f7d;--sacc:#f5f4ef;--sacc-ink:#26292b}
+:root[data-pal="3"] .s3{--sbg:#dfe4dc;--sfg:#26292b;--smuted:#4f5a53;--sline:#c0c8bc;--sacc:#2c5f8a;--sacc-ink:#ffffff}
+:root[data-pal="3"] .s4{--sbg:#2c5f8a;--sfg:#ffffff;--smuted:#dbe7f1;--sline:#5a85a9;--sacc:#f5f4ef;--sacc-ink:#26292b}
+:root[data-pal="3"] .s5{--sbg:#e9e5da;--sfg:#26292b;--smuted:#5a5d57;--sline:#d2ccbd;--sacc:#2f6f5a;--sacc-ink:#ffffff}
+:root[data-pal="3"] .s6{--sbg:#2b2e30;--sfg:#f5f4ef;--smuted:#a9aeb0;--sline:#45494b;--sacc:#8fc3ad;--sacc-ink:#1f2321}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;color-scheme:light}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--p-dark);color:var(--p-light);font-family:var(--font-body);font-size:17px;line-height:1.6;margin:0}
+:focus-visible{outline:3px solid var(--p-acc);outline-offset:2px}
+h1,h2,h3{font-family:var(--font-display);font-weight:500;line-height:1.05;text-wrap:balance;margin:0}
+
+.band,.sheet{background:var(--sbg);color:var(--sfg);--scard:color-mix(in srgb,var(--sfg) 7%,var(--sbg))}
+.band a,.sheet a{color:inherit}
+
+/* Cabecera */
+.site-head{background:var(--p-dark);color:var(--p-light);position:sticky;top:env(safe-area-inset-top,0px);z-index:10}
+.head-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--p-light)}
+.logo-slot{width:42px;height:42px;border:1px dashed color-mix(in srgb,var(--p-light) 55%,transparent);display:grid;place-items:center;font-size:9px;letter-spacing:.08em;color:color-mix(in srgb,var(--p-light) 70%,transparent);text-transform:uppercase}
+.brand-name{font-family:var(--font-display);font-style:italic;font-size:24px}
+nav{display:flex;gap:2px;overflow-x:auto;margin-left:auto;max-width:100%}
+nav a{color:color-mix(in srgb,var(--p-light) 68%,transparent);text-decoration:none;padding:8px 12px;font-size:14px;font-weight:500;white-space:nowrap;border-bottom:3px solid transparent}
+nav a:hover{color:var(--p-light)}
+nav a[aria-current="true"]{color:var(--p-light);border-bottom-color:var(--p-acc)}
+
+/* Paneles: todos del mismo alto */
+.panel{min-height:clamp(380px,52vh,500px);min-height:clamp(380px,52svh,500px);display:flex;align-items:center;padding:44px 16px;scroll-margin-top:var(--hh)}
+.panel.last{min-height:0;padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:1180px;width:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;align-items:center}
+@media (max-width:820px){.wrap{grid-template-columns:minmax(0,1fr);gap:28px}}
+.title{font-size:clamp(42px,8vw,100px);letter-spacing:-.01em}
+.title em{font-style:italic}
+.lede{color:var(--smuted);max-width:44ch;margin:18px 0 0;font-size:19px}
+.side{min-width:0}
+.pending{display:inline-block;color:var(--smuted);padding:6px 11px;font-size:14px;border:1px dashed var(--sline)}
+.note{color:var(--smuted);font-size:15px;margin:12px 0 0}
+
+.btn{display:inline-block;padding:12px 22px;background:var(--sacc);color:var(--sacc-ink)!important;border:2px solid var(--sacc);text-decoration:none;font:inherit;font-weight:600;font-size:16px;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--sfg)!important;border-color:var(--sfg)}
+.stats{display:flex;gap:36px;flex-wrap:wrap;margin-bottom:24px}
+.stat b{display:block;font-family:var(--font-display);font-size:clamp(48px,7vw,84px);line-height:1;color:var(--sacc)}
+.stat span{color:var(--smuted);font-size:15px}
+.box{border:1px solid var(--sline);background:var(--scard);padding:28px}
+.box p{margin:0 0 12px}
+.box ul{margin:0 0 16px;padding-left:20px;color:var(--smuted)}
+.plain-list{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.plain-list li{display:flex;gap:14px;flex-wrap:wrap;align-items:baseline}
+.plain-list b{min-width:110px}
+
+
+/* Contacto */
+.bio-row{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.photo-slot{flex:none;width:112px;aspect-ratio:1/1;border:1px dashed var(--sline);display:grid;place-items:center;font-size:11px;color:var(--smuted);text-transform:uppercase;letter-spacing:.08em}
+.eyebrow{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--smuted);font-weight:600;margin-bottom:12px}
+
+/* Panel de artistas (directorio y ficha) */
+.sheet{position:fixed;inset:0;z-index:30;overflow-y:auto;overscroll-behavior:contain}
+.sheet[hidden]{display:none!important}
+.sheet-bar{position:sticky;top:0;background:var(--sbg);border-bottom:1px solid var(--sline);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:2}
+.sheet-bar .left{display:flex;gap:14px;align-items:center;min-width:0}
+.crumb{font-size:14px;color:var(--smuted)}
+.bar-btn{border:1px solid var(--sfg);background:transparent;color:var(--sfg);font:inherit;font-size:15px;padding:8px 16px;cursor:pointer;white-space:nowrap}
+.bar-btn:hover{background:var(--sfg);color:var(--sbg)}
+.sheet-in{max-width:1080px;margin:0 auto;padding:40px 16px calc(110px + env(safe-area-inset-bottom,0px))}
+.dir-title{font-size:clamp(40px,8vw,80px);margin-bottom:24px}
+.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:36px}
+.search{flex:1 1 220px;min-width:0;padding:11px 14px;border:1px solid var(--sline);background:var(--scard);color:var(--sfg);font:inherit;font-size:16px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--sline);background:transparent;color:var(--sfg);font:inherit;font-size:14px;padding:7px 13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--sfg);color:var(--sbg);border-color:var(--sfg)}
+.group{margin-bottom:44px}
+.group h3{font-size:26px;font-style:italic;padding-bottom:10px;border-bottom:1px solid var(--sline);margin-bottom:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
+.card{display:block;text-decoration:none;color:var(--sfg);min-width:0}
+.ph{aspect-ratio:4/5;max-width:100%;background:var(--p-dark);color:var(--p-light);display:grid;place-items:center;font-family:var(--font-display);font-size:48px;font-style:italic;transition:background .2s}
+.card:hover .ph{background:var(--sacc);color:var(--sacc-ink)}
+.card-name{display:block;font-weight:600;font-size:18px;margin-top:10px;line-height:1.25}
+.card-sub{display:block;font-size:14px;color:var(--smuted)}
+.empty{color:var(--smuted)}
+
+.profile{display:grid;grid-template-columns:minmax(0,280px) minmax(0,1fr);gap:40px;align-items:end;margin-bottom:48px}
+@media (max-width:700px){.profile{grid-template-columns:minmax(0,1fr)}.profile .ph{max-width:220px}}
+.profile h2{font-size:clamp(38px,7vw,72px)}
+.voice{color:var(--smuted);margin-top:10px;font-size:18px}
+.block{margin-bottom:44px}
+.block h3{font-size:26px;font-style:italic;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--sline)}
+.block p{margin:0;max-width:65ch}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--sline);background:var(--scard)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--sline);vertical-align:top}
+th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--smuted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td:first-child{font-style:italic}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border:1px solid var(--sline);color:var(--smuted);margin-left:8px;white-space:nowrap}
+.dates{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.dates li{background:var(--scard);border:1px solid var(--sline);padding:14px 16px;display:grid;gap:2px}
+.dates .when{font-weight:600}
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.media{background:var(--scard);border:1px solid var(--sline);padding:18px;display:grid;gap:8px;align-content:start}
+.media b{font-size:17px;line-height:1.3}
+.media small{color:var(--smuted);font-size:14px}
+.media .btn{justify-self:start;padding:9px 16px;font-size:15px}
+.stack{display:flex;gap:10px;flex-wrap:wrap}
+
+/* Selector de paletas (solo para elegir) */
+.pal-bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#101112;color:#f4f4f2;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;border-top:1px solid #333}
+.pal-bar span.l{font-size:13px;color:#b9bcbb;margin-right:4px}
+.pal-btn{display:flex;align-items:center;gap:8px;background:transparent;color:#f4f4f2;border:1px solid #4a4d4f;padding:5px 10px;font:inherit;font-size:13px;cursor:pointer}
+.pal-btn[aria-pressed="true"]{border-color:#f4f4f2;background:#26282a}
+.sw{display:flex}
+.sw i{width:12px;height:16px;display:block}
+</style>
+</head>
+<body>
+
+
+<header class="site-head" id="head">
+  <div class="head-in">
+    <a class="brand" href="#agencia" data-go="agencia" aria-label="Musical Lanzarote, ir al inicio">
+      <span class="logo-slot">Logo</span>
+      <span class="brand-name">Musical Lanzarote</span>
+    </a>
+    <nav aria-label="Menú principal" id="nav">
+      <a href="#agencia" data-go="agencia">Agencia</a>
+      <a href="#artistas" data-go="artistas">Artistas</a>
+      <a href="#producciones" data-go="producciones">Producciones</a>
+      <a href="#redes" data-go="redes">Redes</a>
+      <a href="#blog" data-go="blog">Blog</a>
+      <a href="#contacto" data-go="contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="band panel s1" id="agencia" aria-labelledby="t-ag">
+    <div class="wrap">
+      <div>
+        <h1 class="title" id="t-ag">La <em>agencia</em></h1>
+        <p class="lede"><span class="pending">Texto de presentación pendiente de recibir</span></p>
+      </div>
+      <div class="side">
+        <div class="stats" id="stats"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band panel s2" id="artistas" aria-labelledby="t-ar">
+    <div class="wrap">
+      <div>
+        <h2 class="title" id="t-ar">Los <em>artistas</em></h2>
+      </div>
+      <div class="side">
+        <p class="lede" style="margin-top:0">Cantantes, directores de escena, directores musicales y pianista. Cada uno tiene su espacio con biografía, repertorio, fechas, vídeos y audios.</p>
+        <p style="margin-top:24px"><button class="btn" type="button" data-list="Todos">Ver todos los artistas</button></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band panel s3" id="producciones" aria-labelledby="t-pr">
+    <div class="wrap">
+      <div>
+        <h2 class="title" id="t-pr"><em>Producciones</em> propias</h2>
+        <p class="lede">Espectáculos producidos por la propia agencia.</p>
+      </div>
+      <div class="side">
+        <div class="box">
+          <p><b>Todavía no hay producciones publicadas.</b></p>
+          <p>Cada producción tendrá su espacio con:</p>
+          <ul><li>cartel y sinopsis</li><li>reparto y equipo artístico</li><li>fechas y lugares</li><li>vídeos, audios y fotos</li></ul>
+          <span class="pending">Pendiente de recibir los títulos</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band panel s4" id="redes" aria-labelledby="t-re">
+    <div class="wrap">
+      <div>
+        <h2 class="title" id="t-re">Las <em>redes</em></h2>
+        <p class="lede">Los perfiles de la agencia en redes sociales.</p>
+      </div>
+      <div class="side">
+        <p><span class="pending">Pendiente de indicar qué redes se usan y sus enlaces</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band panel s5" id="blog" aria-labelledby="t-bl">
+    <div class="wrap">
+      <div>
+        <h2 class="title" id="t-bl">El <em>blog</em></h2>
+        <p class="lede">Noticias, estrenos y crónicas.</p>
+      </div>
+      <div class="side">
+        <div class="box"><p style="margin:0">Todavía no hay entradas publicadas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band panel last s6" id="contacto" aria-labelledby="t-co">
+    <div class="wrap">
+      <div>
+        <h2 class="title" id="t-co"><em>Contacto</em></h2>
+        <p class="lede">Para contrataciones, disponibilidad y propuestas.</p>
+        <ul class="plain-list" style="margin-top:28px">
+          <li><b>Correo</b><span class="pending">Pendiente de recibir</span></li>
+          <li><b>Teléfono</b><span class="pending">Pendiente de recibir</span></li>
+        </ul>
+      </div>
+      <div class="side">
+        <span class="eyebrow">Dirección de la agencia</span>
+        <div class="bio-row">
+          <span class="photo-slot">Foto</span>
+          <p style="margin:0"><span class="pending">Biografía pendiente</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="sheet s1" id="sheet" role="dialog" aria-modal="true" aria-label="Artistas" hidden>
+  <div class="sheet-bar">
+    <div class="left">
+      <button class="bar-btn" id="back" type="button" hidden>← Artistas</button>
+      <span class="crumb" id="crumb">Artistas</span>
+    </div>
+    <button class="bar-btn" id="close" type="button">Cerrar</button>
+  </div>
+  <div class="sheet-in" id="sheet-in"></div>
+</div>
+
+<div class="pal-bar" id="palbar" role="group" aria-label="Probar paletas de color">
+  <span class="l">Probar paleta:</span>
+  <button class="pal-btn" type="button" data-pal="1"><span class="sw"><i style="background:#2e3230"></i><i style="background:#4f7a4a"></i><i style="background:#d9cba9"></i><i style="background:#f3f2ec"></i></span>1 La Geria</button>
+  <button class="pal-btn" type="button" data-pal="2"><span class="sw"><i style="background:#25292b"></i><i style="background:#2f6b7d"></i><i style="background:#e3d2ae"></i><i style="background:#86a9b3"></i></span>2 Famara</button>
+  <button class="pal-btn" type="button" data-pal="3"><span class="sw"><i style="background:#2b2e30"></i><i style="background:#2f6f5a"></i><i style="background:#2c5f8a"></i><i style="background:#e9e5da"></i></span>3 Manrique</button>
+</div>
+
+<script>
+(function(){
+  var DATA = [
+    {g:"Soprano",p:"Sopranos", items:[{id:"carmen-mateo",n:"Carmen Mateo"},{id:"ruth-teran",n:"Ruth Terán"}]},
+    {g:"Mezzosoprano",p:"Mezzosopranos", items:[{id:"julia-merino",n:"Julia Merino"}]},
+    {g:"Tenor",p:"Tenores", items:[{id:"andeka-gorrotxategui",n:"Andeka Gorrotxategui",full:true},{id:"victor-moral",n:"Víctor Moral"}]},
+    {g:"Cómico",p:"Cómico", items:[{id:"mingo-avila",n:"Mingo Ávila",note:"Actor / tenor cómico"}]},
+    {g:"Barítono",p:"Barítonos", items:[{id:"emmanuel-franco",n:"Emmanuel Franco"},{id:"borja-quiza",n:"Borja Quiza"},{id:"cesar-san-martin",n:"César San Martín"},{id:"enrique-torres",n:"Enrique Torres"}]},
+    {g:"Bajo",p:"Bajo", items:[{id:"max-hochmut",n:"Max Hochmut"}]},
+    {g:"Director de escena",p:"Directores de escena", items:[
+      {id:"teresa-garzon",n:"Teresa Garzón",note:"Exclusivamente para ópera y zarzuela"},
+      {id:"giorgia-guerra",n:"Giorgia Guerra"},
+      {id:"emiliano-suarez",n:"Emiliano Suárez",note:"Colaboración en gestión y asesoramiento artístico de sus títulos ya estrenados o en preproducción confirmada"}]},
+    {g:"Director musical",p:"Directores musicales", items:[
+      {id:"rafael-sanchez-arana",n:"Rafael Sánchez-Araña"},
+      {id:"daniel-gil-de-tejada",n:"Daniel Gil de Tejada",note:"No exclusivo"}]},
+    {g:"Pianista",p:"Pianista", items:[{id:"ramon-grau",n:"Ramón Grau"}]}
+  ];
+
+  var ANDEKA = {
+    voice:"Tenor lírico-spinto",
+    bio:"Andeka posee una voz rotunda, noble y de gran sonoridad, que hoy se sitúa en la cumbre de su madurez artística para afrontar su repertorio. De formidable presencia escénica y apabullante solvencia vocal, le permiten abordar los roles de máxima exigencia dramática como Otello, Don Carlo, La forza del destino, Sansón y Dalila o Manon Lescaut, manteniendo al mismo tiempo una fuerza expresiva única en otro grandes títulos como Tosca, La Bohème, Turandot o Carmen. Aclamado en coliseos de prestigio mundial como la Semperoper de Dresde, el Teatro di San Carlo de Nápoles, el Sydney Opera House, la Opernhaus Zürich, así como en emblemáticas producciones del Teatro de la Zarzuela, Gorrotxategi representa una de esas voces de las que ya no abundan, de empaque clásico e indiscutible gancho escénico.",
+    rep:[
+      ["Manon Lescaut","Puccini","Des Grieux"],["La Fanciulla del West","Puccini","Dick Johnoson"],["Madama Butterfly","Puccini","F.B. Pinckerton"],
+      ["Tosca","Puccini","Mario Cavaradossi"],["Turandot","Puccini","Calaf"],["La Boheme","Puccini","Rodolfo"],
+      ["Simone Boccanegra","Verdi","Gabriele Adorno"],["Otello","Verdi","Otello"],["Don Carlos","Verdi","Don Carlos"],
+      ["La forza del destino","Verdi","Don Alvaro"],["Aida","Verdi","Radames"],["I Masnadieri","Verdi","Carlo de Moor"],
+      ["Attila","Verdi","Foresto"],["Il Trovatore","Verdi","Manrico"],["Norma","Bellini","Pollione"],
+      ["Belisario","Donizetti","Alamiro"],["Werther","Massenet","Werther"],["Carmen","Bizet","Don José"],
+      ["La Gran Duquesa de Gerosltein","Offenbach","Fritz"],["El Gato Montés","Penella","Rafael"],["Samson et Dalila","Saint-Saëns","Samson"]
+    ],
+    dates:[{when:"28 de marzo de 2026",what:"Norma (Bellini), Pollione",where:"Palacio de Festivales de Santander",dir:"Dir.: Oliver Díaz",flag:"Fecha por confirmar"}],
+    videos:[{title:"Norma, Acto 1: «Meco all'altar di Venere» (Bellini)",meta:"Palacio de Festivales de Santander · Dir.: Oliver Díaz",url:"https://youtu.be/zrECaEmMFjw"}]
+  };
+
+  function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+  function initials(n){var p=n.split(/\s+/);return (p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();}
+  function find(id){for(var i=0;i<DATA.length;i++)for(var j=0;j<DATA[i].items.length;j++)if(DATA[i].items[j].id===id)return {g:DATA[i].g,it:DATA[i].items[j]};return null;}
+  var total=DATA.reduce(function(a,g){return a+g.items.length;},0);
+
+  /* Datos de la agencia y presentación de Artistas */
+  document.getElementById("stats").innerHTML=
+    '<div class="stat"><b>'+total+'</b><span>artistas</span></div><div class="stat"><b>'+DATA.length+'</b><span>especialidades</span></div>';
+
+  /* Panel: directorio + ficha */
+  var sheet=document.getElementById("sheet"), sheetIn=document.getElementById("sheet-in"), crumb=document.getElementById("crumb"), backBtn=document.getElementById("back");
+  var mode=null, activeGroup="Todos", query="", lastFocus=null;
+
+  function renderDirectory(){
+    var h='<h2 class="dir-title">Artistas</h2><div class="tools"><input class="search" id="q" type="search" placeholder="Buscar artista" aria-label="Buscar artista" value="'+esc(query)+'"><div class="chips" id="chips" role="group" aria-label="Filtrar por especialidad"></div></div><div id="groups"></div>';
+    sheetIn.innerHTML=h; buildChips(); renderGroups();
+    document.getElementById("q").addEventListener("input",function(e){query=e.target.value.trim().toLowerCase();renderGroups();});
+    document.getElementById("chips").addEventListener("click",function(e){var b=e.target.closest("button[data-g]");if(!b)return;activeGroup=b.getAttribute("data-g");buildChips();renderGroups();});
+  }
+  function buildChips(){
+    document.getElementById("chips").innerHTML=["Todos"].concat(DATA.map(function(x){return x.g;})).map(function(n){
+      var lab=n==="Todos"?"Todos":DATA.filter(function(x){return x.g===n;})[0].p;
+      return '<button class="chip" type="button" aria-pressed="'+(n===activeGroup)+'" data-g="'+esc(n)+'">'+esc(lab)+'</button>';
+    }).join("");
+  }
+  function renderGroups(){
+    var out="",count=0;
+    DATA.forEach(function(grp){
+      if(activeGroup!=="Todos"&&activeGroup!==grp.g)return;
+      var its=grp.items.filter(function(it){return !query||it.n.toLowerCase().indexOf(query)>-1;});
+      if(!its.length)return; count+=its.length;
+      out+='<div class="group"><h3>'+esc(grp.p)+'</h3><div class="cards">'+its.map(function(it){
+        return '<a class="card" href="#a-'+it.id+'" data-artist="'+it.id+'"><span class="ph" aria-hidden="true">'+esc(initials(it.n))+'</span><span class="card-name">'+esc(it.n)+'</span><span class="card-sub">'+esc(it.full?ANDEKA.voice:(it.note||grp.g))+'</span></a>';
+      }).join("")+'</div></div>';
+    });
+    document.getElementById("groups").innerHTML=count?out:'<p class="empty">Ningún artista coincide con la búsqueda.</p>';
+  }
+  function pend(t){return '<span class="pending">'+esc(t)+'</span>';}
+  function renderSheet(id){
+    var f=find(id); if(!f)return false;
+    var it=f.it, d=it.full?ANDEKA:null;
+    var h='<div class="profile"><span class="ph" aria-hidden="true">'+esc(initials(it.n))+'</span><div><h2>'+esc(it.n)+'</h2><div class="voice">'+esc(d?d.voice:f.g)+(it.note?' · '+esc(it.note):'')+'</div></div></div>';
+    h+='<div class="block"><h3>Biografía</h3>'+(d?'<p>'+esc(d.bio)+'</p>':pend("Biografía pendiente de recibir"))+'</div>';
+    h+='<div class="block"><h3>Repertorio</h3>'+(d?'<div class="tbl-wrap"><table><thead><tr><th>Ópera</th><th>Compositor</th><th>Rol</th></tr></thead><tbody>'+d.rep.map(function(r){return '<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>';}).join("")+'</tbody></table></div>':pend("Repertorio pendiente de recibir"))+'</div>';
+    h+='<div class="block"><h3>Agenda</h3>'+((d&&d.dates.length)?'<ul class="dates">'+d.dates.map(function(x){return '<li><span class="when">'+esc(x.when)+(x.flag?'<span class="tag">'+esc(x.flag)+'</span>':'')+'</span><span>'+esc(x.what)+'</span><span style="color:var(--smuted)">'+esc(x.where)+' · '+esc(x.dir)+'</span></li>';}).join("")+'</ul>':pend("Fechas pendientes de recibir"))+'</div>';
+    h+='<div class="block"><h3>Vídeos</h3>'+((d&&d.videos.length)?'<div class="media-grid">'+d.videos.map(function(v){return '<div class="media"><b>'+esc(v.title)+'</b><small>'+esc(v.meta)+'</small><a class="btn" href="'+v.url+'" target="_blank" rel="noopener">Ver en YouTube</a></div>';}).join("")+'</div>':pend("Vídeos pendientes de recibir"))+'</div>';
+    h+='<div class="block"><h3>Audios</h3>'+pend("Audios pendientes de recibir")+'</div>';
+    h+='<div class="block"><h3>Fotos</h3>'+pend("Fotos pendientes de recibir")+'</div>';
+    h+='<div class="block"><h3>Enlaces</h3><div class="stack">'+pend("Web personal: pendiente")+(d?'<a class="btn" href="'+d.videos[0].url+'" target="_blank" rel="noopener">YouTube</a>':pend("YouTube: pendiente"))+'</div></div>';
+    sheetIn.innerHTML=h; crumb.textContent=f.g; return true;
+  }
+  function show(){ if(!mode){return;} if(sheet.hidden){lastFocus=document.activeElement;} sheet.hidden=false; document.body.style.overflow="hidden"; sheet.scrollTop=0; }
+  function openList(group){
+    if(group)activeGroup=group;
+    mode="list"; renderDirectory(); crumb.textContent="Directorio"; backBtn.hidden=true; show();
+    document.getElementById("close").focus();
+  }
+  function openArtist(id){
+    if(!renderSheet(id))return;
+    mode=id; backBtn.hidden=false; show(); backBtn.focus();
+  }
+  function closeAll(){
+    if(!mode)return; mode=null; sheet.hidden=true; document.body.style.overflow="";
+    if(lastFocus&&lastFocus.focus)try{lastFocus.focus({preventScroll:true});}catch(e){}
+  }
+  function setHash(h){try{history.pushState(null,"","#"+h);}catch(e){}}
+  function goSection(id){closeAll();var el=document.getElementById(id);if(el)el.scrollIntoView();}
+
+  document.addEventListener("click",function(e){
+    var a=e.target.closest("[data-artist]");
+    if(a){e.preventDefault();var id=a.getAttribute("data-artist");openArtist(id);setHash("a-"+id);return;}
+    var l=e.target.closest("[data-list]");
+    if(l){e.preventDefault();openList(l.getAttribute("data-list"));setHash("lista");return;}
+    var g=e.target.closest("[data-go]");
+    if(g){e.preventDefault();var s=g.getAttribute("data-go");goSection(s);setHash(s);}
+  });
+  backBtn.addEventListener("click",function(){openList();setHash("lista");});
+  document.getElementById("close").addEventListener("click",function(){closeAll();setHash("artistas");});
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"&&mode){ if(mode!=="list"){openList();setHash("lista");} else {closeAll();setHash("artistas");} }
+  });
+  function sync(){
+    var h=(location.hash||"").slice(1);
+    if(h.indexOf("a-")===0){openArtist(h.slice(2));return;}
+    if(h==="lista"){openList();return;}
+    closeAll();
+    if(h){var el=document.getElementById(h);if(el)el.scrollIntoView();}
+  }
+  window.addEventListener("popstate",sync); window.addEventListener("hashchange",sync);
+
+  /* Altura de la cabecera → paneles del mismo tamaño */
+  var head=document.getElementById("head");
+  function setHH(){document.documentElement.style.setProperty("--hh",head.offsetHeight+"px");}
+  setHH(); window.addEventListener("resize",setHH);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(setHH);
+
+  /* Menú: sección visible */
+  var links={};document.querySelectorAll("#nav a").forEach(function(a){links[a.getAttribute("data-go")]=a;});
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){
+      if(en.isIntersecting){Object.keys(links).forEach(function(k){links[k].removeAttribute("aria-current");});var a=links[en.target.id];if(a)a.setAttribute("aria-current","true");}
+    });},{rootMargin:"-35% 0px -55% 0px"});
+    document.querySelectorAll("section.band").forEach(function(s){io.observe(s);});
+  }
+
+  /* Paletas de prueba */
+  var root=document.documentElement, palBtns=document.querySelectorAll(".pal-btn");
+  function setPal(n){
+    if(n==="1")root.removeAttribute("data-pal");else root.setAttribute("data-pal",n);
+    palBtns.forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-pal")===n));});
+    try{localStorage.setItem("ml-pal",n);}catch(e){}
+  }
+  document.getElementById("palbar").addEventListener("click",function(e){var b=e.target.closest("[data-pal]");if(b)setPal(b.getAttribute("data-pal"));});
+  var saved="1";try{saved=localStorage.getItem("ml-pal")||"1";}catch(e){}
+  setPal(saved);
+
+  sync();
+})();
+</script>
+
+</body>
+</html>
