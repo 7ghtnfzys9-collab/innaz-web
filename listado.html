@@ -59,7 +59,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=1c211b26"></script>
+  <script src="zarzuteca-data.js?v=352c17e9"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -247,10 +247,17 @@
   // se redactan todas. Si una biografía no siguiera ese patrón, no se recorta
   // nada: se deja el rol debajo del nombre y el texto entero como está.
   const RX_CAB=/^(\([^()]*(?:\([^()]*\)[^()]*)*\)\.\s+[^.]+\.)\s*/;
+  const RX_OFI=/^([A-ZÁÉÍÓÚ][a-záéíóúñ ]+(?:, [a-záéíóúñ ]+)*(?: y [a-záéíóúñ ]+)?\.)\s*\n\s*\n/;
   function cabeceraBio(bio){
     const t=(bio||'').trim();
     const m=t.match(RX_CAB);
-    if(!m) return {cabecera:'',resto:t};
+    if(!m){
+      // 7-10-2026 (César): fichas sin fechas cuyo primer párrafo es SOLO el
+      // oficio («Libretista y cantante.»): se usa como cabecera y se quita del cuerpo.
+      const o=t.match(RX_OFI);
+      if(o && t.slice(o[0].length).trim()) return {cabecera:o[1],resto:t.slice(o[0].length).trim()};
+      return {cabecera:'',resto:t};
+    }
     const resto=t.slice(m[0].length).trim();
     if(!resto) return {cabecera:'',resto:t};
     return {cabecera:m[1],resto:resto};
