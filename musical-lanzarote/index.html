@@ -107,7 +107,8 @@ main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .card:hover .ph img{transform:scale(1.03)}
 .photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 .photos a{display:block;border:1px solid var(--sline);background:var(--scard)}
-.photos img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;display:block}
+.photos{align-items:start}
+.photos img{width:100%;height:auto;display:block}
 .concert{margin-top:16px!important;color:var(--smuted);font-size:15px}
 .card-name{display:block;font-weight:600;font-size:18px;margin-top:10px;line-height:1.25}
 .card-sub{display:block;font-size:14px;color:var(--smuted)}
@@ -352,7 +353,7 @@ td:first-child{font-style:italic}
     {g:"Soprano",p:"Sopranos", items:[{id:"carmen-mateo",n:"Carmen Mateo"},{id:"ruth-teran",n:"Ruth Terán"}]},
     {g:"Mezzosoprano",p:"Mezzosopranos", items:[{id:"julia-merino",n:"Julia Merino"}]},
     {g:"Tenor",p:"Tenores", items:[{id:"andeka-gorrotxategui",n:"Andeka Gorrotxategui",full:true},{id:"victor-moral",n:"Víctor Moral"}]},
-    {g:"Característico",p:"Característico", items:[{id:"mingo-avila",n:"Mingo Ávila",note:"Actor / tenor característico"}]},
+    {g:"Característico",p:"Característico", items:[{id:"mingo-avila",n:"Mingo Ávila",note:"Actor / tenor característico"},{id:"jesus-cantolla",n:"Jesús Cantolla"}]},
     {g:"Barítono",p:"Barítonos", items:[{id:"emmanuel-franco",n:"Emmanuel Franco"},{id:"borja-quiza",n:"Borja Quiza"},{id:"cesar-san-martin",n:"César San Martín"},{id:"enrique-torres",n:"Enrique Torres"}]},
     {g:"Bajo",p:"Bajo", items:[{id:"max-hochmut",n:"Max Hochmut"}]},
     {g:"Director de escena",p:"Directores de escena", items:[
@@ -384,7 +385,14 @@ td:first-child{font-style:italic}
     },
     "ruth-teran": {
       voice:"Soprano",
+      photos:["img/ruth-teran-1.jpg","img/ruth-teran-2.jpg","img/ruth-teran-3.jpg"],
       bio:"La soprano madrileña Ruth Terán, de carnosa y timbrada voz, destaca por su gran desempeño en roles híbridos del repertorio de soprano lírico-ligera, aunque su volumen y su timbre oscuro le permite abordar algunos roles de repertorio más dramático como es el caso de Nedda de I Pagliacci de Leoncavallo o Mimì de La Bohème de Puccini. Después de resultar vencedora en numerosos concursos, su debut profesional inicia en 2020 con roles como Musetta en La Bohème de Puccini, Micaela en Carmen de Bizet, o Rigoletto de Verdi. Así mismo interpreta numerosos roles principales de zarzuela, destacándose como una consumada intérprete de Teatro lírico español con títulos como Doña Francisquita, La Tabernera del Puerto, La canción del Olvido o Katiuska. Además, debuta como actriz en “La Venganza de la Petra” de Carlos Arniches en el Teatro Jovellanos de Gijón y Teatro Español de Madrid. Suma comparecencias en esos primeros años en numerosos teatros españoles como Euskalduna de Bilbao, Auditorio Nacional de Madrid, Auditorio de Tenerife, Palau de la Música Catalana, Teatro de la Faràndula de Sabadell, Teatro Cervantes de Málaga. Entre sus últimos compromisos cabe destacar su reciente debut en la Temporada de Ópera de Oviedo como Gilda en el Rigoletto de Verdi bajo dirección de Oliver Díaz y Susana Gómez, ha sido Doña Francisquita para Fundación Ópera de Cataluña con dirección de Miquel Ortega y Rita Cosentino, gira con la “Antología de la Zarzuela” junto a Plácido Domingo en Emiratos Árabes, España y México, debuta en el festival internacional Cervantino de Guanajuato. Debuta en Italia en el teatro Verdi de Busseto con el rol de Violetta en La Traviata de Verdi dirigida por Stefano Ravaglia y Henning Brockhaus, rol que también realiza en los Jameos del Agua de Lanzarote con dirección musical de Rafael Sánchez-Araña y escénica de Aquiles Machado, participa en el festival de ópera de Tenerife como Sacerdotessa en la ópera Aida de Verdi con dirección de Massimiliano Steffanelli y Franco Zeffirelli. Lisboa, para el festival Rota das Artes como Papagena en La Flauta Mágica de Mozart bajo la dirección de Massimo Spadano. Interpreta el rol de Nedda en I Pagliacci de Leoncavallo para la Embajada Italiana en España. Estreno mundial del drama sacro “Jesús de Nazaret” de Alfredo Santos bajo la dirección musical del afamado compositor de bandas sonoras y ganador de dos premios Goya, Roque Baños. Participa además en el estreno absoluto de “Mía”, ópera en tres actos escrita por Alfredo Sanz y con dirección escénica de Pau Ayet en Valencia. Próximos compromisos la llevarán al Festival de Zarzuela de Las Palmas de Gran Canaria en donde interpretará a Marola en la Tabernera del Puerto, con dirección de Rafael Sánchez-Araña y la Orquesta Filarmónica de Gran Canaria, interpretará a Gilda de Rigoletto en el Festival Bellver en Mallorca. En noviembre estrenará la ópera “Goya” de Gian Carlo Menotti en el auditorio Nacional de Madrid y Auditorio de Zaragoza con el rol de “Queen María Luisa”. Y será “Alicia” en el nuevo espectáculo “Zarzuela en la Villa” de la dramaturga ganadora de un Goya Yolanda García Serrano, con dirección musical de Miguel Huertas y escénica de Susana Gómez. En el mes de noviembre será “Adina” para la Fundación Ópera Cataluña en el L’elisir d’amore de Donizetti, con dirección del maestro Daniel Gil de Tejada y la propuesta escénica de Pau Monterde.",
+      rep:[], dates:[], videos:[], links:[]
+    },
+    "jesus-cantolla": {
+      voice:"Tenor",
+      photos:["img/jesus-cantolla-1.jpg"],
+      bio:"El santanderino Jesús Cantolla destaca por su personal y contundente timbre de voz, además de por su gran desparpajo escénico. Estas cualidades le hacen idóneo para los roles tipo de carácter. “Goro” de Madama Butterfly de Puccini, “Monostatos” en Die Zauberflöte de Mozart, “Spalanzani” en Les Contes d`Hoffmann de Offenbach, también se le ha podido escuchar como “Gaston” en La Traviata de Verdi, o “Remendado” en la ópera Carmen de Bizet. Recientemente ha participado en la producción “Die Meistersinger von Nürnberg” de Richard Wagner en el Teatro Real de Madrid siendo uno de los Lehrbuben bajo dirección musical de Pablo Heras Casado y escénica de Laurent Pelly.",
       rep:[], dates:[], videos:[], links:[]
     },
     "julia-merino": {
