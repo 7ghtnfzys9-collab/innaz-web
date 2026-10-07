@@ -102,6 +102,13 @@ main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .card{display:block;text-decoration:none;color:var(--sfg);min-width:0}
 .ph{aspect-ratio:4/5;max-width:100%;background:var(--p-dark);color:var(--p-light);display:grid;place-items:center;font-family:var(--font-display);font-size:48px;font-style:italic;transition:background .2s}
 .card:hover .ph{background:var(--sacc);color:var(--sacc-ink)}
+.ph{overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;transition:transform .3s}
+.card:hover .ph img{transform:scale(1.03)}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.photos a{display:block;border:1px solid var(--sline);background:var(--scard)}
+.photos img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;display:block}
+.concert{margin-top:16px!important;color:var(--smuted);font-size:15px}
 .card-name{display:block;font-weight:600;font-size:18px;margin-top:10px;line-height:1.25}
 .card-sub{display:block;font-size:14px;color:var(--smuted)}
 .empty{color:var(--smuted)}
@@ -358,21 +365,61 @@ td:first-child{font-style:italic}
     {g:"Pianista",p:"Pianista", items:[{id:"ramon-grau",n:"Ramón Grau"}]}
   ];
 
-  var ANDEKA = {
-    voice:"Tenor lírico-spinto",
-    bio:"Andeka posee una voz rotunda, noble y de gran sonoridad, que hoy se sitúa en la cumbre de su madurez artística para afrontar su repertorio. De formidable presencia escénica y apabullante solvencia vocal, le permiten abordar los roles de máxima exigencia dramática como Otello, Don Carlo, La forza del destino, Sansón y Dalila o Manon Lescaut, manteniendo al mismo tiempo una fuerza expresiva única en otro grandes títulos como Tosca, La Bohème, Turandot o Carmen. Aclamado en coliseos de prestigio mundial como la Semperoper de Dresde, el Teatro di San Carlo de Nápoles, el Sydney Opera House, la Opernhaus Zürich, así como en emblemáticas producciones del Teatro de la Zarzuela, Gorrotxategi representa una de esas voces de las que ya no abundan, de empaque clásico e indiscutible gancho escénico.",
-    rep:[
-      ["Manon Lescaut","Puccini","Des Grieux"],["La Fanciulla del West","Puccini","Dick Johnoson"],["Madama Butterfly","Puccini","F.B. Pinckerton"],
-      ["Tosca","Puccini","Mario Cavaradossi"],["Turandot","Puccini","Calaf"],["La Boheme","Puccini","Rodolfo"],
-      ["Simone Boccanegra","Verdi","Gabriele Adorno"],["Otello","Verdi","Otello"],["Don Carlos","Verdi","Don Carlos"],
-      ["La forza del destino","Verdi","Don Alvaro"],["Aida","Verdi","Radames"],["I Masnadieri","Verdi","Carlo de Moor"],
-      ["Attila","Verdi","Foresto"],["Il Trovatore","Verdi","Manrico"],["Norma","Bellini","Pollione"],
-      ["Belisario","Donizetti","Alamiro"],["Werther","Massenet","Werther"],["Carmen","Bizet","Don José"],
-      ["La Gran Duquesa de Gerosltein","Offenbach","Fritz"],["El Gato Montés","Penella","Rafael"],["Samson et Dalila","Saint-Saëns","Samson"]
-    ],
-    dates:[{when:"28 de marzo de 2026",what:"Norma (Bellini), Pollione",where:"Palacio de Festivales de Santander",dir:"Dir.: Oliver Díaz",flag:"Fecha por confirmar"}],
-    videos:[{title:"Norma, Acto 1: «Meco all'altar di Venere» (Bellini)",meta:"Palacio de Festivales de Santander · Dir.: Oliver Díaz",url:"https://youtu.be/zrECaEmMFjw"}]
+  /* Fichas completas. rep: [obra, compositor, rol, etiqueta opcional]. Compositor vacío = no figura en la documentación recibida. */
+  var PROFILES = {
+      "andeka-gorrotxategui": {
+      voice:"Tenor lírico-spinto",
+      bio:"Andeka posee una voz rotunda, noble y de gran sonoridad, que hoy se sitúa en la cumbre de su madurez artística para afrontar su repertorio. De formidable presencia escénica y apabullante solvencia vocal, le permiten abordar los roles de máxima exigencia dramática como Otello, Don Carlo, La forza del destino, Sansón y Dalila o Manon Lescaut, manteniendo al mismo tiempo una fuerza expresiva única en otro grandes títulos como Tosca, La Bohème, Turandot o Carmen. Aclamado en coliseos de prestigio mundial como la Semperoper de Dresde, el Teatro di San Carlo de Nápoles, el Sydney Opera House, la Opernhaus Zürich, así como en emblemáticas producciones del Teatro de la Zarzuela, Gorrotxategi representa una de esas voces de las que ya no abundan, de empaque clásico e indiscutible gancho escénico.",
+      rep:[
+        ["Manon Lescaut","Puccini","Des Grieux"],["La Fanciulla del West","Puccini","Dick Johnoson"],["Madama Butterfly","Puccini","F.B. Pinckerton"],
+        ["Tosca","Puccini","Mario Cavaradossi"],["Turandot","Puccini","Calaf"],["La Boheme","Puccini","Rodolfo"],
+        ["Simone Boccanegra","Verdi","Gabriele Adorno"],["Otello","Verdi","Otello"],["Don Carlos","Verdi","Don Carlos"],
+        ["La forza del destino","Verdi","Don Alvaro"],["Aida","Verdi","Radames"],["I Masnadieri","Verdi","Carlo de Moor"],
+        ["Attila","Verdi","Foresto"],["Il Trovatore","Verdi","Manrico"],["Norma","Bellini","Pollione"],
+        ["Belisario","Donizetti","Alamiro"],["Werther","Massenet","Werther"],["Carmen","Bizet","Don José"],
+        ["La Gran Duquesa de Gerosltein","Offenbach","Fritz"],["El Gato Montés","Penella","Rafael"],["Samson et Dalila","Saint-Saëns","Samson"]
+      ],
+      dates:[{when:"28 de marzo de 2026",what:"Norma (Bellini), Pollione",where:"Palacio de Festivales de Santander",dir:"Dir.: Oliver Díaz",flag:"Fecha por confirmar"}],
+      videos:[{title:"Norma, Acto 1: «Meco all'altar di Venere» (Bellini)",meta:"Palacio de Festivales de Santander · Dir.: Oliver Díaz",url:"https://youtu.be/zrECaEmMFjw"}]
+    },
+    "julia-merino": {
+      voice:"Mezzosoprano",
+      photos:["img/julia-merino-1.jpg","img/julia-merino-2.jpg"],
+      bio:"De sugerente y caudalosa voz, Julia Merino es una joven mezzosoprano nacida en Málaga que se afianza como una de las voces más prometedoras del panorama lírico actual. Formada en la Guildhall School of Music and Drama, sus actuaciones y debuts en el Reino Unido, China y España le han permitido abordar un amplio repertorio que abarca desde el barroco hasta el contemporáneo. Julia se encuentra en un momento crucial de su trayectoria, pues son inminentes sus debuts en importantes plazas líricas: Ópera de Oviedo, donde encarnará a la Dama de Lady Macbeth en el Macbeth de Verdi; el Festival de Ópera de Málaga, donde interpretará a Flora en La traviata de Verdi; y el Festival de Ópera de A Coruña, donde volverá a meterse en la piel de la Dama de Lady Macbeth. Además, se sitúa como una consumada recitalista, con apariciones por toda la geografía española. Durante el mes de abril, realizará una gira por las catedrales gallegas interpretando la Novena sinfonía de Beethoven.",
+      rep:[
+        ["Alcina","Händel","Bradamante"],["Dido and Aeneas","Purcell","Dido"],["Dido and Aeneas","Purcell","La Hechicera"],
+        ["Le nozze di Figaro","Mozart","Cherubino"],["Così fan tutte","Mozart","Dorabella"],["Idomeneo, re di Creta","Mozart","Idamante"],
+        ["Macbeth","Verdi","Dama"],["La traviata","Verdi","Flora Bervoix"],["Hamlet","Thomas","Gertrude"],
+        ["Carmen","Bizet","Carmen"],["Werther","Massenet","Charlotte"],["Die Fledermaus","J. Strauss II","Príncipe Orlofsky"],
+        ["Eugene Onegin","Chaikovski","Olga"],["The Rape of Lucretia","Britten","Bianca"],["Mansfield Park","Jonathan Dove","Fanny Price"],
+        ["Frida","Robert Xavier Rodríguez","Lupe"],["Dead Man Walking","Jake Heggie","Madre de Joseph","Cover"]
+      ],
+      dates:[], videos:[], links:[]
+    },
+    "emmanuel-franco": {
+      voice:"Barítono",
+      photos:["img/emmanuel-franco-1.jpg","img/emmanuel-franco-2.jpg"],
+      bio:"De voz brillante y extraordinarias dotes actorales, Emmanuel Franco es un barítono mexicano-neerlandés especialmente dotado para el repertorio belcantista. Nacido en Tijuana, se formó en el San Francisco Conservatory of Music y en la Dutch National Opera Academy, y fue miembro del Opera Studio de la Opéra national du Rhin en Estrasburgo. Artista invitado habitual del Rossini in Wildbad Bel Canto Opera Festival, donde ha cantado, entre otros, Dandini en La Cenerentola, Taddeo en L’italiana in Algeri y, en 2026, Fernando en La gazza ladra, ha actuado también en el Wexford Opera Festival, el Badisches Staatstheater Karlsruhe y la Fondazione Teatro Coccia de Novara. En España ha interpretado a Belcore en L’elisir d’amore en el Baluarte de Pamplona, los papeles titulares de Gianni Schicchi y Michele en Il tabarro en la Ópera de Oviedo y, en 2026, Juan de Eguía en La tabernera del puerto en Las Palmas de Gran Canaria, título que también ha cantado con la Orquesta Filarmónica de Cracovia. Su carrera se extiende a México y Estados Unidos, y cuenta con varias grabaciones para NAXOS, la más reciente Marina de Emilio Arrieta. Completa su actividad un amplio repertorio de concierto y oratorio, de Bach y Händel a Mahler, Orff y Bacalov.",
+      rep:[
+        ["La tabernera del puerto","Sorozábal","Juan de Eguía"],["La vida breve","Falla","Manuel"],
+        ["Il barbiere di Siviglia","Rossini","Figaro"],["Il barbiere di Siviglia","Paisiello","Figaro"],["La Cenerentola","Rossini","Dandini"],
+        ["L’italiana in Algeri","Rossini","Taddeo"],["La gazza ladra","Rossini","Fernando"],["Il signor Bruschino","Rossini","Bruschino padre"],
+        ["La scala di seta","Rossini","Germano"],["L’occasione fa il ladro","Rossini","Don Parmenione"],["La cambiale di matrimonio","Rossini","Slook"],
+        ["Matilde di Shabran","Rossini","Aliprando"],["L’equivoco stravagante","Rossini","Buralicchio"],["Adina","Rossini","Il Califo"],["Adina","Rossini","Mustafà"],
+        ["L’elisir d’amore","Donizetti","Belcore"],["Romilda e Costanza","Meyerbeer","Albertone"],["Le philtre","Auber","Sergent Joli-Cœur"],
+        ["Le nozze di Figaro","Mozart","Il Conte"],["Idomeneo","Mozart","Gran Sacerdote"],
+        ["Gianni Schicchi","Puccini","Gianni Schicchi"],["Il tabarro","Puccini","Michele"],["Madama Butterfly","Puccini","Sharpless"],["Madama Butterfly","Puccini","Príncipe Yamadori"],["Turandot","Puccini","Ping"],
+        ["Don Carlo","Verdi","Diputado flamenco"],["Salome","R. Strauss","Segundo nazareno"],
+        ["Blanche-Neige","","Le Marchand ambulant / Le Nain Pic"],["Cendrillon","","Le Fou"],
+        ["La cucina","Andrew Synnott y Rosetta Cucchi","Camillo","Estreno mundial"]
+      ],
+      concert:"Lieder eines fahrenden Gesellen (Mahler) · Carmina Burana (Orff) · Weihnachtsoratorium (J. S. Bach) · El Mesías (Händel) · Requiem y Misa de la coronación (Mozart) · Misa Tango (Bacalov)",
+      dates:[], videos:[],
+      links:[{label:"Web personal",url:"https://www.emmanuelfrancobaritone.com"},{label:"Instagram",url:"https://www.instagram.com/emmanuelfranco.baritone/"}]
+    }
   };
+  PROFILES["andeka-gorrotxategui"].links=[{label:"YouTube",url:"https://youtu.be/zrECaEmMFjw"}];
+  function phHTML(it,d){ return (d&&d.photos&&d.photos.length)?'<img src="'+d.photos[0]+'" alt="" loading="lazy">':esc(initials(it.n)); }
 
   function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
   function initials(n){var p=n.split(/\s+/);return (p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();}
@@ -401,7 +448,7 @@ td:first-child{font-style:italic}
       var its=grp.items;
       if(!its.length)return; count+=its.length;
       out+='<div class="group"><h3>'+esc(grp.p)+'</h3><div class="cards">'+its.map(function(it){
-        return '<a class="card" href="#a-'+it.id+'" data-artist="'+it.id+'"><span class="ph" aria-hidden="true">'+esc(initials(it.n))+'</span><span class="card-name">'+esc(it.n)+'</span><span class="card-sub">'+esc(it.full?ANDEKA.voice:(it.note||grp.g))+'</span></a>';
+        return '<a class="card" href="#a-'+it.id+'" data-artist="'+it.id+'"><span class="ph" aria-hidden="true">'+phHTML(it,PROFILES[it.id])+'</span><span class="card-name">'+esc(it.n)+'</span><span class="card-sub">'+esc(PROFILES[it.id]?PROFILES[it.id].voice:(it.note||grp.g))+'</span></a>';
       }).join("")+'</div></div>';
     });
     document.getElementById("groups").innerHTML=count?out:'<p class="empty">No hay artistas en esta especialidad.</p>';
@@ -409,15 +456,15 @@ td:first-child{font-style:italic}
   function pend(t){return '<span class="pending">'+esc(t)+'</span>';}
   function renderSheet(id){
     var f=find(id); if(!f)return false;
-    var it=f.it, d=it.full?ANDEKA:null;
-    var h='<div class="profile"><span class="ph" aria-hidden="true">'+esc(initials(it.n))+'</span><div><h2>'+esc(it.n)+'</h2><div class="voice">'+esc(d?d.voice:f.g)+(it.note?' · '+esc(it.note):'')+'</div></div></div>';
+    var it=f.it, d=PROFILES[it.id]||null;
+    var h='<div class="profile"><span class="ph" aria-hidden="true">'+phHTML(it,d)+'</span><div><h2>'+esc(it.n)+'</h2><div class="voice">'+esc(d?d.voice:f.g)+(it.note?' · '+esc(it.note):'')+'</div></div></div>';
     h+='<div class="block"><h3>Biografía</h3>'+(d?'<p>'+esc(d.bio)+'</p>':pend("Biografía pendiente de recibir"))+'</div>';
-    h+='<div class="block"><h3>Repertorio</h3>'+(d?'<div class="tbl-wrap"><table><thead><tr><th>Ópera</th><th>Compositor</th><th>Rol</th></tr></thead><tbody>'+d.rep.map(function(r){return '<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>';}).join("")+'</tbody></table></div>':pend("Repertorio pendiente de recibir"))+'</div>';
+    h+='<div class="block"><h3>Repertorio</h3>'+(d?'<div class="tbl-wrap"><table><thead><tr><th>Ópera</th><th>Compositor</th><th>Rol</th></tr></thead><tbody>'+d.rep.map(function(r){return '<tr><td>'+esc(r[0])+'</td><td>'+(r[1]?esc(r[1]):'<span style="color:var(--smuted)">—</span>')+'</td><td>'+esc(r[2])+(r[3]?'<span class="tag">'+esc(r[3])+'</span>':'')+'</td></tr>';}).join("")+'</tbody></table></div>'+(d.concert?'<p class="concert"><b>Concierto y oratorio:</b> '+esc(d.concert)+'</p>':''):pend("Repertorio pendiente de recibir"))+'</div>';
     h+='<div class="block"><h3>Agenda</h3>'+((d&&d.dates.length)?'<ul class="dates">'+d.dates.map(function(x){return '<li><span class="when">'+esc(x.when)+(x.flag?'<span class="tag">'+esc(x.flag)+'</span>':'')+'</span><span>'+esc(x.what)+'</span><span style="color:var(--smuted)">'+esc(x.where)+' · '+esc(x.dir)+'</span></li>';}).join("")+'</ul>':pend("Fechas pendientes de recibir"))+'</div>';
     h+='<div class="block"><h3>Vídeos</h3>'+((d&&d.videos.length)?'<div class="media-grid">'+d.videos.map(function(v){return '<div class="media"><b>'+esc(v.title)+'</b><small>'+esc(v.meta)+'</small><a class="btn" href="'+v.url+'" target="_blank" rel="noopener">Ver en YouTube</a></div>';}).join("")+'</div>':pend("Vídeos pendientes de recibir"))+'</div>';
     h+='<div class="block"><h3>Audios</h3>'+pend("Audios pendientes de recibir")+'</div>';
-    h+='<div class="block"><h3>Fotos</h3>'+pend("Fotos pendientes de recibir")+'</div>';
-    h+='<div class="block"><h3>Enlaces</h3><div class="stack">'+pend("Web personal: pendiente")+(d?'<a class="btn" href="'+d.videos[0].url+'" target="_blank" rel="noopener">YouTube</a>':pend("YouTube: pendiente"))+'</div></div>';
+    h+='<div class="block"><h3>Fotos</h3>'+((d&&d.photos&&d.photos.length)?'<div class="photos">'+d.photos.map(function(u,i){return '<a href="'+u+'" target="_blank" rel="noopener"><img src="'+u+'" alt="'+esc(it.n)+', foto '+(i+1)+'" loading="lazy"></a>';}).join("")+'</div>':pend("Fotos pendientes de recibir"))+'</div>';
+    h+='<div class="block"><h3>Enlaces</h3><div class="stack">'+((d&&d.links&&d.links.length)?d.links.map(function(l){return '<a class="btn" href="'+l.url+'" target="_blank" rel="noopener">'+esc(l.label)+'</a>';}).join(""):pend("Enlaces pendientes de recibir"))+'</div></div>';
     sheetIn.innerHTML=h; crumb.textContent=f.g; return true;
   }
   function show(){ if(!mode){return;} if(sheet.hidden){lastFocus=document.activeElement;} sheet.hidden=false; document.body.style.overflow="hidden"; sheet.scrollTop=0; }
