@@ -158,7 +158,8 @@
   "Teatro de Mayo de Buenos Aires": "teatro-de-mayo-buenos-aires",
   "Casino Municipal de Niza": "casino-municipal-niza",
   "Teatro de los Basilios de Madrid": "teatro-de-variedades-madrid",
-  "Teatro Folies Arderíus de Madrid": "teatro-alhambra-madrid"
+  "Teatro Folies Arderíus de Madrid": "teatro-alhambra-madrid",
+  "Teatro Lírico de Madrid": "gran-teatro-de-madrid-madrid"
  },
  "teatros": [
   {
@@ -650,6 +651,7 @@
   "Teatro Basilios": "Teatro de los Basilios",
   "Teatro Folies Arderíus de Madrid": "Folies Arderíus",
   "Teatro del Príncipe de Madrid": "Teatro del Príncipe",
-  "Teatro Auditorium de La Habana": "Teatro Auditorium"
+  "Teatro Auditorium de La Habana": "Teatro Auditorium",
+  "Teatro Lírico de Madrid": "Teatro Lírico"
  }
 }
