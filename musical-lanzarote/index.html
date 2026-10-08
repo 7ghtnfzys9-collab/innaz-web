@@ -39,7 +39,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:500;line-height:1.05;text-w
 /* Cabecera */
 .site-head{--hbg:var(--p-dark);--hfg:var(--p-light);--hacc:var(--p-acc);--hline:transparent;background:var(--hbg);color:var(--hfg);border-bottom:1px solid var(--hline);transition:background .3s,color .3s;position:sticky;top:env(safe-area-inset-top,0px);z-index:10}
 .site-head :focus-visible{outline-color:var(--hacc)}
-.head-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.head-in{max-width:1320px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--hfg)}
 .logo{width:38px;height:43px;flex:none;color:var(--p-light);--logo-cut:var(--p-dark);display:block}
 .pal-group{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -53,9 +53,11 @@ nav a[aria-current="true"]{color:var(--hacc);border-bottom-color:var(--hacc)}
 
 /* Paneles: todos del mismo alto */
 .panel{min-height:clamp(460px,64vh,620px);min-height:clamp(460px,64svh,620px);display:flex;align-items:center;padding:44px 16px;scroll-margin-top:var(--hh)}
+/* Agencia: ocupa toda la altura de la pantalla bajo la cabecera (sitio para una foto) */
+#agencia{min-height:calc(100vh - var(--hh));min-height:calc(100svh - var(--hh))}
 /* Hueco bajo la página para la barra de prueba de paletas (se quitará con ella) */
 main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
-.wrap{max-width:1180px;width:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;align-items:center}
+.wrap{max-width:1320px;width:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;align-items:center}
 @media (max-width:820px){.wrap{grid-template-columns:minmax(0,1fr);gap:28px}}
 .title{font-size:clamp(42px,8vw,100px);letter-spacing:-.01em;color:var(--stitle)}
 .title em{font-style:italic}
@@ -145,21 +147,6 @@ td:first-child{font-style:italic}
 .pal-btn[aria-pressed="true"]{border-color:#f4f4f2;background:#26282a}
 .sw{display:flex}
 .sw i{width:12px;height:16px;display:block}
-
-/* Fondos: fotos de Lanzarote teñidas con el color de cada sección (opción B). Sin la clase .con-fotos se ve la opción A (color liso). */
-.panel{position:relative;isolation:isolate;background-size:cover;background-position:center;background-repeat:no-repeat}
-.con-fotos #agencia{background-image:url(img/bg-agencia.jpg)}
-.con-fotos #artistas{background-image:url(img/bg-artistas.jpg)}
-.con-fotos #producciones{background-image:url(img/bg-producciones.jpg)}
-.con-fotos #redes{background-image:url(img/bg-redes.jpg)}
-.con-fotos #blog{background-image:url(img/bg-blog.jpg)}
-.con-fotos #contacto{background-image:url(img/bg-contacto.jpg)}
-.con-fotos .panel::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,color-mix(in srgb,var(--sbg) 72%,transparent) 0%,color-mix(in srgb,var(--sbg) 45%,transparent) 55%,color-mix(in srgb,var(--sbg) 20%,transparent) 100%)}
-.con-fotos .box{background:color-mix(in srgb,var(--sbg) 88%,transparent)!important;backdrop-filter:blur(2px)}
-.opt-group{display:flex;gap:8px;align-items:center;margin-right:14px}
-.credits{background:var(--p-dark);color:#9a9b96;font-size:12px;line-height:1.5;padding:14px 16px 0;text-align:center}
-.credits a{color:inherit}
-.credits:not(.on){display:none}
 </style>
 </head>
 <body>
@@ -345,8 +332,6 @@ td:first-child{font-style:italic}
     </div>
   </section>
 </main>
-<p class="credits on" id="credits">Fotografías de fondo (Wikimedia Commons): -jkb- (La Geria, CC BY-SA 3.0) · Enric (Charco de los Clicos, CC BY-SA 4.0) · Norbert Nagel (Montañas del Fuego, CC BY-SA 3.0) · Luis Miguel Bugallo Sánchez (El Golfo, CC BY-SA 3.0) · scudici (Papagayo, CC BY-SA 3.0) · Holger Uwe Schmitt (El Golfo, CC BY-SA 4.0). Imágenes teñidas. <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener">Licencia</a></p>
-
 
 <div class="sheet s1" id="sheet" role="dialog" aria-modal="true" aria-label="Artistas" hidden>
   <div class="sheet-bar">
@@ -360,7 +345,6 @@ td:first-child{font-style:italic}
 </div>
 
 <div class="pal-bar" id="palbar" role="group" aria-label="Probar logo">
-  <span class="opt-group" id="optbar"><span class="l">Fondos:</span><button class="pal-btn" type="button" data-opt="a" aria-pressed="false">A · Actual, sin fotos</button><button class="pal-btn" type="button" data-opt="b" aria-pressed="true">B · Con fotos de Lanzarote</button></span>
   
   <span class="pal-group" id="logobar"><span class="l">Logo:</span><button class="pal-btn logo-btn" type="button" data-logo="1"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-1"/></svg>1 Silueta</button><button class="pal-btn logo-btn" type="button" data-logo="2"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-2"/></svg>2 Línea</button><button class="pal-btn logo-btn" type="button" data-logo="3"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-3"/></svg>3 Emblema</button><button class="pal-btn logo-btn" type="button" data-logo="4"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-4"/></svg>4 Contorno</button><button class="pal-btn logo-btn" type="button" data-logo="5"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-5"/></svg>5 Boca</button><button class="pal-btn logo-btn" type="button" data-logo="6"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-6"/></svg>6 Cuerdas</button><button class="pal-btn logo-btn" type="button" data-logo="7"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-7"/></svg>7 Boca y notas</button><button class="pal-btn logo-btn" type="button" data-logo="8"><svg viewBox="0 0 64 72" aria-hidden="true"><use href="#logo-8"/></svg>8 Boca y nota</button></span>
 </div>
@@ -597,14 +581,6 @@ td:first-child{font-style:italic}
   sync();
 })();
 </script>
-
-<script>
-(function(){var root=document.documentElement,cr=document.getElementById("credits"),btns=document.querySelectorAll("[data-opt]");
-function set(o){root.classList.toggle("con-fotos",o==="b");cr.classList.toggle("on",o==="b");btns.forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-opt")===o));});}
-document.getElementById("optbar").addEventListener("click",function(e){var b=e.target.closest("[data-opt]");if(b)set(b.getAttribute("data-opt"));});
-set("b");})();
-</script>
-
 
 </body>
 </html>
