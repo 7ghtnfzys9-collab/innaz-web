@@ -254,7 +254,6 @@ td:first-child{font-style:italic}
         <p class="lede"><span class="pending">Texto de presentación pendiente de recibir</span></p>
       </div>
       <div class="side">
-        <div class="stats" id="stats"></div>
       </div>
     </div>
   </section>
@@ -457,9 +456,6 @@ td:first-child{font-style:italic}
   function find(id){for(var i=0;i<DATA.length;i++)for(var j=0;j<DATA[i].items.length;j++)if(DATA[i].items[j].id===id)return {g:DATA[i].g,it:DATA[i].items[j]};return null;}
   var total=DATA.reduce(function(a,g){return a+g.items.length;},0);
 
-  /* Datos de la agencia y presentación de Artistas */
-  document.getElementById("stats").innerHTML=
-    '<div class="stat"><b>'+total+'</b><span>artistas</span></div><div class="stat"><b>'+DATA.length+'</b><span>especialidades</span></div>';
 
   /* Panel: directorio + ficha */
   var sheet=document.getElementById("sheet"), sheetIn=document.getElementById("sheet-in"), crumb=document.getElementById("crumb"), backBtn=document.getElementById("back");
