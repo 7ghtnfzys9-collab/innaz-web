@@ -53,6 +53,11 @@ nav a[aria-current="true"]{color:var(--hacc);border-bottom-color:var(--hacc)}
 
 /* Paneles: todos del mismo alto */
 .panel{min-height:clamp(460px,64vh,620px);min-height:clamp(460px,64svh,620px);display:flex;align-items:center;padding:44px 16px;scroll-margin-top:var(--hh)}
+
+/* Aparición al hacer scroll (como la portada de INNAZ): el contenido de cada sección sube y aparece al entrar en pantalla */
+.js-reveal .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.js-reveal .reveal.visible{opacity:1;transform:translateY(0)}
+@media (prefers-reduced-motion:reduce){.js-reveal .reveal{opacity:1;transform:none;transition:none}}
 /* Agencia: ocupa toda la altura de la pantalla bajo la cabecera (sitio para una foto) */
 #agencia{min-height:calc(100vh - var(--hh));min-height:calc(100svh - var(--hh))}
 /* Hueco bajo la página para la barra de prueba de paletas (se quitará con ella) */
@@ -577,6 +582,23 @@ td:first-child{font-style:italic}
   sync();
 })();
 </script>
+
+<script>
+/* Aparición al hacer scroll: mismo efecto que la portada de INNAZ */
+(function(){
+  if(!("IntersectionObserver" in window))return;
+  document.documentElement.classList.add("js-reveal");
+  var els=[];
+  document.querySelectorAll("section.panel .wrap").forEach(function(w){
+    [].forEach.call(w.children,function(c,i){c.classList.add("reveal");c.style.transitionDelay=(i*0.18)+"s";els.push(c);});
+  });
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("visible");obs.unobserve(e.target);}});
+  },{threshold:0.08});
+  els.forEach(function(el){obs.observe(el);});
+})();
+</script>
+
 
 </body>
 </html>
