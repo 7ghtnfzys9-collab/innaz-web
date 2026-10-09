@@ -163,7 +163,7 @@
     #embajadores .pc-txt { padding: .65rem .6rem .75rem; }
     #embajadores .persona-card h3 { font-size: .95rem; line-height: 1.2; }
     #embajadores .persona-card .pc-cargo { font-size: .58rem; letter-spacing: .1em; line-height: 1.5; margin: .3rem 0 0; }
-    #embajadores .persona-card .pc-foto { font-size: .58rem; margin-top: .35rem; line-height: 1.4; }
+    #embajadores .persona-card .pc-foto { font-size: .5rem; line-height: 1.3; margin: -.35rem 0 .35rem; color: var(--muted); opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     @media (max-width: 960px) { #embajadores .personas-grid { grid-template-columns: repeat(4, 1fr); } }
     @media (max-width: 560px) { #embajadores .personas-grid { grid-template-columns: repeat(3, 1fr); gap: .6rem; } }
     .persona-card .pc-foto { font-size: .7rem; color: var(--muted); opacity: .8; }
@@ -288,8 +288,8 @@
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   g.innerHTML = EMBAJADORES.map(e =>
     '<article class="persona-card"><img src="' + esc(e.foto) + '" alt="' + esc(e.nombre) + '" loading="lazy">' +
-    '<div class="pc-txt"><h3>' + esc(e.nombre) + '</h3><p class="pc-cargo">' + esc(e.cargo) + '</p>' +
-    (e.credito ? '<p class="pc-foto">Foto: ' + esc(e.credito) + '</p>' : '') + '</div></article>').join('');
+    '<div class="pc-txt">' + (e.credito ? '<p class="pc-foto" title="Foto: ' + esc(e.credito) + '">Foto: ' + esc(e.credito) + '</p>' : '') +
+    '<h3>' + esc(e.nombre) + '</h3><p class="pc-cargo">' + esc(e.cargo) + '</p></div></article>').join('');
 })();
 </script>
 </body>

@@ -523,6 +523,8 @@
     .emb-card:hover img { filter: none; transform: translateY(-3px); }
     .emb-card h3 { font-family: 'Cormorant SC', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); margin-top: .9rem; }
     .emb-card p { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--teal-dark); margin-top: .25rem; line-height: 1.5; }
+    .emb-foto { display: block; font-size: .56rem; line-height: 1.3; margin-top: .3rem; color: var(--muted); opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .emb-foto + h3 { margin-top: .35rem; }
     .emb-todos { display: inline-block; margin-top: 2.2rem; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--teal-dark); text-decoration: none; }
     .emb-todos:hover { color: var(--teal); }
     @media (max-width: 600px) { .emb-card { flex-basis: 62%; } .emb-flechas { display: none; } }
@@ -1212,7 +1214,7 @@
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   pista.innerHTML = EMBAJADORES.map(e =>
     '<a class="emb-card" href="que-es-innaz.html#embajadores"><img src="' + esc(e.foto) + '" alt="' + esc(e.nombre) +
-    '" loading="lazy"><h3>' + esc(e.nombre) + '</h3><p>' + esc(e.cargo) + '</p></a>').join('');
+    '" loading="lazy">' + (e.credito ? '<span class="emb-foto" title="Foto: ' + esc(e.credito) + '">Foto: ' + esc(e.credito) + '</span>' : '') + '<h3>' + esc(e.nombre) + '</h3><p>' + esc(e.cargo) + '</p></a>').join('');
   const flechas = document.getElementById('embFlechas');
   const paso = () => { const c = pista.querySelector('.emb-card'); return c ? c.getBoundingClientRect().width + 22 : 240; };
   const mover = d => {
