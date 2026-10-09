@@ -158,7 +158,14 @@
     .persona-card h3 { font-family: 'Cormorant SC', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); }
     .persona-card .pc-cargo { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--teal-dark); margin: .25rem 0 .7rem; }
     .persona-card .pc-cv { font-size: .86rem; line-height: 1.7; color: var(--muted); }
-    #embajadores .personas-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    /* Embajadores: 6 por fila en ordenador, 4 en tableta, 3 en móvil (9-10-2026) */
+    #embajadores .personas-grid { grid-template-columns: repeat(6, 1fr); gap: .9rem; }
+    #embajadores .pc-txt { padding: .65rem .6rem .75rem; }
+    #embajadores .persona-card h3 { font-size: .95rem; line-height: 1.2; }
+    #embajadores .persona-card .pc-cargo { font-size: .58rem; letter-spacing: .1em; line-height: 1.5; margin: .3rem 0 0; }
+    #embajadores .persona-card .pc-foto { font-size: .58rem; margin-top: .35rem; line-height: 1.4; }
+    @media (max-width: 960px) { #embajadores .personas-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 560px) { #embajadores .personas-grid { grid-template-columns: repeat(3, 1fr); gap: .6rem; } }
     .persona-card .pc-foto { font-size: .7rem; color: var(--muted); opacity: .8; }
     .proximamente { font-size: .9rem; font-style: italic; color: var(--muted); }
     @media (max-width: 760px) { .mvv { grid-template-columns: 1fr; } }
@@ -219,37 +226,8 @@
     <!-- ── EMBAJADORES HONORÍFICOS: mismo bloque, sin currículum si no hace falta ── -->
     <div class="bloque" id="embajadores">
       <h2>Embajadores honoríficos</h2>
-      <div class="personas-grid">
-        <article class="persona-card">
-          <img src="equipo/carlos-alvarez.jpg" alt="Carlos Álvarez" loading="lazy">
-          <div class="pc-txt">
-            <h3>Carlos Álvarez</h3>
-            <p class="pc-cargo">Barítono</p>
-            <p class="pc-foto">Foto: Carlos Díaz de la Fuente</p>
-          </div>
-        </article>
-        <article class="persona-card">
-          <img src="equipo/nuria-castejon.jpg" alt="Nuria Castejón" loading="lazy">
-          <div class="pc-txt">
-            <h3>Nuria Castejón</h3>
-            <p class="pc-cargo">Coreógrafa y directora de escena</p>
-          </div>
-        </article>
-        <article class="persona-card">
-          <img src="equipo/jorge-de-leon.jpg" alt="Jorge de León" loading="lazy">
-          <div class="pc-txt">
-            <h3>Jorge de León</h3>
-            <p class="pc-cargo">Tenor</p>
-          </div>
-        </article>
-        <article class="persona-card">
-          <img src="equipo/milagros-martin.jpg" alt="Milagros Martín" loading="lazy">
-          <div class="pc-txt">
-            <h3>Milagros Martín</h3>
-            <p class="pc-cargo">Soprano</p>
-          </div>
-        </article>
-      </div>
+      <!-- Se rellena desde embajadores-data.js -->
+      <div class="personas-grid" id="embGrid"></div>
     </div>
 
     <div class="otros-pilares">
@@ -299,6 +277,19 @@
   });
   document.addEventListener('click',function(e){ ds.forEach(function(d){ if(!d.contains(e.target)) cerrar(d); }); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') ds.forEach(cerrar); });
+})();
+</script>
+<script src="embajadores-data.js?v=f7da5a67"></script>
+<script>
+/* Embajadores honoríficos desde embajadores-data.js (9-10-2026) */
+(function(){
+  const g = document.getElementById('embGrid');
+  if (!g || typeof EMBAJADORES === 'undefined') return;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  g.innerHTML = EMBAJADORES.map(e =>
+    '<article class="persona-card"><img src="' + esc(e.foto) + '" alt="' + esc(e.nombre) + '" loading="lazy">' +
+    '<div class="pc-txt"><h3>' + esc(e.nombre) + '</h3><p class="pc-cargo">' + esc(e.cargo) + '</p>' +
+    (e.credito ? '<p class="pc-foto">Foto: ' + esc(e.credito) + '</p>' : '') + '</div></article>').join('');
 })();
 </script>
 </body>

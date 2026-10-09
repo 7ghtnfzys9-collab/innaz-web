@@ -493,6 +493,40 @@
     @media (max-width: 1180px) { .planes-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 720px)  { .planes-grid { grid-template-columns: 1fr; } }
 
+    /* ─── EMBAJADORES HONORÍFICOS · carrusel (9-10-2026) ───
+       Lee embajadores-data.js. Si caben todos, se quedan quietos y centrados;
+       cuando no caben, aparecen las flechas y avanza solo cada 4 s
+       (se para al pasar el ratón o tocar, y nunca con «reducir movimiento»). */
+    #embajadores { background: var(--white); }
+    .emb-cab { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+    .emb-intro { font-size: .95rem; line-height: 1.8; color: var(--muted); max-width: 560px; }
+    .emb-flechas { display: flex; gap: .6rem; }
+    .emb-flechas[hidden] { display: none; }
+    .emb-flecha {
+      width: 44px; height: 44px; border: 1px solid var(--border); background: var(--white);
+      color: var(--text); font-size: 1.1rem; cursor: pointer; border-radius: 50%;
+      transition: border-color .2s, color .2s;
+    }
+    .emb-flecha:hover, .emb-flecha:focus-visible { border-color: var(--teal); color: var(--teal); outline: none; }
+    .emb-pista {
+      display: flex; gap: 1.4rem; overflow-x: auto; scroll-snap-type: x mandatory;
+      scroll-behavior: smooth; margin-top: 2.6rem; padding-bottom: .6rem;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .emb-pista::-webkit-scrollbar { display: none; }
+    .emb-pista.quieta { justify-content: center; }
+    .emb-card { flex: 0 0 220px; scroll-snap-align: start; text-decoration: none; color: inherit; }
+    .emb-card img {
+      width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
+      background: var(--border); filter: grayscale(15%); transition: filter .3s, transform .3s;
+    }
+    .emb-card:hover img { filter: none; transform: translateY(-3px); }
+    .emb-card h3 { font-family: 'Cormorant SC', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); margin-top: .9rem; }
+    .emb-card p { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--teal-dark); margin-top: .25rem; line-height: 1.5; }
+    .emb-todos { display: inline-block; margin-top: 2.2rem; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--teal-dark); text-decoration: none; }
+    .emb-todos:hover { color: var(--teal); }
+    @media (max-width: 600px) { .emb-card { flex-basis: 62%; } .emb-flechas { display: none; } }
+
     /* ─── CONTACTO ─── */
     #contacto { background: var(--black); }
     #contacto .section-title { color: var(--white); }
@@ -647,6 +681,7 @@
     @media (max-width: 720px) { .zarz-secciones { grid-template-columns: 1fr; } }
 </style>
   <script src="noticias-data.js?v=a93eabc7"></script>
+  <script src="embajadores-data.js?v=f7da5a67"></script>
 </head>
 <body>
 
@@ -921,6 +956,25 @@
   </div>
 </section>
 
+<!-- ── EMBAJADORES HONORÍFICOS (9-10-2026) · datos en embajadores-data.js ── -->
+<section id="embajadores">
+  <div class="section-inner">
+    <div class="reveal emb-cab">
+      <div>
+        <p class="section-label">Nos acompañan</p>
+        <h2 class="section-title">Embajadores honoríficos</h2>
+        <p class="emb-intro">Figuras de la zarzuela que apoyan el proyecto y lo representan.</p>
+      </div>
+      <div class="emb-flechas" id="embFlechas" hidden>
+        <button class="emb-flecha" id="embAnt" aria-label="Anterior">&larr;</button>
+        <button class="emb-flecha" id="embSig" aria-label="Siguiente">&rarr;</button>
+      </div>
+    </div>
+    <div class="emb-pista" id="embPista" aria-label="Embajadores honoríficos de INNAZ"></div>
+    <a href="que-es-innaz.html#embajadores" class="emb-todos">Conoce el Instituto &rarr;</a>
+  </div>
+</section>
+
 <!-- ── CONTACTO ── -->
 <section id="contacto">
   <div class="section-inner">
@@ -1147,6 +1201,42 @@
   // estos dos, que no dependan del observer para verse.
   cont.classList.add('visible');
   document.getElementById('ntTodas').classList.add('visible');
+})();
+</script>
+<script>
+/* Carrusel de embajadores honoríficos (9-10-2026). Lee EMBAJADORES de embajadores-data.js. */
+(function(){
+  const sec = document.getElementById('embajadores');
+  const pista = document.getElementById('embPista');
+  if (!pista || typeof EMBAJADORES === 'undefined' || !EMBAJADORES.length) { if (sec) sec.hidden = true; return; }
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  pista.innerHTML = EMBAJADORES.map(e =>
+    '<a class="emb-card" href="que-es-innaz.html#embajadores"><img src="' + esc(e.foto) + '" alt="' + esc(e.nombre) +
+    '" loading="lazy"><h3>' + esc(e.nombre) + '</h3><p>' + esc(e.cargo) + '</p></a>').join('');
+  const flechas = document.getElementById('embFlechas');
+  const paso = () => { const c = pista.querySelector('.emb-card'); return c ? c.getBoundingClientRect().width + 22 : 240; };
+  const mover = d => {
+    const fin = pista.scrollWidth - pista.clientWidth - 4;
+    if (d > 0 && pista.scrollLeft >= fin) pista.scrollTo({ left: 0 });
+    else if (d < 0 && pista.scrollLeft <= 4) pista.scrollTo({ left: pista.scrollWidth });
+    else pista.scrollBy({ left: d * paso() });
+  };
+  document.getElementById('embAnt').onclick = () => mover(-1);
+  document.getElementById('embSig').onclick = () => mover(1);
+  let quieto = false, reloj = null;
+  const reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ajustar = () => {
+    const desborda = pista.scrollWidth > pista.clientWidth + 4;
+    pista.classList.toggle('quieta', !desborda);
+    flechas.hidden = !desborda;
+    clearInterval(reloj);
+    if (desborda && !reducido) reloj = setInterval(() => { if (!quieto && !document.hidden) mover(1); }, 4000);
+  };
+  ['mouseenter','focusin','touchstart'].forEach(ev => sec.addEventListener(ev, () => quieto = true, { passive: true }));
+  ['mouseleave','focusout'].forEach(ev => sec.addEventListener(ev, () => quieto = false));
+  window.addEventListener('resize', ajustar);
+  window.addEventListener('load', ajustar);
+  ajustar();
 })();
 </script>
 </body>
