@@ -158,6 +158,8 @@
     .persona-card h3 { font-family: 'Cormorant SC', serif; font-size: 1.2rem; font-weight: 600; color: var(--black); }
     .persona-card .pc-cargo { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--teal-dark); margin: .25rem 0 .7rem; }
     .persona-card .pc-cv { font-size: .86rem; line-height: 1.7; color: var(--muted); }
+    #embajadores .personas-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .persona-card .pc-foto { font-size: .7rem; color: var(--muted); opacity: .8; }
     .proximamente { font-size: .9rem; font-style: italic; color: var(--muted); }
     @media (max-width: 760px) { .mvv { grid-template-columns: 1fr; } }
 </style>
@@ -217,8 +219,37 @@
     <!-- ── EMBAJADORES HONORÍFICOS: mismo bloque, sin currículum si no hace falta ── -->
     <div class="bloque" id="embajadores">
       <h2>Embajadores honoríficos</h2>
-      <p class="proximamente">Próximamente presentaremos aquí a los embajadores honoríficos del Instituto.</p>
-      <div class="personas-grid"></div>
+      <div class="personas-grid">
+        <article class="persona-card">
+          <img src="equipo/carlos-alvarez.jpg" alt="Carlos Álvarez" loading="lazy">
+          <div class="pc-txt">
+            <h3>Carlos Álvarez</h3>
+            <p class="pc-cargo">Barítono</p>
+            <p class="pc-foto">Foto: Carlos Díaz de la Fuente</p>
+          </div>
+        </article>
+        <article class="persona-card">
+          <img src="equipo/nuria-castejon.jpg" alt="Nuria Castejón" loading="lazy">
+          <div class="pc-txt">
+            <h3>Nuria Castejón</h3>
+            <p class="pc-cargo">Coreógrafa y directora de escena</p>
+          </div>
+        </article>
+        <article class="persona-card">
+          <img src="equipo/jorge-de-leon.jpg" alt="Jorge de León" loading="lazy">
+          <div class="pc-txt">
+            <h3>Jorge de León</h3>
+            <p class="pc-cargo">Tenor</p>
+          </div>
+        </article>
+        <article class="persona-card">
+          <img src="equipo/milagros-martin.jpg" alt="Milagros Martín" loading="lazy">
+          <div class="pc-txt">
+            <h3>Milagros Martín</h3>
+            <p class="pc-cargo">Soprano</p>
+          </div>
+        </article>
+      </div>
     </div>
 
     <div class="otros-pilares">
