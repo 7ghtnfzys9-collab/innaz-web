@@ -158,7 +158,8 @@
   "Casino Municipal de Niza": "casino-municipal-niza",
   "Teatro de los Basilios de Madrid": "teatro-de-variedades-madrid",
   "Teatro Folies Arderíus de Madrid": "teatro-alhambra-madrid",
-  "Teatro Lírico de Madrid": "gran-teatro-de-madrid-madrid"
+  "Teatro Lírico de Madrid": "gran-teatro-de-madrid-madrid",
+  "Palacio Real de Madrid": "palacio-real-madrid"
  },
  "teatros": [
   {
@@ -640,6 +641,11 @@
    "k": "casino-municipal-niza",
    "n": "Casino Municipal",
    "c": "Niza"
+  },
+  {
+   "k": "palacio-real-madrid",
+   "n": "Palacio Real",
+   "c": "Madrid"
   }
  ],
  "rotulos": {
