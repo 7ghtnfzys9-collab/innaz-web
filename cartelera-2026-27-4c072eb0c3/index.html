@@ -152,10 +152,11 @@
     a.zz:hover{color:var(--teal);}
     .historia h3 a.zz{color:var(--teal-dark);}
     /* 13-10-2026 (César): Música, Libreto y Estreno a la derecha del texto; en móvil, encima */
-    .h-cuerpo.con-datos{display:grid;grid-template-columns:minmax(0,1fr) 15rem;gap:2rem;align-items:start;}
+    .h-cuerpo.con-datos{display:grid;grid-template-columns:minmax(0,1fr) 17rem;gap:2rem;align-items:start;}
     .datos-obra{font-size:.86rem;line-height:1.55;color:var(--text);border-left:1px solid var(--border);padding:.2rem 0 .2rem 1.2rem;}
     .datos-obra .it{margin-bottom:.85rem;}
     .datos-obra .it:last-child{margin-bottom:0;}
+    .datos-obra .ln{display:block;padding-left:.9em;text-indent:-.9em;}  /* si un nombre largo se parte, la segunda línea va sangrada */
     .datos-obra .dk{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem;}
     @media(max-width:760px){.h-cuerpo.con-datos{grid-template-columns:1fr;gap:1rem;}.datos-obra{order:-1;border-left:0;border-bottom:1px solid var(--border);padding:0 0 .9rem;}.datos-obra .it{margin-bottom:.6rem;}}
     .leyenda{font-size:.76rem;color:var(--muted);margin-top:.35rem;}
@@ -266,14 +267,15 @@ const zzAnio=y=>zz('listado.html?tipo=anio&v='+y,y,'Obras estrenadas en '+y);
 const zzTea=k=>ZT[k]?zz('listado.html?tipo=teatro&v='+encodeURIComponent(k),esc(ZT[k][0]),'Ficha del '+ZT[k][0]):'';
 function datosObra(id){
   const z=ZO[id]; if(!z) return '';
-  const lista=L=>L.map(([n,i])=>zzPer(n,i)).join(L.length>2?', ':' y ').replace(/, ([^,]*)$/,' y $1');
+  // 13-10-2026 (César): un autor por línea, sin «y»; en el estreno, fecha y teatro en líneas distintas
+  const lista=L=>L.map(([n,i])=>'<span class="ln">'+zzPer(n,i)+'</span>').join('');
   const f=[];
   if(z.c.length) f.push(`<span class="dk">Música</span> ${lista(z.c)}`);
   if(z.l.length) f.push(`<span class="dk">Libreto</span> ${lista(z.l)}`);
   const m=String(z.a||'').match(/^(\d{4})\s*(?:\((.*)\))?/);
   let est=m?(m[2]?esc(m[2])+' de ':'')+(ZY.has(m[1])?zzAnio(m[1]):m[1]):'';
   const te=z.tk&&ZT[z.tk]?zzTea(z.tk)+' ('+esc(ZT[z.tk][1])+')':esc(z.te||'');
-  if(est||te) f.push(`<span class="dk">Estreno</span> ${[est,te].filter(Boolean).join(', ')}`);
+  if(est||te) f.push(`<span class="dk">Estreno</span> ${[est,te].filter(Boolean).map(x=>'<span class="ln">'+x+'</span>').join('')}`);
   return f.length?`<aside class="datos-obra">${f.map(x=>'<div class="it">'+x+'</div>').join('')}</aside>`:'';
 }
 // Nombres de persona: el nombre completo y, si es único, sin el último apellido
