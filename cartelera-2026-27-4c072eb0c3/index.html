@@ -132,6 +132,10 @@
     ul.pers .pn{color:var(--black);}
     ul.pers .pn a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
     ul.pers .pr{font-family:'Cormorant',serif;font-style:italic;font-size:.98rem;color:var(--muted);}
+    .acc .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin:0;}
+    .acc{align-items:center!important;margin-top:.55rem!important;}
+    .historia h3 a{color:var(--black);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.45);}
+    .historia h3 a:hover{color:var(--teal-dark);}
     /* 13-10-2026: tarjeta compacta */
     .fun{padding:1.25rem 0!important;}
     .fun h2{font-size:1.32rem!important;}
@@ -152,7 +156,7 @@
     .dbody section+section{border-top:1px solid var(--border);margin-top:1rem;}
     .dbody h3{font-family:'Cormorant SC',serif;font-size:1.1rem;font-weight:600;color:var(--black);margin-bottom:.45rem;}
     .fuentes.solo{margin-top:.5rem;}
-    @media(max-width:860px){.fun h2 .tags{display:flex;margin:.35rem 0 0;}.acc{flex-direction:column;align-items:flex-start;}}
+    @media(max-width:860px){.acc{flex-direction:column;align-items:flex-start!important;}.acc .web,.acc .web-no{align-self:flex-end;}}
   </style>
 </head>
 <body>
@@ -222,7 +226,8 @@ function historia(k,desc){
     t=t.slice(0,a)+'<mark class="pend" title="'+tip+'">'+t.slice(a,b)+'</mark>'+t.slice(b); hay=true;
   });
   const ps=t.split(/\n\s*\n/).map(p=>'<p>'+p.trim()+'</p>').join('');
-  return `<section class="historia"><h3>Historia de la obra · ${esc(o.t)}</h3>${desc?`<p class="sub-obra">${esc(desc)}</p>`:''}${ps}${hay?'<p class="nota-pend">Reparto del estreno pendiente de verificación en hemeroteca.</p>':''}</section>`;
+  const tt=o.id?`<a href="../ficha.html?id=${encodeURIComponent(o.id)}" title="Ficha en la Zarzuteca">${esc(o.t)}</a>`:esc(o.t);
+  return `<section class="historia"><h3>Historia de la obra · ${tt}</h3>${desc?`<p class="sub-obra">${esc(desc)}</p>`:''}${ps}${hay?'<p class="nota-pend">Reparto del estreno pendiente de verificación en hemeroteca.</p>':''}</section>`;
 }
 // Ficha artística (13-10-2026, César): solo nombres —con enlace a su ficha si la tiene— y su papel.
 const PN={}; Object.entries(DATA.pers||{}).forEach(([n,id])=>PN[norm(n)]=id);
@@ -276,17 +281,15 @@ function card(e){
   if(F.length){const a=fd(F[0]),b=fd(F[F.length-1]);
     fh=`<div class="d">${a.d}</div><div class="m">${a.m} ${a.y}</div><div class="r">${F.length>1?`hasta el ${b.d} ${b.m}<br>`:''}${F.length} ${F.length===1?'función':'funciones'}</div>`;}
   else fh=`<div class="m">Fecha</div><div class="r">por anunciar</div>`;
-  const obras=e.ch.map(c=>c.t==='Programa por publicar'?`<span class="pp">${esc(c.t)}</span>`:c.id?`<a href="../ficha.html?id=${encodeURIComponent(c.id)}" title="Ficha en la Zarzuteca">${esc(c.t)}</a>`:`<span>${esc(c.t)}</span>`).join(' · ');
-  const tags=[];
-  tags.push(`<span class="tag fmt">${esc(e.tipo)}</span>`);
+  const tags=[`<span class="tag fmt">${esc(e.tipo)}</span>`];
   if(!e.of) tags.push('<span class="tag pc">Por confirmar</span>');
   if(e.kraus) tags.push('<span class="tag pc">Programa por publicar</span>');
   if(pasada(e)) tags.push('<span class="tag cel">Ya celebrada</span>');
   const web=e.fu.length?`<a class="web" href="${esc(e.fu[0].u)}" target="_blank" rel="noopener">Información y entradas&nbsp;↗</a>`:'<span class="web-no">Web oficial pendiente</span>';
   return `<li class="fun${pasada(e)?' pasada':''}"><div class="fecha">${fh}</div><div class="cuerpo">
-    <h2>${esc(e.tit)}${tags.length?' <span class="tags">'+tags.join('')+'</span>':''}</h2>
+    <h2>${esc(e.tit)}</h2>
     <div class="lugar">${esc(e.tea)} · ${esc(e.ciu)}${e.pais&&e.pais!=='España'?' ('+esc(e.pais)+')':''}${e.cia?' · '+esc(e.cia):''}</div>
-    <div class="acc">${obras?`<span class="obras"><span class="k">Obra</span>${obras}</span>`:''}${web}</div>
+    <div class="acc"><span class="tags">${tags.join('')}</span>${web}</div>
     ${ficha(e)}
   </div></li>`;
 }
