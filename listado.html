@@ -59,6 +59,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="cartelera-data.js?v=b27438f7"></script>
   <script src="zarzuteca-data.js?v=293e46a8"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
@@ -178,6 +179,24 @@
     @media(max-width:960px){.nav-links.open{bottom:auto;max-height:calc(100dvh - 58px);overflow-y:auto;
       background:rgba(248,244,238,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
       border-bottom:1px solid #E2DAD0;box-shadow:0 12px 28px rgba(0,0,0,.14);padding:1.6rem 1.6rem 1.8rem;}}
+
+    /* Próximas funciones (13-10-2026), de cartelera-data.js */
+    .pf-lista{list-style:none;margin:0;padding:0;}
+    .pf{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:1.1rem;padding:.95rem 0;border-bottom:1px solid var(--border);}
+    .pf:first-child{padding-top:.2rem;}
+    .pf-f{display:flex;flex-direction:column;line-height:1.15;}
+    .pf-d{font-family:'Cormorant SC',serif;font-size:1.9rem;font-weight:600;line-height:1;color:var(--black);}
+    .pf-m{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);margin-top:.2rem;}
+    .pf-h{font-size:.68rem;color:var(--muted);margin-top:.25rem;}
+    .pf-c{display:flex;flex-direction:column;gap:.2rem;min-width:0;}
+    .pf-t{font-family:'Cormorant SC',serif;font-size:1.2rem;font-weight:600;line-height:1.25;color:var(--black);text-decoration:none;transition:color .15s;}
+    .pf-t:hover{color:var(--teal);}
+    .pf-l{font-size:.84rem;line-height:1.5;color:var(--muted);overflow-wrap:anywhere;}
+    .pf-tipo{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);}
+    .pf-todas{display:inline-block;margin-top:1.4rem;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark);text-decoration:none;border:1.5px solid var(--teal-dark);padding:.55rem 1.15rem;border-radius:22px;transition:all .15s;}
+    .pf-todas:hover{background:var(--teal);border-color:var(--teal);color:#fff;}
+    @media(max-width:600px){.pf{grid-template-columns:4rem minmax(0,1fr);gap:.8rem;}.pf-d{font-size:1.6rem;}}
+    .pf-todas{margin-top:1rem;font-size:.68rem;padding:.45rem .95rem;}
 </style>
 </head>
 <body>
@@ -186,7 +205,7 @@
   <ul class="nav-links" id="navlinks">
     <li><a href="que-es-innaz.html">Qué es INNAZ</a></li>
     <li class="zz-drop"><a href="index.html#pilares" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="proyecto-formacion.html">Formación</a></li><li><a href="proyecto-recuperacion.html">Recuperación</a></li><li><a href="proyecto-interpretacion.html">Interpretación</a></li><li><a href="proyecto-creacion.html">Creación</a></li></ul></li>
-    <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Catálogo</a></li><li><a href="obras.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
+    <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="cartelera.html">Cartelera</a></li><li><a href="buscador.html">Catálogo</a></li><li><a href="obras.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
     <li><a href="index.html#noticias">Noticias</a></li>
     <li><a href="index.html#sello">Sello de Calidad</a></li>
     <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
@@ -550,6 +569,45 @@
   });
   document.addEventListener('click',function(e){ ds.forEach(function(d){ if(!d.contains(e.target)) cerrar(d); }); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') ds.forEach(cerrar); });
+})();
+</script>
+<script>
+/* Próximas funciones (13-10-2026). Lee CARTELERA de cartelera-data.js y descarta en el
+   navegador las funciones ya pasadas, así que la lista se actualiza sola cada día. */
+function zzProximas(filtro, max){
+  if(typeof CARTELERA==='undefined') return '';
+  var d=new Date(), hoy=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+  var MC=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var esc=function(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+  var L=CARTELERA.filter(filtro).map(function(c){var f=c.f.filter(function(x){return x>=hoy;});return f.length?{c:c,f:f}:null;})
+    .filter(Boolean).sort(function(a,b){return a.f[0]<b.f[0]?-1:(a.f[0]>b.f[0]?1:0);});
+  if(max) L=L.slice(0,max);
+  return L.map(function(x){
+    var c=x.c, a=x.f[0].split('-'), z=x.f[x.f.length-1].split('-');
+    var hasta=x.f.length>1?'<span class="pf-h">hasta el '+(+z[2])+' '+MC[+z[1]-1]+(z[0]!==a[0]?' '+z[0]:'')+'</span>':'';
+    var lugar=esc(c.tea)+' · '+esc(c.ciu)+(c.pais&&c.pais!=='España'?' ('+esc(c.pais)+')':'');
+    return '<li class="pf"><div class="pf-f"><span class="pf-d">'+(+a[2])+'</span><span class="pf-m">'+MC[+a[1]-1]+' '+a[0]+'</span>'+hasta+'</div>'+
+      '<div class="pf-c"><a class="pf-t" href="cartelera.html#f-'+encodeURIComponent(c.id)+'">'+esc(c.t)+'</a>'+
+      '<span class="pf-l">'+lugar+'</span><span class="pf-tipo">'+esc(c.tipo)+'</span></div></li>';
+  }).join('');
+}
+(function(){
+  // Autor: funciones de sus obras. Teatro: funciones en ese teatro (clave nombre + ciudad).
+  var qs=new URLSearchParams(location.search), tipo=(qs.get('tipo')||'').toLowerCase(), v=qs.get('v')||'';
+  var b=document.getElementById('lBody'); if(!b||!v) return;
+  var filtro=null;
+  if(tipo==='persona' && typeof PERSONAS!=='undefined'){
+    var p=PERSONAS.filter(function(x){return x.id===v;})[0]; if(!p) return;
+    var ids=(p.obrasC||[]).concat(p.obrasL||[]);
+    filtro=function(c){return (c.ob||[]).some(function(o){return ids.indexOf(o)>=0;});};
+  } else if(tipo==='teatro'){
+    filtro=function(c){return (c.tk||[]).indexOf(v)>=0;};
+  }
+  if(!filtro) return;
+  var h=zzProximas(filtro); if(!h) return;
+  var bl='<div class="bloque" id="proximas"><h2>Próximas funciones</h2><ul class="pf-lista">'+h+'</ul><a href="cartelera.html" class="pf-todas">Toda la cartelera &rarr;</a></div>';
+  var primero=b.querySelector('.bloque');
+  if(primero) primero.insertAdjacentHTML('afterend',bl); else b.insertAdjacentHTML('afterbegin',bl);
 })();
 </script>
 </body>
