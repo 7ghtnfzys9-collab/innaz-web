@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=5647218d"></script>
+  <script src="zarzuteca-data.js?v=293e46a8"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -322,6 +322,9 @@
     }
     const hasMat=['part','lib','vid','aud'].some(k=>(o[k]||[]).length);
     if(partes.length) rows += `<div class="chips-row">${chip('Estreno', partes.join(' · '))}</div>`;
+    // 13-10-2026: estrenos de otras versiones (col19, «Otros estrenos»), p. ej. la
+    // versión de ópera de Marina. Sin enlaces: es texto tal cual del maestro.
+    (o.est2||[]).forEach(([rot,txt])=>{ rows += `<div class="chips-row">${chip(esc(rot), esc(txt))}</div>`; });
     // Última fila: el enlace a materiales (si los hay) y «Nueva búsqueda», en
     // la misma línea — este segundo se empuja a la derecha con su propio
     // margin-left:auto, así que la fila funciona igual haya o no materiales.

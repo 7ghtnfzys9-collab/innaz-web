@@ -64,6 +64,10 @@
     .tag{font-size:.64rem;letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--border);border-radius:22px;padding:.2rem .65rem;color:var(--muted);}
     .tag.pc{background:var(--amber-light);border-color:transparent;color:var(--amber);}
     .tag.cel{border-style:dashed;}
+    .web{display:inline-flex;flex-wrap:wrap;max-width:100%;align-items:center;gap:.4rem;margin-top:.75rem;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--teal-dark);text-decoration:none;padding:.5rem .95rem;border-radius:2px;}
+    .web:hover{background:var(--black);}
+    .web small{text-transform:none;letter-spacing:0;opacity:.8;font-size:.72rem;overflow-wrap:anywhere;min-width:0;}
+    .web-no{display:inline-block;margin-top:.75rem;font-size:.74rem;color:var(--amber);}
     .zarz{margin-top:.8rem;padding:.6rem .95rem;background:var(--teal-light);border-radius:4px;font-size:.86rem;line-height:1.8;}
     .zarz .zt{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);margin-right:.4rem;}
     .zarz a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
@@ -194,6 +198,7 @@ function card(e){
     <h2>${esc(e.tit)}</h2>
     <div class="lugar">${esc(e.tea)} · ${esc(e.ciu)}${e.pais&&e.pais!=='España'?' ('+esc(e.pais)+')':''}${e.cia?'<br>'+esc(e.cia):''}</div>
     <div class="tags">${tags.join('')}</div>
+    ${e.fu.length?`<a class="web" href="${esc(e.fu[0].u)}" target="_blank" rel="noopener">Más información y entradas ↗ <small>${esc(e.fu[0].u.replace(/^https?:\/\/(www\.)?/,'').split('/')[0])}</small></a>`:'<span class="web-no">Web oficial del espectáculo pendiente de publicar</span>'}
     ${chips?`<div class="zarz"><span class="zt">En la Zarzuteca</span>${chips}</div>`:''}
     ${ficha(e)}
     ${e.ob.map(historia).join('')}
