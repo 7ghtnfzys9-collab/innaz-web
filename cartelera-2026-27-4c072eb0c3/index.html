@@ -146,10 +146,9 @@
     ul.pers .pr{font-family:'Cormorant',serif;font-style:italic;font-size:.98rem;color:var(--muted);}
     .acc .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin:0;}
     .acc{align-items:center!important;margin-top:.55rem!important;}
-    /* Enlaces a la Zarzuteca (13-10-2026): turquesa subrayado; al pasar el ratón, flecha */
+    /* Enlaces a la Zarzuteca (13-10-2026): turquesa subrayado, sin flecha (César) */
     a.zz{color:var(--teal-dark);text-decoration:none;border-bottom:1.5px solid rgba(42,171,184,.55);transition:color .15s,border-color .15s;}
     a.zz:hover{color:var(--teal);border-bottom-color:var(--teal);}
-    a.zz:hover::after{content:'\00a0↗';font-size:.8em;}
     .historia h3 a.zz{color:var(--teal-dark);}
     .datos-obra{font-size:.86rem;line-height:1.75;color:var(--text);margin:.1rem 0 .8rem;max-width:68ch;}
     .datos-obra .dk{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:.35rem;}
@@ -255,7 +254,7 @@ function historia(k,desc){
   return `<section class="historia"><h3>Información de la obra · ${tt}</h3>${desc?`<p class="sub-obra">${esc(desc)}</p>`:''}${datosObra(o.id)}${ps}${hay?'<p class="nota-pend">Reparto del estreno pendiente de verificación en hemeroteca.</p>':''}</section>`;
 }
 // ── Enlaces a la Zarzuteca (13-10-2026, César): todo lo que tenga ficha publicada se enlaza
-//    y se ve claro (turquesa subrayado + «↗» al pasar el ratón): obra, autores, año y teatro de
+//    y se ve claro (turquesa subrayado): obra, autores, año y teatro de
 //    estreno, y las personas de la ficha artística. En el texto se enlaza la PRIMERA mención.
 const ZO=DATA.zo||{}, ZT=DATA.zt||{}, ZY=new Set(DATA.zy||[]);
 function zz(url,txt,tit){return `<a class="zz" href="../${url}" title="${esc(tit)} en la Zarzuteca">${txt}</a>`;}
