@@ -124,6 +124,7 @@
     .fuentes a{color:var(--teal-dark);overflow-wrap:anywhere;}
     .historia h3{font-family:'Cormorant SC',serif;font-size:1.15rem;font-weight:600;color:var(--black);margin:.3rem 0 .4rem;}
     .historia p{font-size:.93rem;line-height:1.8;margin-bottom:.7rem;max-width:68ch;}
+    .historia .h-texto p{text-align:justify;hyphens:auto;-webkit-hyphens:auto;max-width:none;}
     mark.pend{background:var(--amber-light);color:inherit;border-bottom:1px dashed var(--amber);padding:0 .1rem;}
     .nota-pend{font-size:.74rem;color:var(--amber);margin-top:-.2rem;}
     .vacio{max-width:960px;margin:1.5rem auto;background:var(--teal-light);border:1px dashed var(--teal);padding:1.4rem;border-radius:4px;font-size:.9rem;color:var(--teal-dark);}
@@ -146,17 +147,19 @@
     ul.pers .pr{font-family:'Cormorant',serif;font-style:italic;font-size:.98rem;color:var(--muted);}
     .acc .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin:0;}
     .acc{align-items:center!important;margin-top:.55rem!important;}
-    /* Enlaces a la Zarzuteca (13-10-2026): turquesa subrayado, sin flecha (César) */
-    a.zz{color:var(--teal-dark);text-decoration:none;border-bottom:1.5px solid rgba(42,171,184,.55);transition:color .15s,border-color .15s;}
-    a.zz:hover{color:var(--teal);border-bottom-color:var(--teal);}
+    /* Enlaces a la Zarzuteca (13-10-2026): solo el color turquesa, sin subrayado ni flecha (César) */
+    a.zz{color:var(--teal-dark);text-decoration:none;transition:color .15s;}
+    a.zz:hover{color:var(--teal);}
     .historia h3 a.zz{color:var(--teal-dark);}
-    .datos-obra{font-size:.86rem;line-height:1.75;color:var(--text);margin:.1rem 0 .8rem;max-width:68ch;}
-    .datos-obra .dk{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:.35rem;}
-    .datos-obra .it{display:inline-block;max-width:100%;}
-    @media(max-width:600px){.datos-obra .it{display:block;}.datos-obra .sep{display:none;}}
-    .datos-obra .sep{color:var(--border);margin:0 .55rem;}
+    /* 13-10-2026 (César): Música, Libreto y Estreno a la derecha del texto; en móvil, encima */
+    .h-cuerpo.con-datos{display:grid;grid-template-columns:minmax(0,1fr) 15rem;gap:2rem;align-items:start;}
+    .datos-obra{font-size:.86rem;line-height:1.55;color:var(--text);border-left:1px solid var(--border);padding:.2rem 0 .2rem 1.2rem;}
+    .datos-obra .it{margin-bottom:.85rem;}
+    .datos-obra .it:last-child{margin-bottom:0;}
+    .datos-obra .dk{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem;}
+    @media(max-width:760px){.h-cuerpo.con-datos{grid-template-columns:1fr;gap:1rem;}.datos-obra{order:-1;border-left:0;border-bottom:1px solid var(--border);padding:0 0 .9rem;}.datos-obra .it{margin-bottom:.6rem;}}
     .leyenda{font-size:.76rem;color:var(--muted);margin-top:.35rem;}
-    .leyenda .zz{border-bottom:1.5px solid rgba(42,171,184,.55);color:var(--teal-dark);}
+    .leyenda .zz{color:var(--teal-dark);}
     /* 13-10-2026: tarjeta compacta */
     .fun{padding:1.25rem 0!important;}
     .fun h2{font-size:1.32rem!important;}
@@ -210,7 +213,7 @@
       <input type="search" id="q" class="busca" placeholder="Buscar una obra, un teatro, una ciudad o un intérprete…" autocomplete="off">
       <div class="estado"><span id="cuenta"></span><span id="selActiva"></span></div>
       <p class="ayuda">En el calendario, pulsa un día para ver sus funciones o el nombre del mes para ver el mes entero. Las flechas cambian de mes (‹ ›) o de año (« »). Sin fecha elegida se muestran las próximas funciones; al buscar por texto se incluyen también las ya celebradas.</p>
-      <p class="leyenda">Lo que aparece <span class="zz">en turquesa subrayado</span> lleva a su ficha en la Zarzuteca INNAZ.</p>
+      <p class="leyenda">Lo que aparece <span class="zz">en turquesa</span> lleva a su ficha en la Zarzuteca INNAZ.</p>
     </div>
     <div class="cal" id="cal" aria-label="Calendario de funciones"></div>
   </div>
@@ -251,10 +254,10 @@ function historia(k,desc){
   const hechos=new Set();
   const ps=t.split(/\n\s*\n/).map(p=>'<p>'+enlaza(p.trim(),hechos)+'</p>').join('');
   const tt=o.id?zz('ficha.html?id='+encodeURIComponent(o.id),esc(o.t),'Ficha de la obra'):esc(o.t);
-  return `<section class="historia"><h3>Información de la obra · ${tt}</h3>${desc?`<p class="sub-obra">${esc(desc)}</p>`:''}${datosObra(o.id)}${ps}${hay?'<p class="nota-pend">Reparto del estreno pendiente de verificación en hemeroteca.</p>':''}</section>`;
+  return `<section class="historia"><h3>Información de la obra · ${tt}</h3>${desc?`<p class="sub-obra">${esc(desc)}</p>`:''}${(d=>`<div class="h-cuerpo${d?' con-datos':''}"><div class="h-texto">${ps}${hay?'<p class="nota-pend">Reparto del estreno pendiente de verificación en hemeroteca.</p>':''}</div>${d}</div>`)(datosObra(o.id))}</section>`;
 }
 // ── Enlaces a la Zarzuteca (13-10-2026, César): todo lo que tenga ficha publicada se enlaza
-//    y se ve claro (turquesa subrayado): obra, autores, año y teatro de
+//    y se distingue por el color turquesa: obra, autores, año y teatro de
 //    estreno, y las personas de la ficha artística. En el texto se enlaza la PRIMERA mención.
 const ZO=DATA.zo||{}, ZT=DATA.zt||{}, ZY=new Set(DATA.zy||[]);
 function zz(url,txt,tit){return `<a class="zz" href="../${url}" title="${esc(tit)} en la Zarzuteca">${txt}</a>`;}
@@ -271,7 +274,7 @@ function datosObra(id){
   let est=m?(m[2]?esc(m[2])+' de ':'')+(ZY.has(m[1])?zzAnio(m[1]):m[1]):'';
   const te=z.tk&&ZT[z.tk]?zzTea(z.tk)+' ('+esc(ZT[z.tk][1])+')':esc(z.te||'');
   if(est||te) f.push(`<span class="dk">Estreno</span> ${[est,te].filter(Boolean).join(', ')}`);
-  return f.length?`<p class="datos-obra">${f.map(x=>'<span class="it">'+x+'</span>').join('<span class="sep">·</span>')}</p>`:'';
+  return f.length?`<aside class="datos-obra">${f.map(x=>'<div class="it">'+x+'</div>').join('')}</aside>`:'';
 }
 // Nombres de persona: el nombre completo y, si es único, sin el último apellido
 // («Javier de Burgos Larragoiti» → «Javier de Burgos»).
