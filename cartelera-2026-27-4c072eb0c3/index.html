@@ -178,7 +178,7 @@
     <p class="label">Zarzuteca INNAZ</p>
     <h1>Cartelera de zarzuela 2026-27</h1>
     <p class="sub">Funciones de zarzuela y teatro lírico español en todo el mundo, del 1 de septiembre de 2026 al 31 de agosto de 2027</p>
-    <div class="borrador"><b>Borrador privado</b> · Página oculta para revisión: no está enlazada desde la web ni la indexan los buscadores. Lo marcado <mark class="pend">así</mark> es el reparto del estreno histórico de cada obra, pendiente de confirmar con la prensa de la época. Las funciones con la etiqueta «Por confirmar» aún no tienen anuncio oficial del teatro.</div>
+    <div class="borrador"><b>Borrador privado</b> · Página oculta para revisión: no está enlazada desde la web ni la indexan los buscadores. Lo marcado <mark class="pend">así</mark> es el reparto del estreno histórico de cada obra, pendiente de confirmar con la prensa de la época.</div>
   </div>
 </header>
 
@@ -259,7 +259,7 @@ function personas(e){
   e.rep.forEach(([pe,i,f,p])=>add('int',i,[/sin rol|no publicad|no especificad/i.test(pe||'')?'':pe,f].filter(Boolean).join(' · '),p));
   // 13-10-2026 (César): intérpretes en este orden — cantantes y actores, orquesta, coro
   G.int=G.int.concat(G.orq,G.cor);
-  const li=L=>L.map(([n,r,p])=>`<li><span class="pn">${nombre(n)}</span>${r?` <span class="pr">${esc(r)}</span>`:''}${p?' <span class="pcf">(por confirmar)</span>':''}</li>`).join('');
+  const li=L=>L.map(([n,r,p])=>`<li><span class="pn">${nombre(n)}</span>${r?` <span class="pr">${esc(r)}</span>`:''}</li>`).join('');
   const bloques=[['int','Intérpretes'],['dir','Dirección'],['tec','Equipo técnico']].filter(([g])=>G[g].length)
     .map(([g,t])=>`<div class="grp"><h4>${t}</h4><ul class="pers">${li(G[g])}</ul></div>`).join('');
   return bloques?`<section><h3>Ficha artística</h3><div class="grps">${bloques}</div></section>`:'';
@@ -282,7 +282,6 @@ function card(e){
     fh=`<div class="d">${a.d}</div><div class="m">${a.m} ${a.y}</div><div class="r">${F.length>1?`hasta el ${b.d} ${b.m}<br>`:''}${F.length} ${F.length===1?'función':'funciones'}</div>`;}
   else fh=`<div class="m">Fecha</div><div class="r">por anunciar</div>`;
   const tags=[`<span class="tag fmt">${esc(e.tipo)}</span>`];
-  if(!e.of) tags.push('<span class="tag pc">Por confirmar</span>');
   if(e.kraus) tags.push('<span class="tag pc">Programa por publicar</span>');
   if(pasada(e)) tags.push('<span class="tag cel">Ya celebrada</span>');
   const web=e.fu.length?`<a class="web" href="${esc(e.fu[0].u)}" target="_blank" rel="noopener">Información y entradas&nbsp;↗</a>`:'<span class="web-no">Web oficial pendiente</span>';
