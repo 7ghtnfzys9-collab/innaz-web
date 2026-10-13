@@ -65,6 +65,7 @@
     .cal-cab{display:flex;align-items:center;justify-content:space-between;gap:.2rem;margin-bottom:.45rem;}
     .cal-cab button{border:0;background:none;cursor:pointer;color:var(--muted);font-size:.95rem;width:1.9rem;height:1.9rem;border-radius:3px;font-family:inherit;}
     .cal-cab button:hover{background:var(--cream);color:var(--teal-dark);}
+    .cal-cab button:disabled{opacity:.25;cursor:default;background:none;color:var(--muted);}
     .cal-mes{flex:1;text-align:center;font-family:'Cormorant SC',serif;font-size:1.12rem;font-weight:600;color:var(--black)!important;width:auto!important;}
     .cal-mes.on{background:var(--teal)!important;color:#fff!important;}
     .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;}
@@ -211,7 +212,7 @@
     <div>
       <input type="search" id="q" class="busca" placeholder="Buscar una obra, un teatro, una ciudad o un intérprete…" autocomplete="off">
       <div class="estado"><span id="cuenta"></span><span id="selActiva"></span></div>
-      <p class="ayuda">En el calendario, pulsa un día para ver sus funciones o el nombre del mes para ver el mes entero. Las flechas cambian de mes (‹ ›) o de año (« »). Sin fecha elegida se muestran las próximas funciones; al buscar por texto se incluyen también las ya celebradas.</p>
+      <p class="ayuda">En el calendario, pulsa un día para ver sus funciones o el nombre del mes para ver el mes entero. Las flechas cambian de mes (‹ ›) o de año (« »). Sin fecha elegida se muestran todas las próximas funciones. La cartelera empieza siempre en el día de hoy: las funciones ya celebradas dejan de mostrarse.</p>
       <p class="leyenda">Lo que aparece <span class="zz">en turquesa</span> lleva a su ficha en la Zarzuteca INNAZ.</p>
     </div>
     <div class="cal" id="cal" aria-label="Calendario de funciones"></div>
@@ -365,7 +366,6 @@ function card(e){
   else fh=`<div class="m">Fecha</div><div class="r">por anunciar</div>`;
   const tags=[`<span class="tag fmt">${esc(e.tipo)}</span>`];
   if(e.kraus) tags.push('<span class="tag pc">Programa por publicar</span>');
-  if(pasada(e)) tags.push('<span class="tag cel">Ya celebrada</span>');
   const web=e.fu.length?`<a class="web" href="${esc(e.fu[0].u)}" target="_blank" rel="noopener">Información y entradas&nbsp;↗</a>`:'<span class="web-no">Web oficial pendiente</span>';
   return `<li class="fun${pasada(e)?' pasada':''}" id="f-${esc(e.id)}"><div class="fecha">${fh}</div><div class="cuerpo">
     <h2>${esc(e.tit)}</h2>
@@ -375,15 +375,17 @@ function card(e){
   </div></li>`;
 }
 // ── Calendario y búsqueda (13-10-2026, petición de César: solo búsqueda + calendario) ──
-const DIAS=new Set(); E.forEach(e=>e.f.forEach(d=>DIAS.add(d)));
+const DIAS=new Set(); E.forEach(e=>e.f.forEach(d=>{if(d>=HOY) DIAS.add(d);}));
 let vista=HOY.slice(0,7);           // mes que enseña el calendario (AAAA-MM)
 let SEL=null;                        // null | {t:'d',v:'AAAA-MM-DD'} | {t:'m',v:'AAAA-MM'}
 const DS=['L','M','X','J','V','S','D'];
-function movMes(n){let [y,m]=vista.split('-').map(Number);m+=n;while(m<1){m+=12;y--}while(m>12){m-=12;y++}vista=y+'-'+String(m).padStart(2,'0');calendario();}
+// 13-10-2026 (César): la cartelera empieza siempre en hoy; el calendario no retrocede antes del mes en curso.
+const MES0=HOY.slice(0,7);
+function movMes(n){let [y,m]=vista.split('-').map(Number);m+=n;while(m<1){m+=12;y--}while(m>12){m-=12;y++}vista=y+'-'+String(m).padStart(2,'0');if(vista<MES0)vista=MES0;calendario();}
 function calendario(){
   const [y,m]=vista.split('-').map(Number);
   const primero=new Date(y,m-1,1), nd=new Date(y,m,0).getDate(), hueco=(primero.getDay()+6)%7;
-  let h=`<div class="cal-cab"><button type="button" data-n="-12" title="Año anterior" aria-label="Año anterior">«</button><button type="button" data-n="-1" title="Mes anterior" aria-label="Mes anterior">‹</button>
+  let h=`<div class="cal-cab"><button type="button" data-n="-12" title="Año anterior" aria-label="Año anterior"${vista<=MES0?' disabled':''}>«</button><button type="button" data-n="-1" title="Mes anterior" aria-label="Mes anterior"${vista<=MES0?' disabled':''}>‹</button>
     <button type="button" class="cal-mes${SEL&&SEL.t==='m'&&SEL.v===vista?' on':''}" id="calMes" title="Ver el mes entero">${MESES[m-1][0].toUpperCase()+MESES[m-1].slice(1)} ${y}</button>
     <button type="button" data-n="1" title="Mes siguiente" aria-label="Mes siguiente">›</button><button type="button" data-n="12" title="Año siguiente" aria-label="Año siguiente">»</button></div><div class="cal-grid">`;
   h+=DS.map(d=>`<span class="ds">${d}</span>`).join('');
@@ -405,9 +407,9 @@ $('cal').addEventListener('click',ev=>{
 });
 $('q').addEventListener('input',pinta);
 function fechasVisibles(e,q){
-  if(SEL) return e.f.filter(d=>SEL.t==='d'?d===SEL.v:d.slice(0,7)===SEL.v);
-  if(q) return e.f;
-  return e.f.filter(d=>d>=HOY);
+  const F=e.f.filter(d=>d>=HOY);
+  if(SEL) return F.filter(d=>SEL.t==='d'?d===SEL.v:d.slice(0,7)===SEL.v);
+  return F;
 }
 function textoSel(){
   if(!SEL) return '';
@@ -440,7 +442,7 @@ calendario(); pinta();
 // Enlace directo a un espectáculo (#f-ID): se busca, se abre su ficha y se lleva a la vista.
 function irA(){const h=decodeURIComponent(location.hash.slice(1)); if(!h.startsWith('f-')) return;
   let li=document.getElementById(h);
-  if(!li){const e=E.find(x=>'f-'+x.id===h); if(e&&e.f.length){vista=e.f[0].slice(0,7); SEL={t:'m',v:vista}; calendario(); pinta(); li=document.getElementById(h);}}
+  if(!li&&(SEL||$('q').value)){SEL=null; $('q').value=''; calendario(); pinta(); li=document.getElementById(h);}
   if(li){const d=li.querySelector('details'); if(d) d.open=true; setTimeout(()=>li.scrollIntoView({block:'start'}),60);}}
 irA(); window.addEventListener('hashchange',irA);
 (function(){
