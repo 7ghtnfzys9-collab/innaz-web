@@ -254,7 +254,8 @@
   });
   CONTROLES.forEach(id=>{
     $(id).addEventListener('input',function(){ pinta(); sincLimpiar(); });
-    $(id).addEventListener('change',function(){ pinta(); sincLimpiar(); });
+    // 'change' solo en desplegables: en la caja de texto salta al perder el foco, repinta la lista y se come el primer clic (14-10-2026)
+    if($(id).type!=='search' && $(id).type!=='text') $(id).addEventListener('change',function(){ pinta(); sincLimpiar(); });
   });
   pinta(); sincLimpiar();
 </script>

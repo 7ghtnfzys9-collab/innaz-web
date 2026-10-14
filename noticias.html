@@ -314,7 +314,8 @@
 
   ['q', 'fAnio', 'fMedio', 'fPais', 'fEtq'].forEach(id => {
     $(id).addEventListener('input', filtra);
-    $(id).addEventListener('change', filtra);
+    // 'change' solo en desplegables: en la caja de texto se come el primer clic (14-10-2026)
+    if ($(id).type !== 'search' && $(id).type !== 'text') $(id).addEventListener('change', filtra);
   });
 
   $('limpiar').addEventListener('click', () => {
