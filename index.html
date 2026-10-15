@@ -515,7 +515,7 @@
     }
     .emb-pista::-webkit-scrollbar { display: none; }
     .emb-pista.quieta { justify-content: center; }
-    .emb-card { flex: 0 0 220px; scroll-snap-align: start; text-decoration: none; color: inherit; }
+    .emb-card { flex: 0 0 160px; /* 16-10-2026: antes 220px (César) */ min-width: 0; scroll-snap-align: start; text-decoration: none; color: inherit; }
     .emb-card img {
       width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
       background: var(--border); filter: grayscale(15%); transition: filter .3s, transform .3s;
@@ -531,7 +531,7 @@
     .emb-foto { display: block; margin-top: auto; padding-top: .6rem; font-size: .56rem; line-height: 1.3; color: var(--muted); opacity: .8; white-space: nowrap; overflow: hidden; }
     .emb-todos { display: inline-block; margin-top: 2.2rem; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--teal-dark); text-decoration: none; }
     .emb-todos:hover { color: var(--teal); }
-    @media (max-width: 600px) { .emb-card { flex-basis: 62%; } .emb-flechas { display: none; } }
+    @media (max-width: 600px) { .emb-card { flex-basis: 46%; } .emb-flechas { display: none; } }
 
     /* ─── CONTACTO ─── */
     #contacto { background: var(--black); }
@@ -774,10 +774,6 @@
       <a href="#socio" class="btn btn-ghost">Suscríbete</a>
     </div>
   </div>
-  <div class="hero-scroll">
-    <div class="scroll-bar"></div>
-    <span>Scroll</span>
-  </div>
 </section>
 
 <!-- ── PILARES ── -->
@@ -791,28 +787,24 @@
     <div class="pilares-grid">
       <div class="pilar-card reveal">
         <span class="pilar-num">01</span>
-        <div class="pilar-icon">📚</div>
         <h3>Formación</h3>
         <p>Transmitir el género: formación de intérpretes en sus exigencias propias, colaboración con conservatorios y universidades, y actividades divulgativas para crear público nuevo.</p>
         <a class="pilar-link" href="proyecto-formacion.html">Ver más →</a>
       </div>
       <div class="pilar-card reveal">
         <span class="pilar-num">02</span>
-        <div class="pilar-icon">𝄞</div>
         <h3>Recuperación</h3>
         <p>Localizar, documentar y publicar el repertorio disperso en archivos, bibliotecas y colecciones privadas. De este trabajo nacen la Zarzuteca, el catálogo documental del Instituto, y una editorial libre de derechos, con descarga de las obras en dominio público.</p>
         <a class="pilar-link" href="proyecto-recuperacion.html">Ver más →</a>
       </div>
       <div class="pilar-card reveal">
         <span class="pilar-num">03</span>
-        <div class="pilar-icon">🎭</div>
         <h3>Interpretación</h3>
         <p>Apoyo documental a las compañías, Sello de Calidad INNAZ y el Festival Anual como cita de referencia del género.</p>
         <a class="pilar-link" href="proyecto-interpretacion.html">Ver más →</a>
       </div>
       <div class="pilar-card reveal">
         <span class="pilar-num">04</span>
-        <div class="pilar-icon">✒️</div>
         <h3>Creación</h3>
         <p>Impulsar la obra nueva y el estudio del género: encargos y concursos de nueva creación lírica, y una colección editorial propia de estudios y ediciones.</p>
         <a class="pilar-link" href="proyecto-creacion.html">Ver más →</a>
@@ -830,12 +822,6 @@
     </div>
 
     <div class="zarz-panel reveal">
-      <div class="zarz-tipos">
-        <span class="zarz-tipo">🎼 Partituras</span>
-        <span class="zarz-tipo">📖 Libretos</span>
-        <span class="zarz-tipo">🎬 Videoteca</span>
-        <span class="zarz-tipo">🎧 Fonoteca</span>
-      </div>
       <p class="zarz-texto">
         El archivo digital del Instituto reúne en un solo catálogo partituras en
         reducción para canto y piano, libretos, grabaciones audiovisuales y registros
@@ -845,7 +831,6 @@
         la puesta en escena o la escucha.
       </p>
       <ul class="zarz-secciones">
-        <li><a href="cartelera.html"><b>Cartelera</b></a>Las próximas funciones de zarzuela en todo el mundo, con su ficha artística, la historia de cada obra y el enlace a las entradas.</li>
         <li><a href="buscador.html"><b>Catálogo</b></a>El buscador completo: título, compositor, libretista o teatro en una sola caja, con filtros para afinar.</li>
         <li><a href="obras.html"><b>Obras</b></a>Todas las obras con ficha publicada.</li>
         <li><a href="autores.html"><b>Autores</b></a>Compositores y libretistas con obra en la Zarzuteca, con su biografía cuando ya está redactada.</li>
@@ -1042,7 +1027,7 @@
       </div>
     </div>
     <div class="emb-pista" id="embPista" aria-label="Embajadores honoríficos de INNAZ"></div>
-    <a href="que-es-innaz.html#embajadores" class="emb-todos">Conoce el Instituto &rarr;</a>
+    <a href="que-es-innaz.html" class="emb-todos">Conoce el Instituto &rarr;</a>
   </div>
 </section>
 
@@ -1322,6 +1307,9 @@
     if (desborda && !reducido) reloj = setInterval(() => { if (!quieto && !document.hidden) mover(1); }, 4000);
   };
   ['mouseenter','focusin','touchstart'].forEach(ev => sec.addEventListener(ev, () => quieto = true, { passive: true }));
+  /* 16-10-2026: el menú fijo tapa la parte alta de la sección; con el ratón encima, el carrusel tampoco se mueve */
+  const barra = document.getElementById('navbar');
+  if (barra) { barra.addEventListener('mouseenter', () => quieto = true); barra.addEventListener('mouseleave', e => { if (!sec.contains(e.relatedTarget)) quieto = false; }); }
   ['mouseleave','focusout'].forEach(ev => sec.addEventListener(ev, () => quieto = false));
   window.addEventListener('resize', () => { ajustarNombres('.emb-card h3'); ajustar(); });
   window.addEventListener('load', ajustar);
