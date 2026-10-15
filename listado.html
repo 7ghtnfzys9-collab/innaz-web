@@ -197,6 +197,19 @@
     .pf-todas:hover{background:var(--teal);border-color:var(--teal);color:#fff;}
     @media(max-width:600px){.pf{grid-template-columns:4rem minmax(0,1fr);gap:.8rem;}.pf-d{font-size:1.6rem;}}
     .pf-todas{margin-top:1rem;font-size:.68rem;padding:.45rem .95rem;}
+    /* Pestañas de las fichas (15-10-2026, decisión de César). Cada pestaña es un .zz-panel
+       con data-tab y data-label; el script del final monta la barra. Al imprimir salen todas. */
+    .zz-tabs{scroll-margin-top:84px;display:flex;border-bottom:1px solid var(--border);margin:0 0 2.2rem;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+    .zz-tabs::-webkit-scrollbar{display:none;}
+    .zz-tab{appearance:none;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;padding:.85rem 1.15rem .8rem;font:inherit;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:.45rem;transition:color .15s,border-color .15s;}
+    .zz-tab:first-child{padding-left:0;}
+    .zz-tab:hover{color:var(--teal-dark);}
+    .zz-tab[aria-selected="true"]{color:var(--teal-dark);border-bottom-color:var(--teal-dark);font-weight:600;}
+    .zz-tab:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+    .zz-badge{font-size:.6rem;letter-spacing:.06em;text-transform:none;font-weight:600;color:#fff;background:var(--teal-dark);border-radius:10px;padding:.12rem .5rem;}
+    .zz-panel[hidden]{display:none;}
+    @media(max-width:600px){.zz-tab{padding:.75rem .85rem .7rem;font-size:.66rem;}}
+    @media print{.zz-tabs{display:none;}.zz-panel[hidden]{display:block !important;}}
 </style>
 </head>
 <body>
@@ -437,15 +450,16 @@
       const byId=id=>OB.find(o=>o.id===id);
       const comoC=(p.obrasC||[]).map(byId).filter(Boolean).sort(cmpCron);
       const comoL=(p.obrasL||[]).map(byId).filter(Boolean).sort(cmpCron);
-      let html='<div class="bloque persona-bio"><h2>Biografía</h2>'+
+      let html='<div class="zz-panel" data-tab="informacion" data-label="Información del autor"><div class="bloque persona-bio"><h2>Biografía</h2>'+
         (p.foto ? `<img class="foto-persona" src="personas/${esc(p.foto)}" alt="${esc(p.n)}" loading="lazy">` : '')+
         (p.bio ? esc(cab.resto).split(/\n{2,}/).map(x=>`<p class="bio">${x.replace(/\n/g,' ').trim()}</p>`).join('')
                : '<p class="pend">Biografía pendiente de redactar. Se añade en la pestaña <strong>Personas</strong> del Excel de la Zarzuteca.</p>')+
-        '</div>';
+        '</div></div><div class="zz-panel" data-tab="obras" data-label="Obras">';
       if(comoC.length) html+=bloqueLista('Obras como compositor, por año de estreno', comoC, '');
       if(comoL.length) html+=bloqueLista('Obras como libretista, por año de estreno', comoL, '');
       if(!comoC.length && !comoL.length)
-        html+='<p class="pend">'+esc(AVISO_COBERTURA)+'</p>';
+        html+='<div class="bloque"><p class="pend">'+esc(AVISO_COBERTURA)+'</p></div>';
+      html+='</div>';
       $('lBody').innerHTML=html;
     }
   } else if(tipo==='teatro'){
@@ -468,12 +482,15 @@
       const dir=(te&&te.dir)?String(te.dir).trim():'';
       $('lSub').textContent=[dir,ciu].filter(Boolean).join(' · ');
       $('lBody').innerHTML=
+        '<div class="zz-panel" data-tab="informacion" data-label="Información del teatro">'+
         bloqueDatosTeatro(te)+
         bloqueHistoriaTeatro(te)+
+        '</div><div class="zz-panel" data-tab="obras" data-label="Obras estrenadas">'+
         (obras.length
           ? bloqueLista('Obras estrenadas en este teatro', obras, '', false)
           : '<div class="bloque"><h2>Estrenos</h2><p class="pend">Todavía no hay obras con ficha '+
-            'publicada estrenadas en este teatro. '+esc(AVISO_COBERTURA)+'</p></div>');
+            'publicada estrenadas en este teatro. '+esc(AVISO_COBERTURA)+'</p></div>')+
+        '</div><div class="zz-panel" data-tab="representaciones" data-label="Representaciones"><div id="zzSlotProx"></div></div>';
     }
   } else if(tipo==='anio'){
     const obras=OB.filter(o=>o.anioN===v).sort(cmpCron);
@@ -596,18 +613,75 @@ function zzProximas(filtro, max){
   var qs=new URLSearchParams(location.search), tipo=(qs.get('tipo')||'').toLowerCase(), v=qs.get('v')||'';
   var b=document.getElementById('lBody'); if(!b||!v) return;
   var filtro=null;
-  if(tipo==='persona' && typeof PERSONAS!=='undefined'){
-    var p=PERSONAS.filter(function(x){return x.id===v;})[0]; if(!p) return;
-    var ids=(p.obrasC||[]).concat(p.obrasL||[]);
-    filtro=function(c){return (c.ob||[]).some(function(o){return ids.indexOf(o)>=0;});};
-  } else if(tipo==='teatro'){
+  // 15-10-2026 (decisión de César): la ficha de autor ya no lleva próximas funciones.
+  if(tipo==='teatro'){
     filtro=function(c){return (c.tk||[]).indexOf(v)>=0;};
   }
   if(!filtro) return;
-  var h=zzProximas(filtro); if(!h) return;
-  var bl='<div class="bloque" id="proximas"><h2>Próximas funciones</h2><ul class="pf-lista">'+h+'</ul><a href="cartelera.html" class="pf-todas">Toda la cartelera &rarr;</a></div>';
-  var primero=b.querySelector('.bloque');
-  if(primero) primero.insertAdjacentHTML('afterend',bl); else b.insertAdjacentHTML('afterbegin',bl);
+  var h=zzProximas(filtro), slot=document.getElementById('zzSlotProx'); if(!h||!slot) return;
+  slot.insertAdjacentHTML('afterend','<div class="bloque" id="proximas"><h2>Próximas representaciones</h2><ul class="pf-lista">'+h+'</ul><a href="cartelera.html" class="pf-todas">Toda la cartelera &rarr;</a></div>');
+  var n=(h.match(/class="pf"/g)||[]).length, pn=slot.closest('.zz-panel');
+  if(pn) pn.dataset.badge=n+(n===1?' próxima':' próximas');
+})();
+</script>
+<script>
+/* Pestañas de las fichas (15-10-2026, decisión de César). Busca los .zz-panel ya pintados,
+   quita los que no tienen ningún bloque (una pestaña vacía no se enseña) y, si quedan dos o
+   más, monta la barra. La pestaña abierta va en la dirección (#representaciones…), así que un
+   enlace o un QR pueden abrir una concreta; un ancla interior (#materiales) abre su pestaña. */
+(function(){
+  var ps=[].slice.call(document.querySelectorAll('.zz-panel'));
+  ps=ps.filter(function(p){ if(p.querySelector('.bloque')) return true; p.parentNode.removeChild(p); return false; });
+  if(ps.length<2) return;
+  var nav=document.createElement('div'); nav.className='zz-tabs'; nav.setAttribute('role','tablist');
+  var bs=ps.map(function(p){
+    var b=document.createElement('button'); b.type='button'; b.className='zz-tab'; b.setAttribute('role','tab');
+    b.id='tab-'+p.dataset.tab; p.id='panel-'+p.dataset.tab; p.setAttribute('role','tabpanel');
+    p.setAttribute('aria-labelledby',b.id); b.setAttribute('aria-controls',p.id);
+    b.textContent=p.dataset.label||p.dataset.tab;
+    if(p.dataset.badge){ var s=document.createElement('span'); s.className='zz-badge'; s.textContent=p.dataset.badge; b.appendChild(s); }
+    b.addEventListener('click',function(){ abrir(p.dataset.tab,true); });
+    b.addEventListener('keydown',function(e){
+      var i=bs.indexOf(b), j=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:-9;
+      if(j===-9) return; j=(j+bs.length)%bs.length; e.preventDefault(); bs[j].focus(); abrir(ps[j].dataset.tab,true);
+    });
+    nav.appendChild(b); return b;
+  });
+  ps[0].parentNode.insertBefore(nav,ps[0]);
+  function abrir(tab,marcar){
+    var hay=false;
+    ps.forEach(function(p,i){ var on=p.dataset.tab===tab; hay=hay||on; p.hidden=!on;
+      bs[i].setAttribute('aria-selected',on?'true':'false'); bs[i].tabIndex=on?0:-1; });
+    if(!hay) return abrir(ps[0].dataset.tab,false);
+    // en el móvil la barra se desplaza de lado: que la pestaña abierta quede a la vista entera
+    bs.forEach(function(b){ if(b.getAttribute('aria-selected')==='true' && nav.scrollWidth>nav.clientWidth){
+      var izq=b.offsetLeft-nav.offsetLeft, der=izq+b.offsetWidth;
+      if(der>nav.scrollLeft+nav.clientWidth || izq<nav.scrollLeft) nav.scrollLeft=Math.max(0,der-nav.clientWidth); } });
+    if(marcar){
+      try{ history.replaceState(null,'',location.pathname+location.search+'#'+tab); }catch(e){}
+      if(nav.getBoundingClientRect().top<0) nav.scrollIntoView({block:'start'});
+    }
+    // el plegado de los números se mide en pantalla: hay que volver a medir al enseñarlo
+    try{ window.dispatchEvent(new Event('resize')); }catch(e){}
+  }
+  function porAncla(h){
+    if(!h) return false;
+    var p=ps.filter(function(x){return x.dataset.tab===h;})[0];
+    if(p){ abrir(h,false); return 'tab'; }
+    var el=document.getElementById(h), cont=el&&el.closest&&el.closest('.zz-panel');
+    if(cont){ abrir(cont.dataset.tab,false); return 'el'; }
+    return false;
+  }
+  var h0=decodeURIComponent(location.hash.slice(1));
+  var r=porAncla(h0); if(!r) abrir(ps[0].dataset.tab,false);
+  if(r==='el'){ var el=document.getElementById(h0); if(el) setTimeout(function(){el.scrollIntoView();},0); }
+  if(r==='tab') setTimeout(function(){ nav.scrollIntoView({block:'start'}); },0);
+  window.addEventListener('hashchange',function(){ porAncla(decodeURIComponent(location.hash.slice(1))); });
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]'); if(!a) return;
+    var h=a.getAttribute('href').slice(1), t=porAncla(h);
+    if(t==='tab'){ e.preventDefault(); abrir(h,true); }
+  });
 })();
 </script>
 </body>

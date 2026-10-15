@@ -124,6 +124,7 @@
     /* Histórico de la obra (15-10-2026): ficha artística del estreno, críticas del estreno
        (desplegables, texto literal) y recuento de temporadas. Datos en historico-data.js. */
     .est-cab{font-size:.94rem;color:var(--black);margin-bottom:.6rem;}
+    .est-cab a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
     .est-lin{font-size:.9rem;line-height:1.55;margin-top:.55rem;}
     .est-lin b{font-weight:600;color:var(--teal-dark);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:.35rem;}
     .crit{border:1px solid var(--border);border-radius:4px;margin-bottom:.6rem;background:#fff;}
@@ -203,6 +204,19 @@
     .pf-todas:hover{background:var(--teal);border-color:var(--teal);color:#fff;}
     @media(max-width:600px){.pf{grid-template-columns:4rem minmax(0,1fr);gap:.8rem;}.pf-d{font-size:1.6rem;}}
     .pf-todas{margin-top:1rem;font-size:.68rem;padding:.45rem .95rem;}
+    /* Pestañas de las fichas (15-10-2026, decisión de César). Cada pestaña es un .zz-panel
+       con data-tab y data-label; el script del final monta la barra. Al imprimir salen todas. */
+    .zz-tabs{scroll-margin-top:84px;display:flex;border-bottom:1px solid var(--border);margin:0 0 2.2rem;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+    .zz-tabs::-webkit-scrollbar{display:none;}
+    .zz-tab{appearance:none;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;padding:.85rem 1.15rem .8rem;font:inherit;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:.45rem;transition:color .15s,border-color .15s;}
+    .zz-tab:first-child{padding-left:0;}
+    .zz-tab:hover{color:var(--teal-dark);}
+    .zz-tab[aria-selected="true"]{color:var(--teal-dark);border-bottom-color:var(--teal-dark);font-weight:600;}
+    .zz-tab:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+    .zz-badge{font-size:.6rem;letter-spacing:.06em;text-transform:none;font-weight:600;color:#fff;background:var(--teal-dark);border-radius:10px;padding:.12rem .5rem;}
+    .zz-panel[hidden]{display:none;}
+    @media(max-width:600px){.zz-tab{padding:.75rem .85rem .7rem;font-size:.66rem;}}
+    @media print{.zz-tabs{display:none;}.zz-panel[hidden]{display:block !important;}}
 </style>
 </head>
 <body>
@@ -534,6 +548,7 @@
     // del estreno, crítica del estreno (texto literal en desplegable, con periódico y firma
     // tal como sale impresa) y el RECUENTO de temporadas; el detalle es para suscriptores
     // y no viaja en los datos públicos. Sin HISTORICO (o sin datos de la obra), no se pinta nada.
+    let rep='';   // pestaña «Representaciones» (15-10-2026)
     const HIS=(typeof HISTORICO!=='undefined'&&HISTORICO[o.id])||null;
     if(HIS){
       const md=x=>esc(x).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');
@@ -548,7 +563,7 @@
         if(e.desc) b+=`<p class="est-lin"><b>Dirección</b>${esc(e.desc)}</p>`;
         if(e.eq) b+=`<p class="est-lin"><b>Escena</b>${esc(e.eq)}</p>`;
         if(e.fue||e.not) b+=`<p class="nota">${esc([e.fue,e.not].filter(Boolean).join(' '))}</p>`;
-        html+=`<div class="bloque" id="estreno"><h2>Ficha artística del estreno</h2>${b}</div>`;
+        rep+=`<div class="bloque" id="estreno"><h2>Ficha artística del estreno</h2>${b}</div>`;
       }
       if(HIS.crit&&HIS.crit.length){
         const cs=HIS.crit.map(c=>{
@@ -556,16 +571,18 @@
           return `<details class="crit"><summary><span class="crit-per">${esc(c.per)}</span><span class="crit-f">${esc(c.f)}</span>`+
             `<span class="crit-fir">${c.fir?esc(c.fir):'Sin firma'}</span></summary>`+
             `<div class="crit-tx">${ps}<p class="crit-pie">${esc(c.per)}, ${esc(c.f)}${c.pag?', '+esc(c.pag):''}. ${c.fir?'Firma: '+esc(c.fir)+'.':'Sin firma.'}</p></div></details>`;}).join('');
-        html+=`<div class="bloque" id="criticas"><h2>La crítica del estreno</h2>${cs}`+
+        rep+=`<div class="bloque" id="criticas"><h2>Críticas del estreno</h2>${cs}`+
           `<p class="nota">Transcripción literal, cotejada con el facsímil de la Hemeroteca Digital de la Biblioteca Nacional de España. Se respeta la ortografía de la época; [sic] señala las erratas del original y los corchetes, las lecturas dudosas o ilegibles.</p></div>`;
       }
+      rep+='<div id="zzSlotProx"></div>';
       const tp=HIS.temp;
       if(tp&&tp.n){
-        html+=`<div class="bloque" id="representaciones"><h2>Representaciones</h2>`+
+        rep+=`<div class="bloque" id="historico"><h2>Histórico de representaciones</h2>`+
           `<p class="sinopsis">Al menos ${tp.n} temporada${tp.n>1?'s':''} en Madrid entre ${tp.a0} y ${tp.a1}, según las carteleras de la prensa histórica de la Biblioteca Nacional de España.</p>`+
           `<p class="nota">Recuento de temporadas de cinco o más días anunciados en cartelera. El historial completo, para suscriptores.</p></div>`;
       }
     }
+    if(!rep.includes('zzSlotProx')) rep+='<div id="zzSlotProx"></div>';
     // 3) materiales y descargas — SIEMPRE AL FINAL
     const matSecs=[];
     for(const k in TLAB){ const arr=o[k]||[]; const [lab,cls]=TLAB[k];
@@ -581,7 +598,8 @@
     if(!html){
       html=`<div class="bloque"><div class="vacio-ficha">Ficha en preparación: esta obra aún no tiene datos documentados. Se irá completando con información verificada.</div></div>`;
     }
-    $('fBody').innerHTML=html;
+    $('fBody').innerHTML='<div class="zz-panel" data-tab="informacion" data-label="Información de la obra">'+html+'</div>'+
+      '<div class="zz-panel" data-tab="representaciones" data-label="Representaciones">'+rep+'</div>';
     // botón del desplegable de personajes (existe solo si N > PERS_PREVIEW+1)
     const pb=$('persBtn');
     if(pb){
@@ -745,7 +763,75 @@ function zzProximas(filtro, max){
   var id=new URLSearchParams(location.search).get('id')||'', b=document.getElementById('fBody');
   if(!id||!b) return;
   var h=zzProximas(function(c){return (c.ob||[]).indexOf(id)>=0;});
-  if(h) b.insertAdjacentHTML('afterbegin','<div class="bloque" id="proximas"><h2>Próximas funciones</h2><ul class="pf-lista">'+h+'</ul><a href="cartelera.html" class="pf-todas">Toda la cartelera &rarr;</a></div>');
+  var slot=document.getElementById('zzSlotProx');
+  if(h){
+    var bl='<div class="bloque" id="proximas"><h2>Próximas representaciones</h2><ul class="pf-lista">'+h+'</ul><a href="cartelera.html" class="pf-todas">Toda la cartelera &rarr;</a></div>';
+    if(slot){ slot.insertAdjacentHTML('afterend',bl);
+      var n=(h.match(/class="pf"/g)||[]).length, pn=slot.closest('.zz-panel');
+      if(pn) pn.dataset.badge=n+(n===1?' próxima':' próximas'); }
+    else b.insertAdjacentHTML('afterbegin',bl);
+  }
+  if(slot) slot.parentNode.removeChild(slot);
+})();
+</script>
+<script>
+/* Pestañas de las fichas (15-10-2026, decisión de César). Busca los .zz-panel ya pintados,
+   quita los que no tienen ningún bloque (una pestaña vacía no se enseña) y, si quedan dos o
+   más, monta la barra. La pestaña abierta va en la dirección (#representaciones…), así que un
+   enlace o un QR pueden abrir una concreta; un ancla interior (#materiales) abre su pestaña. */
+(function(){
+  var ps=[].slice.call(document.querySelectorAll('.zz-panel'));
+  ps=ps.filter(function(p){ if(p.querySelector('.bloque')) return true; p.parentNode.removeChild(p); return false; });
+  if(ps.length<2) return;
+  var nav=document.createElement('div'); nav.className='zz-tabs'; nav.setAttribute('role','tablist');
+  var bs=ps.map(function(p){
+    var b=document.createElement('button'); b.type='button'; b.className='zz-tab'; b.setAttribute('role','tab');
+    b.id='tab-'+p.dataset.tab; p.id='panel-'+p.dataset.tab; p.setAttribute('role','tabpanel');
+    p.setAttribute('aria-labelledby',b.id); b.setAttribute('aria-controls',p.id);
+    b.textContent=p.dataset.label||p.dataset.tab;
+    if(p.dataset.badge){ var s=document.createElement('span'); s.className='zz-badge'; s.textContent=p.dataset.badge; b.appendChild(s); }
+    b.addEventListener('click',function(){ abrir(p.dataset.tab,true); });
+    b.addEventListener('keydown',function(e){
+      var i=bs.indexOf(b), j=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:-9;
+      if(j===-9) return; j=(j+bs.length)%bs.length; e.preventDefault(); bs[j].focus(); abrir(ps[j].dataset.tab,true);
+    });
+    nav.appendChild(b); return b;
+  });
+  ps[0].parentNode.insertBefore(nav,ps[0]);
+  function abrir(tab,marcar){
+    var hay=false;
+    ps.forEach(function(p,i){ var on=p.dataset.tab===tab; hay=hay||on; p.hidden=!on;
+      bs[i].setAttribute('aria-selected',on?'true':'false'); bs[i].tabIndex=on?0:-1; });
+    if(!hay) return abrir(ps[0].dataset.tab,false);
+    // en el móvil la barra se desplaza de lado: que la pestaña abierta quede a la vista entera
+    bs.forEach(function(b){ if(b.getAttribute('aria-selected')==='true' && nav.scrollWidth>nav.clientWidth){
+      var izq=b.offsetLeft-nav.offsetLeft, der=izq+b.offsetWidth;
+      if(der>nav.scrollLeft+nav.clientWidth || izq<nav.scrollLeft) nav.scrollLeft=Math.max(0,der-nav.clientWidth); } });
+    if(marcar){
+      try{ history.replaceState(null,'',location.pathname+location.search+'#'+tab); }catch(e){}
+      if(nav.getBoundingClientRect().top<0) nav.scrollIntoView({block:'start'});
+    }
+    // el plegado de los números se mide en pantalla: hay que volver a medir al enseñarlo
+    try{ window.dispatchEvent(new Event('resize')); }catch(e){}
+  }
+  function porAncla(h){
+    if(!h) return false;
+    var p=ps.filter(function(x){return x.dataset.tab===h;})[0];
+    if(p){ abrir(h,false); return 'tab'; }
+    var el=document.getElementById(h), cont=el&&el.closest&&el.closest('.zz-panel');
+    if(cont){ abrir(cont.dataset.tab,false); return 'el'; }
+    return false;
+  }
+  var h0=decodeURIComponent(location.hash.slice(1));
+  var r=porAncla(h0); if(!r) abrir(ps[0].dataset.tab,false);
+  if(r==='el'){ var el=document.getElementById(h0); if(el) setTimeout(function(){el.scrollIntoView();},0); }
+  if(r==='tab') setTimeout(function(){ nav.scrollIntoView({block:'start'}); },0);
+  window.addEventListener('hashchange',function(){ porAncla(decodeURIComponent(location.hash.slice(1))); });
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]'); if(!a) return;
+    var h=a.getAttribute('href').slice(1), t=porAncla(h);
+    if(t==='tab'){ e.preventDefault(); abrir(h,true); }
+  });
 })();
 </script>
 </body>
