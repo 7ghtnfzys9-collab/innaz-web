@@ -159,7 +159,8 @@
   "Teatro de los Basilios de Madrid": "teatro-de-variedades-madrid",
   "Teatro Folies Arderíus de Madrid": "teatro-alhambra-madrid",
   "Teatro Lírico de Madrid": "gran-teatro-de-madrid-madrid",
-  "Palacio Real de Madrid": "palacio-real-madrid"
+  "Palacio Real de Madrid": "palacio-real-madrid",
+  "Teatro del Recreo de Madrid": "teatro-del-recreo-madrid"
  },
  "teatros": [
   {
@@ -645,6 +646,11 @@
   {
    "k": "palacio-real-madrid",
    "n": "Palacio Real",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-del-recreo-madrid",
+   "n": "Teatro del Recreo",
    "c": "Madrid"
   }
  ],
