@@ -185,6 +185,10 @@
 .nav-logo span,.footer-logo span{color:var(--inst)!important;}
 .nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#1B8A96!important;}
 .zz-drop-m a{box-shadow:inset 3px 0 0 transparent;}
+/* 16-10-2026 (César): todas las cabeceras de sección miden lo mismo, reservando sitio para dos líneas bajo el título */
+header.lh,header.page-head{min-height:var(--cab-min,20.5rem);box-sizing:border-box;}
+header.hero{min-height:var(--hero-min,25.5rem);box-sizing:border-box;}
+@media(max-width:860px){header.lh,header.page-head{min-height:var(--cab-min-m,17.5rem);}header.hero{min-height:var(--hero-min-m,23rem);}}
 .zz-drop-m a[href^="proyecto-formacion.html"]{box-shadow:inset 3px 0 0 var(--s-form);}
 .zz-drop-m a[href^="proyecto-recuperacion.html"]{box-shadow:inset 3px 0 0 var(--s-recu);}
 .zz-drop-m a[href^="proyecto-interpretacion.html"]{box-shadow:inset 3px 0 0 var(--s-inte);}
