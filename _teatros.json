@@ -160,7 +160,10 @@
   "Teatro Folies Arderíus de Madrid": "teatro-alhambra-madrid",
   "Teatro Lírico de Madrid": "gran-teatro-de-madrid-madrid",
   "Palacio Real de Madrid": "palacio-real-madrid",
-  "Teatro del Recreo de Madrid": "teatro-del-recreo-madrid"
+  "Teatro del Recreo de Madrid": "teatro-del-recreo-madrid",
+  "Teatro Cervantes de Madrid": "teatro-cervantes-madrid",
+  "Teatro Chueca de Madrid": "teatro-chueca-madrid",
+  "Teatro El Cisne de Madrid": "teatro-chueca-madrid"
  },
  "teatros": [
   {
@@ -651,6 +654,16 @@
   {
    "k": "teatro-del-recreo-madrid",
    "n": "Teatro del Recreo",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-cervantes-madrid",
+   "n": "Teatro Cervantes",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-chueca-madrid",
+   "n": "Teatro Chueca",
    "c": "Madrid"
   }
  ],
