@@ -13,6 +13,8 @@
 const EMBAJADORES = [
   { foto: "equipo/carlos-alvarez.jpg",  nombre: "Carlos Álvarez",  cargo: "Barítono",                          credito: "Carlos Díaz de la Fuente" },
   { foto: "equipo/nuria-castejon.jpg",  nombre: "Nuria Castejón",  cargo: ["Coreógrafa", "Directora de escena"], credito: "" },
+  { foto: "equipo/ruben-fernandez-aguirre.jpg", nombre: "Rubén Fernández Aguirre", cargo: "Pianista", credito: "" },
+  { foto: "equipo/ruth-iniesta.jpg",    nombre: "Ruth Iniesta",    cargo: "Soprano",                           credito: "" },
   { foto: "equipo/jorge-de-leon.jpg",   nombre: "Jorge de León",   cargo: "Tenor",                             credito: "" },
   { foto: "equipo/milagros-martin.jpg", nombre: "Milagros Martín", cargo: "Soprano",                           credito: "" },
   { foto: "equipo/emilio-sagi.jpg",     nombre: "Emilio Sagi",     cargo: "Director de escena",                credito: "" },
