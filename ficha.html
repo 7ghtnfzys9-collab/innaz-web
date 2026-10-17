@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <script src="cartelera-data.js?v=dcdabe86"></script>
-  <script src="zarzuteca-data.js?v=cea78dbf"></script>
+  <script src="zarzuteca-data.js?v=c3fff3c2"></script>
   <script src="historico-data.js?v=268ff8b7"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
@@ -89,6 +89,7 @@
     .personajes li:last-child{border-bottom:none;}
     .personajes .pn{color:var(--black);}
     .personajes .pv{font-family:'Cormorant',serif;font-style:italic;font-size:1rem;color:var(--muted);}
+    .personajes .pe{display:block;font-family:'DM Sans',sans-serif;font-size:.68rem;letter-spacing:.03em;color:var(--muted);opacity:.8;margin:.1rem 0 0 .9rem;}
     /* Desplegable de personajes (30/07/2026): plegado por defecto se muestran
        solo los primeros PERS_PREVIEW; el botón alterna. Si la obra tiene
        PERS_PREVIEW+1 personajes o menos, se listan todos sin botón. */
@@ -444,8 +445,13 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
       const items=persVis.map(p=>{
         // espacio literal antes del paréntesis: así el texto también se copia
         // y se lee bien ("Benamor (tiple)"), no solo se ve separado por CSS
-        const voz = p.v ? ` <span class="pv">(${esc(p.v.replace(/^\(|\)$/g,''))})</span>` : '';
-        return `<li><span class="pn">${esc(p.n)}</span>${voz}</li>`;
+        // 17-10-2026 (César): con «Cuerda del papel» (p.c) el paréntesis muestra la cuerda según
+        // la práctica actual y la voz del estreno (p.v) pasa a una línea discreta debajo.
+        // Sin p.c se mantiene lo de siempre: la voz del estreno entre paréntesis.
+        const vEst = p.v ? esc(p.v.replace(/^\(|\)$/g,'')) : '';
+        const voz = p.c ? ` <span class="pv">(${esc(p.c)})</span>` : (vEst ? ` <span class="pv">(${vEst})</span>` : '');
+        const est = (p.c && vEst) ? `<span class="pe">estreno: ${vEst}</span>` : '';
+        return `<li><span class="pn">${esc(p.n)}</span>${voz}${est}</li>`;
       }).join('');
       const N=persVis.length;
       if(N>PERS_PREVIEW+1){
