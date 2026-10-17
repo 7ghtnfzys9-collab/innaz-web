@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="zarzuteca-data.js?v=cc9d72a8"></script>
+  <script src="zarzuteca-data.js?v=87f63b1d"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -224,17 +224,15 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
     // «datos» se enciende si la pestaña Teatros trae algún dato duro escrito
     datos:!!(t.inaug||t.arq||t.dir||t.aforo||t.cierre||t.otros),
     his:!!(t.his&&String(t.his).trim()),
-    // 17-10-2026: un teatro sale por estreno, temporadas (Representaciones) o Cartelera oficial.
-    temp:(t.temp&&t.temp.n)||0, cart:(t.via||[]).indexOf('cartelera')>=0,
+    // 17-10-2026: un teatro sale por estreno, Representaciones publicadas, Cartelera oficial o ficha propia (datos e historia).
+    cart:(t.via||[]).indexOf('cartelera')>=0,
     busca:norm(t.n)+' '+norm(t.c)
   })).sort((a,b)=> b.obras-a.obras || norm(a.n).localeCompare(norm(b.n),'es'));
-  // Lo que se lee junto a cada teatro: sus estrenos y, si no tiene ninguno, por qué está aquí.
+  // Lo que se lee junto a cada teatro: sus estrenos o, si no tiene ninguno, «En la Cartelera»
+  // o «Sin estrenos publicados» (salas con ficha propia: datos e historia, 17-10-2026).
   function metaTeatro(t){
-    const m=[];
-    if(t.obras) m.push(t.obras+(t.obras===1?' estreno':' estrenos'));
-    if(!t.obras && t.temp) m.push(t.temp+(t.temp===1?' temporada documentada':' temporadas documentadas'));
-    if(!t.obras && !t.temp && t.cart) m.push('En la Cartelera');
-    return m.join(' · ')||'0 estrenos';
+    if(t.obras) return t.obras+(t.obras===1?' estreno':' estrenos');
+    return t.cart?'En la Cartelera':'Sin estrenos publicados';
   }
 
   const ciudades=[...new Set(T.map(t=>t.c).filter(Boolean))]
@@ -245,8 +243,8 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
   const conHis=T.filter(t=>t.his).length;
   $('sub').textContent=T.length+' teatros en '+ciudades.length+' ciudades';
   $('aviso').textContent='El índice recoge las salas con alguna relación documentada con la Zarzuteca: '+
-    'el estreno de una obra con ficha ya publicada, temporadas documentadas en la prensa histórica o '+
-    'funciones de la Cartelera con fuente oficial. El número que acompaña a cada una cuenta los estrenos '+
+    'el estreno de una obra con ficha ya publicada, representaciones documentadas, funciones de la '+
+    'Cartelera con fuente oficial o una ficha propia con datos e historia. El número que acompaña a cada una cuenta los estrenos '+
     'de obras con ficha publicada, no el historial completo de la sala. '+
     'Los nombres son los de la tabla de teatros validada uno a uno; la ciudad forma parte del nombre '+
     'porque varias salas homónimas de ciudades distintas no tienen nada que ver entre sí. '+

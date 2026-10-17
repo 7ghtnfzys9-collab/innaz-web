@@ -59,8 +59,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="cartelera-data.js?v=1c53047d"></script>
-  <script src="zarzuteca-data.js?v=cc9d72a8"></script>
+  <script src="cartelera-data.js?v=d3ca431b"></script>
+  <script src="zarzuteca-data.js?v=87f63b1d"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -85,7 +85,7 @@
     @media(max-width:560px){.foto-persona{float:none;width:140px;margin:0 0 1rem;}}
     .pend{background:var(--teal-light);border:1px dashed var(--teal);padding:1.1rem 1.3rem;font-size:.9rem;color:var(--teal-dark);line-height:1.6;border-radius:4px;}
     .cobertura{font-size:.78rem;color:var(--muted);font-style:italic;margin-bottom:.8rem;line-height:1.6;}
-    /* 17-10-2026: notas al pie de un bloque (recuento de temporadas, web oficial). */
+    /* 17-10-2026: notas al pie de un bloque (web oficial, participaciones). */
     .nota{font-size:.78rem;color:var(--muted);line-height:1.6;margin-top:.7rem;}
     .nota a{color:var(--teal-dark);}
     .obras{list-style:none;border:1px solid var(--border);border-radius:4px;}
@@ -471,16 +471,6 @@ r.setProperty('--sec-l','color-mix(in srgb,var(--s-'+k+') 38%,#F8F4EE)');r.setPr
     return filas?`<div class="bloque"><h2>Datos del teatro</h2><dl class="datos">${filas}</dl>`+
       (web?`<p class="nota">Web oficial del teatro: ${web}</p>`:'')+`</div>`:'';
   }
-  // 17-10-2026 (decisión de César): de las temporadas, que son de nivel «suscriptores», la ficha
-  // de teatro muestra SOLO el recuento, igual que la ficha de obra.
-  function bloqueTemporadasTeatro(t){
-    const tp=t&&t.temp;
-    if(!tp||!tp.n) return '';
-    const per=tp.a0===tp.a1?'en '+tp.a0:'entre '+tp.a0+' y '+tp.a1;
-    return `<div class="bloque" id="historico"><h2>Histórico de representaciones</h2>`+
-      `<p class="ensayo">Al menos ${tp.n} temporada${tp.n>1?'s':''} de ${tp.o} obra${tp.o>1?'s':''} de la Zarzuteca ${per}, según las carteleras de la prensa histórica de la Biblioteca Nacional de España.</p>`+
-      `<p class="nota">Recuento de temporadas de cinco o más días anunciados en cartelera. El historial completo, para suscriptores.</p></div>`;
-  }
   // (8-10-2026) Los títulos marcados *así* en la historia se pintan en cursiva.
   function bloqueHistoriaTeatro(t){
     const h=t&&t.his&&String(t.his).trim();
@@ -585,8 +575,7 @@ r.setProperty('--sec-l','color-mix(in srgb,var(--s-'+k+') 38%,#F8F4EE)');r.setPr
           ? bloqueLista('Obras estrenadas en este teatro', obras, '', false)
           : '<div class="bloque"><h2>Estrenos</h2><p class="pend">Todavía no hay obras con ficha '+
             'publicada estrenadas en este teatro. '+esc(AVISO_COBERTURA)+'</p></div>')+
-        '</div><div class="zz-panel" data-tab="representaciones" data-label="Representaciones"><div id="zzSlotProx"></div>'+
-        bloqueTemporadasTeatro(te)+'</div>';
+        '</div><div class="zz-panel" data-tab="representaciones" data-label="Representaciones"><div id="zzSlotProx"></div></div>';
     }
   } else if(tipo==='anio'){
     const obras=OB.filter(o=>o.anioN===v).sort(cmpCron);

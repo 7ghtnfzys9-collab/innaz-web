@@ -413,7 +413,7 @@
   },
   {
    "k": "teatro-liceo-barcelona",
-   "n": "Teatro Liceo",
+   "n": "Gran Teatre del Liceu",
    "c": "Barcelona"
   },
   {
@@ -677,7 +677,8 @@
   "Teatro del Príncipe de Madrid": "Teatro del Príncipe",
   "Teatro Auditorium de La Habana": "Teatro Auditorium",
   "Teatro Lírico de Madrid": "Teatro Lírico",
-  "Teatro Princesa de Madrid": "Teatro de la Princesa"
+  "Teatro Princesa de Madrid": "Teatro de la Princesa",
+  "Teatro del Liceo de Barcelona": "Teatro del Liceo"
  },
  "alias": {
   "teatro-liceo-barcelona": [
