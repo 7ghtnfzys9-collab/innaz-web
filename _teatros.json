@@ -678,5 +678,10 @@
   "Teatro Auditorium de La Habana": "Teatro Auditorium",
   "Teatro Lírico de Madrid": "Teatro Lírico",
   "Teatro Princesa de Madrid": "Teatro de la Princesa"
+ },
+ "alias": {
+  "teatro-liceo-barcelona": [
+   "Gran Teatre del Liceu"
+  ]
  }
 }
