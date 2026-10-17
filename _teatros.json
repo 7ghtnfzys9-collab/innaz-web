@@ -665,6 +665,116 @@
    "k": "teatro-chueca-madrid",
    "n": "Teatro Chueca",
    "c": "Madrid"
+  },
+  {
+   "k": "palau-de-la-musica-catalana-barcelona",
+   "n": "Palau de la Música Catalana",
+   "c": "Barcelona"
+  },
+  {
+   "k": "palau-de-les-arts-reina-sofia-valencia",
+   "n": "Palau de les Arts Reina Sofía",
+   "c": "Valencia"
+  },
+  {
+   "k": "teatre-principal-de-palma-palma",
+   "n": "Teatre Principal de Palma",
+   "c": "Palma"
+  },
+  {
+   "k": "teatro-de-la-maestranza-sevilla",
+   "n": "Teatro de la Maestranza",
+   "c": "Sevilla"
+  },
+  {
+   "k": "teatro-cervantes-malaga",
+   "n": "Teatro Cervantes",
+   "c": "Málaga"
+  },
+  {
+   "k": "gran-teatro-de-cordoba-cordoba",
+   "n": "Gran Teatro de Córdoba",
+   "c": "Córdoba"
+  },
+  {
+   "k": "gran-teatro-de-caceres-caceres",
+   "n": "Gran Teatro de Cáceres",
+   "c": "Cáceres"
+  },
+  {
+   "k": "teatro-perez-galdos-las-palmas-de-gran-canaria",
+   "n": "Teatro Pérez Galdós",
+   "c": "Las Palmas de Gran Canaria"
+  },
+  {
+   "k": "auditorio-de-tenerife-adan-martin-santa-cruz-de-tenerife",
+   "n": "Auditorio de Tenerife Adán Martín",
+   "c": "Santa Cruz de Tenerife"
+  },
+  {
+   "k": "teatro-romea-murcia",
+   "n": "Teatro Romea",
+   "c": "Murcia"
+  },
+  {
+   "k": "teatro-gayarre-pamplona",
+   "n": "Teatro Gayarre",
+   "c": "Pamplona"
+  },
+  {
+   "k": "baluarte-palacio-de-congresos-y-auditorio-de-navarra-pamplona",
+   "n": "Baluarte – Palacio de Congresos y Auditorio de Navarra",
+   "c": "Pamplona"
+  },
+  {
+   "k": "teatro-calderon-valladolid",
+   "n": "Teatro Calderón",
+   "c": "Valladolid"
+  },
+  {
+   "k": "teatro-de-rojas-toledo",
+   "n": "Teatro de Rojas",
+   "c": "Toledo"
+  },
+  {
+   "k": "palacio-de-congresos-el-greco-toledo",
+   "n": "Palacio de Congresos El Greco",
+   "c": "Toledo"
+  },
+  {
+   "k": "caem-centro-de-las-artes-escenicas-y-de-la-musica-salamanca",
+   "n": "CAEM. Centro de las Artes Escénicas y de la Música",
+   "c": "Salamanca"
+  },
+  {
+   "k": "auditorio-nacional-de-musica-madrid",
+   "n": "Auditorio Nacional de Música",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-fernan-gomez-centro-cultural-de-la-villa-madrid",
+   "n": "Teatro Fernán Gómez. Centro Cultural de la Villa",
+   "c": "Madrid"
+  },
+  {
+   "k": "auditorio-de-zaragoza-princesa-leonor-zaragoza",
+   "n": "Auditorio de Zaragoza Princesa Leonor",
+   "c": "Zaragoza"
+  },
+  {
+   "k": "auditorio-nacional-del-sodre-dra-adela-reta-montevideo",
+   "n": "Auditorio Nacional del Sodre Dra. Adela Reta",
+   "c": "Montevideo"
+  },
+  {
+   "k": "nuevo-teatro-alcala-madrid",
+   "n": "Nuevo Teatro Alcalá",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-campos-eliseos-bilbao",
+   "n": "Teatro Campos Elíseos",
+   "c": "Bilbao"
   }
  ],
  "rotulos": {
@@ -683,6 +793,42 @@
  "alias": {
   "teatro-liceo-barcelona": [
    "Gran Teatre del Liceu"
+  ],
+  "auditorio-de-tenerife-adan-martin-santa-cruz-de-tenerife": [
+   "Auditorio de Tenerife"
+  ],
+  "baluarte-palacio-de-congresos-y-auditorio-de-navarra-pamplona": [
+   "Baluarte"
+  ],
+  "palacio-de-congresos-el-greco-toledo": [
+   "Palacio de Congresos \"El Greco\"",
+   "Palacio de Congresos «El Greco»"
+  ],
+  "caem-centro-de-las-artes-escenicas-y-de-la-musica-salamanca": [
+   "CAEM"
+  ],
+  "teatro-fernan-gomez-centro-cultural-de-la-villa-madrid": [
+   "Fernán Gómez. Centro Cultural de la Villa"
+  ],
+  "auditorio-de-zaragoza-princesa-leonor-zaragoza": [
+   "Auditorio de Zaragoza"
+  ],
+  "auditorio-nacional-del-sodre-dra-adela-reta-montevideo": [
+   "Auditorio Adela Reta"
+  ],
+  "teatro-campos-eliseos-bilbao": [
+   "Campos Elíseos Antzokia"
+  ]
+ },
+ "sede_cartelera": {
+  "SUR-28": [
+   "palacio-de-congresos-el-greco-toledo"
+  ],
+  "SUR-29": [
+   "palacio-de-congresos-el-greco-toledo"
+  ],
+  "SUR-30": [
+   "palacio-de-congresos-el-greco-toledo"
   ]
  }
 }
