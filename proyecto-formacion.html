@@ -219,6 +219,13 @@
 .nav-logo span,.footer-logo span{color:var(--inst)!important;}
 .nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#1B8A96!important;}
 .zz-drop-m a{box-shadow:inset 3px 0 0 transparent;}
+/* 19-10-2026 (noche, César): menú superior NEUTRO, sin colores de pilar. Solo el apartado seleccionado va
+   subrayado y en el color institucional; se mantienen las líneas verticales de color de los desplegables. */
+.nav-links a:not(.nav-cta):hover{color:var(--text,#1A1A1A)!important;}
+.nav-links a.active:not(.nav-cta){color:var(--inst)!important;}
+.nav-links a.active{opacity:1!important;}
+.nav-links a.active:not(.nav-cta)::after{content:'';display:block;height:2px;margin-top:3px;border-radius:2px;background:var(--inst)!important;}
+.zz-drop-m a:hover{color:var(--text,#1A1A1A)!important;background:rgba(0,0,0,.04)!important;}
 /* 19-10-2026 (César): TODAS las cabeceras con el formato y el tamaño de las de los pilares: fondo negro y
    todo el texto en el color del pilar (--hc). Las fichas, que traen más contenido, conservan su altura mínima propia. */
 header.lh,header.page-head,header.fh,header.hero{background:#0B0B0B!important;border-bottom:0!important;padding-top:10rem!important;padding-bottom:5rem!important;box-sizing:border-box;position:relative;}
@@ -241,6 +248,7 @@ header.fh .fh-arrow.disabled{opacity:.3;}
 header.lh .btn-nueva{border-color:rgba(255,255,255,.7)!important;background:transparent!important;}
 @media(max-width:960px){header.lh,header.page-head,header.fh,header.hero{padding-top:8rem!important;}}
 @media(max-width:860px){header.lh,header.page-head,header.hero{min-height:24rem;}}
+@media(max-width:860px){header.lh,header.page-head,header.fh,header.hero{padding-left:max(16px,1.4rem)!important;padding-right:max(16px,1.4rem)!important;}}
 /* Pestañas de la Zarzuteca: continúan la cabecera negra; la activa se abre sobre el fondo de la página */
 /* 19-10-2026 (tarde): las pestañas van DENTRO de la cabecera, pegadas a su borde inferior, y no suman altura */
 header .zz-tabs{position:absolute;left:0;right:0;bottom:0;padding-left:inherit;padding-right:inherit;}
@@ -258,9 +266,8 @@ header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-
 .zz-drop-m a[href^="cartelera.html"]{box-shadow:inset 3px 0 0 var(--s-cartel);}
 .zz-drop-m a[href^="noticias.html"]{box-shadow:inset 3px 0 0 var(--s-noti);}
 :root{--sec:var(--s-form);--sec-t:var(--s-form-t);--sec-l:color-mix(in srgb,var(--s-form) 38%,#F8F4EE);--teal:var(--sec-t);--teal-dark:var(--sec-t);--teal-light:color-mix(in srgb,var(--s-form) 14%,#FFFFFF);}
-.nav-links a:hover,.nav-links a.active{color:var(--sec-t)!important;}
-.nav-links a.active:not(.nav-cta)::after{background:var(--sec)!important;}
 :root{--hc:var(--sec);}
+header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
 </style>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
