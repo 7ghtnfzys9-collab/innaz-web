@@ -441,7 +441,7 @@ r.setProperty('--sec-l','color-mix(in srgb,var(--s-'+k+') 38%,#F8F4EE)');r.setPr
     const filas=L.map(r=>{
       const o=OB.find(z=>z.id===r.o);
       const fechas=r.d1&&r.d1!==r.d0?fc(r.d0)+' a '+fc(r.d1):fc(r.d0);
-      const meta=[fechas,r.n?r.n+(r.n>1?' funciones':' función'):'',r.cia||'',r.dmus?'Dir. musical: '+r.dmus:'',r.desc?'Dir. de escena: '+r.desc:''].filter(Boolean).join(' · ');
+      const meta=[fechas,r.n?r.n+(r.n>1?' funciones':' función'):'',r.ver||'',r.cia||'',r.dmus?'Dir. musical: '+r.dmus:'',r.desc?'Dir. de escena: '+r.desc:''].filter(Boolean).join(' · ');
       const inner=`<span class="ot">${esc(o?o.t:r.o)}</span><div class="om">${esc(meta)}</div>`;
       return `<li><div class="yr">${esc((r.d0||'').slice(0,4))}</div>`+(o?`<a href="ficha.html?id=${encodeURIComponent(o.id)}#representaciones">${inner}</a>`:`<span class="noficha">${inner}</span>`)+'</li>';
     }).join('');

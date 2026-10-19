@@ -615,6 +615,7 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
         const T=(typeof TEATROS!=='undefined')?TEATROS.find(t=>t.k===r.tk):null;
         const teat=T?lnk('teatro',T.k,T.n+(T.c?' ('+T.c+')':'')):esc(r.ciu||'');
         let b=`<div class="est-cab">${rango(r.d0,r.d1)}${teat?' · '+teat:''}${r.n?' · '+r.n+(r.n>1?' funciones':' función'):''}</div>`;
+        if(r.ver) b+=`<p class="est-lin"><b>Versión</b>${esc(r.ver.replace(/^Versión\s+/i,'').replace(/^./,c=>c.toUpperCase()))}</p>`;
         if(r.rep&&r.rep.length) b+=`<ul class="personajes">${r.rep.map(([pj,it,fx,nf,id])=>
           `<li>${pj?`<span class="pn">${esc(pj)}</span> `:''}<span class="pv">— ${nomP(it,id)}`+
           (nf?` <span class="nf">(${nf} ${nf>1?'funciones':'función'})</span><span class="fx">${esc(fx)}</span>`:'')+`</span></li>`).join('')}</ul>`;
