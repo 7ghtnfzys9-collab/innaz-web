@@ -415,8 +415,11 @@ r.setProperty('--sec-l','color-mix(in srgb,var(--s-'+k+') 38%,#F8F4EE)');r.setPr
   // Participaciones de una persona (hoja Participaciones): obra, papel, teatro y fechas.
   // Las fechas son texto libre («2 y 3-9-2026»): el año de la columna izquierda es el primero
   // de cuatro cifras que aparezca en ellas.
-  function bloqueParticipaciones(p){
-    const L=(p.par||[]);
+  // 19-10-2026: las funciones de la Cartelera pública aún por celebrar van aparte, en «Próximas funciones».
+  const HOYISO=new Date().toISOString().slice(0,10);
+  const esProxima=x=>x.org==='cartelera'&&(x.d1||'')>=HOYISO;
+  function bloqueParticipaciones(p,proximas){
+    const L=(p.par||[]).filter(x=>proximas?esProxima(x):!esProxima(x));
     if(!L.length) return '';
     const filas=L.map(x=>{
       const o=x.o?OB.find(z=>z.id===x.o):null, tit=o?o.t:(x.ot||'');
@@ -428,6 +431,8 @@ r.setProperty('--sec-l','color-mix(in srgb,var(--s-'+k+') 38%,#F8F4EE)');r.setPr
       const inner=`<span class="ot">${esc(tit||'Sin obra registrada')}</span><div class="om">${esc(meta)}</div>`;
       return `<li><div class="yr">${esc(an)}</div>`+(o?`<a href="ficha.html?id=${encodeURIComponent(o.id)}">${inner}</a>`:`<span class="noficha">${inner}</span>`)+'</li>';
     }).join('');
+    if(proximas) return `<div class="bloque"><h2>Próximas funciones</h2><ul class="obras">${filas}</ul>`+
+      `<p class="nota">Según la web del teatro, del festival o de la compañía. Al celebrarse, pasan a sus participaciones.</p></div>`;
     return `<div class="bloque"><h2>Participaciones en la Zarzuteca</h2><ul class="obras">${filas}</ul>`+
       `<p class="nota">Cada participación tiene una fuente declarada; en las funciones de hoy, solo la web del teatro o de la compañía, o el programa de mano. Si eres esta persona y quieres corregir o retirar algún dato, escríbenos y lo haremos.</p></div>`;
   }
@@ -562,7 +567,7 @@ r.setProperty('--sec-l','color-mix(in srgb,var(--s-'+k+') 38%,#F8F4EE)');r.setPr
         html+='</div>';
       }
       if((p.par||[]).length)
-        html+='<div class="zz-panel" data-tab="participaciones" data-label="Participaciones">'+bloqueParticipaciones(p)+'</div>';
+        html+='<div class="zz-panel" data-tab="participaciones" data-label="Participaciones">'+bloqueParticipaciones(p,true)+bloqueParticipaciones(p,false)+'</div>';
       $('lBody').innerHTML=html;
     }
   } else if(tipo==='teatro'){
