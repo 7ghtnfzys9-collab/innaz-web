@@ -20,6 +20,10 @@
     .nav-back{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text);text-decoration:none;opacity:.65;transition:opacity .2s,color .2s;}
     .nav-back:hover{opacity:1;color:var(--teal);}
     header.fh{padding:9rem 3.5rem 2.2rem;background:var(--cream);}
+    /* 19-10-2026 (César): la cabecera de la ficha de obra mide lo mismo en todas las obras, como las demás cabeceras.
+       35rem = alto de la ficha típica en ordenador (título en una línea, género, compositor, libretista, estreno y flechas);
+       en móvil, 37.5rem cubre ~9 de cada 10 fichas. Solo crecen las que traen más contenido (p. ej. «Otros estrenos»). */
+    header.fh{min-height:35rem;box-sizing:border-box;}
     .inner{max-width:900px;margin:0 auto;}
     .fh .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
     h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
@@ -28,7 +32,8 @@
        es la que pinta el rol bajo el nombre en la ficha de autor: Cormorant
        en cursiva, 1.15rem, var(--muted). Si allí se cambia, cámbiese aquí. */
     /* Segundo título de la obra (col18; 2-10-2026, decisión de César): misma letra que el título, más pequeña. */
-    .subtitulo{font-family:'Cormorant SC',serif;font-size:clamp(1.25rem,3vw,1.9rem);font-weight:600;line-height:1.15;color:var(--black);margin-top:.25rem;}
+    /* 19-10-2026 (César): el segundo título va a continuación del principal, en la misma línea del <h1>, con la misma letra más pequeña. */
+    .subtitulo{font-family:'Cormorant SC',serif;font-size:clamp(1.25rem,3vw,1.9rem);font-weight:600;line-height:1.15;color:var(--black);}
     .genero{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;max-width:58rem;line-height:1.45;}
     .chips{display:flex;flex-direction:column;gap:.55rem;margin-top:1.4rem;}
     .chips-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
@@ -144,7 +149,7 @@
     .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.88);}
     .footer-logo span{color:var(--teal);}
     .footer-copy{font-size:.72rem;color:rgba(255,255,255,.6);max-width:520px;line-height:1.6;}
-    @media(max-width:860px){nav,header.fh,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.fh{padding-top:7rem;}}
+    @media(max-width:860px){nav,header.fh,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.fh{padding-top:7rem;min-height:37.5rem;}}
   
     .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
     .nav-links a{font-size:.78rem;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;opacity:.65;transition:opacity .2s,color .2s;}
@@ -269,7 +274,6 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
   <div class="inner">
     <p class="label">Zarzuteca INNAZ · Ficha de obra</p>
     <h1 id="fTitulo">…</h1>
-    <p class="subtitulo" id="fSub" style="display:none;"></p>
     <!-- Rótulo de portada (género / forma, col14) bajo el título. Desactivado
          el 30 de julio de 2026 y REACTIVADO el 12 de septiembre de 2026, las
          dos veces por decisión de César. El dato sale de col14 del Excel y el
@@ -352,7 +356,8 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
   } else {
     document.title=o.t+' — Zarzuteca INNAZ';
     $('fTitulo').textContent=o.t;
-    if(o.sub){ $('fSub').textContent=o.sub; $('fSub').style.display=''; }
+    // 19-10-2026: el segundo título, dentro del <h1> y a continuación del principal; la «o» inicial no se queda sola al final de línea.
+    if(o.sub){ const sp=document.createElement('span'); sp.className='subtitulo'; sp.id='fSub'; sp.textContent=o.sub.replace(/^(\S+) /,'$1\u00a0'); $('fTitulo').appendChild(document.createTextNode(' ')); $('fTitulo').appendChild(sp); }
     // Rótulo de portada (género / forma, col14) — REACTIVADO 12/09/2026, ver
     // comentario en el <header>. Se pinta tal cual lo dice la portada; lo
     // único que se toca es la presentación: «//» pasa a « · », se colapsan
