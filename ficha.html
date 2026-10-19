@@ -133,6 +133,12 @@
     .est-cab a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
     .est-lin{font-size:.9rem;line-height:1.55;margin-top:.55rem;}
     .est-lin b{font-weight:600;color:var(--teal-dark);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-right:.35rem;}
+    /* 19-10-2026: Representaciones documentadas (ficha artística, funciones por intérprete). */
+    .rp{padding:1rem 0;border-bottom:1px solid var(--cream);}
+    .rp:last-child{border-bottom:none;}
+    .rp .pv .nf{color:var(--muted);font-size:.82rem;white-space:nowrap;}
+    .rp .fx{display:block;color:var(--muted);font-size:.76rem;}
+    .rp .fue a{color:var(--teal-dark);}
     .crit{border:1px solid var(--border);border-radius:4px;margin-bottom:.6rem;background:#fff;}
     .crit summary{cursor:pointer;padding:.7rem .9rem;font-size:.92rem;line-height:1.4;list-style:none;display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap;}
     .crit summary::-webkit-details-marker{display:none;}
@@ -591,6 +597,38 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
     // tal como sale impresa) y el RECUENTO de temporadas; el detalle es para suscriptores
     // y no viaja en los datos públicos. Sin HISTORICO (o sin datos de la obra), no se pinta nada.
     let rep='';   // pestaña «Representaciones» (15-10-2026)
+    // 19-10-2026 (decisiones de César del 17 y el 19-10): Representaciones documentadas, con
+    // ficha artística, teatro y fechas; en doble reparto, las funciones de cada intérprete.
+    // Datos: REPRESENTACIONES, en historico-data.js. El estreno sigue aparte, más arriba.
+    let repDoc='';
+    const REPL=(typeof REPRESENTACIONES!=='undefined'?REPRESENTACIONES:[]).filter(r=>r.o===o.id);
+    if(REPL.length){
+      const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      const fl=iso=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso||'');return m?[+m[3],MES[+m[2]-1],m[1]]:null;};
+      const rango=(a,b)=>{const x=fl(a),y=fl(b); if(!x) return esc(a||''); if(!y||a===b) return `${x[0]} de ${x[1]} de ${x[2]}`;
+        if(x[2]===y[2]&&x[1]===y[1]) return `Del ${x[0]} al ${y[0]} de ${y[1]} de ${y[2]}`;
+        return x[2]===y[2]?`Del ${x[0]} de ${x[1]} al ${y[0]} de ${y[1]} de ${y[2]}`:`Del ${x[0]} de ${x[1]} de ${x[2]} al ${y[0]} de ${y[1]} de ${y[2]}`;};
+      const PEN=(typeof PERSONAS!=='undefined')?PERSONAS:[];
+      const nomP=(n,id)=>id&&PEN.some(p=>p.id===id)?lnk('persona',id,n):esc(n);
+      const dom=u=>{try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return u;}};
+      const cards=REPL.map(r=>{
+        const T=(typeof TEATROS!=='undefined')?TEATROS.find(t=>t.k===r.tk):null;
+        const teat=T?lnk('teatro',T.k,T.n+(T.c?' ('+T.c+')':'')):esc(r.ciu||'');
+        let b=`<div class="est-cab">${rango(r.d0,r.d1)}${teat?' · '+teat:''}${r.n?' · '+r.n+(r.n>1?' funciones':' función'):''}</div>`;
+        if(r.rep&&r.rep.length) b+=`<ul class="personajes">${r.rep.map(([pj,it,fx,nf,id])=>
+          `<li>${pj?`<span class="pn">${esc(pj)}</span> `:''}<span class="pv">— ${nomP(it,id)}`+
+          (nf?` <span class="nf">(${nf} ${nf>1?'funciones':'función'})</span><span class="fx">${esc(fx)}</span>`:'')+`</span></li>`).join('')}</ul>`;
+        if(r.otros&&r.otros.length) b+=`<p class="est-lin"><b>${r.rep&&r.rep.length?'También':'Intérpretes'}</b>${r.otros.map(esc).join(', ')}</p>`;
+        if(r.cia) b+=`<p class="est-lin"><b>Compañía</b>${esc(r.cia)}</p>`;
+        if(r.dmus) b+=`<p class="est-lin"><b>Dirección musical</b>${esc(r.dmus)}</p>`;
+        if(r.desc) b+=`<p class="est-lin"><b>Dirección de escena</b>${esc(r.desc)}</p>`;
+        (r.eq||[]).forEach(([rol,n])=>{ b+=`<p class="est-lin"><b>${esc(rol||'Equipo')}</b>${esc(n)}</p>`; });
+        if(r.fue&&r.fue.length) b+=`<p class="nota fue">Fuente: ${r.fue.map(([u,q])=>u?`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(dom(u))}</a>${q?' ('+esc(q)+')':''}`:esc(q)).join('; ')}.</p>`;
+        return `<div class="rp">${b}</div>`;
+      }).join('');
+      repDoc=`<div class="bloque" id="representaciones-doc"><h2>Representaciones documentadas</h2>${cards}`+
+        `<p class="nota">Cada representación lleva su fuente oficial: la web del teatro, del festival o de la compañía. Si eres parte de alguna y quieres corregir o completar un dato, escríbenos.</p></div>`;
+    }
     const HIS=(typeof HISTORICO!=='undefined'&&HISTORICO[o.id])||null;
     if(HIS){
       const md=x=>esc(x).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');
@@ -616,7 +654,7 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
         rep+=`<div class="bloque" id="criticas"><h2>Críticas del estreno</h2>${cs}`+
           `<p class="nota">Transcripción literal, cotejada con el facsímil de la Hemeroteca Digital de la Biblioteca Nacional de España. Se respeta la ortografía de la época; [sic] señala las erratas del original y los corchetes, las lecturas dudosas o ilegibles.</p></div>`;
       }
-      rep+='<div id="zzSlotProx"></div>';
+      rep+=repDoc+'<div id="zzSlotProx"></div>';
       const tp=HIS.temp;
       if(tp&&tp.n){
         rep+=`<div class="bloque" id="historico"><h2>Histórico de representaciones</h2>`+
@@ -624,7 +662,7 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
           `<p class="nota">Recuento de temporadas de cinco o más días anunciados en cartelera. El historial completo, para suscriptores.</p></div>`;
       }
     }
-    if(!rep.includes('zzSlotProx')) rep+='<div id="zzSlotProx"></div>';
+    if(!rep.includes('zzSlotProx')) rep+=repDoc+'<div id="zzSlotProx"></div>';
     // 3) materiales y descargas — SIEMPRE AL FINAL
     const matSecs=[];
     for(const k in TLAB){ const arr=o[k]||[]; const [lab,cls]=TLAB[k];
