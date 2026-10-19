@@ -201,7 +201,10 @@ header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-
 :root{--sec:var(--s-inte);--sec-t:var(--s-inte-t);--sec-l:color-mix(in srgb,var(--s-inte) 38%,#F8F4EE);--teal:var(--sec-t);--teal-dark:var(--sec-t);--teal-light:color-mix(in srgb,var(--s-inte) 14%,#FFFFFF);}
 :root{--hc:var(--sec);}
 header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
+main > *, main #res > *{max-width:820px!important;margin-left:auto!important;margin-right:auto!important;}
+main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:auto;hyphens:auto;}
 </style>
+<script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
 <body>
@@ -210,7 +213,7 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
   <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
   <ul class="nav-links" id="navlinks">
     <li><a href="que-es-innaz.html">Qué es INNAZ</a></li>
-    <li class="zz-drop"><a href="index.html#pilares" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="proyecto-formacion.html">Formación</a></li><li><a href="proyecto-recuperacion.html">Recuperación</a></li><li><a href="proyecto-interpretacion.html">Interpretación</a></li><li><a href="proyecto-creacion.html">Creación</a></li></ul></li>
+    <li class="zz-drop"><a href="index.html#pilares" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="proyecto-formacion.html">Formación</a></li><li><a href="proyecto-recuperacion.html">Recuperación</a></li><li><a href="proyecto-interpretacion.html" class="active">Interpretación</a></li><li><a href="proyecto-creacion.html">Creación</a></li></ul></li>
     <li><a href="buscador.html">Zarzuteca</a></li>
     <li class="zz-drop"><a href="index.html#noticias" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Actualidad<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="cartelera.html">Cartelera</a></li><li><a href="noticias.html">Noticias</a></li></ul></li>
     <li><a href="index.html#sello">Sello de Calidad</a></li>

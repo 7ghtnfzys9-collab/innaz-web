@@ -175,7 +175,10 @@ header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-
 :root{--sec:var(--s-catal);--sec-t:var(--s-catal-t);--sec-l:color-mix(in srgb,var(--s-catal) 38%,#F8F4EE);--teal:var(--sec-t);--teal-dark:var(--sec-t);--teal-light:color-mix(in srgb,var(--s-catal) 14%,#FFFFFF);}
 :root{--hc:var(--sec);}
 header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
+main > *, main #res > *{max-width:820px!important;margin-left:auto!important;margin-right:auto!important;}
+main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:auto;hyphens:auto;}
 </style>
+<script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
 <body>
@@ -198,7 +201,7 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
     <h1>Autores</h1>
     <p class="sub" id="sub">…</p>
   </div>
-<!-- ZZ-PESTANAS:INICIO --><div class="zz-tabs" role="navigation" aria-label="Zarzuteca"><div class="zz-tabs-in"><a href="buscador.html">Catálogo</a><a href="obras.html">Obras</a><a href="autores.html" class="act" aria-current="page">Autores</a><a href="teatros.html">Teatros</a><a href="anios.html">Años</a></div></div><style>.inner{max-width:1140px!important;}header .intro{font-family:'Cormorant',serif!important;font-style:italic;font-weight:300;font-size:1.25rem!important;line-height:1.25!important;margin-top:1.2rem!important;opacity:1!important;}</style><script>(function(){var t=document.querySelector('.zz-tabs-in'),h=document.querySelector('header .inner,header .section-inner');if(!t||!h)return;function f(){t.style.maxWidth=h.getBoundingClientRect().width+'px';}f();addEventListener('resize',f);})();</script><!-- ZZ-PESTANAS:FIN -->
+<!-- ZZ-PESTANAS:INICIO --><div class="zz-tabs" role="navigation" aria-label="Zarzuteca"><div class="zz-tabs-in"><a href="buscador.html">Catálogo</a><a href="obras.html">Obras</a><a href="autores.html" class="act" aria-current="page">Autores</a><a href="teatros.html">Teatros</a><a href="anios.html">Años</a></div></div><style>header .intro{font-family:'Cormorant',serif!important;font-style:italic;font-weight:300;font-size:1.25rem!important;line-height:1.25!important;margin-top:1.2rem!important;opacity:1!important;}@media(min-width:861px){.filtros input{min-width:12rem!important;flex:1 1 12rem;}.filtros select,.filtros .msel-b{width:9.5rem!important;}.filtros-grid{grid-template-columns:1.25fr 1.05fr 1fr 1fr 1fr!important;gap:.5rem!important;}.filtros-grid select{width:100%!important;font-size:.8rem!important;padding-left:.45rem!important;padding-right:1.2rem!important;}}</style><script>(function(){var t=document.querySelector('.zz-tabs-in'),h=document.querySelector('header .inner,header .section-inner');if(!t||!h)return;function f(){t.style.maxWidth=h.getBoundingClientRect().width+'px';}f();addEventListener('resize',f);})();</script><!-- ZZ-PESTANAS:FIN -->
 </header>
 <main><div class="inner">
 

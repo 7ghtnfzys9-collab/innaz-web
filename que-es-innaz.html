@@ -237,7 +237,10 @@ header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-
 .pilares-grid .pilar-card:nth-child(3){border-top:4px solid var(--s-inte)!important;}.pilares-grid .pilar-card:nth-child(3) .pilar-num,.pilares-grid .pilar-card:nth-child(3) .pilar-link{color:var(--s-inte)!important;}
 .pilares-grid .pilar-card:nth-child(4){border-top:4px solid var(--s-crea)!important;}.pilares-grid .pilar-card:nth-child(4) .pilar-num,.pilares-grid .pilar-card:nth-child(4) .pilar-link{color:var(--s-crea)!important;}
 header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
+main > *, main #res > *{max-width:820px!important;margin-left:auto!important;margin-right:auto!important;}
+main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:auto;hyphens:auto;}
 </style>
+<script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
 <body>
