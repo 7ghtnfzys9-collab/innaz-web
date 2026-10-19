@@ -102,27 +102,44 @@
 .nav-logo span,.footer-logo span{color:var(--inst)!important;}
 .nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#1B8A96!important;}
 .zz-drop-m a{box-shadow:inset 3px 0 0 transparent;}
-/* 16-10-2026 (César): todas las cabeceras de sección miden lo mismo, reservando sitio para dos líneas bajo el título */
-header.lh,header.page-head{min-height:var(--cab-min,20.5rem);box-sizing:border-box;}
-header.hero{min-height:var(--hero-min,25.5rem);box-sizing:border-box;}
-@media(max-width:860px){header.lh,header.page-head{min-height:var(--cab-min-m,17.5rem);}header.hero{min-height:var(--hero-min-m,23rem);}}
+/* 19-10-2026 (César): TODAS las cabeceras con el formato y el tamaño de las de los pilares: fondo negro y
+   todo el texto en el color del pilar (--hc). Las fichas, que traen más contenido, conservan su altura mínima propia. */
+header.lh,header.page-head,header.fh,header.hero{background:#0B0B0B!important;border-bottom:0!important;padding-top:10rem!important;padding-bottom:5rem!important;box-sizing:border-box;position:relative;}
+header.lh,header.page-head,header.hero{min-height:27rem;}
+header.lh *,header.page-head *,header.fh *,header.hero *{color:var(--hc)!important;}
+header.lh h1,header.page-head h1,header.fh h1,header.hero h1{font-family:'Cormorant SC',serif!important;font-size:clamp(2.6rem,7vw,5rem)!important;font-weight:700!important;line-height:1.05!important;}
+header.lh .label,header.page-head .section-label,header.fh .label,header.hero .hero-label{font-size:.72rem!important;letter-spacing:.3em!important;text-transform:uppercase;margin-bottom:1.4rem!important;opacity:1;}
+header.lh .sub,header.hero .hero-lema{font-family:'Cormorant',serif!important;font-style:italic;font-weight:300;font-size:1.25rem!important;margin-top:1.2rem!important;}
+header.page-head .intro,header.page-head .sello-intro{opacity:.92;}
+header.lh .label::after,header.page-head .section-label::after{background:var(--hc)!important;}
+header.fh .chip{background:transparent!important;border-color:color-mix(in srgb,var(--hc) 45%,transparent)!important;}
+header.fh .chip .k{opacity:.75;}
+header.fh .chip a{border-bottom-color:color-mix(in srgb,var(--hc) 45%,transparent)!important;}
+header.fh .chip a:hover{border-bottom-color:var(--hc)!important;}
+header.fh .fh-arrow{border-color:var(--hc)!important;}header.fh .fh-arrow:hover{background:var(--hc)!important;color:#0B0B0B!important;}
+header.fh .fh-arrow.disabled{opacity:.3;}
+header.lh .btn-nueva{border-color:var(--hc)!important;background:transparent!important;}
+@media(max-width:960px){header.lh,header.page-head,header.fh,header.hero{padding-top:8rem!important;}}
+@media(max-width:860px){header.lh,header.page-head,header.hero{min-height:24rem;}}
+/* Pestañas de la Zarzuteca: continúan la cabecera negra; la activa se abre sobre el fondo de la página */
+.zz-tabs{background:#0B0B0B;padding-left:max(16px,3.5rem);padding-right:max(16px,3.5rem);}
+.zz-tabs-in{max-width:1140px;margin:0 auto;display:flex;gap:.3rem;overflow-x:auto;scrollbar-width:none;}
+.zz-tabs-in::-webkit-scrollbar{display:none;}
+.zz-tabs a{flex:none;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--hc);opacity:.8;padding:.85rem 1.25rem;border-radius:3px 3px 0 0;transition:opacity .15s,background .15s;}
+.zz-tabs a:hover{opacity:1;background:rgba(255,255,255,.06);}
+.zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-t,#87591A);font-weight:500;}
+.zz-tabs a:focus-visible{outline:2px solid var(--hc);outline-offset:-2px;}
+@media(max-width:860px){.zz-tabs{padding-left:max(16px,1.4rem);padding-right:max(16px,1.4rem);}.zz-tabs a{padding:.75rem .95rem;font-size:.68rem;}}
 .zz-drop-m a[href^="proyecto-formacion.html"]{box-shadow:inset 3px 0 0 var(--s-form);}
 .zz-drop-m a[href^="proyecto-recuperacion.html"]{box-shadow:inset 3px 0 0 var(--s-recu);}
 .zz-drop-m a[href^="proyecto-interpretacion.html"]{box-shadow:inset 3px 0 0 var(--s-inte);}
 .zz-drop-m a[href^="proyecto-creacion.html"]{box-shadow:inset 3px 0 0 var(--s-crea);}
-.zz-drop-m a[href^="buscador.html"]{box-shadow:inset 3px 0 0 var(--s-catal);}
-.zz-drop-m a[href^="obras.html"]{box-shadow:inset 3px 0 0 var(--s-obras);}
-.zz-drop-m a[href^="autores.html"]{box-shadow:inset 3px 0 0 var(--s-autores);}
-.zz-drop-m a[href^="teatros.html"]{box-shadow:inset 3px 0 0 var(--s-teatros);}
-.zz-drop-m a[href^="anios.html"]{box-shadow:inset 3px 0 0 var(--s-anios);}
 .zz-drop-m a[href^="cartelera.html"]{box-shadow:inset 3px 0 0 var(--s-cartel);}
 .zz-drop-m a[href^="noticias.html"]{box-shadow:inset 3px 0 0 var(--s-noti);}
 :root{--sec:var(--s-catal);--sec-t:var(--s-catal-t);--sec-l:color-mix(in srgb,var(--s-catal) 38%,#F8F4EE);--teal:var(--sec-t);--teal-dark:var(--sec-t);--teal-light:color-mix(in srgb,var(--s-catal) 14%,#FFFFFF);}
 .nav-links a:hover,.nav-links a.active{color:var(--sec-t)!important;}
 .nav-links a.active:not(.nav-cta)::after{background:var(--sec)!important;}
-header.lh,header.page-head,header.fh{background:var(--sec-l)!important;border-bottom:6px solid var(--sec);}
-header.hero{border-bottom:6px solid var(--sec);}
-header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(--sec)!important;}
+:root{--hc:var(--sec);}
 </style>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
@@ -132,7 +149,7 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
   <ul class="nav-links" id="navlinks">
     <li><a href="que-es-innaz.html">Qué es INNAZ</a></li>
     <li class="zz-drop"><a href="index.html#pilares" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="proyecto-formacion.html">Formación</a></li><li><a href="proyecto-recuperacion.html">Recuperación</a></li><li><a href="proyecto-interpretacion.html">Interpretación</a></li><li><a href="proyecto-creacion.html">Creación</a></li></ul></li>
-    <li class="zz-drop"><a href="index.html#biblioteca" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Zarzuteca<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="buscador.html">Catálogo</a></li><li><a href="obras.html">Obras</a></li><li><a href="autores.html">Autores</a></li><li><a href="teatros.html">Teatros</a></li><li><a href="anios.html">Años</a></li></ul></li>
+    <li><a href="buscador.html" class="active">Zarzuteca</a></li>
     <li class="zz-drop"><a href="index.html#noticias" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Actualidad<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="cartelera.html">Cartelera</a></li><li><a href="noticias.html">Noticias</a></li></ul></li>
     <li><a href="index.html#sello">Sello de Calidad</a></li>
     <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
