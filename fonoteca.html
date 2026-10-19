@@ -81,7 +81,7 @@
 <style>
 /* 16-10-2026 · Paleta por secciones aprobada por César (claude/PROPUESTA-paleta-colores-web-16-10-2026.md).
    Generado por 06 Scripts/Web/aplicar_paleta_secciones.py: no editar a mano, se regenera. */
-:root{--inst:#2AABB8;--s-form:#A3B1CC;--s-form-t:#4F5F82;--s-recu:#D7B58E;--s-recu-t:#87591A;--s-catal:#D7B58E;--s-catal-t:#87591A;--s-obras:#D7A793;--s-obras-t:#8F4F25;--s-autores:#D1C28F;--s-autores-t:#765E16;--s-teatros:#C19F86;--s-teatros-t:#7E5430;--s-anios:#D7CBB2;--s-anios-t:#715A30;--s-inte:#B4A7D0;--s-inte-t:#6A5A94;--s-cartel:#C3A5C6;--s-cartel-t:#7A5080;--s-sello:#9A86C0;--s-sello-t:#5F4A8C;--s-crea:#A2C7AA;--s-crea-t:#3E7150;--s-noti:#BDB9B3;--s-noti-t:#5C5852;}
+:root{--inst:#2AABB8;--s-form:#86A0D5;--s-form-t:#4F5F82;--s-recu:#E0A25C;--s-recu-t:#87591A;--s-catal:#E0A25C;--s-catal-t:#87591A;--s-obras:#D7A793;--s-obras-t:#8F4F25;--s-autores:#D1C28F;--s-autores-t:#765E16;--s-teatros:#C19F86;--s-teatros-t:#7E5430;--s-anios:#D7CBB2;--s-anios-t:#715A30;--s-inte:#A38CD9;--s-inte-t:#6A5A94;--s-cartel:#CA8BD0;--s-cartel-t:#7A5080;--s-sello:#9A86C0;--s-sello-t:#5F4A8C;--s-crea:#7BC68D;--s-crea-t:#3E7150;--s-noti:#CDC8C1;--s-noti-t:#5C5852;}
 .nav-logo span,.footer-logo span{color:var(--inst)!important;}
 .nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#1B8A96!important;}
 .zz-drop-m a{box-shadow:inset 3px 0 0 transparent;}
@@ -89,30 +89,34 @@
    todo el texto en el color del pilar (--hc). Las fichas, que traen más contenido, conservan su altura mínima propia. */
 header.lh,header.page-head,header.fh,header.hero{background:#0B0B0B!important;border-bottom:0!important;padding-top:10rem!important;padding-bottom:5rem!important;box-sizing:border-box;position:relative;}
 header.lh,header.page-head,header.hero{min-height:27rem;}
-header.lh *,header.page-head *,header.fh *,header.hero *{color:var(--hc)!important;}
+/* 19-10-2026 (tarde): en color SOLO el título (y el número de los pilares); el resto del texto, en blanco */
+header.lh *,header.page-head *,header.fh *,header.hero *{color:#FFFFFF!important;}
+header.lh h1,header.lh h1 *,header.page-head h1,header.page-head h1 *,header.fh h1,header.fh h1 *,header.hero h1,header.hero h1 *,header.hero .hero-num{color:var(--hc)!important;}
+header.hero h1 .zz-z,header.lh h1 .zz-z,header.page-head h1 .zz-z{color:var(--inst)!important;}
 header.lh h1,header.page-head h1,header.fh h1,header.hero h1{font-family:'Cormorant SC',serif!important;font-size:clamp(2.6rem,7vw,5rem)!important;font-weight:700!important;line-height:1.05!important;}
 header.lh .label,header.page-head .section-label,header.fh .label,header.hero .hero-label{font-size:.72rem!important;letter-spacing:.3em!important;text-transform:uppercase;margin-bottom:1.4rem!important;opacity:1;}
 header.lh .sub,header.hero .hero-lema{font-family:'Cormorant',serif!important;font-style:italic;font-weight:300;font-size:1.25rem!important;margin-top:1.2rem!important;}
 header.page-head .intro,header.page-head .sello-intro{opacity:.92;}
-header.lh .label::after,header.page-head .section-label::after{background:var(--hc)!important;}
-header.fh .chip{background:transparent!important;border-color:color-mix(in srgb,var(--hc) 45%,transparent)!important;}
+header.lh .label::after,header.page-head .section-label::after{background:rgba(255,255,255,.6)!important;}
+header.fh .chip{background:transparent!important;border-color:rgba(255,255,255,.35)!important;}
 header.fh .chip .k{opacity:.75;}
-header.fh .chip a{border-bottom-color:color-mix(in srgb,var(--hc) 45%,transparent)!important;}
-header.fh .chip a:hover{border-bottom-color:var(--hc)!important;}
-header.fh .fh-arrow{border-color:var(--hc)!important;}header.fh .fh-arrow:hover{background:var(--hc)!important;color:#0B0B0B!important;}
+header.fh .chip a{border-bottom-color:rgba(255,255,255,.4)!important;}
+header.fh .chip a:hover{border-bottom-color:#FFFFFF!important;}
+header.fh .fh-arrow{border-color:rgba(255,255,255,.7)!important;}header.fh .fh-arrow:hover{background:#FFFFFF!important;color:#0B0B0B!important;}
 header.fh .fh-arrow.disabled{opacity:.3;}
-header.lh .btn-nueva{border-color:var(--hc)!important;background:transparent!important;}
+header.lh .btn-nueva{border-color:rgba(255,255,255,.7)!important;background:transparent!important;}
 @media(max-width:960px){header.lh,header.page-head,header.fh,header.hero{padding-top:8rem!important;}}
 @media(max-width:860px){header.lh,header.page-head,header.hero{min-height:24rem;}}
 /* Pestañas de la Zarzuteca: continúan la cabecera negra; la activa se abre sobre el fondo de la página */
-.zz-tabs{background:#0B0B0B;padding-left:max(16px,3.5rem);padding-right:max(16px,3.5rem);}
+/* 19-10-2026 (tarde): las pestañas van DENTRO de la cabecera, pegadas a su borde inferior, y no suman altura */
+header .zz-tabs{position:absolute;left:0;right:0;bottom:0;padding-left:inherit;padding-right:inherit;}
 .zz-tabs-in{max-width:1140px;margin:0 auto;display:flex;gap:.3rem;overflow-x:auto;scrollbar-width:none;}
 .zz-tabs-in::-webkit-scrollbar{display:none;}
-.zz-tabs a{flex:none;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--hc);opacity:.8;padding:.85rem 1.25rem;border-radius:3px 3px 0 0;transition:opacity .15s,background .15s;}
+.zz-tabs a{flex:none;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:#FFFFFF;opacity:.8;padding:.85rem 1.25rem;border-radius:3px 3px 0 0;transition:opacity .15s,background .15s;}
 .zz-tabs a:hover{opacity:1;background:rgba(255,255,255,.06);}
-.zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-t,#87591A);font-weight:500;}
-.zz-tabs a:focus-visible{outline:2px solid var(--hc);outline-offset:-2px;}
-@media(max-width:860px){.zz-tabs{padding-left:max(16px,1.4rem);padding-right:max(16px,1.4rem);}.zz-tabs a{padding:.75rem .95rem;font-size:.68rem;}}
+header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-t,#87591A)!important;font-weight:500;}
+.zz-tabs a:focus-visible{outline:2px solid #FFFFFF;outline-offset:-2px;}
+@media(max-width:860px){.zz-tabs a{padding:.75rem .95rem;font-size:.68rem;}}
 .zz-drop-m a[href^="proyecto-formacion.html"]{box-shadow:inset 3px 0 0 var(--s-form);}
 .zz-drop-m a[href^="proyecto-recuperacion.html"]{box-shadow:inset 3px 0 0 var(--s-recu);}
 .zz-drop-m a[href^="proyecto-interpretacion.html"]{box-shadow:inset 3px 0 0 var(--s-inte);}
