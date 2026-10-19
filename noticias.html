@@ -195,6 +195,7 @@ header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-
 .zz-drop-m a[href^="noticias.html"]{box-shadow:inset 3px 0 0 var(--s-noti);}
 :root{--sec:var(--s-noti);--sec-t:var(--s-noti-t);--sec-l:color-mix(in srgb,var(--s-noti) 38%,#F8F4EE);--teal:var(--sec-t);--teal-dark:var(--sec-t);--teal-light:color-mix(in srgb,var(--s-noti) 14%,#FFFFFF);}
 :root{--hc:var(--sec);}
+.selects{grid-template-columns:repeat(4,minmax(0,1fr))!important;}@media(max-width:860px){.selects{grid-template-columns:repeat(2,minmax(0,1fr))!important;}}
 header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
 main > *, main #res > *{max-width:820px!important;margin-left:auto!important;margin-right:auto!important;}
 main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:auto;hyphens:auto;}
@@ -229,10 +230,11 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
   <div class="filtros">
     <input type="search" id="q" class="busca" placeholder="Buscar en las noticias: una obra, un autor, un teatro…" autocomplete="off">
     <div class="selects">
-      <select id="fAnio"><option value="">Todos los años</option></select>
-      <select id="fMedio"><option value="">Todos los medios</option></select>
-      <select id="fPais"><option value="">Todos los países</option></select>
-      <select id="fEtq"><option value="">Todas las etiquetas</option></select>
+      <select id="fAnio"><option value="">Año</option></select>
+      <select id="fMedio"><option value="">Medio</option></select>
+      <select id="fPais"><option value="">País</option></select>
+      <!-- 20-10-2026 (César): fuera el filtro de etiquetas; se conserva oculto porque pulsar una etiqueta de una noticia filtra por ella -->
+      <select id="fEtq" hidden aria-hidden="true"><option value="">Etiqueta</option></select>
     </div>
     <div class="barra">
       <span class="cuenta" id="cuenta"></span>
