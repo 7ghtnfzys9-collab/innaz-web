@@ -609,7 +609,9 @@ header.hero .hero-label,header.hero .hero-icon,header.hero .hero-num{color:var(-
         if(x[2]===y[2]&&x[1]===y[1]) return `Del ${x[0]} al ${y[0]} de ${y[1]} de ${y[2]}`;
         return x[2]===y[2]?`Del ${x[0]} de ${x[1]} al ${y[0]} de ${y[1]} de ${y[2]}`:`Del ${x[0]} de ${x[1]} de ${x[2]} al ${y[0]} de ${y[1]} de ${y[2]}`;};
       const PEN=(typeof PERSONAS!=='undefined')?PERSONAS:[];
-      const nomP=(n,id)=>id&&PEN.some(p=>p.id===id)?lnk('persona',id,n):esc(n);
+      // 19-10-2026 (César): de momento solo se enlaza la ficha de quien es AUTOR (rol de compositor o
+      // libretista). Intérpretes, directores y equipo no se enlazan hasta que sus fichas estén configuradas.
+      const nomP=(n,id)=>id&&PEN.some(p=>p.id===id&&p.rol)?lnk('persona',id,n):esc(n);
       const dom=u=>{try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return u;}};
       const cards=REPL.map(r=>{
         const T=(typeof TEATROS!=='undefined')?TEATROS.find(t=>t.k===r.tk):null;
