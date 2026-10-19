@@ -80,7 +80,8 @@
     .barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;margin-top:.9rem;}
     .cuenta{font-size:.78rem;color:var(--muted);}
     .limpiar{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark);background:none;border:1.5px solid var(--teal-dark);padding:.4rem .9rem;border-radius:22px;cursor:pointer;font-family:inherit;transition:all .15s;}
-    .limpiar:hover{background:var(--teal-dark);color:#fff;}
+    .limpiar:hover:not(:disabled){background:var(--teal-dark);color:#fff;}
+    .limpiar:disabled{opacity:.4;cursor:default;}
 
     /* ─── LISTA DE NOTICIAS ─── */
     .lista{max-width:900px;margin:0 auto;list-style:none;}
@@ -235,7 +236,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
     </div>
     <div class="barra">
       <span class="cuenta" id="cuenta"></span>
-      <button class="limpiar" id="limpiar" type="button">Limpiar filtros</button>
+      <button class="limpiar" id="limpiar" type="button" disabled>Limpiar filtros</button>
     </div>
   </div>
 
@@ -365,6 +366,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
   function filtra() {
     const q = norm($('q').value.trim());
     const a = $('fAnio').value, m = $('fMedio').value, p = $('fPais').value, e = $('fEtq').value;
+    $('limpiar').disabled = !(q || a || m || p || e);  // 20-10-2026: difuminado si no hay filtros
     pinta(N.filter(n =>
       (!q || n._buscable.includes(q)) &&
       (!a || n.anio === a) &&
