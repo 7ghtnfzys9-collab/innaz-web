@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <script src="cartelera-data.js?v=27288549"></script>
-  <script src="zarzuteca-data.js?v=44f4cbd8"></script>
+  <script src="zarzuteca-data.js?v=3775cd48"></script>
   <script src="historico-data.js?v=d030aa0f"></script>
   <style>
     :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
@@ -126,6 +126,9 @@
     .num-tit{} /* 2-10-2026: el título del número sin negrita, como antes (decisión de César) */
     .num-det{display:block;font-size:.84rem;line-height:1.45;color:var(--muted);margin-top:.15rem;}
     .acto-grupo:last-child{margin-bottom:0;}
+    .cuadro-sub{font-family:'Cormorant SC',serif;font-weight:600;font-size:.78rem;letter-spacing:.04em;color:var(--muted);margin:.8rem 0 .35rem;padding-left:.9rem;border-left:2px solid var(--cream);} /* 20-10-2026: rótulo de cuadro (César, propuesta A) */
+    .numeros li.cuadro{list-style:none;font-family:'Cormorant SC',serif;font-weight:600;font-size:.78rem;letter-spacing:.04em;color:var(--muted);padding:.6rem 0 .2rem .9rem;border-bottom:none;border-left:2px solid var(--cream);}
+    .numeros li.cuadro::before{content:'';}
     .acto-tit{font-family:'Cormorant SC',serif;font-weight:700;text-transform:uppercase;font-size:.82rem;letter-spacing:.05em;color:var(--black);margin-bottom:.35rem;}
     /* Histórico de la obra (15-10-2026): ficha artística del estreno, críticas del estreno
        (desplegables, texto literal) y recuento de temporadas. Datos en historico-data.js. */
@@ -520,6 +523,8 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
     const ORD='[uú]nico|primero?|segundo|tercero?|cuarto|quinto|sexto|s[eé]ptimo|octavo|noveno|d[eé]cimo|[ivxlcdm]+|\\d+';
     const CUADRO_DESNUDO=new RegExp('^(?:cuadro\\s+(?:'+ORD+')|(?:primer|segundo|tercer|cuarto|quinto|sexto|s[eé]ptimo|octavo|noveno|d[eé]cimo|[uú]ltimo)\\s+cuadro)\\.?[º°ª]?\\.?$','i'); // 30/09/2026: también «Cuadro 1.º» (Doña Francisquita)
     const esCuadro=n=>n.h && CUADRO_DESNUDO.test(n.t.trim());
+    // 20-10-2026 (César, propuesta A): TODO rótulo de cuadro, con nombre o sin él, se pinta como subrótulo.
+    const esRotCuadro=n=>n.h && /^(cuadro\b|(?:primer|segundo|tercer|cuarto|quinto|sexto|s[eé]ptimo|octavo|noveno|d[eé]cimo|[uú]ltimo)\s+cuadro\b)/i.test(n.t.trim());
     // El argumento se sirve PLEGADO (06/08/2026, petición de César): en la vista
     // inicial se ven los primeros ARG_PREVIEW caracteres de prosa del argumento
     // ENTERO —no por acto— y el resto se despliega con «Leer más». Los rótulos
@@ -551,7 +556,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
       const plegable=totalProsa>ARG_PREVIEW+ARG_MINIMO_OCULTO;
       const trozos=[]; let resto=ARG_PREVIEW, cortado=false;
       for(const n of nodos){
-        if(n.h){ trozos.push({h:`<h3 class="acto-sub">${esc(n.t)}</h3>`, off:plegable&&cortado}); continue; }
+        if(n.h){ trozos.push({h:esRotCuadro(n)?`<h4 class="cuadro-sub">${esc(n.t)}</h4>`:`<h3 class="acto-sub">${esc(n.t)}</h3>`, off:plegable&&cortado}); continue; }
         if(!plegable){ trozos.push({h:`<p class="sinopsis">${esc(n.t)}</p>`, off:false}); continue; }
         if(cortado){ trozos.push({h:`<p class="sinopsis">${esc(n.t)}</p>`, off:true}); continue; }
         if(n.t.length<=resto){
@@ -582,7 +587,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
       return `<div class="bloque"><h2>Argumento</h2><div class="arg-wrap${plegable?' plegado':''}" id="argWrap">${cuerpo}</div>${btn}</div>`;
     };
     if(o.synA && o.synA.length){
-      html+=bloqueArgumento(o.synA.filter(n=>!esCuadro(n)));
+      html+=bloqueArgumento(o.synA);
     } else if(o.syn){
       html+=bloqueArgumento([{t:o.syn}]);
     }
@@ -611,14 +616,14 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
       const sinNumeros=!o.num.some(n=>!n.h && /N\.?\s?[ºo°]/i.test(n.t));
       const grupos=[]; let g={tit:'',items:[]};
       for(const n of o.num){
-        if(esCuadro(n)){ if(sinNumeros) g.items.push(n.t); continue; }
+        if(esRotCuadro(n)){ g.items.push({cu:n.t}); continue; }   // 20-10-2026: subrótulo de cuadro dentro de su acto
         if(n.h){ if(g.items.length) grupos.push(g); g={tit:n.t,items:[]}; }
         else g.items.push(n.t);
       }
       if(g.items.length) grupos.push(g);
       const cuerpo=grupos.map(gr=>
         (gr.tit?`<div class="acto-tit">${esc(gr.tit)}</div>`:'')+
-        `<ul class="numeros">${gr.items.map(t=>`<li>${fmtNum(t)}</li>`).join('')}</ul>`
+        `<ul class="numeros">${gr.items.map(t=>t&&t.cu?`<li class="cuadro">${esc(t.cu)}</li>`:`<li>${fmtNum(t)}</li>`).join('')}</ul>`
       ).map(s=>`<div class="acto-grupo">${s}</div>`).join('');
       html+=`<div class="bloque"><h2>Números musicales</h2><div class="num-wrap" id="numWrap">${cuerpo}</div>`+
         `<button type="button" class="pers-toggle arg-toggle" id="numBtn" hidden aria-expanded="false" aria-controls="numWrap">Ver todos los números ▾</button>`+
