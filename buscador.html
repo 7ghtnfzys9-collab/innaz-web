@@ -546,6 +546,18 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
     rotulos();
   }
   // título y entradilla según haya o no categoría de material (?tipo=)
+  // 20-10-2026 (César): total de fichas de la Zarzuteca: obras + autores + teatros + años con estreno.
+  // Se calcula de los datos servidos. Cuando haya fichas de cantantes, directores, etc., se suman aquí.
+  function totalFichas(){
+    const mil=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+    const PE=(typeof PERSONAS!=='undefined')?PERSONAS:[];
+    const nO=(typeof OBRAS!=='undefined')?OBRAS.length:0, nAu=PE.filter(p=>p.rol).length, nEq=PE.length-nAu,
+          nT=(typeof TEATROS!=='undefined')?TEATROS.length:0;
+    const nA=(typeof OBRAS!=='undefined')?new Set(OBRAS.map(o=>o.anioN).filter(a=>/^\d{4}$/.test(a||''))).size:0;
+    // autores = quien firma una obra (p.rol); el resto de PERSONAS son intérpretes, dirección y equipo (modelo del 16-10)
+    return mil(nO+nAu+nEq+nT+nA)+' fichas en la Zarzuteca: '+mil(nO)+' obras, '+mil(nAu)+' autores, '+
+           (nEq?mil(nEq)+' intérpretes y equipo artístico, ':'')+mil(nT)+' teatros y '+mil(nA)+' años.';
+  }
   function rotulos(){
     const T={part:['Partituras','Obras del fondo que cuentan con partitura.'],
              lib:['Libretos','Obras del fondo que cuentan con libreto.'],
@@ -555,7 +567,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
     if(T[uno]){ $('titulo').textContent=T[uno][0];
                  $('intro').textContent=T[uno][1]+' Busca en una sola caja y afina después con los filtros.'; }
     else { $('titulo').textContent='Catálogo';
-           $('intro').textContent='Obras con ficha documentada de la Zarzuteca. Busca por título, compositor, libretista o teatro en una sola caja; afina después con los filtros si lo necesitas.'; }
+           $('intro').textContent=totalFichas(); }
     filtrar();
   }
 
