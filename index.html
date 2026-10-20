@@ -773,6 +773,38 @@ header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-
 header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
 </style>
 <!-- PALETA-SECCIONES:FIN -->
+<!-- PORTADA-FRANJAS:INICIO (20-10-2026) -->
+<style>
+#pilares{--fr:#2AABB8}
+#embajadores{--fr:#2AABB8}
+#biblioteca{--fr:#E0A25C}
+#cartelera{--fr:#A38CD9}
+#noticias{--fr:#CDC8C1}
+#sello{--fr:#A38CD9}
+#socio{--fr:#2AABB8}
+#biblioteca{--pc:#E0A25C;--pt:#87591A;--teal:#87591A;--teal-dark:#87591A;--teal-light:color-mix(in srgb,#E0A25C 14%,#fff);}
+#cartelera{--pc:#A38CD9;--pt:#6A5A94;--teal:#6A5A94;--teal-dark:#6A5A94;--teal-light:color-mix(in srgb,#A38CD9 14%,#fff);}
+#noticias{--pc:#CDC8C1;--pt:#5C5852;--teal:#5C5852;--teal-dark:#5C5852;--teal-light:color-mix(in srgb,#CDC8C1 14%,#fff);}
+#sello{--pc:#A38CD9;--pt:#6A5A94;--teal:#6A5A94;--teal-dark:#6A5A94;--teal-light:color-mix(in srgb,#A38CD9 14%,#fff);}
+:is(#pilares,#embajadores,#biblioteca,#cartelera,#noticias,#sello,#socio){position:relative;}
+:is(#pilares,#embajadores,#biblioteca,#cartelera,#noticias,#sello,#socio)::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--fr) 0%,color-mix(in srgb,var(--fr) 55%,transparent) 40%,transparent 92%);transform-origin:left;z-index:2;pointer-events:none;}
+.fr-js :is(#pilares,#embajadores,#biblioteca,#cartelera,#noticias,#sello,#socio)::before{transform:scaleX(0);opacity:0;transition:transform 1.6s cubic-bezier(.2,.7,.2,1),opacity 1.6s ease;}
+.fr-js :is(#pilares,#embajadores,#biblioteca,#cartelera,#noticias,#sello,#socio).fr-on::before{transform:scaleX(1);opacity:1;}
+@media (prefers-reduced-motion:reduce){.fr-js :is(#pilares,#embajadores,#biblioteca,#cartelera,#noticias,#sello,#socio)::before{transform:none;transition:opacity .6s;}}
+:is(#embajadores,#biblioteca,#noticias,#socio){background:#fff!important;}
+:is(#pilares,#cartelera,#sello){background:#0B0B0B!important;color:#fff;}
+:is(#biblioteca,#noticias) .section-title{color:var(--pt)!important;}
+:is(#cartelera,#sello) :is(.section-title,.section-label){color:var(--pc)!important;}
+:is(#cartelera,#sello) .section-label::after{background:var(--pc)!important;}
+#cartelera :is(.pf-intro,.pf-l,.pf-h),#sello .sello-intro{color:rgba(255,255,255,.72)!important;}
+#cartelera :is(.pf-t,.pf-d){color:#fff!important;}
+#cartelera :is(.pf-m,.pf-tipo){color:var(--pc)!important;}
+#cartelera .pf{border-color:rgba(255,255,255,.14)!important;}
+#cartelera .pf-todas{color:var(--pc)!important;border-color:var(--pc)!important;}
+#noticias .nt{background:color-mix(in srgb,#CDC8C1 38%,#fff);padding:1.6rem 1.8rem!important;border:0!important;border-radius:4px;margin:0 0 1.2rem!important;}
+</style>
+<script>(function(){document.documentElement.classList.add('fr-js');function go(){var L=['pilares','embajadores','biblioteca','cartelera','noticias','sello','socio'];if(!('IntersectionObserver' in window)){L.forEach(function(i){var x=document.getElementById(i);if(x)x.classList.add('fr-on')});return;}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('fr-on');io.unobserve(e.target)}})},{threshold:0.01});L.forEach(function(i){var x=document.getElementById(i);if(x)io.observe(x)});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<!-- PORTADA-FRANJAS:FIN -->
 </head>
 <body>
 
@@ -850,23 +882,52 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
   </div>
 </section>
 
-<!-- 20-10-2026 (César): orden B de la portada, «primero el Instituto»: los Embajadores, tras los Pilares -->
-<!-- ── EMBAJADORES HONORÍFICOS (9-10-2026) · datos en embajadores-data.js ── -->
-<section id="embajadores">
+<!-- 20-10-2026 (César): orden de la portada Inicio · Pilares · Noticias · Próximas funciones · Zarzuteca · Embajadores · Sello · Suscríbete · Contacto -->
+
+<!-- ── NOTICIAS ── -->
+<section id="noticias">
   <div class="section-inner">
-    <div class="reveal emb-cab">
-      <div>
-        <p class="section-label">Nos acompañan</p>
-        <h2 class="section-title">Embajadores honoríficos</h2>
-        <p class="emb-intro">Figuras de la zarzuela que apoyan el proyecto y lo representan.</p>
-      </div>
-      <div class="emb-flechas" id="embFlechas" hidden>
-        <button class="emb-flecha" id="embAnt" aria-label="Anterior">&larr;</button>
-        <button class="emb-flecha" id="embSig" aria-label="Siguiente">&rarr;</button>
-      </div>
+    <div class="reveal">
+      <p class="section-label">Actualidad</p>
+      <h2 class="section-title">Últimas Noticias</h2>
     </div>
-    <div class="emb-pista" id="embPista" aria-label="Embajadores honoríficos de INNAZ"></div>
-    <a href="que-es-innaz.html" class="emb-todos">Conoce el Instituto &rarr;</a>
+
+    <!-- ── Noticias propias (7-9-2026) ────────────────────────────────
+         Las tres ultimas de noticias-data.js. La lista completa, con
+         buscador y filtros, esta en noticias.html. De cada noticia se
+         publica titulo y texto propios, con enlace al medio: nunca el
+         titular ajeno ni sus fotografias.
+
+         ⚠ SIN class="reveal", A PROPOSITO (7-9-2026). El observer de la
+         portada revela con threshold 0.08: un elemento MAS ALTO QUE LA
+         PANTALLA no llega nunca a ese 8 % de superficie visible y se queda
+         con opacity 0 para siempre. Con tres noticias enteras, esta lista
+         mide varios miles de pixeles. Los datos estaban, el DOM estaba
+         pintado y no se veia nada. No volver a ponerle la clase. -->
+    <ul class="nt-lista" id="ntUltimas"></ul>
+    <a href="noticias.html" class="nt-todas" id="ntTodas" hidden>Todas las noticias &rarr;</a>
+
+    <!-- Feed de Instagram retirado el 11-9-2026 por decisión de César: de momento
+         la portada no muestra publicaciones de Instagram. El CSS (.nt-social,
+         .feed-wrapper, .feed-placeholder) se conserva por si se vuelve a montar.
+         La cuenta es @institutonacionaldezarzuela. -->
+
+  </div>
+</section>
+
+<!-- ── CARTELERA (13-10-2026) ──
+     Las cuatro próximas funciones de cartelera-data.js; las ya pasadas se descartan en el
+     navegador, así que la lista se actualiza sola. Sin class="reveal" en la lista, por lo
+     mismo que en Noticias. -->
+<section id="cartelera">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label">Zarzuteca INNAZ · Cartelera</p>
+      <h2 class="section-title">Próximas funciones</h2>
+      <p class="pf-intro">Zarzuela y teatro lírico español en escena, en España y fuera de ella.</p>
+    </div>
+    <ul class="pf-lista" id="pfPortada"></ul>
+    <a href="cartelera.html" class="pf-todas">Toda la cartelera &rarr;</a>
   </div>
 </section>
 
@@ -898,51 +959,22 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
     </div>
   </div>
 </section>
-
-<!-- ── CARTELERA (13-10-2026) ──
-     Las cuatro próximas funciones de cartelera-data.js; las ya pasadas se descartan en el
-     navegador, así que la lista se actualiza sola. Sin class="reveal" en la lista, por lo
-     mismo que en Noticias. -->
-<section id="cartelera">
+<!-- ── EMBAJADORES HONORÍFICOS (9-10-2026) · datos en embajadores-data.js ── -->
+<section id="embajadores">
   <div class="section-inner">
-    <div class="reveal">
-      <p class="section-label">Zarzuteca INNAZ · Cartelera</p>
-      <h2 class="section-title">Próximas funciones</h2>
-      <p class="pf-intro">Zarzuela y teatro lírico español en escena, en España y fuera de ella.</p>
+    <div class="reveal emb-cab">
+      <div>
+        <p class="section-label">Nos acompañan</p>
+        <h2 class="section-title">Embajadores honoríficos</h2>
+        <p class="emb-intro">Figuras de la zarzuela que apoyan el proyecto y lo representan.</p>
+      </div>
+      <div class="emb-flechas" id="embFlechas" hidden>
+        <button class="emb-flecha" id="embAnt" aria-label="Anterior">&larr;</button>
+        <button class="emb-flecha" id="embSig" aria-label="Siguiente">&rarr;</button>
+      </div>
     </div>
-    <ul class="pf-lista" id="pfPortada"></ul>
-    <a href="cartelera.html" class="pf-todas">Toda la cartelera &rarr;</a>
-  </div>
-</section>
-
-<!-- ── NOTICIAS ── -->
-<section id="noticias">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-label">Actualidad</p>
-      <h2 class="section-title">Últimas Noticias</h2>
-    </div>
-
-    <!-- ── Noticias propias (7-9-2026) ────────────────────────────────
-         Las tres ultimas de noticias-data.js. La lista completa, con
-         buscador y filtros, esta en noticias.html. De cada noticia se
-         publica titulo y texto propios, con enlace al medio: nunca el
-         titular ajeno ni sus fotografias.
-
-         ⚠ SIN class="reveal", A PROPOSITO (7-9-2026). El observer de la
-         portada revela con threshold 0.08: un elemento MAS ALTO QUE LA
-         PANTALLA no llega nunca a ese 8 % de superficie visible y se queda
-         con opacity 0 para siempre. Con tres noticias enteras, esta lista
-         mide varios miles de pixeles. Los datos estaban, el DOM estaba
-         pintado y no se veia nada. No volver a ponerle la clase. -->
-    <ul class="nt-lista" id="ntUltimas"></ul>
-    <a href="noticias.html" class="nt-todas" id="ntTodas" hidden>Todas las noticias &rarr;</a>
-
-    <!-- Feed de Instagram retirado el 11-9-2026 por decisión de César: de momento
-         la portada no muestra publicaciones de Instagram. El CSS (.nt-social,
-         .feed-wrapper, .feed-placeholder) se conserva por si se vuelve a montar.
-         La cuenta es @institutonacionaldezarzuela. -->
-
+    <div class="emb-pista" id="embPista" aria-label="Embajadores honoríficos de INNAZ"></div>
+    <a href="que-es-innaz.html" class="emb-todos">Conoce el Instituto &rarr;</a>
   </div>
 </section>
 
