@@ -805,6 +805,16 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
 </style>
 <script>(function(){document.documentElement.classList.add('fr-js');function go(){var L=['pilares','embajadores','biblioteca','cartelera','noticias','sello','socio'];if(!('IntersectionObserver' in window)){L.forEach(function(i){var x=document.getElementById(i);if(x)x.classList.add('fr-on')});return;}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('fr-on');io.unobserve(e.target)}})},{threshold:0.01});L.forEach(function(i){var x=document.getElementById(i);if(x)io.observe(x)});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PORTADA-FRANJAS:FIN -->
+<!-- PORTADA-ANCHO:INICIO (20-10-2026) -->
+<style>
+/* Bloques de contenido al ancho completo de la sección (1140 px), como los planes de Suscríbete */
+#cartelera .pf-lista,#biblioteca .zarz-panel{max-width:none!important;width:100%;}
+/* Entradillas: un mismo ancho en todas las secciones */
+.pilares-intro,.pf-intro,.sello-intro,.socio-intro{max-width:620px!important;}
+/* Justificación completa de los textos (salvo el Inicio) */
+section:not(#inicio) p:not(.section-label){text-align:justify;hyphens:auto;-webkit-hyphens:auto;}
+</style>
+<!-- PORTADA-ANCHO:FIN -->
 </head>
 <body>
 
