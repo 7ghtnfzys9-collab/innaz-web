@@ -753,6 +753,14 @@
 section:not(#inicio) p:not(.section-label){text-align:justify;hyphens:auto;-webkit-hyphens:auto;}
 </style>
 <!-- PORTADA-ANCHO:FIN -->
+<!-- PORTADA-MENU:INICIO (20-10-2026 noche) -->
+<style>
+/* Suscríbete marcado: solo subrayado en blanco */
+.nav-links a.nav-cta.active{text-decoration:underline;text-decoration-color:#FFFFFF;text-decoration-thickness:2px;text-underline-offset:4px;}
+/* Próximas funciones: el título de la obra se subraya en el color del pilar */
+#cartelera .pf-t:hover,#cartelera .pf-t:focus-visible{text-decoration:underline;text-decoration-color:var(--pc);text-decoration-thickness:1.5px;text-underline-offset:5px;}
+</style>
+<!-- PORTADA-MENU:FIN -->
 <!-- PALETA-SECCIONES:INICIO -->
 <style>
 /* 16-10-2026 · Paleta por secciones aprobada por César (claude/PROPUESTA-paleta-colores-web-16-10-2026.md).
@@ -814,7 +822,7 @@ header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-
 .pilares-grid .pilar-card:nth-child(4){border-top:4px solid var(--s-crea)!important;}.pilares-grid .pilar-card:nth-child(4) .pilar-num,.pilares-grid .pilar-card:nth-child(4) .pilar-link{color:var(--s-crea)!important;}
 header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
 </style>
-<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){var o=fondo(w.parentElement);w.firstChild.nodeType;w.style.setProperty('color',o?'#FFFFFF':'#1A1A1A','important');}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
 <body>
@@ -1222,6 +1230,11 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
       const h = a.getAttribute('href') || '';
       if (h.startsWith('#')) navMap[h.slice(1)] = a;
     });
+    /* 20-10-2026 (César): también se marcan las secciones que enlazan a otra página */
+    const enl = q => document.querySelector('.nav-links ' + q);
+    if (enl('a[href="buscador.html"]')) navMap.biblioteca = enl('a[href="buscador.html"]');
+    if (enl('a[href="que-es-innaz.html"]')) navMap.embajadores = enl('a[href="que-es-innaz.html"]');
+    if (navMap.noticias) navMap.cartelera = navMap.noticias;
     const spy = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -1385,7 +1398,7 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
     pista.classList.toggle('quieta', !desborda);
     flechas.hidden = !desborda;
     clearInterval(reloj);
-    if (desborda && !reducido) reloj = setInterval(() => { if (!quieto && !document.hidden) mover(1); }, 4000);
+    /* 20-10-2026 (César): sin movimiento automático; arranca en la primera foto y cada usuario navega con las flechas */
   };
   ['mouseenter','focusin','touchstart'].forEach(ev => sec.addEventListener(ev, () => quieto = true, { passive: true }));
   /* 16-10-2026: el menú fijo tapa la parte alta de la sección; con el ratón encima, el carrusel tampoco se mueve */
@@ -1393,8 +1406,8 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
   if (barra) { barra.addEventListener('mouseenter', () => quieto = true); barra.addEventListener('mouseleave', e => { if (!sec.contains(e.relatedTarget)) quieto = false; }); }
   ['mouseleave','focusout'].forEach(ev => sec.addEventListener(ev, () => quieto = false));
   window.addEventListener('resize', () => { ajustarNombres('.emb-card h3'); ajustar(); });
-  window.addEventListener('load', ajustar);
-  ajustar();
+  window.addEventListener('load', () => { ajustar(); pista.scrollLeft = 0; });
+  ajustar(); pista.scrollLeft = 0;
 })();
 </script>
 <script>
