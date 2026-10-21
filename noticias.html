@@ -114,6 +114,7 @@
     .comp a:hover{border-bottom-color:var(--teal-dark);}
     .comp .pie{padding:0 1.05rem .9rem;font-size:.74rem;color:var(--muted);line-height:1.6;}
     .fuente{margin-top:.9rem;font-size:.79rem;color:var(--muted);}
+    .fuente.fuente-arriba{margin-top:.5rem;margin-bottom:.9rem;}
     .fuente a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
     .fuente a:hover{border-bottom-color:var(--teal-dark);}
     .etqs{margin-top:.75rem;display:flex;flex-wrap:wrap;gap:.4rem;}
@@ -347,9 +348,10 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
         '<div class="meta"><span>' + esc(n.medio) + '</span><span class="pt">·</span><span>' + esc(fechaLarga(n.fecha)) + '</span></div>' +
         '<h2>' + esc(n.titulo) + '</h2>' +
         '<p class="cuerpo">' + esc(n.texto) + '</p>' +
+        /* 21-10-2026 (César): la fuente y el enlace al original, justo bajo el resumen */
+        '<p class="fuente fuente-arriba">Fuente: ' + esc(n.medio) + ' · <a href="' + esc(n.url) + '" target="_blank" rel="noopener">leer la noticia original</a></p>' +
         bloqueZarzuteca(n) +
         bloqueComprobacion(n) +
-        '<p class="fuente">Fuente: ' + esc(n.medio) + ' · <a href="' + esc(n.url) + '" target="_blank" rel="noopener">leer la noticia original</a></p>' +
         ((n.etiquetas || []).length
           ? '<div class="etqs">' + n.etiquetas.map(e => '<button class="etq" data-etq="' + esc(e) + '" type="button">' + esc(e) + '</button>').join('') + '</div>'
           : '') +

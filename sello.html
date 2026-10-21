@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="sello-data.js?v=669b01a6"></script>
+  <script src="sello-data.js?v=9dc7a107"></script>
 
   <style>
     :root {
@@ -123,6 +123,12 @@
       background: var(--teal-light); border: 1px solid rgba(42,171,184,.25);
       padding: .9rem 1rem; border-radius: 2px; display: none;
     }
+    /* 21-10-2026: confirmación del voto y avisos */
+    .voto-confirma { display: none; text-align: center; margin: 1.4rem 0 .4rem; }
+    .voto-pregunta { font-family: 'Cormorant', serif; font-style: italic; font-size: 1.35rem; line-height: 1.3; margin-bottom: 1.2rem; }
+    .voto-botones { display: flex; justify-content: center; gap: .8rem; flex-wrap: wrap; }
+    .btn-volver { background: none; border: none; color: var(--muted); font: inherit; font-size: .8rem; text-decoration: underline; cursor: pointer; padding: .85rem .6rem; }
+    .voto-gracias.error { color: #8a4b12; background: #fbf1e4; border-color: rgba(138,75,18,.25); }
 
     footer { background: #080808; padding: 2.4rem 3.5rem; }
     .footer-inner {
@@ -301,7 +307,14 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     <h3 id="votoTitulo">Valora la producción</h3>
     <p class="modal-sub" id="votoSub">¿Qué te ha parecido el espectáculo?</p>
     <div class="voto-stars" id="votoStars"></div>
-    <p class="voto-gracias" id="votoGracias">✓ ¡Gracias por tu voto! La puntuación se ha actualizado.</p>
+    <div class="voto-confirma" id="votoConfirma">
+      <p class="voto-pregunta" id="votoPregunta"></p>
+      <div class="voto-botones">
+        <button class="btn-votar" id="votoSi" type="button">Sí, confirmo</button>
+        <button class="btn-volver" id="votoNo" type="button">Me he equivocado</button>
+      </div>
+    </div>
+    <p class="voto-gracias" id="votoGracias">✓ ¡Gracias por tu voto!</p>
   </div>
 </div>
 
@@ -313,8 +326,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     grid.hidden = PRODUCCIONES.length === 0;
     document.getElementById('selloVacio').hidden = PRODUCCIONES.length > 0;
     PRODUCCIONES.forEach(p => {
-      const { media, count } = mediaDe(p);
-      const yaVoto = !!localStorage.getItem('innaz_voto_' + p.id);
+      const yaVoto = yaVotadoSello(p.id);
       const card = document.createElement('article');
       card.className = 'sello-card';
       card.id = 'prod-' + p.id;
@@ -323,11 +335,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
         <h3>${p.titulo}</h3>
         <p class="sello-comp">${p.compositor}</p>
         <p class="sello-meta">${p.teatro}<br>${p.detalle}</p>
-        <div class="sello-rating">
-          <span class="stars">★★★★★<span class="stars-fill" style="width:${(media/5*100).toFixed(1)}%">★★★★★</span></span>
-          <span class="rating-num">${media.toFixed(1)}</span>
-          <span class="rating-count">(${count} votos)</span>
-        </div>
+        ${htmlPuntuacionSello(p)}
         <button class="btn-votar" onclick="abrirVoto('${p.id}')" ${yaVoto ? 'disabled' : ''}>
           ${yaVoto ? '✓ Ya has votado' : '★ Votar ahora'}
         </button>`;
@@ -339,11 +347,13 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 
   function abrirVoto(id) {
     const p = PRODUCCIONES.find(x => x.id === id);
-    if (!p || localStorage.getItem('innaz_voto_' + id)) return;
+    if (!p || yaVotadoSello(id)) return;
     votoActual = id;
     document.getElementById('votoTitulo').textContent = p.titulo;
     document.getElementById('votoSub').textContent = '¿Qué te ha parecido el espectáculo? Puntúa de 1 a 5 estrellas.';
     document.getElementById('votoGracias').style.display = 'none';
+    document.getElementById('votoGracias').classList.remove('error');
+    document.getElementById('votoConfirma').style.display = 'none';
     const cont = document.getElementById('votoStars');
     cont.style.display = 'flex';
     cont.innerHTML = '';
@@ -354,7 +364,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
       b.setAttribute('aria-label', i + ' estrellas');
       b.onmouseenter = () => pintar(i);
       b.onmouseleave = () => pintar(0);
-      b.onclick = () => votar(i);
+      b.onclick = () => pedirConfirmacion(i);
       cont.appendChild(b);
     }
     document.getElementById('votoModal').classList.add('active');
@@ -366,14 +376,47 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
       .forEach((s, i) => s.classList.toggle('hot', i < n));
   }
 
-  function votar(n) {
-    if (!votoActual) return;
-    localStorage.setItem('innaz_voto_' + votoActual, n);
+  /* 21-10-2026 (César): antes de enviar, una pregunta de confirmación según las estrellas. */
+  let votoElegido = 0;
+  function pedirConfirmacion(n) {
+    votoElegido = n;
     pintar(n);
+    document.querySelectorAll('#votoStars .voto-star').forEach(s => { s.onmouseenter = null; s.onmouseleave = null; });
+    document.getElementById('votoPregunta').textContent = SELLO_CONFIRMA[n];
+    document.getElementById('votoConfirma').style.display = 'block';
+  }
+  document.getElementById('votoNo').onclick = () => {
+    votoElegido = 0;
+    document.getElementById('votoConfirma').style.display = 'none';
+    const id = votoActual; votoActual = null; abrirVoto(id);
+  };
+  document.getElementById('votoSi').onclick = () => votar(votoElegido);
+
+  async function votar(n) {
+    if (!votoActual || !n) return;
+    const id = votoActual;
+    const si = document.getElementById('votoSi');
+    si.disabled = true;
+    const r = await enviarVotoSello(id, n);
+    si.disabled = false;
+    const aviso = document.getElementById('votoGracias');
     document.getElementById('votoStars').style.display = 'none';
-    document.getElementById('votoGracias').style.display = 'block';
+    document.getElementById('votoConfirma').style.display = 'none';
+    if (r.ok || r.error === 'ya') {
+      try { localStorage.setItem('innaz_voto_' + id, n); } catch (e) {}
+      aviso.classList.remove('error');
+      aviso.textContent = r.ok ? '✓ ¡Gracias por tu voto!' : 'Ya habías votado esta producción desde este navegador.';
+    } else {
+      aviso.classList.add('error');
+      aviso.textContent = r.error === 'tope'
+        ? 'Hemos recibido muchos votos desde tu conexión en la última hora. Inténtalo un poco más tarde.'
+        : 'No hemos podido registrar tu voto. Inténtalo de nuevo dentro de un rato.';
+    }
+    aviso.style.display = 'block';
+    if (!r.ok && r.error !== 'ya') return;
+    await cargarNotasSello();
     renderSello();
-    setTimeout(cerrarVoto, 2200);
+    setTimeout(cerrarVoto, 2600);
   }
 
   function cerrarVoto() {
@@ -386,7 +429,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarVoto(); });
 
-  /* Llegada por QR del programa de mano: #votar-<id> */
+  /* Llegada por enlace o QR del espectáculo: #votar-<id> */
   function comprobarHashVoto() {
     const m = location.hash.match(/^#votar-(.+)$/);
     if (m && PRODUCCIONES.some(p => p.id === m[1])) {
@@ -396,7 +439,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   }
 
   renderSello();
-  comprobarHashVoto();
+  cargarNotasSello().then(() => { renderSello(); comprobarHashVoto(); });
   window.addEventListener('hashchange', comprobarHashVoto);
 </script>
 
