@@ -274,7 +274,7 @@ main > *, main #res > *{max-width:820px!important;margin-left:auto!important;mar
 main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:auto;hyphens:auto;}
 </style>
 <script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
-<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
 <body>
@@ -304,17 +304,17 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
 
 <main>
   <div class="main-inner">
-    <p class="intro">Sin intérpretes formados en sus exigencias y sin público que sepa escucharla, la
-      Zarzuela queda reducida a pieza de archivo. Este pilar se ocupa de la transmisión
-      del género: enseñar a cantarlo, a dirigirlo, a ponerlo en escena y a escucharlo.</p>
+    <p class="intro">Sin nuevos intérpretes formados y sin un público que se acerque a escucharla,
+      la Zarzuela se queda en una pieza de archivo. Por eso enseñamos a interpretarla, a dirigirla,
+      a ponerla en escena y también a escucharla.</p>
 
     <div class="bloque">
       <h2>Objetivos</h2>
       <ul class="objetivos">
-        <li>Formar intérpretes en lo que el género tiene de propio: la alternancia de canto y palabra hablada, la dicción del español cantado y una tradición escénica que no se aprende en el repertorio operístico.</li>
+        <li>Formar intérpretes en lo que el género tiene de propio, como la alternancia de canto y texto hablado, la dicción del español cantado o una tradición escénica que no se aprende en la ópera.</li>
         <li>Llevar la Zarzuela a la enseñanza reglada, de la mano de conservatorios, escuelas de canto y universidades.</li>
         <li>Formar público nuevo, con actividades divulgativas dirigidas a la enseñanza secundaria y al espectador no especializado.</li>
-        <li>Poner el fondo documental del Instituto al servicio de la docencia y de la investigación.</li>
+        <li>Poner la Zarzuteca al servicio de profesores e investigadores.</li>
       </ul>
     </div>
 
@@ -327,7 +327,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
           <p class="linea-name">ZLabs · Laboratorios de Zarzuela</p>
           <div class="linea-num">01</div>
           <ul class="linea-feats">
-            <li>Laboratorios dirigidos a alumnos o profesionales del mundo de la zarzuela</li>
+            <li>Laboratorios dirigidos a alumnos o profesionales de la Zarzuela</li>
             <li>Montaje completo de obras del repertorio</li>
             <li>Conciertos en teatros</li>
             <li>Grabación en audio y vídeo para la promoción de los participantes</li>
@@ -338,20 +338,19 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
       <section class="zl linea-panel" id="panel-zlabs" hidden>
         <h2>Z<span>Labs</span></h2>
         <p class="zl-sub">Laboratorios de Zarzuela</p>
-        <p>ZLabs es el programa formativo del Instituto. Cada Laboratorio está dirigido a un grupo
-        concreto de alumnos o profesionales del mundo de la zarzuela y monta obras completas del
-        repertorio, que los participantes muestran ante público, agentes y directores artísticos de
-        teatros y festivales. Después del Laboratorio, las producciones se presentan en concierto
-        en diferentes teatros del territorio español.</p>
+        <p>ZLabs es nuestra gran apuesta de formación. Cada Laboratorio se dirige a un grupo concreto
+        de alumnos o profesionales de la Zarzuela, para trabajar a fondo lo que se estudia en el curso.
+        Puede centrarse en una materia o en el montaje completo de una obra, que después llevaremos
+        a distintos escenarios para dar oportunidades reales a las nuevas generaciones.</p>
         <dl class="zl-datos">
           <div class="zl-dato"><dt>Cuándo</dt><dd>Julio de 2027</dd></div>
           <div class="zl-dato"><dt>Dónde</dt><dd>Escuela de verano de la Escuela Superior de Canto de Madrid</dd></div>
           <div class="zl-dato"><dt>Dirigido a</dt><dd>Alumnos de canto</dd></div>
           <div class="zl-dato"><dt>Repertorio</dt><dd>Dos obras del género chico</dd></div>
-          <div class="zl-dato"><dt>Elencos</dt><dd>Dos por obra, cada uno con soprano, mezzosoprano, tenor y barítono: 16 cantantes en total</dd></div>
+          <div class="zl-dato"><dt>Elencos</dt><dd>Dos por obra, con soprano, mezzosoprano, tenor y barítono cada uno (16 cantantes en total)</dd></div>
           <div class="zl-dato"><dt>Ponentes</dt><dd>Francisco Matilla<br>Carlos Díez</dd></div>
           <div class="zl-dato"><dt>Grabación</dt><dd>Audio y vídeo de las producciones, para la promoción de los propios alumnos</dd></div>
-          <div class="zl-dato"><dt>Conciertos</dt><dd>En diferentes teatros del territorio español</dd></div>
+          <div class="zl-dato"><dt>Conciertos</dt><dd>En distintos teatros de España</dd></div>
         </dl>
         <p class="zl-nota">Títulos, fechas y teatros se anunciarán próximamente.</p>
         <a class="cta-pilar" href="mailto:info@innaz.es?subject=ZLabs%202027">Quiero información</a>
@@ -368,9 +367,9 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
       <!-- ── Convenios con centros de enseñanza ── -->
       <section class="zl clara linea-panel" id="panel-convenios" hidden>
         <h2 class="zl-titulo">Convenios con centros de enseñanza</h2>
-        <p>INNAZ quiere llevar la Zarzuela a la enseñanza reglada, de la mano de conservatorios,
-        escuelas de canto, escuelas de música y de artes escénicas y universidades, para incorporar
-        el repertorio lírico español a sus programas.</p>
+        <p>Queremos que la Zarzuela llegue a la enseñanza reglada. Para ello buscamos acuerdos con
+        conservatorios, universidades y escuelas de canto, música y artes escénicas que quieran
+        incluir el repertorio lírico español en sus programas.</p>
         <p class="zl-nota" style="margin-top:1.4rem;">Si representas a un centro de enseñanza y te interesa colaborar, escríbenos.</p>
         <a class="cta-pilar" href="mailto:info@innaz.es?subject=Convenios%20con%20centros%20de%20ense%C3%B1anza">Quiero información</a>
       </section>
@@ -379,7 +378,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
           <div class="linea-num">03</div>
           <ul class="linea-feats">
             <li>Solución de dudas</li>
-            <li>Gestión de patrimonio</li>
+            <li>Gestión económica de la carrera</li>
             <li>Cómo enfrentarse a una audición o a una entrevista de trabajo</li>
             <li>Cómo buscar agencia</li>
           </ul>
@@ -388,11 +387,11 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:aut
       <!-- ── Acompañamiento a jóvenes ── -->
       <section class="zl linea-panel" id="panel-acompanamiento" hidden>
         <h2 class="zl-titulo">Acompañamiento a jóvenes</h2>
-        <p>Orientación para jóvenes que empiezan su carrera en el mundo de la zarzuela: un espacio
-        donde resolver las dudas que surgen fuera del aula.</p>
+        <p>Orientamos a los jóvenes que empiezan su carrera y les ayudamos con lo que solo se aprende
+        en un escenario.</p>
         <dl class="zl-datos">
           <div class="zl-dato"><dt>Dudas</dt><dd>Solución de las dudas que surgen al empezar la carrera profesional</dd></div>
-          <div class="zl-dato"><dt>Patrimonio</dt><dd>Gestión de patrimonio</dd></div>
+          <div class="zl-dato"><dt>Economía</dt><dd>Gestión económica de la carrera</dd></div>
           <div class="zl-dato"><dt>Audiciones y entrevistas</dt><dd>Cómo enfrentarse a una audición o a una entrevista de trabajo</dd></div>
           <div class="zl-dato"><dt>Agencias</dt><dd>Cómo buscar agencia</dd></div>
         </dl>
