@@ -90,6 +90,11 @@
     .mlink.l{color:#5c6b2f;border-color:#d6e0bf;background:#f1f4e9;}
     .mlink.v{color:#8a4b1f;border-color:#e6cdb5;background:#f7efe6;}
     .mlink.a{color:#6b4b9a;border-color:#d5c9ea;background:#efeaf7;}
+    /* 21-10-2026 (César): recuento visible en el Catálogo, como en Obras/Autores/Teatros */
+    .filtros .barra-filtros{justify-content:space-between!important;}
+    .filtros .barra-filtros .cuenta-cat{margin:0;font-family:inherit;font-size:.8rem;font-weight:400;color:var(--muted);}
+    .filtros .barra-filtros .cuenta-cat b{color:var(--teal-dark);font-weight:600;}
+    .filtros .barra-filtros .cuenta-cat span{font-family:inherit;font-size:inherit;margin-left:0;}
     .ayuda-busq{font-size:.78rem;color:var(--muted);font-style:italic;line-height:1.6;margin:0 0 1.6rem;}
     .empty{color:var(--muted);font-size:.9rem;padding:2.5rem 0;text-align:center;}
     .empty b{color:var(--text);}
@@ -250,11 +255,11 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
       <!-- 2-10-2026 (César): el filtro de materiales NO va en el Catálogo; solo en Obras.
            (El parámetro ?tipo= sigue filtrando si alguien llega con él.) -->
       <div class="barra-filtros">
+        <p class="cuenta cuenta-cat"><b id="cuenta">0</b> <span id="cuentaTxt">obras</span></p>
         <div class="activos" id="activos"></div>
         <button class="limpiar" id="btnLimpiar" disabled>Limpiar filtros</button>
       </div>
       <div class="resumen">
-        <p class="cuenta"><span id="cuenta">0</span><span id="cuentaTxt">obras</span></p>
         <div class="orden">
           <label for="f-orden">Ordenar</label>
           <select id="f-orden">

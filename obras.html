@@ -366,7 +366,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 
   const conMat=O.filter(o=>o.mats.length).length;
   $('sub').textContent='';
-  $('aviso').textContent='Busca una obra por su título y filtra por género, número de actos o material disponible. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.';
+  $('aviso').textContent='Busca una obra por su título y filtra por género, número de actos o material disponible. En el filtro de género, el género chico reúne las obras de un acto y el género grande las de dos o más, según lo que dice cada impreso o, si no lo dice, según los actos del argumento. Para buscar por compositor, libretista, década o teatro, usa el Catálogo. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.';
 
   function inicial(o){
     const c=deacc(o.t).replace(/[¡!¿?]/g,'').trim().charAt(0).toUpperCase();

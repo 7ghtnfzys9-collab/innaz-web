@@ -384,8 +384,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     for(let i=0;i<3;i++){ if(ka[i]!==kb[i]) return ka[i]-kb[i]; }
     return String(ka[3]).localeCompare(String(kb[3]),'es');
   }
-  const AVISO_COBERTURA='Esta lista recoge las obras que ya tienen ficha publicada en la Zarzuteca. '+
-    'El catálogo web se está completando, así que puede haber obras que falten aquí.';
+  const AVISO_COBERTURA='El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.';
 
   // Nombre del teatro para las listas: el canónico de la tabla validada, para
   // que un mismo teatro no aparezca escrito de tres formas dentro de la misma
@@ -645,8 +644,8 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
       const ctx=bloqueMomento(xd,{
         titulo:'El momento histórico · '+esc(rotuloDec(d)),
         aviso:(decConTexto(xd)
-          ? '<p class="cobertura">Este análisis está escrito sobre el conjunto de la década de '+
-            esc(rotuloDec(d))+', no sobre '+esc(v)+' en particular.</p>'
+          ? '<p class="cobertura">Este análisis trata la década de '+
+            esc(String(rotuloDec(d)).replace(/\s*[-–]\s*/,' a '))+' en su conjunto, no solo el año '+esc(v)+'.</p>'
           : ''),
         plegado:true, breve:true});
       // «Ver la década completa» va en la línea del título de los estrenos,

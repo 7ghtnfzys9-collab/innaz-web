@@ -277,7 +277,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 
   const conHis=T.filter(t=>t.his).length;
   $('sub').textContent='';
-  $('aviso').textContent='Busca un teatro por su nombre o su ciudad, o elige una ciudad en el desplegable. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.';
+  $('aviso').textContent='Busca un teatro por su nombre o su ciudad, o elige una ciudad en el desplegable. Aparecen las salas con alguna relación documentada con la Zarzuteca, ya sea un estreno, una representación, una función de la Cartelera o una ficha propia. El número de cada teatro cuenta solo los estrenos de obras con ficha, no toda su historia. Cada nombre lleva su ciudad, porque hay salas que se llaman igual en ciudades distintas. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.';
 
   function pinta(){
     const q=norm($('q').value), ciu=$('f-ciu').value;

@@ -228,7 +228,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   const maxDec=Math.max(1,...decs.map(d=>porDec[d.d]||0));
 
   $('sub').textContent='';
-  $('aviso').textContent='Elige una década o un año para ver sus estrenos y el análisis de su momento histórico. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.';
+  $('aviso').textContent='Elige una década o un año para ver sus estrenos y el análisis de su momento histórico, con la política, las demás artes y el estado del teatro lírico. Las cifras cuentan solo las obras que ya tienen ficha, no todo lo que se estrenó cada año. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.';
 
   $('body').innerHTML=decs.map(d=>{
     const n=porDec[d.d]||0;
