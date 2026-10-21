@@ -226,7 +226,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   <div class="inner">
     <p class="label">Actualidad INNAZ</p>
     <h1>Noticias</h1>
-    <p class="sub">La zarzuela y el teatro lírico español en la prensa especializada</p>
+    <p class="sub">La Zarzuela y el teatro lírico español en la prensa especializada</p>
   </div>
 </header>
 
@@ -250,9 +250,10 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   <div class="vacio" id="vacio" hidden></div>
 
   <p class="nota-pie">
-    De cada noticia, INNAZ redacta su propio título y su propio texto, cita al medio que la publicó
-    y enlaza con el artículo original. No se reproducen los textos ni las imágenes de los medios.
-    Cuando una noticia menciona una obra o un autor del catálogo, se enlaza con su ficha.
+    Busca una obra, un autor o un teatro, o filtra las noticias por año, medio o país. Cada noticia
+    lleva un título y un texto escritos por INNAZ, cita el medio que la publicó y enlaza con el
+    artículo original. No reproducimos los textos ni las imágenes de los medios. Si la noticia
+    menciona una obra o un autor del catálogo, enlazamos con su ficha.
   </p>
 </main>
 
@@ -335,8 +336,8 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     return '<details class="comp">' +
       '<summary>Comprobado con el archivo de INNAZ <span class="cn">' + c.length + '</span></summary>' +
       '<ul>' + filas + '</ul>' +
-      '<p class="pie">\u2713 lo que consta en nuestras fuentes \u00b7 + lo que el archivo a\u00f1ade \u00b7 ' +
-      '\u25CB lo que queda fuera de nuestras fuentes y no se ha podido comprobar aqu\u00ed.</p>' +
+      '<p class="pie">\u2713 coincide con nuestras fuentes \u00b7 + dato que a\u00f1ade nuestro archivo \u00b7 ' +
+      '\u25CB no lo hemos podido comprobar</p>' +
       '</details>';
   }
 
@@ -363,7 +364,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     const v = $('vacio');
     if (!lista.length) {
       v.hidden = false;
-      v.textContent = 'Ninguna noticia coincide con esa búsqueda. Prueba con menos filtros, o busca el nombre de una obra o de un autor.';
+      v.textContent = 'Ninguna noticia coincide con esa búsqueda. Prueba con menos filtros o busca el nombre de una obra o de un autor.';
     } else {
       v.hidden = true;
     }

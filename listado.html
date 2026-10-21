@@ -423,7 +423,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   }
   function noEncontrado(msg){
     $('lTitulo').textContent='No encontrado';
-    $('lBody').innerHTML=`<p class="pend">${esc(msg)} Vuelve al <a href="buscador.html">buscador</a>.</p>`;
+    $('lBody').innerHTML=`<p class="pend">${esc(msg)} Vuelve al <a href="buscador.html">Catálogo</a>.</p>`;
   }
 
   const ROL={compositor:'Compositor',libretista:'Libretista',ambos:'Compositor y libretista'};
@@ -459,10 +459,10 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
       const inner=`<span class="ot">${esc(tit||'Sin obra registrada')}</span><div class="om">${esc(meta)}</div>`;
       return `<li><div class="yr">${esc(an)}</div>`+(o?`<a href="ficha.html?id=${encodeURIComponent(o.id)}">${inner}</a>`:`<span class="noficha">${inner}</span>`)+'</li>';
     }).join('');
-    if(proximas) return `<div class="bloque"><h2>Próximas funciones</h2><ul class="obras">${filas}</ul>`+
-      `<p class="nota">Según la web del teatro, del festival o de la compañía. Al celebrarse, pasan a sus participaciones.</p></div>`;
+    if(proximas) return `<div class="bloque"><h2>Próximas representaciones</h2><ul class="obras">${filas}</ul>`+
+      `<p class="nota">Datos tomados de la web del teatro, del festival o de la compañía. Cuando se celebren, pasarán a sus participaciones.</p></div>`;
     return `<div class="bloque"><h2>Participaciones en la Zarzuteca</h2><ul class="obras">${filas}</ul>`+
-      `<p class="nota">Cada participación tiene una fuente declarada; en las funciones de hoy, solo la web del teatro o de la compañía, o el programa de mano. Si eres esta persona y quieres corregir o retirar algún dato, escríbenos y lo haremos.</p></div>`;
+      `<p class="nota">Cada participación tiene su fuente. En las funciones actuales usamos solo la web del teatro o de la compañía, o el programa de mano. Si eres esta persona y quieres corregir o retirar algún dato, escríbenos y lo haremos.</p></div>`;
   }
 
   // 19-10-2026 (decisiones de César del 17 y el 19-10): Representaciones documentadas en un
@@ -479,7 +479,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
       return `<li><div class="yr">${esc((r.d0||'').slice(0,4))}</div>`+(o?`<a href="ficha.html?id=${encodeURIComponent(o.id)}#representaciones">${inner}</a>`:`<span class="noficha">${inner}</span>`)+'</li>';
     }).join('');
     return `<div class="bloque"><h2>Representaciones documentadas</h2><ul class="obras">${filas}</ul>`+
-      `<p class="nota">Con fuente oficial: la web del teatro, del festival o de la compañía. La ficha artística completa, en la ficha de cada obra.</p></div>`;
+      `<p class="nota">Todas tienen fuente oficial, que es la web del teatro, del festival o de la compañía. La ficha artística completa está en la ficha de cada obra.</p></div>`;
   }
 
   // --- Ficha de teatro y ficha de década (30-8-2026) ---------------------
@@ -527,9 +527,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     const h=t&&t.his&&String(t.his).trim();
     return '<div class="bloque"><h2>Historia</h2>'+
       (h?esc(h).split(/\n{2,}/).map(x=>`<p class="ensayo">${x.replace(/\n/g,' ').trim().replace(/\*([^*]+)\*/g,'<em>$1</em>')}</p>`).join('')
-        :'<p class="pend">La historia de esta sala está pendiente de redactar. Se escribe en la '+
-          'pestaña <strong>Teatros</strong> del Excel de la Zarzuteca, con las fuentes declaradas, '+
-          'igual que las biografías de los autores.</p>')+'</div>';
+        :'<p class="pend">Estamos preparando la historia de este teatro.</p>')+'</div>';
   }
   // Los tres bloques del análisis de década. Se pintan solo los que tienen
   // texto; si no hay ninguno, un aviso de que está pendiente.
@@ -565,7 +563,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 
   if(tipo==='persona'){
     const p=PE.find(x=>x.id===v);
-    if(!p){ noEncontrado('No se ha encontrado este autor.'); }
+    if(!p){ noEncontrado('No encontramos este autor.'); }
     else{
       const cab=cabeceraBio(p.bio);
       document.title=p.n+' — Zarzuteca INNAZ';
@@ -582,8 +580,8 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
       let html='<div class="zz-panel" data-tab="informacion" data-label="'+(autor?'Información del autor':'Información')+'"><div class="bloque persona-bio"><h2>Biografía</h2>'+
         (p.foto ? `<img class="foto-persona" src="personas/${esc(p.foto)}" alt="${esc(p.n)}" loading="lazy">` : '')+
         (p.bio ? esc(cab.resto).split(/\n{2,}/).map(x=>`<p class="bio">${x.replace(/\n/g,' ').trim()}</p>`).join('')
-               : (autor ? '<p class="pend">Biografía pendiente de redactar. Se añade en la pestaña <strong>Personas</strong> del Excel de la Zarzuteca.</p>'
-                        : '<p class="pend">Todavía no hay biografía publicada. Solo se publica la que da una fuente oficial: la web de la persona, su agencia o el teatro.</p>'))+
+               : (autor ? '<p class="pend">Estamos preparando la biografía de este autor.</p>'
+                        : '<p class="pend">Todavía no tenemos su biografía. Solo publicamos la que procede de una fuente oficial, como su propia web, su agencia o el teatro.</p>'))+
         (web?`<p class="nota">Web oficial: ${web}</p>`:'')+
         '</div></div>';
       if(autor || !(p.par||[]).length){
@@ -607,7 +605,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     const obras=OB.filter(o=>o.teatroK===v).sort(cmpCron);
     if(!v){ noEncontrado('Falta el teatro.'); }
     else if(!te && !obras.length){
-      noEncontrado('No se ha encontrado este teatro.');
+      noEncontrado('No encontramos este teatro.');
     } else {
       const nom=te?te.n:v, ciu=te?te.c:'';
       document.title=nom+(ciu?' ('+ciu+')':'')+' — Zarzuteca INNAZ';
@@ -677,7 +675,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
             'esta década. '+esc(AVISO_COBERTURA)+'</p></div>');
     }
   } else {
-    noEncontrado('Listado sin tipo. Los tipos válidos son persona, teatro, anio y decada.');
+    noEncontrado('No encontramos esta página.');
   }
 
   // Abrir y plegar el momento histórico. Delegado en el documento porque el

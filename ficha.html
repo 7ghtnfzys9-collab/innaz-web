@@ -392,7 +392,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   const NUEVA_BUSQUEDA='<a href="'+destinoBusq+'" class="btn-nueva">← Nueva búsqueda</a>';
   if(!o){
     $('fTitulo').textContent='Obra no encontrada';
-    $('fBody').innerHTML='<p class="vacio-ficha">No se ha encontrado esta obra. Vuelve al <a href="buscador.html">buscador</a>.</p>';
+    $('fBody').innerHTML='<p class="vacio-ficha">No encontramos esta obra. Vuelve al <a href="buscador.html">Catálogo</a>.</p>';
     $('fChips').innerHTML=`<div class="chips-row final">${NUEVA_BUSQUEDA}</div>`;
   } else {
     document.title=o.t+' — Zarzuteca INNAZ';
@@ -627,7 +627,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
       ).map(s=>`<div class="acto-grupo">${s}</div>`).join('');
       html+=`<div class="bloque"><h2>Números musicales</h2><div class="num-wrap" id="numWrap">${cuerpo}</div>`+
         `<button type="button" class="pers-toggle arg-toggle" id="numBtn" hidden aria-expanded="false" aria-controls="numWrap">Ver todos los números ▾</button>`+
-        (o.numP?`<p class="nota">Selección de números principales (no exhaustiva).</p>`:'')+`</div>`;
+        (o.numP?`<p class="nota">Solo aparecen los números principales.</p>`:'')+`</div>`;
     }
     // 2 bis) Histórico (15-10-2026, decisiones de César del 13 y el 15-10): ficha artística
     // del estreno, crítica del estreno (texto literal en desplegable, con periódico y firma
@@ -663,11 +663,11 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
         if(r.dmus) b+=`<p class="est-lin"><b>Dirección musical</b>${esc(r.dmus)}</p>`;
         if(r.desc) b+=`<p class="est-lin"><b>Dirección de escena</b>${esc(r.desc)}</p>`;
         (r.eq||[]).forEach(([rol,n])=>{ b+=`<p class="est-lin"><b>${esc(rol||'Equipo')}</b>${esc(n)}</p>`; });
-        if(r.fue&&r.fue.length) b+=`<p class="nota fue">Fuente: ${r.fue.map(([u,q])=>u?`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(dom(u))}</a>${q?' ('+esc(q)+')':''}`:esc(q)).join('; ')}.</p>`;
+        if(r.fue&&r.fue.length){ /* 21-10-2026 (César): solo el nombre de la web, enlazado y sin repetir; fuera las notas internas */ const vistos=new Set(); const fs=r.fue.filter(([u,q])=>{const d=u?dom(u):q;if(!d||vistos.has(d))return false;vistos.add(d);return true;}); if(fs.length) b+=`<p class="nota fue">Fuente: ${fs.map(([u,q])=>u?`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(dom(u))}</a>`:esc(q)).join(', ')}.</p>`; }
         return `<div class="rp">${b}</div>`;
       }).join('');
       repDoc=`<div class="bloque" id="representaciones-doc"><h2>Representaciones documentadas</h2>${cards}`+
-        `<p class="nota">Cada representación lleva su fuente oficial: la web del teatro, del festival o de la compañía. Si eres parte de alguna y quieres corregir o completar un dato, escríbenos.</p></div>`;
+        `<p class="nota">Cada representación lleva su fuente oficial, que es la web del teatro, del festival o de la compañía. Si has participado en alguna y quieres corregir o completar un dato, escríbenos.</p></div>`;
     }
     const HIS=(typeof HISTORICO!=='undefined'&&HISTORICO[o.id])||null;
     if(HIS){
@@ -692,14 +692,14 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
             `<span class="crit-fir">${c.fir?esc(c.fir):'Sin firma'}</span></summary>`+
             `<div class="crit-tx">${ps}<p class="crit-pie">${esc(c.per)}, ${esc(c.f)}${c.pag?', '+esc(c.pag):''}. ${c.fir?'Firma: '+esc(c.fir)+'.':'Sin firma.'}</p></div></details>`;}).join('');
         rep+=`<div class="bloque" id="criticas"><h2>Críticas del estreno</h2>${cs}`+
-          `<p class="nota">Transcripción literal, cotejada con el facsímil de la Hemeroteca Digital de la Biblioteca Nacional de España. Se respeta la ortografía de la época; [sic] señala las erratas del original y los corchetes, las lecturas dudosas o ilegibles.</p></div>`;
+          `<p class="nota">Transcribimos la crítica tal como se publicó y la cotejamos con el facsímil de la Hemeroteca Digital de la Biblioteca Nacional de España. Respetamos la ortografía de la época. [sic] señala las erratas del original, y los corchetes, las lecturas dudosas o ilegibles.</p></div>`;
       }
       rep+=repDoc+'<div id="zzSlotProx"></div>';
       const tp=HIS.temp;
       if(tp&&tp.n){
         rep+=`<div class="bloque" id="historico"><h2>Histórico de representaciones</h2>`+
           `<p class="sinopsis">Al menos ${tp.n} temporada${tp.n>1?'s':''} en Madrid entre ${tp.a0} y ${tp.a1}, según las carteleras de la prensa histórica de la Biblioteca Nacional de España.</p>`+
-          `<p class="nota">Recuento de temporadas de cinco o más días anunciados en cartelera. El historial completo, para suscriptores.</p></div>`;
+          `<p class="nota">Contamos como temporada cada etapa de cinco días o más en cartel. El historial completo está disponible para los suscriptores.</p></div>`;
       }
     }
     if(!rep.includes('zzSlotProx')) rep+=repDoc+'<div id="zzSlotProx"></div>';
