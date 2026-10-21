@@ -164,7 +164,8 @@
   "Teatro Cervantes de Madrid": "teatro-cervantes-madrid",
   "Teatro Chueca de Madrid": "teatro-chueca-madrid",
   "Teatro El Cisne de Madrid": "teatro-chueca-madrid",
-  "Centro Social de Tarrasa": "centro-social-tarrasa"
+  "Centro Social de Tarrasa": "centro-social-tarrasa",
+  "Teatro Cómico de Barcelona": "teatro-comico-barcelona"
  },
  "teatros": [
   {
@@ -781,6 +782,11 @@
    "k": "centro-social-tarrasa",
    "n": "Centro Social",
    "c": "Tarrasa"
+  },
+  {
+   "k": "teatro-comico-barcelona",
+   "n": "Teatro Cómico",
+   "c": "Barcelona"
   }
  ],
  "rotulos": {
