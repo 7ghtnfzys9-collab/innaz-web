@@ -90,6 +90,7 @@
     .mlink.l{color:#5c6b2f;border-color:#d6e0bf;background:#f1f4e9;}
     .mlink.v{color:#8a4b1f;border-color:#e6cdb5;background:#f7efe6;}
     .mlink.a{color:#6b4b9a;border-color:#d5c9ea;background:#efeaf7;}
+    .ayuda-busq{font-size:.78rem;color:var(--muted);font-style:italic;line-height:1.6;margin:0 0 1.6rem;}
     .empty{color:var(--muted);font-size:.9rem;padding:2.5rem 0;text-align:center;}
     .empty b{color:var(--text);}
     footer{background:#080808;padding:2.4rem 3.5rem;}
@@ -266,6 +267,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
         </div>
       </div>
     </div>
+    <p class="ayuda-busq" id="ayuda"></p>
     <ul class="lista" id="lista"></ul>
     <p class="empty" id="vacio" style="display:none;"></p>
   </div>
@@ -568,9 +570,9 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
              aud:['Fonoteca','Obras que tienen audio en la Zarzuteca.']};
     const uno = mats.size===1 ? [...mats][0] : '';
     if(T[uno]){ $('titulo').textContent=T[uno][0];
-                 $('intro').textContent=T[uno][1]+' Busca por título, autor o teatro y afina con los filtros. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.'; }
+                 $('intro').textContent=T[uno][1]; $('ayuda').textContent='Busca por título, autor o teatro y afina con los filtros. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.'; }
     else { $('titulo').textContent='Catálogo';
-           $('intro').textContent='Escribe un título, un autor o un teatro y afina la búsqueda con los filtros. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.'; }
+           $('intro').textContent='Todas las obras de la Zarzuteca en un solo buscador.'; $('ayuda').textContent='Escribe un título, un autor o un teatro y afina la búsqueda con los filtros. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.'; }
     filtrar();
   }
 
