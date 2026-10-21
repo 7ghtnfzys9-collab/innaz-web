@@ -562,15 +562,15 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
            (nEq?mil(nEq)+' intérpretes y equipo artístico, ':'')+mil(nT)+' teatros y '+mil(nA)+' años.';
   }
   function rotulos(){
-    const T={part:['Partituras','Obras del fondo que cuentan con partitura.'],
-             lib:['Libretos','Obras del fondo que cuentan con libreto.'],
-             vid:['Videoteca','Obras del fondo que cuentan con vídeo.'],
-             aud:['Fonoteca','Obras del fondo que cuentan con audio.']};
+    const T={part:['Partituras','Obras que tienen partitura en la Zarzuteca.'],
+             lib:['Libretos','Obras que tienen libreto en la Zarzuteca.'],
+             vid:['Videoteca','Obras que tienen vídeo en la Zarzuteca.'],
+             aud:['Fonoteca','Obras que tienen audio en la Zarzuteca.']};
     const uno = mats.size===1 ? [...mats][0] : '';
     if(T[uno]){ $('titulo').textContent=T[uno][0];
-                 $('intro').textContent=T[uno][1]+' Busca en una sola caja y afina después con los filtros.'; }
+                 $('intro').textContent=T[uno][1]+' Busca por título, autor o teatro y afina con los filtros. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.'; }
     else { $('titulo').textContent='Catálogo';
-           $('intro').textContent=totalFichas(); }
+           $('intro').textContent='Escribe un título, un autor o un teatro y afina la búsqueda con los filtros. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.'; }
     filtrar();
   }
 

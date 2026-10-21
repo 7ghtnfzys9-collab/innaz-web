@@ -263,7 +263,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   }).sort((a,b)=>norm(a.rot).localeCompare(norm(b.rot),'es'));
 
   const conBio=A.filter(x=>x.bio).length;
-  $('sub').textContent=A.length+' autores con obra publicada en la Zarzuteca · '+conBio+' con biografía redactada';
+  $('sub').textContent='Busca por nombre o apellido, o elige ver solo compositores o libretistas. El número de fichas irá creciendo a medida que encontremos datos de nuevas obras, autores, intérpretes y teatros.';
   $('aviso').textContent='Este índice recoge a quienes firman alguna obra con ficha ya publicada. '+
     'El catálogo se está completando, así que faltan autores cuyas obras aún no tienen ficha. '+
     'Las biografías se redactan por tandas, con fuentes declaradas: '+conBio+' de '+A.length+' están escritas.';
