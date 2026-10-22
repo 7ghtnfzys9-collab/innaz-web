@@ -49,7 +49,19 @@
       .catch(() => { cargado = true; pintar(); });
     return promesa;
   }
-  const yaVotado = id => votados.includes(id) || (() => { try { return !!localStorage.getItem('innaz_val_' + id); } catch (e) { return false; } })();
+  /* Grupos de «mismo espectáculo» (valoraciones-grupos.js) y Sello (sello-data.js). */
+  function grupo(id) {
+    const G = typeof GRUPOS_ESPECTACULO !== 'undefined' ? GRUPOS_ESPECTACULO : {};
+    for (const ids of Object.values(G)) if (ids.includes(id)) return ids;
+    return [id];
+  }
+  function selloDe(id) {
+    if (typeof PRODUCCIONES === 'undefined') return null;
+    const g = grupo(id);
+    return PRODUCCIONES.find(p => [].concat(p.cartelera || []).some(c => g.includes(c))) || null;
+  }
+  const sello = id => selloDe(id) ? '<span class="val-sello" title="Concedido por el comité de INNAZ">✦ Sello de Calidad INNAZ</span>' : '';
+  const yaVotado = id => grupo(id).some(x => votados.includes(x) || (() => { try { return !!localStorage.getItem('innaz_val_' + x); } catch (e) { return false; } })());
   const abierta = (f0, f1) => !!f0 && hoy >= f0 && hoy <= masDias(f1 || f0, DIAS);
 
   function hueco(id, f0, f1, titulo) {
@@ -61,7 +73,7 @@
     const x = notas[id] || { n: 0, nota: null };
     const ab = abierta(f0, f1), voto = yaVotado(id);
     const votos = x.n === 1 ? '1 voto' : x.n.toLocaleString('es-ES') + ' votos';
-    let h = '';
+    let h = sello(id);
     if (x.nota !== null && x.nota !== undefined) {
       h += `<span class="val-rot">Valoración del público</span>
         <span class="val-est" aria-label="${x.nota.toFixed(1).replace('.', ',')} sobre 5">★★★★★<span class="val-fill" style="width:${(x.nota / 5 * 100).toFixed(1)}%">★★★★★</span></span>
@@ -91,6 +103,7 @@
       .val{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .6rem;margin:.6rem 0 .2rem;font-size:.8rem;color:var(--muted,#6b6b6b);}
       .val[hidden]{display:none;}
       .val-rot{font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;}
+      .val-sello,.val-sello-sola{display:inline-block;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:#8E3346;padding:.25rem .6rem;border-radius:2px;white-space:nowrap;}
       .val-est{position:relative;display:inline-block;color:#d9d4cb;letter-spacing:.06em;font-size:.95rem;line-height:1;}
       .val-fill{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:#E3A62F;}
       .val-num{font-family:'Cormorant',serif;font-size:1.25rem;font-weight:600;color:var(--black,#111);}
@@ -225,5 +238,8 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', vigilar); else vigilar();
 
-  window.VAL = { hueco, abierta, cargar, pintar, abrir, nota: id => notas[id] || { n: 0, nota: null }, DIAS, MINIMO };
+  window.VAL = { hueco, abierta, cargar, pintar, abrir, grupo, selloDe,
+    /* Distintivo suelto, para listas que no llevan valoración (Próximas funciones…). */
+    sello: id => selloDe(id) ? '<span class="val-sello-sola" title="Concedido por el comité de INNAZ">✦ Sello de Calidad INNAZ</span>' : '',
+    nota: id => notas[id] || { n: 0, nota: null }, DIAS, MINIMO };
 })();

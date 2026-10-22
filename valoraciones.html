@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valoraciones — Actualidad INNAZ</title>
+  <meta name="description" content="Valoraciones del público de los espectáculos de Zarzuela y teatro lírico español de la Cartelera de INNAZ.">
+  <!--
+    VALORACIONES — Actualidad INNAZ, 22-10-2026 (decisión de César).
+    Valoración del público de los espectáculos de la Cartelera:
+      · «Valora lo que has visto»: espectáculos terminados cuya votación sigue abierta
+        (hasta 15 días después de la última función). Los que siguen en cartel se valoran
+        desde la Cartelera.
+      · «Valoraciones de la temporada»: notas ya cerradas.
+    Todo sale de cartelera-data.js, valoraciones-grupos.js y sello-data.js; los votos, del
+    servidor (functions/api/valoracion/). El Sello de Calidad, que concede el comité, se
+    muestra junto a los espectáculos que lo tengan.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="cartelera-data.js?v=27288549"></script>
+  <script src="sello-data.js?v=4efe148d"></script>
+  <script src="valoraciones-grupos.js?v=4b2fd34a"></script>
+  <script src="valoraciones.js?v=43cc0e9c"></script>
+  <style>
+    :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);}
+    nav{position:fixed;top:0;width:100%;z-index:100;padding:1.1rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,238,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Cormorant SC',serif;font-size:1.65rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:.08em;}
+    .nav-logo span{color:var(--teal);}
+    .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;opacity:.65;transition:opacity .2s,color .2s;}
+    .nav-links a:hover{opacity:1;color:var(--teal);}
+    .nav-links a.active{opacity:1;color:var(--teal);}
+    .nav-links a.active:not(.nav-cta)::after{content:'';display:block;height:2px;background:var(--teal);margin-top:3px;border-radius:2px;}
+    .nav-cta{background:var(--teal)!important;color:#fff!important;opacity:1!important;padding:.5rem 1.3rem;border-radius:2px;}
+    .nav-cta:hover{background:var(--teal-dark)!important;}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:960px){.nav-links{display:none;}.nav-hamburger{display:flex;}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:var(--cream);padding:2.2rem 1.6rem;gap:1.3rem;align-items:flex-start;z-index:99;}.nav-links.open a{opacity:1;font-size:.95rem;}}
+    .zz-drop{position:relative;}
+    .zz-drop-t{cursor:pointer;}
+    .zz-car{display:inline-block;margin-left:.35em;font-size:.8em;line-height:1;transition:transform .18s;}
+    .zz-drop.open .zz-car{transform:rotate(180deg);}
+    .zz-drop-m{display:none;list-style:none;position:absolute;top:calc(100% + .95rem);left:50%;transform:translateX(-50%);min-width:12.5rem;background:#F8F4EE;border:1px solid #E2DAD0;border-radius:4px;box-shadow:0 10px 28px rgba(0,0,0,.12);padding:.35rem 0;z-index:120;}
+    .zz-drop.open>.zz-drop-m{display:block;}
+    .zz-drop-m li{display:block;}
+    .zz-drop-m a{display:block;padding:.6rem 1.15rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;opacity:.75;}
+    .zz-drop-m a:hover{opacity:1;color:#2AABB8;background:rgba(42,171,184,.09);}
+    .zz-drop-m a::after{display:none!important;}
+    @media(max-width:960px){.zz-drop{width:100%;}.zz-drop-m{position:static;transform:none;min-width:0;border:none;background:transparent;box-shadow:none;padding:.55rem 0 0 1rem;border-left:2px solid #E2DAD0;margin-top:.5rem;}.zz-drop-m a{padding:.45rem 0;font-size:.8rem;}}
+
+    header.lh{padding:9rem 3.5rem 2.2rem;background:var(--cream);}
+    .inner{max-width:900px;margin:0 auto;}
+    .label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:1rem;}
+    h1{font-family:'Cormorant SC',serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.1;color:var(--black);}
+    .sub{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:.4rem;}
+    main{padding:2.6rem 3.5rem 5rem;}
+
+    /* ─── BUSCADOR Y FILTROS ─── */
+    .filtros{max-width:900px;margin:0 auto 2.2rem;}
+    .busca{width:100%;padding:.85rem 1.1rem;font-family:inherit;font-size:.95rem;color:var(--text);background:var(--white);border:1px solid var(--border);border-radius:4px;}
+    .busca:focus{outline:none;border-color:var(--teal);}
+    .selects{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.7rem;margin-top:.7rem;}
+    .selects select{width:100%;padding:.6rem .7rem;font-family:inherit;font-size:.82rem;color:var(--text);background:var(--white);border:1px solid var(--border);border-radius:4px;cursor:pointer;}
+    .selects select:focus{outline:none;border-color:var(--teal);}
+    .barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;margin-top:.9rem;}
+    .cuenta{font-size:.78rem;color:var(--muted);}
+    .limpiar{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark);background:none;border:1.5px solid var(--teal-dark);padding:.4rem .9rem;border-radius:22px;cursor:pointer;font-family:inherit;transition:all .15s;}
+    .limpiar:hover:not(:disabled){background:var(--teal-dark);color:#fff;}
+    .limpiar:disabled{opacity:.4;cursor:default;}
+
+    /* ─── LISTA DE NOTICIAS ─── */
+    .lista{max-width:900px;margin:0 auto;list-style:none;}
+    .noticia{border-top:1px solid var(--border);padding:1.9rem 0;}
+    .noticia:last-child{border-bottom:1px solid var(--border);}
+    .meta{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem;font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.6rem;}
+    .meta .pt{color:var(--muted);}
+    .noticia h2{font-family:'Cormorant SC',serif;font-size:1.42rem;font-weight:600;line-height:1.25;color:var(--black);margin-bottom:.55rem;}
+    .cuerpo{font-size:.97rem;line-height:1.8;}
+    .zarz{margin-top:1rem;padding:.85rem 1.05rem;background:var(--teal-light);border-radius:4px;font-size:.86rem;line-height:1.9;}
+    .zarz .zt{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark);display:block;margin-bottom:.25rem;}
+    .zarz a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
+    .zarz a:hover{border-bottom-color:var(--teal-dark);}
+    /* Comprobado con el archivo de INNAZ — plegable, cerrado por defecto */
+    .comp{margin-top:.75rem;border:1px solid var(--border);border-radius:4px;background:var(--cream);}
+    .comp>summary{cursor:pointer;list-style:none;padding:.6rem 1.05rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.5rem;}
+    .comp>summary::-webkit-details-marker{display:none;}
+    .comp>summary::after{content:'▾';margin-left:auto;font-size:.8rem;transition:transform .2s;}
+    .comp[open]>summary::after{transform:rotate(180deg);}
+    .comp>summary:hover{color:var(--teal-dark);}
+    .comp .cn{background:var(--teal-light);color:var(--teal-dark);border-radius:999px;padding:.05rem .45rem;font-size:.68rem;letter-spacing:0;}
+    .comp ul{list-style:none;margin:0;padding:0 1.05rem .9rem;}
+    .comp li{display:flex;gap:.6rem;font-size:.85rem;line-height:1.65;padding:.35rem 0;border-top:1px solid var(--border);}
+    .comp li:first-child{border-top:none;}
+    .comp .mk{flex:0 0 1.1rem;text-align:center;font-weight:700;}
+    .comp .ok .mk{color:var(--teal-dark);}
+    .comp .mas .mk{color:var(--teal-dark);}
+    .comp .no .mk{color:var(--muted);font-weight:400;}
+    .comp a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
+    .comp a:hover{border-bottom-color:var(--teal-dark);}
+    .comp .pie{padding:0 1.05rem .9rem;font-size:.74rem;color:var(--muted);line-height:1.6;}
+    .fuente{margin-top:.9rem;font-size:.79rem;color:var(--muted);}
+    .fuente.fuente-arriba{margin-top:.5rem;margin-bottom:.9rem;}
+    .fuente a{color:var(--teal-dark);text-decoration:none;border-bottom:1px solid rgba(27,138,150,.35);}
+    .fuente a:hover{border-bottom-color:var(--teal-dark);}
+    .etqs{margin-top:.75rem;display:flex;flex-wrap:wrap;gap:.4rem;}
+    .etq{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:22px;padding:.24rem .7rem;background:none;cursor:pointer;font-family:inherit;transition:all .15s;}
+    .etq:hover{border-color:var(--teal);color:var(--teal-dark);}
+    .vacio{max-width:900px;margin:0 auto;background:var(--teal-light);border:1px dashed var(--teal);padding:1.6rem;border-radius:4px;font-size:.92rem;color:var(--teal-dark);line-height:1.7;}
+    .nota-pie{max-width:900px;margin:2.6rem auto 0;font-size:.76rem;color:var(--muted);font-style:italic;line-height:1.7;border-top:1px solid var(--border);padding-top:1.1rem;}
+
+    footer{background:#080808;padding:2.4rem 3.5rem;}
+    .footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;}
+    .footer-logo{font-family:'Cormorant SC',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.88);}
+    .footer-logo span{color:var(--teal);}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.6);max-width:520px;line-height:1.6;}
+    @media(max-width:860px){nav,header.lh,main,footer{padding-left:1.4rem;padding-right:1.4rem;}header.lh{padding-top:7rem;}}
+  
+    /* 24-9-2026: en móvil se quita el desenfoque de la barra. backdrop-filter convierte el <nav> en
+       el contenedor del menú desplegable (position:fixed), que se quedaba con la altura de la barra y
+       dejaba los enlaces flotando sin fondo sobre la página. No volver a ponerlo en móvil. */
+    @media(max-width:960px){nav{backdrop-filter:none;-webkit-backdrop-filter:none;}}
+    /* 24-9-2026 (2): el menú abierto es una caja crema translúcida que solo ocupa lo que sus enlaces
+       (crece al desplegar «Zarzuteca»); si no cabe en la pantalla, se desplaza por dentro. */
+    @media(max-width:960px){.nav-links.open{bottom:auto;max-height:calc(100dvh - 58px);overflow-y:auto;
+      background:rgba(248,244,238,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      border-bottom:1px solid #E2DAD0;box-shadow:0 12px 28px rgba(0,0,0,.14);padding:1.6rem 1.6rem 1.8rem;}}
+</style>
+<!-- PALETA-SECCIONES:INICIO -->
+<style>
+/* 16-10-2026 · Paleta por secciones aprobada por César (claude/PROPUESTA-paleta-colores-web-16-10-2026.md).
+   Generado por 06 Scripts/Web/aplicar_paleta_secciones.py: no editar a mano, se regenera. */
+:root{--inst:#2AABB8;--s-form:#6F8AC6;--s-form-t:#2F4775;--s-recu:#E0A25C;--s-recu-t:#87591A;--s-catal:#E0A25C;--s-catal-t:#87591A;--s-obras:#D7A793;--s-obras-t:#8F4F25;--s-autores:#D1C28F;--s-autores-t:#765E16;--s-teatros:#C19F86;--s-teatros-t:#7E5430;--s-anios:#D7CBB2;--s-anios-t:#715A30;--s-inte:#D27D8D;--s-inte-t:#8E3346;--s-cartel:#CA8BD0;--s-cartel-t:#7A5080;--s-sello:#D27D8D;--s-sello-t:#8E3346;--s-crea:#7BC68D;--s-crea-t:#3E7150;--s-noti:#CDC8C1;--s-noti-t:#5C5852;}
+.nav-logo span,.footer-logo span{color:var(--inst)!important;}
+.nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#1B8A96!important;}
+.zz-drop-m a{box-shadow:inset 3px 0 0 transparent;}
+/* 19-10-2026 (noche, César): menú superior NEUTRO, sin colores de pilar. Solo el apartado seleccionado va
+   subrayado y en el color institucional; se mantienen las líneas verticales de color de los desplegables. */
+.nav-links a:not(.nav-cta):hover{color:var(--text,#1A1A1A)!important;}
+.nav-links a.active:not(.nav-cta){color:var(--inst)!important;}
+.nav-links a.active{opacity:1!important;}
+.nav-links a.active:not(.nav-cta)::after{content:'';display:block;height:2px;margin-top:3px;border-radius:2px;background:var(--inst)!important;}
+.zz-drop-m a:hover{color:var(--text,#1A1A1A)!important;background:rgba(0,0,0,.04)!important;}
+/* 19-10-2026 (César): TODAS las cabeceras con el formato y el tamaño de las de los pilares: fondo negro y
+   todo el texto en el color del pilar (--hc). Las fichas, que traen más contenido, conservan su altura mínima propia. */
+header.lh,header.page-head,header.fh,header.hero{background:#0B0B0B!important;border-bottom:0!important;padding-top:10rem!important;padding-bottom:5rem!important;box-sizing:border-box;position:relative;}
+header.lh,header.page-head,header.hero{min-height:27rem;}
+/* 19-10-2026 (tarde): en color SOLO el título (y el número de los pilares); el resto del texto, en blanco */
+header.lh *,header.page-head *,header.fh *,header.hero *{color:#FFFFFF!important;}
+header.lh h1,header.lh h1 *,header.page-head h1,header.page-head h1 *,header.fh h1,header.fh h1 *,header.hero h1,header.hero h1 *,header.hero .hero-num{color:var(--hc)!important;}
+header.hero h1 .zz-z,header.lh h1 .zz-z,header.page-head h1 .zz-z{color:var(--inst)!important;}
+header.lh h1,header.page-head h1,header.fh h1,header.hero h1{font-family:'Cormorant SC',serif!important;font-size:clamp(2.6rem,7vw,5rem)!important;font-weight:700!important;line-height:1.05!important;}
+header.lh .label,header.page-head .section-label,header.fh .label,header.hero .hero-label{font-size:.72rem!important;letter-spacing:.3em!important;text-transform:uppercase;margin-bottom:1.4rem!important;opacity:1;}
+header.lh .sub,header.hero .hero-lema{font-family:'Cormorant',serif!important;font-style:italic;font-weight:300;font-size:1.25rem!important;margin-top:1.2rem!important;}
+header.page-head .intro,header.page-head .sello-intro{opacity:.92;}
+header.lh .label::after,header.page-head .section-label::after{background:rgba(255,255,255,.6)!important;}
+header.fh .chip{background:transparent!important;border-color:rgba(255,255,255,.35)!important;}
+header.fh .chip .k{opacity:.75;}
+header.fh .chip a{border-bottom-color:rgba(255,255,255,.4)!important;}
+header.fh .chip a:hover{border-bottom-color:#FFFFFF!important;}
+header.fh .fh-arrow{border-color:rgba(255,255,255,.7)!important;}header.fh .fh-arrow:hover{background:#FFFFFF!important;color:#0B0B0B!important;}
+header.fh .fh-arrow.disabled{opacity:.3;}
+header.lh .btn-nueva{border-color:rgba(255,255,255,.7)!important;background:transparent!important;}
+@media(max-width:960px){header.lh,header.page-head,header.fh,header.hero{padding-top:8rem!important;}}
+@media(max-width:860px){header.lh,header.page-head,header.hero{min-height:24rem;}}
+@media(max-width:860px){header.lh,header.page-head,header.fh,header.hero{padding-left:max(16px,1.4rem)!important;padding-right:max(16px,1.4rem)!important;}}
+/* Pestañas de la Zarzuteca: continúan la cabecera negra; la activa se abre sobre el fondo de la página */
+/* 19-10-2026 (tarde): las pestañas van DENTRO de la cabecera, pegadas a su borde inferior, y no suman altura */
+header .zz-tabs{position:absolute;left:0;right:0;bottom:0;padding-left:inherit;padding-right:inherit;}
+.zz-tabs-in{max-width:1140px;margin:0 auto;display:flex;gap:.3rem;overflow-x:auto;scrollbar-width:none;}
+.zz-tabs-in::-webkit-scrollbar{display:none;}
+.zz-tabs a{flex:none;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:#FFFFFF;opacity:.8;padding:.85rem 1.25rem;border-radius:3px 3px 0 0;transition:opacity .15s,background .15s;}
+.zz-tabs a:hover{opacity:1;background:rgba(255,255,255,.06);}
+header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-t,#87591A)!important;font-weight:500;}
+.zz-tabs a:focus-visible{outline:2px solid #FFFFFF;outline-offset:-2px;}
+@media(max-width:860px){.zz-tabs a{padding:.75rem .95rem;font-size:.68rem;}}
+@media(max-width:960px){.zz-drop-m a{padding-left:.9rem!important;}}
+.zz-drop-m a[href^="proyecto-formacion.html"]{box-shadow:inset 3px 0 0 var(--s-form);}
+.zz-drop-m a[href^="proyecto-recuperacion.html"]{box-shadow:inset 3px 0 0 var(--s-recu);}
+.zz-drop-m a[href^="proyecto-interpretacion.html"]{box-shadow:inset 3px 0 0 var(--s-inte);}
+.zz-drop-m a[href^="proyecto-creacion.html"]{box-shadow:inset 3px 0 0 var(--s-crea);}
+.zz-drop-m a[href^="cartelera.html"]{box-shadow:inset 3px 0 0 var(--s-cartel);}
+.zz-drop-m a[href^="noticias.html"]{box-shadow:inset 3px 0 0 var(--s-cartel);}
+:root{--sec:var(--s-cartel);--sec-t:var(--s-cartel-t);--sec-l:color-mix(in srgb,var(--s-cartel) 38%,#F8F4EE);--teal:var(--sec-t);--teal-dark:var(--sec-t);--teal-light:color-mix(in srgb,var(--s-cartel) 14%,#FFFFFF);}
+:root{--hc:var(--sec);}
+.zl,.linea-card.negra{--teal:var(--sec);--teal-dark:var(--sec);}
+.barra #cuenta{display:none!important;}.barra{justify-content:flex-end!important;}
+.selects{grid-template-columns:repeat(4,minmax(0,1fr))!important;}@media(max-width:860px){.selects{grid-template-columns:repeat(2,minmax(0,1fr))!important;}}
+header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
+main > *, main #res > *{max-width:820px!important;margin-left:auto!important;margin-right:auto!important;}
+main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:none;hyphens:none;}
+</style>
+<script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
+<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<!-- PALETA-SECCIONES:FIN -->
+<style>
+  /* Valoraciones (22-10-2026) */
+  main{max-width:820px;margin:0 auto;padding:3.2rem 16px 4rem;}
+  .val-ayuda{font-size:.8rem;font-style:italic;color:var(--muted);line-height:1.6;margin:0 0 2.4rem;}
+  .bloque-val{margin-bottom:3.4rem;}
+  .bloque-val h2{font-family:'Cormorant',serif;font-size:1.9rem;font-weight:600;margin:0 0 .3rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);}
+  .bloque-val .nota-b{font-size:.8rem;font-style:italic;color:var(--muted);margin:.6rem 0 1.2rem;}
+  .bloque-val .nota-b a{color:var(--teal-dark);}
+  .esp{list-style:none;margin:0;padding:0;}
+  .esp li{padding:1.1rem 0;border-bottom:1px solid var(--border);}
+  .esp .t{font-family:'Cormorant',serif;font-size:1.35rem;font-weight:600;line-height:1.2;color:var(--black);text-decoration:none;}
+  .esp a.t:hover{color:var(--teal-dark);}
+  .esp .l{display:block;font-size:.82rem;color:var(--muted);margin-top:.25rem;line-height:1.5;}
+  .vacio-val{font-size:.88rem;color:var(--muted);padding:1rem 0;}
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="que-es-innaz.html">Qué es INNAZ</a></li>
+    <li class="zz-drop"><a href="index.html#pilares" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="proyecto-formacion.html">Formación</a></li><li><a href="proyecto-recuperacion.html">Recuperación</a></li><li><a href="proyecto-interpretacion.html">Interpretación</a></li><li><a href="proyecto-creacion.html">Creación</a></li></ul></li>
+    <li><a href="buscador.html">Zarzuteca</a></li>
+    <li class="zz-drop"><a href="index.html#noticias" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Actualidad<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="cartelera.html">Cartelera</a></li><li><a href="valoraciones.html" class="active">Valoraciones</a></li><li><a href="noticias.html" class="active">Noticias</a></li></ul></li>
+    <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+
+<header class="lh">
+  <div class="inner">
+    <p class="label">Actualidad INNAZ</p>
+    <h1>Valoraciones</h1>
+    <p class="sub">La opinión del público sobre los espectáculos de la Cartelera</p>
+  </div>
+</header>
+
+<main>
+  <p class="val-ayuda">Valora los espectáculos que has visto, desde el día de su primera función hasta 15 días después de la última. Cada espectáculo tiene una sola nota, aunque se represente en varios teatros, y la nota aparece cuando reúne al menos 10 votos.</p>
+
+  <section class="bloque-val">
+    <h2>Valora lo que has visto</h2>
+    <p class="nota-b">Espectáculos que han terminado en los últimos 15 días. Si el espectáculo sigue en cartel, puedes valorarlo desde la <a href="cartelera.html">Cartelera</a>.</p>
+    <ul class="esp" id="abiertas"></ul>
+  </section>
+
+  <section class="bloque-val">
+    <h2>Valoraciones de la temporada</h2>
+    <p class="nota-b">Espectáculos cuya votación ya se ha cerrado, con la nota final del público.</p>
+    <ul class="esp" id="cerradas"></ul>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">INNA<span>Z</span></div>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela · Zarzuteca INNAZ</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const esc=t=>String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const d=new Date(), HOY=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const fl=iso=>{const [y,m,dd]=iso.split('-');return +dd+' de '+MES[+m-1]+' de '+y;};
+  const rango=(a,b)=>a===b?fl(a):'Del '+fl(a)+' al '+fl(b);
+  const E=(typeof CARTELERA!=='undefined'?CARTELERA:[]).map(c=>{const f=(c.f||[]).slice().sort();return f.length?Object.assign({},c,{f0:f[0],f1:f[f.length-1]}):null;}).filter(Boolean);
+  const lugar=c=>esc(c.tea)+' · '+esc(c.ciu)+(c.pais&&c.pais!=='España'?' ('+esc(c.pais)+')':'');
+  const fila=(c,extra)=>'<li><a class="t" href="cartelera.html#f-'+encodeURIComponent(c.id)+'">'+esc(c.t)+'</a>'+
+    '<span class="l">'+(extra||lugar(c)+' · '+rango(c.f0,c.f1))+'</span>'+VAL.hueco(c.id,c.f0,c.f1,c.t)+'</li>';
+  /* Votaciones abiertas de espectáculos ya terminados */
+  const A=E.filter(c=>c.f1<HOY&&VAL.abierta(c.f0,c.f1)).sort((a,b)=>b.f1.localeCompare(a.f1));
+  /* Enlace o QR de un espectáculo que sigue en cartel (…valoraciones.html#valorar-CÓDIGO): se añade arriba */
+  const mh=decodeURIComponent(location.hash).match(/^#(?:valorar|votar)-(.+)$/);
+  if(mh){const c=E.find(x=>x.id===mh[1]); if(c&&VAL.abierta(c.f0,c.f1)&&!A.includes(c)) A.unshift(c);}
+  document.getElementById('abiertas').innerHTML=A.length?A.map(c=>fila(c)).join(''):
+    '<li class="vacio-val">Ahora mismo no hay espectáculos terminados pendientes de valorar.</li>';
+  /* Cerradas: una fila por espectáculo (los grupos de varios teatros, juntos) */
+  function cerradas(){
+    const vistos=new Set(), L=[];
+    E.filter(c=>c.f1<HOY&&!VAL.abierta(c.f0,c.f1)).sort((a,b)=>b.f1.localeCompare(a.f1)).forEach(c=>{
+      const g=VAL.grupo(c.id); const k=g.join('|'); if(vistos.has(k)) return; vistos.add(k);
+      if(!(VAL.nota(c.id).n>0)) return;
+      const miembros=E.filter(x=>g.includes(x.id)).sort((a,b)=>a.f0.localeCompare(b.f0));
+      const extra=miembros.map(x=>lugar(x)+' · '+rango(x.f0,x.f1)).join('<br>');
+      L.push(fila(c,extra));
+    });
+    document.getElementById('cerradas').innerHTML=L.length?L.join(''):
+      '<li class="vacio-val">Todavía no hay valoraciones cerradas esta temporada.</li>';
+  }
+  cerradas();
+  VAL.cargar().then(cerradas);
+})();
+</script>
+</body>
+</html>

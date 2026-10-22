@@ -15,7 +15,8 @@
      días después de la última (hora de Madrid).
    · Nota = media ponderada bayesiana: nota = (C·M + suma) / (M + n).
    · La nota se muestra a partir de MINIMO votos reales; antes, solo el recuento.
-   · Un voto por navegador y espectáculo; la web pide confirmación antes de enviarlo.
+   · Un voto por navegador y espectáculo (todas las fichas de un mismo grupo de
+     valoraciones-grupos.js cuentan como un solo espectáculo); la web pide confirmación.
    · Freno contra abusos: TOPE_IP_HORA votos por hora desde una misma conexión
      para un mismo espectáculo (en un teatro, todo el público comparte IP).
    · La IP se guarda cifrada (SHA-256 con una «sal» secreta guardada en la propia base).
@@ -90,12 +91,36 @@ async function cartelera(env, request) {
   }
 }
 
+/* Grupos de «mismo espectáculo» (valoraciones-grupos.js): { código: [códigos del grupo] }. */
+async function grupos(env, request) {
+  try {
+    const txt = await (await env.ASSETS.fetch(new URL('/valoraciones-grupos.js', request.url))).text();
+    const i = txt.indexOf('GRUPOS_ESPECTACULO');
+    const G = JSON.parse(txt.slice(txt.indexOf('{', i), txt.lastIndexOf('}') + 1));
+    const out = {};
+    for (const ids of Object.values(G)) for (const id of ids) out[id] = ids;
+    return out;
+  } catch (e) {
+    return {};
+  }
+}
+
 const nota = (n, s) => (n >= MINIMO ? Math.round(((C * M + s) / (M + n)) * 10) / 10 : null);
 
-async function resumen(db) {
+/* 22-10-2026 (César): se valora el ESPECTÁCULO. Los votos se guardan por ficha y se
+   suman por grupo; cada ficha del grupo devuelve la nota común. */
+async function resumen(db, env, request) {
   const filas = (await db.prepare(`SELECT prod, COUNT(*) AS n, SUM(estrellas) AS s FROM votos GROUP BY prod`).all()).results || [];
+  const G = await grupos(env, request);
+  const tot = {};
+  for (const f of filas) {
+    const miembros = G[f.prod] || [f.prod];
+    const clave = miembros.join('|');
+    tot[clave] = tot[clave] || { ids: miembros, n: 0, s: 0 };
+    tot[clave].n += f.n; tot[clave].s += f.s;
+  }
   const out = {};
-  for (const f of filas) out[f.prod] = { n: f.n, nota: nota(f.n, f.s) };
+  for (const t of Object.values(tot)) for (const id of t.ids) out[id] = { n: t.n, nota: nota(t.n, t.s) };
   return out;
 }
 
@@ -113,8 +138,11 @@ export async function onRequest({ request, env, params }) {
     if (/^[a-f0-9]{32}$/.test(nav)) {
       const navH = await sha256(s + '|nav|' + nav);
       votados = ((await db.prepare(`SELECT prod FROM votos WHERE nav = ?`).bind(navH).all()).results || []).map(f => f.prod);
+      /* Un voto por espectáculo: si votó una ficha del grupo, cuentan como votadas todas. */
+      const G = await grupos(env, request);
+      votados = [...new Set(votados.flatMap(p => G[p] || [p]))];
     }
-    return resp({ prods: await resumen(db), votados, minimo: MINIMO, dias: DIAS_TRAS_ULTIMA });
+    return resp({ prods: await resumen(db, env, request), votados, minimo: MINIMO, dias: DIAS_TRAS_ULTIMA });
   }
 
   if (accion === 'votar' && request.method === 'POST') {
@@ -132,7 +160,9 @@ export async function onRequest({ request, env, params }) {
     const ipH = await sha256(s + '|ip|' + id + '|' + (request.headers.get('CF-Connecting-IP') || ''));
     const navH = await sha256(s + '|nav|' + nav);
     const ahora = Date.now();
-    if (await db.prepare(`SELECT 1 FROM votos WHERE prod = ? AND nav = ?`).bind(id, navH).first()) return resp({ error: 'ya' }, 409);
+    const miembros = (await grupos(env, request))[id] || [id];
+    const marcas = miembros.map(() => '?').join(',');
+    if (await db.prepare(`SELECT 1 FROM votos WHERE nav = ? AND prod IN (${marcas})`).bind(navH, ...miembros).first()) return resp({ error: 'ya' }, 409);
     const r = await db.prepare(`SELECT COUNT(*) AS c FROM votos WHERE prod = ? AND ip = ? AND fecha > ?`).bind(id, ipH, ahora - 3600 * 1000).first();
     if (r && r.c >= TOPE_IP_HORA) return resp({ error: 'tope' }, 429);
     try {
@@ -141,7 +171,7 @@ export async function onRequest({ request, env, params }) {
       if (String(e).includes('UNIQUE')) return resp({ error: 'ya' }, 409);
       throw e;
     }
-    return resp({ ok: true, prods: await resumen(db) });
+    return resp({ ok: true, prods: await resumen(db, env, request) });
   }
 
   return resp({ error: 'ruta' }, 404);

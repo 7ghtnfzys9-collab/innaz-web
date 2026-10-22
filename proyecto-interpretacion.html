@@ -143,6 +143,87 @@
     @media(max-width:960px){.nav-links.open{bottom:auto;max-height:calc(100dvh - 58px);overflow-y:auto;
       background:rgba(248,244,238,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
       border-bottom:1px solid #E2DAD0;box-shadow:0 12px 28px rgba(0,0,0,.14);padding:1.6rem 1.6rem 1.8rem;}}
+
+    /* ─── ZLabs — programa destacado (29-9-2026, elegido por César) ─── */
+    .zl { background: var(--black); color: var(--white); padding: 2.8rem 2.6rem; margin: 0 0 3.5rem; position: relative; }
+    .zl-tag { font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; color: var(--teal); }
+    .zl h2 { font-family: 'Cormorant', serif; font-size: 2.6rem; font-weight: 600; margin: 0 0 .2rem; } /* Cormorant normal, no SC: «Labs» en minúsculas */
+    .zl h2 span { color: var(--teal); }
+    .zl-sub { font-family: 'Cormorant', serif; font-style: italic; font-size: 1.15rem; color: rgba(255,255,255,.75); margin-bottom: 1.6rem; }
+    .zl p { font-size: .95rem; line-height: 1.85; color: rgba(255,255,255,.82); }
+    .zl-datos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(255,255,255,.12); margin: 2rem 0; border: 1px solid rgba(255,255,255,.12); }
+    .zl-dato { background: var(--black); padding: 1.1rem 1.3rem; }
+    .zl-dato dt { font-size: .64rem; letter-spacing: .22em; text-transform: uppercase; color: var(--teal); margin-bottom: .35rem; }
+    .zl-dato dd { font-size: .95rem; line-height: 1.55; color: var(--white); }
+    .zl-ancho { grid-column: 1 / -1; }
+    .zl-gira { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .9rem; }
+    .zl-gira span { border: 1px solid rgba(255,255,255,.3); padding: .4rem .9rem; font-size: .8rem; letter-spacing: .04em; }
+    .zl-nota { font-size: .78rem !important; color: rgba(255,255,255,.55) !important; margin-top: -.6rem; font-style: italic; }
+    .zl .cta-pilar { margin-top: 1.8rem; }
+    @media (max-width: 600px) { .zl { padding: 2rem 1.4rem; } .zl-datos { grid-template-columns: 1fr; } .zl-ancho { grid-column: auto; } }
+
+    /* ─── Líneas de trabajo en tarjetas (29-9-2026), mismo formato que los planes de «Suscríbete a INNAZ» ─── */
+    .lineas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.2rem; }
+    .linea-card { background: var(--white); border: 1.5px solid var(--border); padding: 2rem 1.6rem;
+      display: flex; flex-direction: column; transition: transform .22s, box-shadow .22s, border-color .22s; }
+    .linea-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.07); border-color: var(--teal); }
+    .linea-card.negra { background: var(--black); border-color: var(--black); }
+    .linea-card.turquesa { background: var(--teal); border-color: var(--teal); }
+    .bloque .linea-name { font-family: 'Cormorant SC', serif; font-size: 1.25rem; font-weight: 600; line-height: 1.2; color: var(--black); min-height: 3em; }
+    .bloque .linea-card.negra .linea-name, .bloque .linea-card.turquesa .linea-name { color: var(--white); }
+    .linea-num { font-family: 'Cormorant', serif; font-size: 3rem; font-weight: 700; color: var(--teal); line-height: 1; margin: .8rem 0 1.2rem; }
+    .linea-feats { list-style: none; margin-bottom: 1.8rem; flex: 1; }
+    .linea-feats li { font-size: .86rem; color: var(--muted); padding: .38rem 0; display: flex; gap: .6rem;
+      align-items: flex-start; line-height: 1.5; border-bottom: 1px solid var(--border); }
+    .linea-card.negra .linea-feats li { color: rgba(255,255,255,.8); border-bottom-color: rgba(255,255,255,.08); }
+    .linea-card.turquesa .linea-feats li { color: var(--white); border-bottom-color: rgba(255,255,255,.28); }
+    .linea-card.turquesa .linea-feats li::before { color: var(--white); }
+    .linea-card.turquesa .linea-num { color: var(--white); }
+    .linea-feats li::before { content: '✦'; color: var(--teal); font-size: .48rem; margin-top: .42em; flex-shrink: 0; }
+    .btn-linea { display: block; text-align: center; text-decoration: none; padding: .82rem; border: 1.5px solid var(--teal);
+      color: var(--teal); font-size: .76rem; letter-spacing: .13em; text-transform: uppercase; font-weight: 500;
+      transition: background .2s, color .2s; }
+    .btn-linea { width: 100%; background: transparent; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+    .btn-linea:hover, .linea-card.negra .btn-linea { background: var(--teal); color: var(--white); }
+    .linea-card.turquesa .btn-linea { background: var(--white); color: var(--teal-dark); border-color: var(--white); }
+    .linea-card.turquesa .btn-linea:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .btn-linea[aria-expanded="true"]::after { content: ' ▴'; }
+    .btn-linea[aria-expanded="false"]::after { content: ' ▾'; }
+    /* Paneles desplegables */
+    .bloque .zl h2 { color: var(--white); } /* dentro de .bloque, el h2 heredaba el negro de .bloque h2 */
+    .linea-panel { margin-top: 1.2rem; scroll-margin-top: 90px; animation: panelIn .25s ease; }
+    .linea-panel[hidden] { display: none; }
+    #panel-zlabs { border-top: 4px solid var(--teal); }
+    #panel-convenios { border-top: 4px solid var(--border); }
+    /* 30-9-2026: cada desplegable con la gama de su tarjeta — Convenios es blanca */
+    .zl.clara { background: var(--white); color: var(--text); border: 1.5px solid var(--border); border-top: 4px solid var(--teal); }
+    .bloque .zl.clara .zl-titulo { color: var(--black); }
+    .bloque .zl.clara p { color: var(--muted); }
+    .bloque .zl.clara .zl-nota { color: var(--muted) !important; }
+    #panel-acompanamiento { border-top: 4px solid var(--teal); }
+    .zl .zl-titulo { font-family: 'Cormorant SC', serif; font-size: 1.9rem; font-weight: 700; color: var(--white); margin: 0 0 1rem; }
+    @keyframes panelIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+    @media (max-width: 760px) { .lineas-grid { grid-template-columns: 1fr; } .linea-name { min-height: 0; } }
+
+    /* 30-9-2026: los paneles están dentro de la rejilla, cada uno tras su tarjeta.
+       En ordenador se colocan todos debajo de las tres tarjetas (order + ancho completo);
+       en móvil (una columna) quedan justo debajo de su tarjeta y empujan a las siguientes. */
+    .lineas-grid > .linea-panel { order: 1; grid-column: 1 / -1; margin: 0; }
+    @media (max-width: 760px) { .lineas-grid > .linea-panel { order: 0; } }
+
+    /* 22-10-2026 (César): líneas de Interpretación en tarjetas; el Sello, con desplegable */
+    .lineas-grid.dos { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 760px) { .lineas-grid.dos { grid-template-columns: 1fr; } }
+    #panel-sello { border-top: 4px solid var(--teal); }
+    .zl h3 { font-family: 'Cormorant SC', serif; font-size: 1.3rem; font-weight: 600; color: var(--white); margin: 2rem 0 .7rem; }
+    .zl a { color: var(--white); }
+    .sello-lista { list-style: none; margin: 0; padding: 0; }
+    .sello-lista li::before { content: none !important; }
+    .zl .cta-pilar { display: inline-block; }
+    .sello-lista li { border-top: 1px solid rgba(255,255,255,.14); padding: 1rem 0; }
+    .sello-lista .t { font-family: 'Cormorant', serif; font-size: 1.3rem; font-weight: 600; color: var(--white); }
+    .sello-lista .m { display: block; font-size: .82rem; color: rgba(255,255,255,.7); line-height: 1.5; margin-top: .2rem; }
+    .zl .val { color: rgba(255,255,255,.75); } .zl .val-num { color: var(--white); }
 </style>
 <!-- PALETA-SECCIONES:INICIO -->
 <style>
@@ -209,6 +290,10 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 <script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
 <script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PALETA-SECCIONES:FIN -->
+  <script src="cartelera-data.js?v=27288549"></script>
+  <script src="sello-data.js?v=4efe148d"></script>
+  <script src="valoraciones-grupos.js?v=4b2fd34a"></script>
+  <script src="valoraciones.js?v=43cc0e9c"></script>
 </head>
 <body>
 
@@ -218,8 +303,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     <li><a href="que-es-innaz.html">Qué es INNAZ</a></li>
     <li class="zz-drop"><a href="index.html#pilares" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="proyecto-formacion.html">Formación</a></li><li><a href="proyecto-recuperacion.html">Recuperación</a></li><li><a href="proyecto-interpretacion.html" class="active">Interpretación</a></li><li><a href="proyecto-creacion.html">Creación</a></li></ul></li>
     <li><a href="buscador.html">Zarzuteca</a></li>
-    <li class="zz-drop"><a href="index.html#noticias" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Actualidad<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="cartelera.html">Cartelera</a></li><li><a href="noticias.html">Noticias</a></li></ul></li>
-    <li><a href="index.html#sello">Sello de Calidad</a></li>
+    <li class="zz-drop"><a href="index.html#noticias" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Actualidad<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="cartelera.html">Cartelera</a></li><li><a href="valoraciones.html">Valoraciones</a></li><li><a href="noticias.html">Noticias</a></li></ul></li>
     <li><a href="index.html#socio" class="nav-cta">Suscríbete</a></li>
     <li><a href="index.html#contacto">Contacto</a></li>
   </ul>
@@ -253,21 +337,58 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 
     <div class="bloque">
       <h2>Líneas de trabajo</h2>
-      <ul class="lineas">
-        <li><b>Sello de Calidad INNAZ</b>Un comité especializado concede el Sello a las producciones que cumplen sus requisitos. Aparte, el público puede valorar en nuestra web cualquier espectáculo de la Cartelera con hasta 5 estrellas, y las valoraciones se publican.</li>
-        <li><b>Festival Anual de Zarzuela INNAZ</b>Una cita anual dedicada por entero a la Zarzuela.</li>
-        <li><b>Cesión de materiales</b>Las compañías que preparan una producción pueden trabajar con la documentación reunida en la Zarzuteca.</li>
-        <li><b>Apoyo a los títulos poco frecuentados</b>Ponemos a disposición de las compañías la documentación necesaria para montar obras que llevan décadas fuera de los escenarios.</li>
-      </ul>
+      <!-- 22-10-2026 (César): el Sello sale del menú y gana peso aquí, con su desplegable.
+           Requisitos, forma de solicitarlo y asesoramiento: redactados por Claude y APROBADOS por César el 22-10-2026. -->
+      <div class="lineas-grid dos">
+        <div class="linea-card negra">
+          <p class="linea-name">Sello de Calidad INNAZ</p>
+          <div class="linea-num">01</div>
+          <ul class="linea-feats">
+            <li>Lo concede un comité especializado</li>
+            <li>Acompaña al espectáculo en todos sus teatros</li>
+            <li>Requisitos públicos</li>
+            <li>Asesoramiento para compañías y teatros</li>
+          </ul>
+          <button class="btn-linea" type="button" aria-controls="panel-sello" aria-expanded="false">Ver más</button>
+        </div>
+        <section class="zl linea-panel" id="panel-sello" hidden>
+          <p class="zl-titulo">Sello de Calidad INNAZ</p>
+          <p>El Sello de Calidad INNAZ lo concede nuestro comité especializado a las producciones que cumplen sus requisitos. Se concede al espectáculo, de modo que lo acompaña en todos los teatros a los que vaya, y se muestra en la Cartelera, en las Valoraciones y en la ficha de la obra. La valoración del público es aparte y no influye en el Sello.</p>
+          <h3>Requisitos</h3>
+          <dl class="zl-datos">
+            <div class="zl-dato"><dt>Fidelidad a la obra</dt><dd>Se respetan la partitura y el libreto. Los cortes, los cambios de orden, los añadidos o los textos nuevos se indican en el programa de mano.</dd></div>
+            <div class="zl-dato"><dt>Rigor documental</dt><dd>El programa recoge bien los autores, la fecha y el teatro del estreno, y sus notas se apoyan en fuentes contrastadas.</dd></div>
+            <div class="zl-dato"><dt>Nivel musical</dt><dd>Dirección musical profesional y una orquesta y un coro adecuados a la obra. Si se usa una reducción instrumental, se indica.</dd></div>
+            <div class="zl-dato"><dt>Interpretación</dt><dd>Reparto profesional, con especial cuidado de la dicción del español cantado y de las partes habladas.</dd></div>
+            <div class="zl-dato"><dt>Propuesta escénica</dt><dd>La puesta en escena es libre, pero respeta el sentido de la obra. Las adaptaciones de época o de texto se explican al público.</dd></div>
+            <div class="zl-dato"><dt>Condiciones profesionales</dt><dd>Derechos de autor y contratos en regla.</dd></div>
+          </dl>
+          <h3>Cómo se solicita</h3>
+          <p>La compañía o el teatro productor escribe a <a href="mailto:info@innaz.es?subject=Sello%20de%20Calidad%20INNAZ">info@innaz.es</a> con el dossier del espectáculo. El comité estudia la documentación y asiste a una función o a un ensayo general antes de resolver.</p>
+          <h3>Asesoramiento</h3>
+          <p>Si estás preparando un espectáculo y quieres que cumpla los requisitos del Sello, te ayudamos con la documentación, los materiales y el dossier. Es gratuito para los suscriptores de los niveles Colaborador, Protector y Mecenas. Para el resto tiene un coste, que te indicaremos si nos escribes a <a href="mailto:info@innaz.es?subject=Asesoramiento%20Sello%20de%20Calidad">info@innaz.es</a>.</p>
+          <h3>Producciones con Sello</h3>
+          <ul class="sello-lista" id="selloLista"></ul>
+          <a class="cta-pilar" href="mailto:info@innaz.es?subject=Sello%20de%20Calidad%20INNAZ">Solicitar el Sello</a>
+        </section>
+        <div class="linea-card">
+          <p class="linea-name">Festival Anual de Zarzuela INNAZ</p>
+          <div class="linea-num">02</div>
+          <ul class="linea-feats"><li>Una cita anual dedicada por entero a la Zarzuela.</li></ul>
+        </div>
+        <div class="linea-card">
+          <p class="linea-name">Cesión de materiales</p>
+          <div class="linea-num">03</div>
+          <ul class="linea-feats"><li>Las compañías que preparan una producción pueden trabajar con la documentación reunida en la Zarzuteca.</li></ul>
+        </div>
+        <div class="linea-card">
+          <p class="linea-name">Apoyo a los títulos poco frecuentados</p>
+          <div class="linea-num">04</div>
+          <ul class="linea-feats"><li>Ponemos a disposición de las compañías la documentación necesaria para montar obras que llevan décadas fuera de los escenarios.</li></ul>
+        </div>
+      </div>
     </div>
 
-    <div class="bloque">
-      <h2>Producciones con Sello</h2>
-      <p style="font-size:.95rem;line-height:1.85;color:var(--muted);margin-bottom:1.4rem;">
-        Las producciones certificadas y sus puntuaciones pueden consultarse en cualquier momento.
-      </p>
-      <a class="cta-pilar" href="sello.html">Ver el Sello de Calidad</a>
-    </div>
     <div class="bloque">
       <h2>Participa</h2>
       <p>¿Quieres colaborar? Escríbenos a
@@ -322,6 +443,34 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   document.addEventListener('click',function(e){ ds.forEach(function(d){ if(!d.contains(e.target)) cerrar(d); }); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') ds.forEach(cerrar); });
 })();
+</script>
+<script>
+/* Desplegables de las líneas de trabajo (29-9-2026): cada «Ver más» abre su
+   panel y cierra los demás; volver a pulsarlo lo cierra. */
+(function(){
+  var btns=document.querySelectorAll('.btn-linea[aria-controls]');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var panel=document.getElementById(b.getAttribute('aria-controls'));
+      var abrir=panel.hidden;
+      btns.forEach(function(o){ o.setAttribute('aria-expanded','false'); o.firstChild.nodeValue='Ver más';
+        document.getElementById(o.getAttribute('aria-controls')).hidden=true; });
+      if(abrir){ panel.hidden=false; b.setAttribute('aria-expanded','true'); b.firstChild.nodeValue='Cerrar';
+        panel.scrollIntoView({behavior:'smooth',block:'start'}); }
+    });
+  });
+})();
+</script>
+<script>
+/* 22-10-2026: producciones con Sello (sello-data.js), con su valoración del público */
+(function(){
+  var ul=document.getElementById('selloLista'); if(!ul) return;
+  var L=(typeof PRODUCCIONES!=='undefined')?PRODUCCIONES:[];
+  ul.innerHTML=L.length?L.map(function(p){return '<li><span class="t">'+p.titulo+'</span><span class="m">'+p.compositor+' · '+p.teatro+(p.detalle?'<br>'+p.detalle:'')+'</span>'+selloValoracion(p)+'</li>';}).join('')
+    :'<li><span class="m">Todavía no hay producciones certificadas. Aquí aparecerán las primeras que reciban el Sello de Calidad INNAZ.</span></li>';
+})();
+/* Enlace directo al Sello: proyecto-interpretacion.html#sello abre su desplegable */
+(function(){ if(location.hash==='#sello'){ var b=document.querySelector('[aria-controls="panel-sello"]'); if(b) setTimeout(function(){b.click();},200); } })();
 </script>
 </body>
 </html>

@@ -87,8 +87,6 @@
     .lista{max-width:960px;margin:0 auto;list-style:none;}
     .fun{scroll-margin-top:84px;display:grid;grid-template-columns:5.6rem minmax(0,1fr);gap:1.4rem;border-bottom:1px solid var(--border);padding:1.6rem 0;}
     .fun.pasada{opacity:.62;}
-    .fun.pasada .val{opacity:1;}
-    .val-intro{font-size:.8rem;font-style:italic;color:var(--muted);margin:-.4rem 0 1rem;}
     .fecha{font-variant-numeric:tabular-nums;}
     .fecha .d{font-family:'Cormorant SC',serif;font-size:2.4rem;font-weight:600;line-height:1;color:var(--black);}
     .fecha .m{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-top:.15rem;}
@@ -255,7 +253,9 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 <script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
 <script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PALETA-SECCIONES:FIN -->
-<script src="../valoraciones.js?v=45c0a876"></script>
+<script src="../sello-data.js?v=0"></script>
+<script src="../valoraciones-grupos.js?v=0"></script>
+<script src="../valoraciones.js?v=0"></script>
 </head>
 <body>
 <nav id="navbar">
@@ -264,8 +264,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     <li><a href="../que-es-innaz.html">Qué es INNAZ</a></li>
     <li class="zz-drop"><a href="../index.html#pilares" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="../proyecto-formacion.html">Formación</a></li><li><a href="../proyecto-recuperacion.html">Recuperación</a></li><li><a href="../proyecto-interpretacion.html">Interpretación</a></li><li><a href="../proyecto-creacion.html">Creación</a></li></ul></li>
     <li><a href="../buscador.html">Zarzuteca</a></li>
-    <li class="zz-drop"><a href="../index.html#noticias" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Actualidad<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="../cartelera.html" class="active">Cartelera</a></li><li><a href="../noticias.html">Noticias</a></li></ul></li>
-    <li><a href="../index.html#sello">Sello de Calidad</a></li>
+    <li class="zz-drop"><a href="../index.html#noticias" class="zz-drop-t active" aria-haspopup="true" aria-expanded="false">Actualidad<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="../cartelera.html" class="active">Cartelera</a></li><li><a href="../valoraciones.html">Valoraciones</a></li><li><a href="../noticias.html">Noticias</a></li></ul></li>
     <li><a href="../index.html#socio" class="nav-cta">Suscríbete</a></li>
     <li><a href="../index.html#contacto">Contacto</a></li>
   </ul>
@@ -495,15 +494,7 @@ function textoSel(){
   return `<span class="sel">${t}<button type="button" id="quitaSel" aria-label="Quitar la fecha">×</button></span>`;
 }
 document.addEventListener('click',ev=>{if(ev.target.id==='quitaSel'){SEL=null;calendario();pinta();}});
-// 22-10-2026 (César): «Valora lo que has visto»: espectáculos ya terminados cuya valoración
-// del público sigue abierta (hasta 15 días después de la última función). Sin búsqueda ni fecha elegida.
-function recientes(){
-  if(typeof VAL==='undefined'||SEL||$('q').value) return '';
-  const R=E.filter(e=>e.f.length&&e.f[e.f.length-1]<HOY&&VAL.abierta(e.f[0],e.f[e.f.length-1]))
-    .sort((a,b)=>b.f[b.f.length-1].localeCompare(a.f[a.f.length-1]));
-  if(!R.length) return '';
-  return `<h2 class="mes">Valora lo que has visto <small>${R.length}</small></h2><p class="val-intro">Espectáculos que ya han terminado. Puedes valorarlos hasta 15 días después de su última función.</p><ul class="lista">${R.map(e=>card(Object.assign({},e,{fv:e.f}))).join('')}</ul>`;
-}
+// 22-10-2026 (César): los espectáculos ya terminados se valoran en la página Valoraciones, no aquí.
 function pinta(){
   const q=norm($('q').value);
   const L=[];
@@ -519,7 +510,7 @@ function pinta(){
   $('selActiva').innerHTML=textoSel();
   if(!L.length){$('res').innerHTML='<div class="vacio">No hay funciones '+(SEL?'en esa fecha':'que coincidan con la búsqueda')+'.</div>';return;}
   const g={};L.forEach(e=>{const k=e.fv.length?e.fv[0].slice(0,7):'zz';(g[k]=g[k]||[]).push(e)});
-  $('res').innerHTML=recientes()+Object.keys(g).sort().map(k=>{
+  $('res').innerHTML=Object.keys(g).sort().map(k=>{
     const ti=k==='zz'?'Fecha por anunciar':`${MESES[+k.slice(5)-1]} ${k.slice(0,4)}`;
     return `<h2 class="mes">${ti[0].toUpperCase()+ti.slice(1)} <small>${g[k].length}</small></h2><ul class="lista">${g[k].map(card).join('')}</ul>`;
   }).join('');
