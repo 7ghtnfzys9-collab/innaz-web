@@ -212,8 +212,6 @@
     @media (max-width: 760px) { .lineas-grid > .linea-panel { order: 0; } }
 
     /* 22-10-2026 (César): líneas de Interpretación en tarjetas; el Sello, con desplegable */
-    .lineas-grid.dos { grid-template-columns: repeat(2, 1fr); }
-    @media (max-width: 760px) { .lineas-grid.dos { grid-template-columns: 1fr; } }
     #panel-sello { border-top: 4px solid var(--teal); }
     .zl h3 { font-family: 'Cormorant SC', serif; font-size: 1.3rem; font-weight: 600; color: var(--white); margin: 2rem 0 .7rem; }
     .zl a { color: var(--white); }
@@ -337,9 +335,9 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 
     <div class="bloque">
       <h2>Líneas de trabajo</h2>
-      <!-- 22-10-2026 (César): el Sello sale del menú y gana peso aquí, con su desplegable.
+      <!-- 22-10-2026 (César): el Sello sale del menú y gana peso aquí, con su desplegable. Tres columnas como Formación; Cesión de materiales y Títulos poco frecuentados unificadas en la línea 03.
            Requisitos, forma de solicitarlo y asesoramiento: redactados por Claude y APROBADOS por César el 22-10-2026. -->
-      <div class="lineas-grid dos">
+      <div class="lineas-grid">
         <div class="linea-card negra">
           <p class="linea-name">Sello de Calidad INNAZ</p>
           <div class="linea-num">01</div>
@@ -376,15 +374,13 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
           <div class="linea-num">02</div>
           <ul class="linea-feats"><li>Una cita anual dedicada por entero a la Zarzuela.</li></ul>
         </div>
-        <div class="linea-card">
-          <p class="linea-name">Cesión de materiales</p>
+        <div class="linea-card negra">
+          <p class="linea-name">Materiales y títulos recuperados</p>
           <div class="linea-num">03</div>
-          <ul class="linea-feats"><li>Las compañías que preparan una producción pueden trabajar con la documentación reunida en la Zarzuteca.</li></ul>
-        </div>
-        <div class="linea-card">
-          <p class="linea-name">Apoyo a los títulos poco frecuentados</p>
-          <div class="linea-num">04</div>
-          <ul class="linea-feats"><li>Ponemos a disposición de las compañías la documentación necesaria para montar obras que llevan décadas fuera de los escenarios.</li></ul>
+          <ul class="linea-feats">
+            <li>Cedemos a las compañías la documentación reunida en la Zarzuteca</li>
+            <li>Apoyamos los títulos recuperados que llevan décadas fuera de los escenarios</li>
+          </ul>
         </div>
       </div>
     </div>
