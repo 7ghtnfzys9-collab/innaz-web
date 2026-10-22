@@ -169,6 +169,46 @@
  },
  "teatros": [
   {
+   "k": "auditorio-de-tenerife-adan-martin-santa-cruz-de-tenerife",
+   "n": "Auditorio de Tenerife Adán Martín",
+   "c": "Santa Cruz de Tenerife"
+  },
+  {
+   "k": "auditorio-de-zaragoza-princesa-leonor-zaragoza",
+   "n": "Auditorio de Zaragoza Princesa Leonor",
+   "c": "Zaragoza"
+  },
+  {
+   "k": "auditorio-nacional-de-musica-madrid",
+   "n": "Auditorio Nacional de Música",
+   "c": "Madrid"
+  },
+  {
+   "k": "auditorio-nacional-del-sodre-dra-adela-reta-montevideo",
+   "n": "Auditorio Nacional del Sodre Dra. Adela Reta",
+   "c": "Montevideo"
+  },
+  {
+   "k": "baluarte-palacio-de-congresos-y-auditorio-de-navarra-pamplona",
+   "n": "Baluarte – Palacio de Congresos y Auditorio de Navarra",
+   "c": "Pamplona"
+  },
+  {
+   "k": "caem-centro-de-las-artes-escenicas-y-de-la-musica-salamanca",
+   "n": "CAEM. Centro de las Artes Escénicas y de la Música",
+   "c": "Salamanca"
+  },
+  {
+   "k": "casino-municipal-niza",
+   "n": "Casino Municipal",
+   "c": "Niza"
+  },
+  {
+   "k": "centro-social-tarrasa",
+   "n": "Centro Social",
+   "c": "Tarrasa"
+  },
+  {
    "k": "circo-de-paul-madrid",
    "n": "Circo de Paul",
    "c": "Madrid"
@@ -179,14 +219,49 @@
    "c": "Montevideo"
   },
   {
+   "k": "gran-teatro-de-caceres-caceres",
+   "n": "Gran Teatro de Cáceres",
+   "c": "Cáceres"
+  },
+  {
+   "k": "gran-teatro-de-cordoba-cordoba",
+   "n": "Gran Teatro de Córdoba",
+   "c": "Córdoba"
+  },
+  {
    "k": "gran-teatro-de-madrid-madrid",
    "n": "Gran Teatro de Madrid",
    "c": "Madrid"
   },
   {
+   "k": "nuevo-teatro-alcala-madrid",
+   "n": "Nuevo Teatro Alcalá",
+   "c": "Madrid"
+  },
+  {
+   "k": "palacio-de-congresos-el-greco-toledo",
+   "n": "Palacio de Congresos El Greco",
+   "c": "Toledo"
+  },
+  {
    "k": "palacio-de-la-duquesa-de-benavente-y-osuna-madrid",
    "n": "Palacio de la condesa-duquesa de Benavente",
    "c": "Madrid"
+  },
+  {
+   "k": "palacio-real-madrid",
+   "n": "Palacio Real",
+   "c": "Madrid"
+  },
+  {
+   "k": "palau-de-la-musica-catalana-barcelona",
+   "n": "Palau de la Música Catalana",
+   "c": "Barcelona"
+  },
+  {
+   "k": "palau-de-les-arts-reina-sofia-valencia",
+   "n": "Palau de les Arts Reina Sofía",
+   "c": "Valencia"
   },
   {
    "k": "teatre-liric-barcelona",
@@ -202,6 +277,11 @@
    "k": "teatre-principal-barcelona",
    "n": "Teatre Principal",
    "c": "Barcelona"
+  },
+  {
+   "k": "teatre-principal-de-palma-palma",
+   "n": "Teatre Principal de Palma",
+   "c": "Palma"
   },
   {
    "k": "teatro-alcazar-madrid",
@@ -244,6 +324,11 @@
    "c": "Ciudad de México"
   },
   {
+   "k": "teatro-arriaga-bilbao",
+   "n": "Teatro Arriaga",
+   "c": "Bilbao"
+  },
+  {
    "k": "teatro-auditorium-la-habana",
    "n": "Teatro Amadeo Roldán",
    "c": "La Habana"
@@ -254,9 +339,24 @@
    "c": "Buenos Aires"
   },
   {
+   "k": "teatro-biobio-concepcion",
+   "n": "Teatro Biobío",
+   "c": "Concepción"
+  },
+  {
    "k": "teatro-calderon-madrid",
    "n": "Teatro Calderón",
    "c": "Madrid"
+  },
+  {
+   "k": "teatro-calderon-valladolid",
+   "n": "Teatro Calderón",
+   "c": "Valladolid"
+  },
+  {
+   "k": "teatro-campos-eliseos-bilbao",
+   "n": "Teatro Campos Elíseos",
+   "c": "Bilbao"
   },
   {
    "k": "teatro-centro-madrid",
@@ -269,23 +369,33 @@
    "c": "Granada"
   },
   {
+   "k": "teatro-cervantes-madrid",
+   "n": "Teatro Cervantes",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-cervantes-malaga",
+   "n": "Teatro Cervantes",
+   "c": "Málaga"
+  },
+  {
    "k": "teatro-cervantes-sevilla",
    "n": "Teatro Cervantes",
    "c": "Sevilla"
   },
   {
-   "k": "teatro-circo-madrid",
-   "n": "Teatro Circo",
+   "k": "teatro-chueca-madrid",
+   "n": "Teatro Chueca",
    "c": "Madrid"
-  },
-  {
-   "k": "teatro-circo-zaragoza",
-   "n": "Teatro Circo",
-   "c": "Zaragoza"
   },
   {
    "k": "teatro-circo-del-principe-alfonso-madrid",
    "n": "Teatro Circo del Príncipe Alfonso",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-circo-madrid",
+   "n": "Teatro Circo",
    "c": "Madrid"
   },
   {
@@ -294,8 +404,18 @@
    "c": "Madrid"
   },
   {
+   "k": "teatro-circo-zaragoza",
+   "n": "Teatro Circo",
+   "c": "Zaragoza"
+  },
+  {
    "k": "teatro-coliseum-barcelona",
    "n": "Teatro Coliseum",
+   "c": "Barcelona"
+  },
+  {
+   "k": "teatro-comico-barcelona",
+   "n": "Teatro Cómico",
    "c": "Barcelona"
   },
   {
@@ -309,6 +429,16 @@
    "c": "Madrid"
   },
   {
+   "k": "teatro-de-capellanes-madrid",
+   "n": "Teatro de Capellanes",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-de-la-bolsa-madrid",
+   "n": "Teatro de la Bolsa",
+   "c": "Madrid"
+  },
+  {
    "k": "teatro-de-la-comedia-buenos-aires",
    "n": "Teatro de la Comedia",
    "c": "Buenos Aires"
@@ -317,6 +447,11 @@
    "k": "teatro-de-la-comedia-madrid",
    "n": "Teatro de la Comedia",
    "c": "Madrid"
+  },
+  {
+   "k": "teatro-de-la-maestranza-sevilla",
+   "n": "Teatro de la Maestranza",
+   "c": "Sevilla"
   },
   {
    "k": "teatro-de-la-zarzuela-madrid",
@@ -329,8 +464,23 @@
    "c": "Madrid"
   },
   {
+   "k": "teatro-de-mayo-buenos-aires",
+   "n": "Teatro de Mayo",
+   "c": "Buenos Aires"
+  },
+  {
+   "k": "teatro-de-rojas-toledo",
+   "n": "Teatro de Rojas",
+   "c": "Toledo"
+  },
+  {
    "k": "teatro-de-variedades-madrid",
    "n": "Teatro de Variedades",
+   "c": "Madrid"
+  },
+  {
+   "k": "teatro-del-recreo-madrid",
+   "n": "Teatro del Recreo",
    "c": "Madrid"
   },
   {
@@ -369,6 +519,11 @@
    "c": "Madrid"
   },
   {
+   "k": "teatro-fernan-gomez-centro-cultural-de-la-villa-madrid",
+   "n": "Teatro Fernán Gómez. Centro Cultural de la Villa",
+   "c": "Madrid"
+  },
+  {
    "k": "teatro-fontalba-madrid",
    "n": "Teatro Fontalba",
    "c": "Madrid"
@@ -377,6 +532,11 @@
    "k": "teatro-fuencarral-madrid",
    "n": "Teatro Fuencarral",
    "c": "Madrid"
+  },
+  {
+   "k": "teatro-gayarre-pamplona",
+   "n": "Teatro Gayarre",
+   "c": "Pamplona"
   },
   {
    "k": "teatro-ideal-madrid",
@@ -509,6 +669,11 @@
    "c": "La Habana"
   },
   {
+   "k": "teatro-perez-galdos-las-palmas-de-gran-canaria",
+   "n": "Teatro Pérez Galdós",
+   "c": "Las Palmas de Gran Canaria"
+  },
+  {
    "k": "teatro-princesa-madrid",
    "n": "Teatro María Guerrero",
    "c": "Madrid"
@@ -539,6 +704,11 @@
    "c": "Valencia"
   },
   {
+   "k": "teatro-principe-alfonso-madrid",
+   "n": "Teatro Príncipe Alfonso",
+   "c": "Madrid"
+  },
+  {
    "k": "teatro-principe-madrid",
    "n": "Teatro Príncipe",
    "c": "Madrid"
@@ -549,13 +719,13 @@
    "c": "San Sebastián"
   },
   {
-   "k": "teatro-principe-alfonso-madrid",
-   "n": "Teatro Príncipe Alfonso",
+   "k": "teatro-real-conservatorio-de-musica-de-maria-cristina-madrid",
+   "n": "Real Conservatorio de Música de María Cristina",
    "c": "Madrid"
   },
   {
-   "k": "teatro-real-conservatorio-de-musica-de-maria-cristina-madrid",
-   "n": "Real Conservatorio de Música de María Cristina",
+   "k": "teatro-real-madrid",
+   "n": "Teatro Real",
    "c": "Madrid"
   },
   {
@@ -584,6 +754,11 @@
    "c": "Madrid"
   },
   {
+   "k": "teatro-romea-murcia",
+   "n": "Teatro Romea",
+   "c": "Murcia"
+  },
+  {
    "k": "teatro-san-fernando-sevilla",
    "n": "Teatro San Fernando",
    "c": "Sevilla"
@@ -592,6 +767,11 @@
    "k": "teatro-sevillano-sevilla",
    "n": "Teatro Sevillano",
    "c": "Sevilla"
+  },
+  {
+   "k": "teatro-solis-montevideo",
+   "n": "Teatro Solís",
+   "c": "Montevideo"
   },
   {
    "k": "teatro-tacon-la-habana",
@@ -617,176 +797,6 @@
    "k": "teatro-zorrilla-madrid",
    "n": "Teatro Zorrilla",
    "c": "Madrid"
-  },
-  {
-   "k": "teatro-real-madrid",
-   "n": "Teatro Real",
-   "c": "Madrid"
-  },
-  {
-   "k": "teatro-de-la-bolsa-madrid",
-   "n": "Teatro de la Bolsa",
-   "c": "Madrid"
-  },
-  {
-   "k": "teatro-de-capellanes-madrid",
-   "n": "Teatro de Capellanes",
-   "c": "Madrid"
-  },
-  {
-   "k": "teatro-arriaga-bilbao",
-   "n": "Teatro Arriaga",
-   "c": "Bilbao"
-  },
-  {
-   "k": "teatro-de-mayo-buenos-aires",
-   "n": "Teatro de Mayo",
-   "c": "Buenos Aires"
-  },
-  {
-   "k": "casino-municipal-niza",
-   "n": "Casino Municipal",
-   "c": "Niza"
-  },
-  {
-   "k": "palacio-real-madrid",
-   "n": "Palacio Real",
-   "c": "Madrid"
-  },
-  {
-   "k": "teatro-del-recreo-madrid",
-   "n": "Teatro del Recreo",
-   "c": "Madrid"
-  },
-  {
-   "k": "teatro-cervantes-madrid",
-   "n": "Teatro Cervantes",
-   "c": "Madrid"
-  },
-  {
-   "k": "teatro-chueca-madrid",
-   "n": "Teatro Chueca",
-   "c": "Madrid"
-  },
-  {
-   "k": "palau-de-la-musica-catalana-barcelona",
-   "n": "Palau de la Música Catalana",
-   "c": "Barcelona"
-  },
-  {
-   "k": "palau-de-les-arts-reina-sofia-valencia",
-   "n": "Palau de les Arts Reina Sofía",
-   "c": "Valencia"
-  },
-  {
-   "k": "teatre-principal-de-palma-palma",
-   "n": "Teatre Principal de Palma",
-   "c": "Palma"
-  },
-  {
-   "k": "teatro-de-la-maestranza-sevilla",
-   "n": "Teatro de la Maestranza",
-   "c": "Sevilla"
-  },
-  {
-   "k": "teatro-cervantes-malaga",
-   "n": "Teatro Cervantes",
-   "c": "Málaga"
-  },
-  {
-   "k": "gran-teatro-de-cordoba-cordoba",
-   "n": "Gran Teatro de Córdoba",
-   "c": "Córdoba"
-  },
-  {
-   "k": "gran-teatro-de-caceres-caceres",
-   "n": "Gran Teatro de Cáceres",
-   "c": "Cáceres"
-  },
-  {
-   "k": "teatro-perez-galdos-las-palmas-de-gran-canaria",
-   "n": "Teatro Pérez Galdós",
-   "c": "Las Palmas de Gran Canaria"
-  },
-  {
-   "k": "auditorio-de-tenerife-adan-martin-santa-cruz-de-tenerife",
-   "n": "Auditorio de Tenerife Adán Martín",
-   "c": "Santa Cruz de Tenerife"
-  },
-  {
-   "k": "teatro-romea-murcia",
-   "n": "Teatro Romea",
-   "c": "Murcia"
-  },
-  {
-   "k": "teatro-gayarre-pamplona",
-   "n": "Teatro Gayarre",
-   "c": "Pamplona"
-  },
-  {
-   "k": "baluarte-palacio-de-congresos-y-auditorio-de-navarra-pamplona",
-   "n": "Baluarte – Palacio de Congresos y Auditorio de Navarra",
-   "c": "Pamplona"
-  },
-  {
-   "k": "teatro-calderon-valladolid",
-   "n": "Teatro Calderón",
-   "c": "Valladolid"
-  },
-  {
-   "k": "teatro-de-rojas-toledo",
-   "n": "Teatro de Rojas",
-   "c": "Toledo"
-  },
-  {
-   "k": "palacio-de-congresos-el-greco-toledo",
-   "n": "Palacio de Congresos El Greco",
-   "c": "Toledo"
-  },
-  {
-   "k": "caem-centro-de-las-artes-escenicas-y-de-la-musica-salamanca",
-   "n": "CAEM. Centro de las Artes Escénicas y de la Música",
-   "c": "Salamanca"
-  },
-  {
-   "k": "auditorio-nacional-de-musica-madrid",
-   "n": "Auditorio Nacional de Música",
-   "c": "Madrid"
-  },
-  {
-   "k": "teatro-fernan-gomez-centro-cultural-de-la-villa-madrid",
-   "n": "Teatro Fernán Gómez. Centro Cultural de la Villa",
-   "c": "Madrid"
-  },
-  {
-   "k": "auditorio-de-zaragoza-princesa-leonor-zaragoza",
-   "n": "Auditorio de Zaragoza Princesa Leonor",
-   "c": "Zaragoza"
-  },
-  {
-   "k": "auditorio-nacional-del-sodre-dra-adela-reta-montevideo",
-   "n": "Auditorio Nacional del Sodre Dra. Adela Reta",
-   "c": "Montevideo"
-  },
-  {
-   "k": "nuevo-teatro-alcala-madrid",
-   "n": "Nuevo Teatro Alcalá",
-   "c": "Madrid"
-  },
-  {
-   "k": "teatro-campos-eliseos-bilbao",
-   "n": "Teatro Campos Elíseos",
-   "c": "Bilbao"
-  },
-  {
-   "k": "centro-social-tarrasa",
-   "n": "Centro Social",
-   "c": "Tarrasa"
-  },
-  {
-   "k": "teatro-comico-barcelona",
-   "n": "Teatro Cómico",
-   "c": "Barcelona"
   }
  ],
  "rotulos": {
@@ -831,6 +841,9 @@
   ],
   "teatro-campos-eliseos-bilbao": [
    "Campos Elíseos Antzokia"
+  ],
+  "teatro-biobio-concepcion": [
+   "Teatro Regional del Biobío"
   ]
  },
  "sede_cartelera": {
