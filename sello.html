@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sello de Calidad INNAZ. Producciones avaladas por nuestro comité y puntuadas por el público.">
+  <meta name="description" content="Sello de Calidad INNAZ. Producciones avaladas por nuestro comité especializado, con la valoración del público.">
   <title>Sello de Calidad — INNAZ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="sello-data.js?v=9dc7a107"></script>
+  <script src="cartelera-data.js?v=27288549"></script>
+  <script src="sello-data.js?v=48e1ebe3"></script>
+  <script src="valoraciones.js?v=45c0a876"></script>
 
   <style>
     :root {
@@ -274,10 +276,10 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     <p class="section-label">Certificación</p>
     <h1 class="section-title">Sello de Calidad INNAZ</h1>
     <p class="sello-intro">
-      Producciones avaladas por nuestro comité especializado y puntuadas por el
-      propio público, que puede votar en esta página con hasta 5 estrellas. Si llegas
-      desde el enlace o el código QR de un espectáculo, se abrirá directamente su
-      votación. Las puntuaciones son públicas.
+      El Sello de Calidad INNAZ lo concede nuestro comité especializado a las
+      producciones que cumplen sus requisitos. Junto a cada una verás también la
+      valoración del público, que puede puntuar con hasta 5 estrellas cualquier
+      espectáculo de la Cartelera.
     </p>
   </div>
 </header>
@@ -300,147 +302,23 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   </div>
 </footer>
 
-<!-- modal de votación -->
-<div class="modal-overlay" id="votoModal" onclick="cerrarSiOverlayVoto(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="cerrarVoto()">✕</button>
-    <h3 id="votoTitulo">Valora la producción</h3>
-    <p class="modal-sub" id="votoSub">¿Qué te ha parecido el espectáculo?</p>
-    <div class="voto-stars" id="votoStars"></div>
-    <div class="voto-confirma" id="votoConfirma">
-      <p class="voto-pregunta" id="votoPregunta"></p>
-      <div class="voto-botones">
-        <button class="btn-votar" id="votoSi" type="button">Sí, confirmo</button>
-        <button class="btn-volver" id="votoNo" type="button">Me he equivocado</button>
-      </div>
-    </div>
-    <p class="voto-gracias" id="votoGracias">✓ ¡Gracias por tu voto!</p>
-  </div>
-</div>
-
 <script>
+  /* 22-10-2026 (César): el Sello lo concede el comité. La valoración del público de cada
+     producción es la de su ficha de la Cartelera (valoraciones.js), y se vota igual aquí. */
   function renderSello() {
     const grid = document.getElementById('selloGrid');
-    grid.innerHTML = '';
-    /* Sin producciones (29-9-2026): aviso en lugar de rejilla vacía. */
     grid.hidden = PRODUCCIONES.length === 0;
     document.getElementById('selloVacio').hidden = PRODUCCIONES.length > 0;
-    PRODUCCIONES.forEach(p => {
-      const yaVoto = yaVotadoSello(p.id);
-      const card = document.createElement('article');
-      card.className = 'sello-card';
-      card.id = 'prod-' + p.id;
-      card.innerHTML = `
+    grid.innerHTML = PRODUCCIONES.map(p => `
+      <article class="sello-card" id="prod-${p.id}">
         <span class="sello-badge">✦ Sello INNAZ</span>
         <h3>${p.titulo}</h3>
         <p class="sello-comp">${p.compositor}</p>
         <p class="sello-meta">${p.teatro}<br>${p.detalle}</p>
-        ${htmlPuntuacionSello(p)}
-        <button class="btn-votar" onclick="abrirVoto('${p.id}')" ${yaVoto ? 'disabled' : ''}>
-          ${yaVoto ? '✓ Ya has votado' : '★ Votar ahora'}
-        </button>`;
-      grid.appendChild(card);
-    });
+        ${selloValoracion(p)}
+      </article>`).join('');
   }
-
-  let votoActual = null;
-
-  function abrirVoto(id) {
-    const p = PRODUCCIONES.find(x => x.id === id);
-    if (!p || yaVotadoSello(id)) return;
-    votoActual = id;
-    document.getElementById('votoTitulo').textContent = p.titulo;
-    document.getElementById('votoSub').textContent = '¿Qué te ha parecido el espectáculo? Puntúa de 1 a 5 estrellas.';
-    document.getElementById('votoGracias').style.display = 'none';
-    document.getElementById('votoGracias').classList.remove('error');
-    document.getElementById('votoConfirma').style.display = 'none';
-    const cont = document.getElementById('votoStars');
-    cont.style.display = 'flex';
-    cont.innerHTML = '';
-    for (let i = 1; i <= 5; i++) {
-      const b = document.createElement('button');
-      b.className = 'voto-star';
-      b.textContent = '★';
-      b.setAttribute('aria-label', i + ' estrellas');
-      b.onmouseenter = () => pintar(i);
-      b.onmouseleave = () => pintar(0);
-      b.onclick = () => pedirConfirmacion(i);
-      cont.appendChild(b);
-    }
-    document.getElementById('votoModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function pintar(n) {
-    document.querySelectorAll('#votoStars .voto-star')
-      .forEach((s, i) => s.classList.toggle('hot', i < n));
-  }
-
-  /* 21-10-2026 (César): antes de enviar, una pregunta de confirmación según las estrellas. */
-  let votoElegido = 0;
-  function pedirConfirmacion(n) {
-    votoElegido = n;
-    pintar(n);
-    document.querySelectorAll('#votoStars .voto-star').forEach(s => { s.onmouseenter = null; s.onmouseleave = null; });
-    document.getElementById('votoPregunta').textContent = SELLO_CONFIRMA[n];
-    document.getElementById('votoConfirma').style.display = 'block';
-  }
-  document.getElementById('votoNo').onclick = () => {
-    votoElegido = 0;
-    document.getElementById('votoConfirma').style.display = 'none';
-    const id = votoActual; votoActual = null; abrirVoto(id);
-  };
-  document.getElementById('votoSi').onclick = () => votar(votoElegido);
-
-  async function votar(n) {
-    if (!votoActual || !n) return;
-    const id = votoActual;
-    const si = document.getElementById('votoSi');
-    si.disabled = true;
-    const r = await enviarVotoSello(id, n);
-    si.disabled = false;
-    const aviso = document.getElementById('votoGracias');
-    document.getElementById('votoStars').style.display = 'none';
-    document.getElementById('votoConfirma').style.display = 'none';
-    if (r.ok || r.error === 'ya') {
-      try { localStorage.setItem('innaz_voto_' + id, n); } catch (e) {}
-      aviso.classList.remove('error');
-      aviso.textContent = r.ok ? '✓ ¡Gracias por tu voto!' : 'Ya habías votado esta producción desde este navegador.';
-    } else {
-      aviso.classList.add('error');
-      aviso.textContent = r.error === 'tope'
-        ? 'Hemos recibido muchos votos desde tu conexión en la última hora. Inténtalo un poco más tarde.'
-        : 'No hemos podido registrar tu voto. Inténtalo de nuevo dentro de un rato.';
-    }
-    aviso.style.display = 'block';
-    if (!r.ok && r.error !== 'ya') return;
-    await cargarNotasSello();
-    renderSello();
-    setTimeout(cerrarVoto, 2600);
-  }
-
-  function cerrarVoto() {
-    document.getElementById('votoModal').classList.remove('active');
-    document.body.style.overflow = '';
-    votoActual = null;
-  }
-  function cerrarSiOverlayVoto(e) {
-    if (e.target === document.getElementById('votoModal')) cerrarVoto();
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarVoto(); });
-
-  /* Llegada por enlace o QR del espectáculo: #votar-<id> */
-  function comprobarHashVoto() {
-    const m = location.hash.match(/^#votar-(.+)$/);
-    if (m && PRODUCCIONES.some(p => p.id === m[1])) {
-      document.getElementById('prod-' + m[1])?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setTimeout(() => abrirVoto(m[1]), 600);
-    }
-  }
-
   renderSello();
-  cargarNotasSello().then(() => { renderSello(); comprobarHashVoto(); });
-  window.addEventListener('hashchange', comprobarHashVoto);
 </script>
 
 <script>

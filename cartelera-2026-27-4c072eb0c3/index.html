@@ -87,6 +87,8 @@
     .lista{max-width:960px;margin:0 auto;list-style:none;}
     .fun{scroll-margin-top:84px;display:grid;grid-template-columns:5.6rem minmax(0,1fr);gap:1.4rem;border-bottom:1px solid var(--border);padding:1.6rem 0;}
     .fun.pasada{opacity:.62;}
+    .fun.pasada .val{opacity:1;}
+    .val-intro{font-size:.8rem;font-style:italic;color:var(--muted);margin:-.4rem 0 1rem;}
     .fecha{font-variant-numeric:tabular-nums;}
     .fecha .d{font-family:'Cormorant SC',serif;font-size:2.4rem;font-weight:600;line-height:1;color:var(--black);}
     .fecha .m{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);margin-top:.15rem;}
@@ -253,6 +255,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 <script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
 <script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PALETA-SECCIONES:FIN -->
+<script src="../valoraciones.js?v=45c0a876"></script>
 </head>
 <body>
 <nav id="navbar">
@@ -283,7 +286,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
     <div>
       <input type="search" id="q" class="busca" placeholder="Buscar una obra, un teatro, una ciudad o un intérprete…" autocomplete="off">
       <div class="estado"><span id="cuenta"></span><span id="selActiva"></span></div>
-      <p class="ayuda">Pulsa un día del calendario para ver sus funciones, o el nombre del mes para verlo entero. Las flechas ‹ › cambian de mes y las « » de año. Si no eliges fecha, verás todas las próximas funciones. La cartelera empieza siempre en el día de hoy, así que las funciones ya celebradas dejan de mostrarse.</p>
+      <p class="ayuda">Pulsa un día del calendario para ver sus funciones, o el nombre del mes para verlo entero. Las flechas ‹ › cambian de mes y las « » de año. Si no eliges fecha, verás todas las próximas funciones. La cartelera empieza siempre en el día de hoy, así que las funciones ya celebradas dejan de mostrarse. Puedes valorar cada espectáculo desde el día de su primera función hasta 15 días después de la última.</p>
       <p class="leyenda">Lo que aparece <span class="zz">en turquesa</span> lleva a su ficha en la Zarzuteca INNAZ.</p>
     </div>
     <div class="cal" id="cal" aria-label="Calendario de funciones"></div>
@@ -444,6 +447,7 @@ function card(e){
     <h2>${esc(e.tit)}</h2>
     <div class="lugar">${lugarTea(e)} · ${esc(e.ciu)}${e.pais&&e.pais!=='España'?' ('+esc(e.pais)+')':''}${e.cia?' · '+esc(e.cia):''}</div>
     <div class="acc"><span class="tags">${tags.join('')}</span>${web}</div>
+    ${(typeof VAL!=='undefined'&&e.f.length)?VAL.hueco(e.id,e.f[0],e.f[e.f.length-1],e.tit):''}
     ${ficha(e)}
   </div></li>`;
 }
@@ -491,6 +495,15 @@ function textoSel(){
   return `<span class="sel">${t}<button type="button" id="quitaSel" aria-label="Quitar la fecha">×</button></span>`;
 }
 document.addEventListener('click',ev=>{if(ev.target.id==='quitaSel'){SEL=null;calendario();pinta();}});
+// 22-10-2026 (César): «Valora lo que has visto»: espectáculos ya terminados cuya valoración
+// del público sigue abierta (hasta 15 días después de la última función). Sin búsqueda ni fecha elegida.
+function recientes(){
+  if(typeof VAL==='undefined'||SEL||$('q').value) return '';
+  const R=E.filter(e=>e.f.length&&e.f[e.f.length-1]<HOY&&VAL.abierta(e.f[0],e.f[e.f.length-1]))
+    .sort((a,b)=>b.f[b.f.length-1].localeCompare(a.f[a.f.length-1]));
+  if(!R.length) return '';
+  return `<h2 class="mes">Valora lo que has visto <small>${R.length}</small></h2><p class="val-intro">Espectáculos que ya han terminado. Puedes valorarlos hasta 15 días después de su última función.</p><ul class="lista">${R.map(e=>card(Object.assign({},e,{fv:e.f}))).join('')}</ul>`;
+}
 function pinta(){
   const q=norm($('q').value);
   const L=[];
@@ -506,7 +519,7 @@ function pinta(){
   $('selActiva').innerHTML=textoSel();
   if(!L.length){$('res').innerHTML='<div class="vacio">No hay funciones '+(SEL?'en esa fecha':'que coincidan con la búsqueda')+'.</div>';return;}
   const g={};L.forEach(e=>{const k=e.fv.length?e.fv[0].slice(0,7):'zz';(g[k]=g[k]||[]).push(e)});
-  $('res').innerHTML=Object.keys(g).sort().map(k=>{
+  $('res').innerHTML=recientes()+Object.keys(g).sort().map(k=>{
     const ti=k==='zz'?'Fecha por anunciar':`${MESES[+k.slice(5)-1]} ${k.slice(0,4)}`;
     return `<h2 class="mes">${ti[0].toUpperCase()+ti.slice(1)} <small>${g[k].length}</small></h2><ul class="lista">${g[k].map(card).join('')}</ul>`;
   }).join('');
