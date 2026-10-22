@@ -222,6 +222,12 @@
     .sello-lista .t { font-family: 'Cormorant', serif; font-size: 1.3rem; font-weight: 600; color: var(--white); }
     .sello-lista .m { display: block; font-size: .82rem; color: rgba(255,255,255,.7); line-height: 1.5; margin-top: .2rem; }
     .zl .val { color: rgba(255,255,255,.75); } .zl .val-num { color: var(--white); }
+    #panel-festival, #panel-materiales { border-top: 4px solid var(--teal); }
+    .bloque .zl.clara h3 { color: var(--black); }
+    .bloque .zl.clara a:not(.cta-pilar) { color: var(--teal-dark); }
+    .zl.clara .zl-datos { background: var(--border); border-color: var(--border); }
+    .zl.clara .zl-dato { background: var(--white); }
+    .zl.clara .zl-dato dd { color: var(--text); }
 </style>
 <!-- PALETA-SECCIONES:INICIO -->
 <style>
@@ -372,8 +378,35 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
         <div class="linea-card">
           <p class="linea-name">Festival Anual de Zarzuela INNAZ</p>
           <div class="linea-num">02</div>
-          <ul class="linea-feats"><li>Una cita anual dedicada por entero a la Zarzuela.</li></ul>
+          <ul class="linea-feats">
+            <li>Una cita anual dedicada por entero a la Zarzuela</li>
+            <li>El trabajo de los cuatro pilares, en escena</li>
+            <li>Concurso Internacional de Zarzuela</li>
+            <li>Ventajas para todos los suscriptores</li>
+          </ul>
+          <button class="btn-linea" type="button" aria-controls="panel-festival" aria-expanded="false">Ver más</button>
         </div>
+        <section class="zl clara linea-panel" id="panel-festival" hidden>
+          <p class="zl-titulo">Festival Anual de Zarzuela INNAZ</p>
+          <p>El Festival Anual de Zarzuela INNAZ es un proyecto en desarrollo. Queremos crear una cita anual dedicada por entero a la Zarzuela, en la que se vea sobre el escenario el trabajo de los cuatro pilares de INNAZ.</p>
+          <h3>Objetivos</h3>
+          <dl class="zl-datos">
+            <div class="zl-dato"><dt>Títulos recuperados</dt><dd>Devolver a escena obras recuperadas a partir del trabajo de la Zarzuteca y de la Editorial INNAZ.</dd></div>
+            <div class="zl-dato"><dt>Producciones con Sello</dt><dd>Dar un escaparate a los espectáculos distinguidos con el Sello de Calidad INNAZ.</dd></div>
+            <div class="zl-dato"><dt>Nuevas voces</dt><dd>Ofrecer un escenario a los jóvenes intérpretes que se forman en ZLabs.</dd></div>
+            <div class="zl-dato"><dt>Obra nueva</dt><dd>Presentar las obras nacidas del Concurso de Compositores.</dd></div>
+            <div class="zl-dato zl-ancho"><dt>Encuentros</dt><dd>Reunir a artistas, investigadores y público en charlas y actividades abiertas.</dd></div>
+          </dl>
+          <h3>Concurso Internacional de Zarzuela</h3>
+          <p>Dentro del Festival se celebrará el Concurso Internacional de Zarzuela. Cada edición estará dedicada a un compositor distinto, y la final formará parte de la programación del Festival.</p>
+          <h3>Ventajas para suscriptores</h3>
+          <p>Todos los suscriptores de INNAZ tendrán ventajas en el Festival. Las daremos a conocer al presentar la primera edición.</p>
+          <h3>Fechas y sede</h3>
+          <p>Todavía no hay fechas ni sede. Las anunciaremos en la Cartelera y en Noticias.</p>
+          <h3>Colabora</h3>
+          <p>Buscamos teatros, instituciones, compañías y patrocinadores que quieran dar forma al Festival con nosotros. Escríbenos a <a href="mailto:info@innaz.es?subject=Festival%20Anual%20de%20Zarzuela%20INNAZ">info@innaz.es</a>.</p>
+          <a class="cta-pilar" href="mailto:info@innaz.es?subject=Festival%20Anual%20de%20Zarzuela%20INNAZ">Colabora con el Festival</a>
+        </section>
         <div class="linea-card negra">
           <p class="linea-name">Materiales y títulos recuperados</p>
           <div class="linea-num">03</div>
@@ -381,7 +414,28 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
             <li>Cedemos a las compañías la documentación reunida en la Zarzuteca</li>
             <li>Apoyamos los títulos recuperados que llevan décadas fuera de los escenarios</li>
           </ul>
+          <button class="btn-linea" type="button" aria-controls="panel-materiales" aria-expanded="false">Ver más</button>
         </div>
+        <section class="zl linea-panel" id="panel-materiales" hidden>
+          <p class="zl-titulo">Materiales y títulos recuperados</p>
+          <p>Montar una Zarzuela empieza por encontrar sus materiales, y muchas veces están repartidos entre varios archivos o no se sabe dónde están. Ponemos a disposición de las compañías todo lo que hemos reunido, con especial atención a los títulos que llevan décadas fuera de los escenarios.</p>
+          <h3>Qué ofrecemos</h3>
+          <dl class="zl-datos">
+            <div class="zl-dato"><dt>Documentación de la obra</dt><dd>Autores, estreno, reparto original, números musicales y fuentes, tal como figuran en la Zarzuteca.</dd></div>
+            <div class="zl-dato"><dt>Localización de materiales</dt><dd>Te decimos qué partituras, partes de orquesta y libretos existen y en qué archivo están.</dd></div>
+            <div class="zl-dato zl-ancho"><dt>Dossier para títulos recuperados</dt><dd>Contexto histórico, recepción en su estreno y textos para el programa de mano.</dd></div>
+          </dl>
+          <h3>Ediciones de la Editorial INNAZ</h3>
+          <p>Queremos preparar ediciones propias de la partitura y de los materiales de orquesta de obras en dominio público. Es un proyecto en desarrollo, abierto a la colaboración de archivos, bibliotecas, instituciones, editores, copistas e investigadores.</p>
+          <h3>Qué materiales podemos ceder</h3>
+          <p>Solo cedemos materiales de obras en dominio público o de ediciones propias. Si el material pertenece a otro archivo, te indicamos cómo solicitarlo.</p>
+          <h3>Condiciones</h3>
+          <p>La documentación, la localización de materiales y el dossier son gratuitos para los suscriptores de los niveles Colaborador, Protector y Mecenas. Para el resto tienen un coste, que te indicaremos si nos escribes.</p>
+          <h3>Cómo se solicita</h3>
+          <p>Escríbenos a <a href="mailto:info@innaz.es?subject=Materiales%20y%20t%C3%ADtulos%20recuperados">info@innaz.es</a> con el título, las fechas previstas y la formación con la que vais a trabajar (orquesta, reducción o piano).</p>
+          <a class="cta-pilar" href="mailto:info@innaz.es?subject=Materiales%20y%20t%C3%ADtulos%20recuperados">Solicitar materiales</a>
+          <a class="cta-pilar" href="buscador.html" style="margin-left:.6rem;">Consultar el Catálogo</a>
+        </section>
       </div>
     </div>
 
@@ -465,8 +519,8 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
   ul.innerHTML=L.length?L.map(function(p){return '<li><span class="t">'+p.titulo+'</span><span class="m">'+p.compositor+' · '+p.teatro+(p.detalle?'<br>'+p.detalle:'')+'</span>'+selloValoracion(p)+'</li>';}).join('')
     :'<li><span class="m">Todavía no hay producciones certificadas. Aquí aparecerán las primeras que reciban el Sello de Calidad INNAZ.</span></li>';
 })();
-/* Enlace directo al Sello: proyecto-interpretacion.html#sello abre su desplegable */
-(function(){ if(location.hash==='#sello'){ var b=document.querySelector('[aria-controls="panel-sello"]'); if(b) setTimeout(function(){b.click();},200); } })();
+/* Enlace directo: #sello, #festival o #materiales abre su desplegable */
+(function(){ var h=location.hash.slice(1); if(['sello','festival','materiales'].indexOf(h)>=0){ var b=document.querySelector('[aria-controls="panel-'+h+'"]'); if(b) setTimeout(function(){b.click();},200); } })();
 </script>
 </body>
 </html>
