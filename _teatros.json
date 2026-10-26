@@ -167,7 +167,9 @@
   "Centro Social de Tarrasa": "centro-social-tarrasa",
   "Teatro Cómico de Barcelona": "teatro-comico-barcelona",
   "Teatro y Circo de Madrid": "teatro-principe-alfonso-madrid",
-  "Teatro Nacional de La Habana": "teatro-tacon-la-habana"
+  "Teatro Nacional de La Habana": "teatro-tacon-la-habana",
+  "Teatro Romea de la calle de la Colegiata de Madrid": "teatro-romea-colegiata-madrid",
+  "Nuevo Teatro de Maravillas de Madrid": "nuevo-teatro-de-maravillas-madrid"
  },
  "teatros": [
   {
@@ -402,7 +404,7 @@
   },
   {
    "k": "teatro-circo-price-madrid",
-   "n": "Teatro Circo Price",
+   "n": "Teatro Price",
    "c": "Madrid"
   },
   {
@@ -799,6 +801,16 @@
    "k": "teatro-zorrilla-madrid",
    "n": "Teatro Zorrilla",
    "c": "Madrid"
+  },
+  {
+   "k": "teatro-romea-colegiata-madrid",
+   "n": "Teatro Romea de la Colegiata",
+   "c": "Madrid"
+  },
+  {
+   "k": "nuevo-teatro-de-maravillas-madrid",
+   "n": "Nuevo Teatro de Maravillas",
+   "c": "Madrid"
   }
  ],
  "rotulos": {
@@ -817,7 +829,8 @@
   "Teatro y Circo de Madrid": "Teatro y Circo de Madrid",
   "Teatro Price de Madrid": "Teatro Price",
   "Teatro Nacional de La Habana": "Teatro Nacional",
-  "Teatro de los Bufos Arderius de Madrid": "Teatro de los Bufos Arderíus"
+  "Teatro de los Bufos Arderius de Madrid": "Teatro de los Bufos Arderíus",
+  "Teatro Romea de la calle de la Colegiata de Madrid": "Teatro Romea"
  },
  "alias": {
   "teatro-liceo-barcelona": [
