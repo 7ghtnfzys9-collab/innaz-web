@@ -169,7 +169,8 @@
   "Teatro y Circo de Madrid": "teatro-principe-alfonso-madrid",
   "Teatro Nacional de La Habana": "teatro-tacon-la-habana",
   "Teatro Romea de la calle de la Colegiata de Madrid": "teatro-romea-colegiata-madrid",
-  "Nuevo Teatro de Maravillas de Madrid": "nuevo-teatro-de-maravillas-madrid"
+  "Nuevo Teatro de Maravillas de Madrid": "nuevo-teatro-de-maravillas-madrid",
+  "Jardins del Tívoli de Barcelona": "jardins-del-tivoli-barcelona"
  },
  "teatros": [
   {
@@ -359,7 +360,7 @@
   },
   {
    "k": "teatro-campos-eliseos-bilbao",
-   "n": "Teatro Campos Elíseos",
+   "n": "Teatro Campos Elíseos Antzokia",
    "c": "Bilbao"
   },
   {
@@ -704,7 +705,7 @@
   },
   {
    "k": "teatro-principal-valencia",
-   "n": "Teatro Principal",
+   "n": "Teatre Principal",
    "c": "Valencia"
   },
   {
@@ -811,6 +812,11 @@
    "k": "nuevo-teatro-de-maravillas-madrid",
    "n": "Nuevo Teatro de Maravillas",
    "c": "Madrid"
+  },
+  {
+   "k": "jardins-del-tivoli-barcelona",
+   "n": "Jardins del Tívoli",
+   "c": "Barcelona"
   }
  ],
  "rotulos": {
@@ -859,7 +865,8 @@
    "Auditorio Adela Reta"
   ],
   "teatro-campos-eliseos-bilbao": [
-   "Campos Elíseos Antzokia"
+   "Campos Elíseos Antzokia",
+   "Teatro Campos Elíseos"
   ],
   "teatro-biobio-concepcion": [
    "Teatro Regional del Biobío"
@@ -875,6 +882,12 @@
   ],
   "teatro-victoria-barcelona": [
    "Teatro Victoria"
+  ],
+  "teatro-principal-valencia": [
+   "Teatro Principal"
+  ],
+  "teatro-principal-san-sebastian": [
+   "Antzoki Zaharra"
   ]
  },
  "sede_cartelera": {
