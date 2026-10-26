@@ -214,6 +214,7 @@
     /* 22-10-2026 (César): líneas de Interpretación en tarjetas; el Sello, con desplegable */
     #panel-sello { border-top: 4px solid var(--teal); }
     #panel-sello .sello-logo { display: block; width: 120px; height: 120px; margin: 0 0 1.2rem; } /* 26-10-2026 */
+    #panel-sello .val-sello, #panel-sello .val-sello-sola { color: var(--white); } /* fondo oscuro */
     .zl h3 { font-family: 'Cormorant SC', serif; font-size: 1.3rem; font-weight: 600; color: var(--white); margin: 2rem 0 .7rem; }
     .zl a { color: var(--white); }
     .sello-lista { list-style: none; margin: 0; padding: 0; }
@@ -296,7 +297,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 <script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PALETA-SECCIONES:FIN -->
   <script src="cartelera-data.js?v=485a5642"></script>
-  <script src="sello-data.js?v=4efe148d"></script>
+  <script src="sello-data.js?v=6baae4dc"></script>
   <script src="valoraciones-grupos.js?v=4b2fd34a"></script>
   <script src="valoraciones.js?v=f63678a3"></script>
 </head>
@@ -370,7 +371,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
             <div class="zl-dato"><dt>Condiciones profesionales</dt><dd>Derechos de autor y contratos en regla.</dd></div>
           </dl>
           <h3>Cómo se solicita</h3>
-          <p>La compañía o el teatro productor escribe a <a href="mailto:info@innaz.es?subject=Sello%20de%20Calidad%20INNAZ">info@innaz.es</a> con el dossier del espectáculo. El comité estudia la documentación y asiste a una función o a un ensayo general antes de resolver.</p>
+          <p>La compañía o el teatro productor escribe a <a href="mailto:info@innaz.es?subject=Sello%20de%20Calidad%20INNAZ">info@innaz.es</a> con el dossier del espectáculo. El comité estudia la documentación y asiste a una función o a un ensayo general antes de resolver. La concesión del Sello es gratuita.</p>
           <h3>Vigencia</h3>
           <p>El Sello no caduca. Si el espectáculo vuelve a representarse en otra temporada, el comité revisa cada año que siga cumpliendo los requisitos.</p>
           <h3>Asesoramiento</h3>
@@ -520,7 +521,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 (function(){
   var ul=document.getElementById('selloLista'); if(!ul) return;
   var L=(typeof PRODUCCIONES!=='undefined')?PRODUCCIONES:[];
-  ul.innerHTML=L.length?L.map(function(p){return '<li><span class="t">'+p.titulo+'</span><span class="m">'+p.compositor+' · '+p.teatro+(p.detalle?'<br>'+p.detalle:'')+'</span>'+selloValoracion(p)+'</li>';}).join('')
+  ul.innerHTML=L.length?L.map(function(p){return '<li><span class="t">'+p.titulo+'</span><span class="m">'+p.compositor+' · '+p.teatro+(p.detalle?'<br>'+p.detalle:'')+'</span>'+(p.numero?'<span class="m">Sello n.º '+p.numero+'</span>':'')+selloValoracion(p)+'</li>';}).join('')
     :'<li><span class="m">Todavía no hay producciones certificadas. Aquí aparecerán las primeras que reciban el Sello de Calidad INNAZ.</span></li>';
 })();
 /* Enlace directo: #sello, #festival o #materiales abre su desplegable */

@@ -28,6 +28,10 @@ const SELLO_URL_BASE = 'https://innaz.es/proyecto-interpretacion.html#sello';
 
    {
      id: 'la-bruja-zarzuela-2027',
+     numero: 'SC-27001',          // 26-10-2026 (César): SC-AANNN = año de concesión (2 cifras) + correlativo de 3
+     productora: 'Teatro de la Zarzuela',
+     concesion: '2027-01-15',     // fecha de concesión (AAAA-MM-DD)
+     revision: '',                // última revisión anual (AAAA-MM-DD), vacía hasta la primera
      cartelera: 'MAD-04',
      titulo: 'La bruja',
      compositor: 'Ruperto Chapí',
