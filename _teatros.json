@@ -55,7 +55,7 @@
   "Teatro de la Zarzuela de Madrid": "teatro-de-la-zarzuela-madrid",
   "Teatro de la Zarzuela": "teatro-de-la-zarzuela-madrid",
   "Teatro de la Zarzuela, Madrid": "teatro-de-la-zarzuela-madrid",
-  "Teatro Basilios": "teatro-de-variedades-madrid",
+  "Teatro Basilios": "teatro-de-los-basilios-madrid",
   "Teatro de los Bufos Madrileños": "teatro-de-variedades-madrid",
   "Teatro de los Bufos madrileños": "teatro-de-variedades-madrid",
   "Teatro de Variedades de Madrid": "teatro-de-variedades-madrid",
@@ -156,7 +156,7 @@
   "Teatro Arriaga de Bilbao": "teatro-arriaga-bilbao",
   "Teatro de Mayo de Buenos Aires": "teatro-de-mayo-buenos-aires",
   "Casino Municipal de Niza": "casino-municipal-niza",
-  "Teatro de los Basilios de Madrid": "teatro-de-variedades-madrid",
+  "Teatro de los Basilios de Madrid": "teatro-de-los-basilios-madrid",
   "Teatro Folies Arderíus de Madrid": "teatro-alhambra-madrid",
   "Teatro Lírico de Madrid": "gran-teatro-de-madrid-madrid",
   "Palacio Real de Madrid": "palacio-real-madrid",
@@ -165,7 +165,9 @@
   "Teatro Chueca de Madrid": "teatro-chueca-madrid",
   "Teatro El Cisne de Madrid": "teatro-chueca-madrid",
   "Centro Social de Tarrasa": "centro-social-tarrasa",
-  "Teatro Cómico de Barcelona": "teatro-comico-barcelona"
+  "Teatro Cómico de Barcelona": "teatro-comico-barcelona",
+  "Teatro y Circo de Madrid": "teatro-principe-alfonso-madrid",
+  "Teatro Nacional de La Habana": "teatro-tacon-la-habana"
  },
  "teatros": [
   {
@@ -803,15 +805,19 @@
   "Teatro Parish de Madrid": "Teatro Parish",
   "Teatro de Parish de Madrid": "Teatro Parish",
   "Teatro Centro de Madrid": "Teatro Centro",
-  "Teatro de los Basilios de Madrid": "Teatro de los Basilios",
-  "Teatro Basilios": "Teatro de los Basilios",
   "Teatro Folies Arderíus de Madrid": "Folies Arderíus",
   "Teatro del Príncipe de Madrid": "Teatro del Príncipe",
   "Teatro Auditorium de La Habana": "Teatro Auditorium",
   "Teatro Lírico de Madrid": "Teatro Lírico",
   "Teatro Princesa de Madrid": "Teatro de la Princesa",
   "Teatro del Liceo de Barcelona": "Teatro del Liceo",
-  "Teatro Moderno": "Teatro Moderno"
+  "Teatro Moderno": "Teatro Moderno",
+  "Teatro de los Bufos Madrileños": "Teatro de los Bufos Madrileños",
+  "Teatro de los Bufos madrileños": "Teatro de los Bufos Madrileños",
+  "Teatro y Circo de Madrid": "Teatro y Circo de Madrid",
+  "Teatro Price de Madrid": "Teatro Price",
+  "Teatro Nacional de La Habana": "Teatro Nacional",
+  "Teatro de los Bufos Arderius de Madrid": "Teatro de los Bufos Arderíus"
  },
  "alias": {
   "teatro-liceo-barcelona": [
