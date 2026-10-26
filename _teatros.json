@@ -307,7 +307,7 @@
   },
   {
    "k": "teatro-apolo-barcelona",
-   "n": "Teatro Apolo",
+   "n": "Teatre Apolo",
    "c": "Barcelona"
   },
   {
@@ -412,7 +412,7 @@
   },
   {
    "k": "teatro-coliseum-barcelona",
-   "n": "Teatro Coliseum",
+   "n": "Teatre Coliseum",
    "c": "Barcelona"
   },
   {
@@ -782,7 +782,7 @@
   },
   {
    "k": "teatro-tivoli-barcelona",
-   "n": "Teatro Tívoli",
+   "n": "Teatre Tívoli",
    "c": "Barcelona"
   },
   {
@@ -792,7 +792,7 @@
   },
   {
    "k": "teatro-victoria-barcelona",
-   "n": "Teatro Victoria",
+   "n": "Teatre Victòria",
    "c": "Barcelona"
   },
   {
@@ -850,6 +850,18 @@
   ],
   "teatro-biobio-concepcion": [
    "Teatro Regional del Biobío"
+  ],
+  "teatro-apolo-barcelona": [
+   "Teatro Apolo"
+  ],
+  "teatro-coliseum-barcelona": [
+   "Teatro Coliseum"
+  ],
+  "teatro-tivoli-barcelona": [
+   "Teatro Tívoli"
+  ],
+  "teatro-victoria-barcelona": [
+   "Teatro Victoria"
   ]
  },
  "sede_cartelera": {
