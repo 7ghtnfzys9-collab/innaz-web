@@ -492,6 +492,33 @@
       border-left: 2px solid var(--teal); padding-left: 1.2rem;
     }
     .socio-legal a { color: var(--teal-dark); text-decoration: underline; }
+    .planes-extra {
+      max-width: 780px; font-size: .86rem; line-height: 1.7; color: var(--muted);
+      margin: 0 0 1rem;
+    }
+    .planes-extra p { margin-bottom: .55rem; }
+    .planes-extra strong { color: var(--teal-dark); font-weight: 600; }
+    .planes-extra-nota { font-size: .78rem; }
+    /* Aviso «suscripción aún no disponible» (26-10-2026) */
+    .aviso-plan {
+      position: fixed; inset: 0; z-index: 2000; display: none;
+      align-items: center; justify-content: center; padding: 16px;
+      background: rgba(0,0,0,.55);
+    }
+    .aviso-plan.abierto { display: flex; }
+    .aviso-plan-caja {
+      background: var(--white); max-width: 440px; width: 100%;
+      padding: 2rem 1.8rem 1.6rem; border-top: 3px solid var(--teal);
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    .aviso-plan-caja h3 {
+      font-family: 'Cormorant SC', serif; font-size: 1.35rem; font-weight: 600;
+      color: var(--black); margin-bottom: .7rem;
+    }
+    .aviso-plan-caja p { font-size: .9rem; line-height: 1.65; color: var(--muted); margin-bottom: 1.3rem; }
+    .aviso-plan-botones { display: flex; gap: .7rem; flex-wrap: wrap; }
+    .aviso-plan-botones button { flex: 1 1 140px; }
+    .aviso-plan-botones .btn-plan.lleno { background: var(--teal); color: var(--white); }
     @media (max-width: 1180px) { .planes-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 720px)  { .planes-grid { grid-template-columns: 1fr; } }
 
@@ -1018,44 +1045,43 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
 
       <div class="plan-card reveal">
         <p class="plan-name">Simpatizante</p>
-        <div class="plan-price">3 <span>€</span></div>
-        <p class="plan-period">al mes &middot; <strong>30 €</strong> al año</p>
+        <div class="plan-price">5 <span>€</span></div>
+        <p class="plan-period">al mes &middot; <strong>49 €</strong> al año</p>
         <ul class="plan-feats">
-          <li>Enlaces de cada obra: partitura, libreto, vídeo y audio</li>
-          <li>Búsqueda avanzada y exportación de tus resultados</li>
-          <li>Boletín mensual</li>
-          <li>Descuentos en entradas a los eventos de INNAZ</li>
-          <li>Certificado de suscriptor</li>
+          <li>Búsqueda avanzada y colecciones de obras</li>
+          <li>Documentación de los ZLabs y plaza de oyente gratis</li>
+          <li>Preventa y descuento en los eventos de INNAZ</li>
+          <li>Descuentos en zarzuela y en concursos</li>
+          <li>Certificado y carné digital de suscriptor</li>
         </ul>
         <button class="btn-plan" onclick="solicitarPlan('Simpatizante')">Quiero suscribirme</button>
       </div>
 
       <div class="plan-card featured reveal">
-        <div class="plan-badge">Más popular</div>
+        <div class="plan-badge">Recomendado</div>
         <p class="plan-name">Colaborador</p>
-        <div class="plan-price">5 <span>€</span></div>
-        <p class="plan-period">al mes &middot; <strong>50 €</strong> al año</p>
+        <div class="plan-price">10 <span>€</span></div>
+        <p class="plan-period">al mes &middot; <strong>99 €</strong> al año</p>
         <ul class="plan-feats">
           <li>Todo lo del nivel Simpatizante</li>
-          <li>Ficha de obra en PDF, maquetada para imprimir</li>
-          <li>Argumentos completos descargables</li>
-          <li>Fichas nuevas antes de su publicación abierta</li>
-          <li>Colecciones propias de obras, que puedes compartir</li>
+          <li>Partituras para canto y piano y libretos de la Editorial INNAZ</li>
+          <li>Ficha de obra en PDF y exportación de búsquedas</li>
           <li>Invitaciones a ensayos y actos privados</li>
+          <li>Asesoramiento gratuito del Sello de Calidad</li>
         </ul>
         <button class="btn-plan" onclick="solicitarPlan('Colaborador')">Quiero suscribirme</button>
       </div>
 
       <div class="plan-card reveal">
         <p class="plan-name">Protector</p>
-        <div class="plan-price">45 <span>€</span></div>
-        <p class="plan-period">al mes &middot; <strong>500 €</strong> al año</p>
+        <div class="plan-price">25 <span>€</span></div>
+        <p class="plan-period">al mes &middot; <strong>250 €</strong> al año</p>
         <ul class="plan-feats">
           <li>Todo lo del nivel Colaborador</li>
-          <li>Dos consultas documentales al año resueltas por el equipo de INNAZ</li>
-          <li>Exportación de datos para uso propio, con licencia de atribución</li>
-          <li>Acceso anticipado a entradas</li>
-          <li>Mención en las publicaciones anuales de INNAZ</li>
+          <li>Cinco consultas documentales al año</li>
+          <li>Catálogo completo en datos abiertos</li>
+          <li>Ediciones nuevas 15 días antes, con tu nombre en los créditos</li>
+          <li>Encuentros con artistas</li>
         </ul>
         <button class="btn-plan" onclick="solicitarPlan('Protector')">Quiero suscribirme</button>
       </div>
@@ -1066,13 +1092,22 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
         <p class="plan-period">al año</p>
         <ul class="plan-feats">
           <li>Todo lo del nivel Protector</li>
-          <li>Nombre publicado como mecenas</li>
-          <li>Mesa en la Gala Anual de INNAZ</li>
-          <li>Encuentro privado con artistas</li>
+          <li>Tu nombre como mecenas de un estreno</li>
+          <li>Dos plazas en la cena de la Gala Anual</li>
+          <li>Distinción de INNAZ</li>
         </ul>
         <button class="btn-plan" onclick="solicitarPlan('Mecenas')">Quiero información</button>
       </div>
 
+    </div>
+
+    <div class="planes-extra reveal">
+      <p><strong>Estudiantes de conservatorio y de escuelas superiores de música:</strong>
+        las ventajas de Colaborador por 5 € al mes o 49 € al año, con el código que facilitará tu centro.</p>
+      <p><strong>Lanzamiento:</strong> los 50 primeros suscriptores de los niveles Simpatizante,
+        Colaborador y Estudiante tendrán los tres primeros meses gratis.</p>
+      <p class="planes-extra-nota">Suscripción mensual o anual, con renovación automática que puedes cancelar
+        cuando quieras. Algunas ventajas se irán activando a medida que arranquen sus actividades.</p>
     </div>
 
     <p class="socio-legal reveal">
@@ -1086,6 +1121,20 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
 
   </div>
 </section>
+
+<!-- Aviso: suscripción aún no disponible (26-10-2026) -->
+<div class="aviso-plan" id="avisoPlan" role="dialog" aria-modal="true" aria-labelledby="avisoPlanTitulo"
+     onclick="if (event.target === this) cerrarAvisoPlan()">
+  <div class="aviso-plan-caja">
+    <h3 id="avisoPlanTitulo">Muy pronto</h3>
+    <p>La suscripción <strong id="avisoPlanNombre"></strong> aún no está disponible.
+      Estamos preparando su apertura. Si quieres, te avisamos en cuanto puedas suscribirte.</p>
+    <div class="aviso-plan-botones">
+      <button class="btn-plan lleno" onclick="avisarmePlan()">Avisadme</button>
+      <button class="btn-plan" id="avisoPlanCerrar" onclick="cerrarAvisoPlan()">Cerrar</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── CONTACTO ── -->
 <section id="contacto">
@@ -1197,15 +1246,29 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
   }, { threshold: 0.08 });
   reveals.forEach(el => revealObs.observe(el));
 
-  /* ── Solicitud de suscripción ──
-     No hay cobro en la página: el botón lleva al formulario de contacto
-     con el nivel ya escrito en el asunto. */
+  /* ── Solicitud de suscripción (26-10-2026) ──
+     Las suscripciones aún no están abiertas: el botón muestra un aviso.
+     «Avisadme» lleva al formulario de contacto con el nivel en el asunto. */
+  var planElegido = '';
   function solicitarPlan(plan) {
-    const asunto = document.getElementById('formAsunto');
-    if (asunto) asunto.value = 'Suscripción ' + plan;
-    const destino = document.getElementById('contacto');
+    planElegido = plan;
+    var caja = document.getElementById('avisoPlan');
+    var nom = document.getElementById('avisoPlanNombre');
+    if (nom) nom.textContent = plan;
+    if (caja) { caja.classList.add('abierto'); var b = document.getElementById('avisoPlanCerrar'); if (b) b.focus(); }
+  }
+  function cerrarAvisoPlan() {
+    var caja = document.getElementById('avisoPlan');
+    if (caja) caja.classList.remove('abierto');
+  }
+  function avisarmePlan() {
+    cerrarAvisoPlan();
+    var asunto = document.getElementById('formAsunto');
+    if (asunto) asunto.value = 'Avisadme cuando abra la suscripción ' + planElegido;
+    var destino = document.getElementById('contacto');
     if (destino) destino.scrollIntoView({ behavior: 'smooth' });
   }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrarAvisoPlan(); });
 
   /* ── Formulario contacto ── */
   function enviarForm(e) {
