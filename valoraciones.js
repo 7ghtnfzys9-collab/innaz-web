@@ -60,7 +60,7 @@
     const g = grupo(id);
     return PRODUCCIONES.find(p => [].concat(p.cartelera || []).some(c => g.includes(c))) || null;
   }
-  const sello = id => selloDe(id) ? '<span class="val-sello" title="Concedido por el comité de INNAZ">✦ Sello de Calidad INNAZ</span>' : '';
+  const sello = id => selloDe(id) ? '<span class="val-sello" title="Concedido por el comité de INNAZ"><img class="sello-ico" src="/sello-innaz-mini.svg" alt="" width="20" height="20">Sello de Calidad INNAZ</span>' : '';
   const yaVotado = id => grupo(id).some(x => votados.includes(x) || (() => { try { return !!localStorage.getItem('innaz_val_' + x); } catch (e) { return false; } })());
   const abierta = (f0, f1) => !!f0 && hoy >= f0 && hoy <= masDias(f1 || f0, DIAS);
 
@@ -103,7 +103,8 @@
       .val{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .6rem;margin:.6rem 0 .2rem;font-size:.8rem;color:var(--muted,#6b6b6b);}
       .val[hidden]{display:none;}
       .val-rot{font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;}
-      .val-sello,.val-sello-sola{display:inline-block;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:#8E3346;padding:.25rem .6rem;border-radius:2px;white-space:nowrap;}
+      .val-sello,.val-sello-sola{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:600;letter-spacing:.01em;color:var(--black,#1A1A1A);white-space:nowrap;vertical-align:middle;}
+      .val-sello .sello-ico,.val-sello-sola .sello-ico{display:block;width:20px;height:20px;flex-shrink:0;} /* 26-10-2026: logo del Sello (versión mínima) en lugar de «✦» */
       .val-est{position:relative;display:inline-block;color:#d9d4cb;letter-spacing:.06em;font-size:.95rem;line-height:1;}
       .val-fill{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:#E3A62F;}
       .val-num{font-family:'Cormorant',serif;font-size:1.25rem;font-weight:600;color:var(--black,#111);}
@@ -240,6 +241,6 @@
 
   window.VAL = { hueco, abierta, cargar, pintar, abrir, grupo, selloDe,
     /* Distintivo suelto, para listas que no llevan valoración (Próximas funciones…). */
-    sello: id => selloDe(id) ? '<span class="val-sello-sola" title="Concedido por el comité de INNAZ">✦ Sello de Calidad INNAZ</span>' : '',
+    sello: id => selloDe(id) ? '<span class="val-sello-sola" title="Concedido por el comité de INNAZ"><img class="sello-ico" src="/sello-innaz-mini.svg" alt="" width="20" height="20">Sello de Calidad INNAZ</span>' : '',
     nota: id => notas[id] || { n: 0, nota: null }, DIAS, MINIMO };
 })();
