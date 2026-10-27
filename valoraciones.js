@@ -108,9 +108,9 @@
       .val-est{position:relative;display:inline-block;color:#d9d4cb;letter-spacing:.06em;font-size:.95rem;line-height:1;}
       .val-fill{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:#E3A62F;}
       .val-num{font-family:'Cormorant',serif;font-size:1.25rem;font-weight:600;color:var(--black,#111);}
-      .val-btn{font:inherit;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark,#1b8a96);background:none;border:1.5px solid var(--teal-dark,#1b8a96);border-radius:22px;padding:.35rem .85rem;cursor:pointer;}
-      .val-btn:hover{background:var(--teal-dark,#1b8a96);color:#fff;}
-      .val-ya{font-size:.75rem;color:var(--teal-dark,#1b8a96);}
+      .val-btn{font:inherit;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark,#007A90);background:none;border:1.5px solid var(--teal-dark,#007A90);border-radius:22px;padding:.35rem .85rem;cursor:pointer;}
+      .val-btn:hover{background:var(--teal-dark,#007A90);color:#fff;}
+      .val-ya{font-size:.75rem;color:var(--teal-dark,#007A90);}
       .valm{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;}
       .valm.on{display:flex;}
       .valm-c{position:relative;background:#f8f5ef;color:#111;max-width:440px;width:100%;padding:2.2rem 1.8rem 1.8rem;text-align:center;border-radius:3px;}
@@ -124,10 +124,10 @@
       .valm-conf{display:none;margin-top:.8rem;}
       .valm-preg{font-family:'Cormorant',serif;font-style:italic;font-size:1.35rem;line-height:1.3;margin:0 0 1rem;}
       .valm-bot{display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap;}
-      .valm-si{font:inherit;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark,#1b8a96);background:none;border:1.5px solid var(--teal-dark,#1b8a96);padding:.75rem 1.6rem;cursor:pointer;}
-      .valm-si:hover{background:var(--teal-dark,#1b8a96);color:#fff;}
+      .valm-si{font:inherit;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-dark,#007A90);background:none;border:1.5px solid var(--teal-dark,#007A90);padding:.75rem 1.6rem;cursor:pointer;}
+      .valm-si:hover{background:var(--teal-dark,#007A90);color:#fff;}
       .valm-no{background:none;border:0;font:inherit;font-size:.8rem;color:#777;text-decoration:underline;cursor:pointer;}
-      .valm-msg{display:none;font-size:.92rem;padding:.9rem 1rem;margin-top:.6rem;color:var(--teal-dark,#1b8a96);background:rgba(42,171,184,.1);border:1px solid rgba(42,171,184,.25);}
+      .valm-msg{display:none;font-size:.92rem;padding:.9rem 1rem;margin-top:.6rem;color:var(--teal-dark,#007A90);background:rgba(0,151,178,.1);border:1px solid rgba(0,151,178,.25);}
       .valm-msg.err{color:#8a4b12;background:#fbf1e4;border-color:rgba(138,75,18,.25);}`;
     document.head.appendChild(s);
   }

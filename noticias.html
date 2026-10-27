@@ -35,7 +35,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <script src="noticias-data.js?v=0ab14143"></script>
   <style>
-    :root{--black:#0B0B0B;--teal:#2AABB8;--teal-dark:#1B8A96;--teal-light:#EBF7F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
+    :root{--black:#0B0B0B;--teal:#0097B2;--teal-dark:#007A90;--teal-light:#E7F5F8;--cream:#F8F4EE;--border:#E2DAD0;--text:#1A1A1A;--muted:#777;--white:#FFFFFF;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);}
     nav{position:fixed;top:0;width:100%;z-index:100;padding:1.1rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,238,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
@@ -59,7 +59,7 @@
     .zz-drop.open>.zz-drop-m{display:block;}
     .zz-drop-m li{display:block;}
     .zz-drop-m a{display:block;padding:.6rem 1.15rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;opacity:.75;}
-    .zz-drop-m a:hover{opacity:1;color:#2AABB8;background:rgba(42,171,184,.09);}
+    .zz-drop-m a:hover{opacity:1;color:#0097B2;background:rgba(0,151,178,.09);}
     .zz-drop-m a::after{display:none!important;}
     @media(max-width:960px){.zz-drop{width:100%;}.zz-drop-m{position:static;transform:none;min-width:0;border:none;background:transparent;box-shadow:none;padding:.55rem 0 0 1rem;border-left:2px solid #E2DAD0;margin-top:.5rem;}.zz-drop-m a{padding:.45rem 0;font-size:.8rem;}}
 
@@ -144,9 +144,9 @@
 <style>
 /* 16-10-2026 · Paleta por secciones aprobada por César (claude/PROPUESTA-paleta-colores-web-16-10-2026.md).
    Generado por 06 Scripts/Web/aplicar_paleta_secciones.py: no editar a mano, se regenera. */
-:root{--inst:#2AABB8;--s-form:#6F8AC6;--s-form-t:#2F4775;--s-recu:#E0A25C;--s-recu-t:#87591A;--s-catal:#E0A25C;--s-catal-t:#87591A;--s-obras:#D7A793;--s-obras-t:#8F4F25;--s-autores:#D1C28F;--s-autores-t:#765E16;--s-teatros:#C19F86;--s-teatros-t:#7E5430;--s-anios:#D7CBB2;--s-anios-t:#715A30;--s-inte:#D27D8D;--s-inte-t:#8E3346;--s-cartel:#CA8BD0;--s-cartel-t:#7A5080;--s-sello:#D27D8D;--s-sello-t:#8E3346;--s-crea:#7BC68D;--s-crea-t:#3E7150;--s-noti:#CDC8C1;--s-noti-t:#5C5852;}
+:root{--inst:#0097B2;--s-form:#6F8AC6;--s-form-t:#2F4775;--s-recu:#E0A25C;--s-recu-t:#87591A;--s-catal:#E0A25C;--s-catal-t:#87591A;--s-obras:#D7A793;--s-obras-t:#8F4F25;--s-autores:#D1C28F;--s-autores-t:#765E16;--s-teatros:#C19F86;--s-teatros-t:#7E5430;--s-anios:#D7CBB2;--s-anios-t:#715A30;--s-inte:#D27D8D;--s-inte-t:#8E3346;--s-cartel:#CA8BD0;--s-cartel-t:#7A5080;--s-sello:#D27D8D;--s-sello-t:#8E3346;--s-crea:#7BC68D;--s-crea-t:#3E7150;--s-noti:#CDC8C1;--s-noti-t:#5C5852;}
 .nav-logo span,.footer-logo span{color:var(--inst)!important;}
-.nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#1B8A96!important;}
+.nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#007A90!important;}
 .zz-drop-m a{box-shadow:inset 3px 0 0 transparent;}
 /* 19-10-2026 (noche, César): menú superior NEUTRO, sin colores de pilar. Solo el apartado seleccionado va
    subrayado y en el color institucional; se mantienen las líneas verticales de color de los desplegables. */
@@ -205,7 +205,7 @@ main > *, main #res > *{max-width:820px!important;margin-left:auto!important;mar
 main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:none;hyphens:none;}
 </style>
 <script>(function(){function f(){document.querySelectorAll('main p,main li,main dd,main blockquote').forEach(function(e){e.style.textAlign=(e.offsetWidth&&e.offsetWidth<380)?'left':'';});}addEventListener('load',function(){f();setTimeout(f,1500);});addEventListener('resize',f);})();</script>
-<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#0097B2','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
 <body>
@@ -224,7 +224,7 @@ main p, main li, main dd, main blockquote{text-align:justify;-webkit-hyphens:non
 
 <header class="lh">
   <div class="inner">
-    <p class="label">Actualidad <span class="innaz-w">INNA<span class="innaz-z" style="color:#2AABB8 !important">Z</span></span></p>
+    <p class="label">Actualidad <span class="innaz-w">INNA<span class="innaz-z" style="color:#0097B2 !important">Z</span></span></p>
     <h1>Noticias</h1>
     <p class="sub">La Zarzuela y el teatro lírico español en la prensa especializada</p>
   </div>

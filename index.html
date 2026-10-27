@@ -11,16 +11,16 @@
   <!-- Datos compartidos del Sello de Calidad (producciones y votos) -->
   <script src="sello-data.js?v=6baae4dc"></script>
   <script src="valoraciones-grupos.js?v=4b2fd34a"></script>
-  <script src="valoraciones.js?v=f63678a3"></script>
+  <script src="valoraciones.js?v=b5b08642"></script>
 
   <style>
     /* ─── VARIABLES ─── */
     :root {
       --black:       #0B0B0B;
       --dark:        #111111;
-      --teal:        #2AABB8;
-      --teal-dark:   #1B8A96;
-      --teal-light:  #EBF7F8;
+      --teal:        #0097B2;
+      --teal-dark:   #007A90;
+      --teal-light:  #E7F5F8;
       --cream:       #F8F4EE;
       --warm:        #F2EDE4;
       --border:      #E2DAD0;
@@ -100,8 +100,8 @@
     .hero-bg {
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 65% 55% at 85% 45%, rgba(42,171,184,.13) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 50% at 15% 80%, rgba(42,171,184,.06) 0%, transparent 55%);
+        radial-gradient(ellipse 65% 55% at 85% 45%, rgba(0,151,178,.13) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 15% 80%, rgba(0,151,178,.06) 0%, transparent 55%);
     }
     .hero-grain {
       position: absolute; inset: 0; opacity: .025;
@@ -179,7 +179,7 @@
     }
     .scroll-bar {
       width: 1px; height: 42px;
-      background: linear-gradient(to bottom, transparent, rgba(42,171,184,.7));
+      background: linear-gradient(to bottom, transparent, rgba(0,151,178,.7));
       animation: scrollPulse 2.4s ease-in-out infinite;
     }
 
@@ -688,7 +688,7 @@
     .zz-drop-m li{display:block;}
     .zz-drop-m a{display:block;padding:.6rem 1.15rem;font-size:.72rem;letter-spacing:.12em;
       text-transform:uppercase;white-space:nowrap;opacity:.75;}
-    .zz-drop-m a:hover{opacity:1;color:#2AABB8;background:rgba(42,171,184,.09);}
+    .zz-drop-m a:hover{opacity:1;color:#0097B2;background:rgba(0,151,178,.09);}
     .zz-drop-m a::after{display:none!important;}
     @media(max-width:960px){
       .zz-drop{width:100%;}
@@ -742,13 +742,13 @@
   <script src="embajadores-data.js?v=6a22b094"></script>
 <!-- PORTADA-FRANJAS:INICIO (20-10-2026) -->
 <style>
-#pilares{--fr:#2AABB8}
-#embajadores{--fr:#2AABB8}
+#pilares{--fr:#0097B2}
+#embajadores{--fr:#0097B2}
 #biblioteca{--fr:#E0A25C}
 #cartelera{--fr:#D27D8D}
 #noticias{--fr:#8A847C}
 #sello{--fr:#D27D8D}
-#socio{--fr:#2AABB8}
+#socio{--fr:#0097B2}
 #biblioteca{--pc:#E0A25C;--pt:#87591A;--teal:#87591A;--teal-dark:#87591A;--teal-light:color-mix(in srgb,#E0A25C 14%,#fff);}
 #cartelera{--pc:#D27D8D;--pt:#8E3346;--teal:#8E3346;--teal-dark:#8E3346;--teal-light:color-mix(in srgb,#D27D8D 14%,#fff);}
 #noticias{--pc:#CDC8C1;--pt:#5C5852;--teal:#5C5852;--teal-dark:#5C5852;--teal-light:color-mix(in srgb,#CDC8C1 14%,#fff);}
@@ -794,9 +794,9 @@ section:not(#inicio) p:not(.section-label){text-align:justify;hyphens:none;-webk
 <style>
 /* 16-10-2026 · Paleta por secciones aprobada por César (claude/PROPUESTA-paleta-colores-web-16-10-2026.md).
    Generado por 06 Scripts/Web/aplicar_paleta_secciones.py: no editar a mano, se regenera. */
-:root{--inst:#2AABB8;--s-form:#6F8AC6;--s-form-t:#2F4775;--s-recu:#E0A25C;--s-recu-t:#87591A;--s-catal:#E0A25C;--s-catal-t:#87591A;--s-obras:#D7A793;--s-obras-t:#8F4F25;--s-autores:#D1C28F;--s-autores-t:#765E16;--s-teatros:#C19F86;--s-teatros-t:#7E5430;--s-anios:#D7CBB2;--s-anios-t:#715A30;--s-inte:#D27D8D;--s-inte-t:#8E3346;--s-cartel:#CA8BD0;--s-cartel-t:#7A5080;--s-sello:#D27D8D;--s-sello-t:#8E3346;--s-crea:#7BC68D;--s-crea-t:#3E7150;--s-noti:#CDC8C1;--s-noti-t:#5C5852;}
+:root{--inst:#0097B2;--s-form:#6F8AC6;--s-form-t:#2F4775;--s-recu:#E0A25C;--s-recu-t:#87591A;--s-catal:#E0A25C;--s-catal-t:#87591A;--s-obras:#D7A793;--s-obras-t:#8F4F25;--s-autores:#D1C28F;--s-autores-t:#765E16;--s-teatros:#C19F86;--s-teatros-t:#7E5430;--s-anios:#D7CBB2;--s-anios-t:#715A30;--s-inte:#D27D8D;--s-inte-t:#8E3346;--s-cartel:#CA8BD0;--s-cartel-t:#7A5080;--s-sello:#D27D8D;--s-sello-t:#8E3346;--s-crea:#7BC68D;--s-crea-t:#3E7150;--s-noti:#CDC8C1;--s-noti-t:#5C5852;}
 .nav-logo span,.footer-logo span{color:var(--inst)!important;}
-.nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#1B8A96!important;}
+.nav-cta{background:var(--inst)!important;}.nav-cta:hover{background:#007A90!important;}
 .zz-drop-m a{box-shadow:inset 3px 0 0 transparent;}
 /* 19-10-2026 (noche, César): menú superior NEUTRO, sin colores de pilar. Solo el apartado seleccionado va
    subrayado y en el color institucional; se mantienen las líneas verticales de color de los desplegables. */
@@ -853,7 +853,7 @@ header .zz-tabs a.act{opacity:1;background:var(--cream,#F8F4EE);color:var(--sec-
 .pilares-grid .pilar-card:nth-child(4){border-top:4px solid var(--s-crea)!important;}.pilares-grid .pilar-card:nth-child(4) .pilar-num,.pilares-grid .pilar-card:nth-child(4) .pilar-link{color:var(--s-crea)!important;}
 header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.hero .hero-inner{max-width:1140px!important;margin-left:auto!important;margin-right:auto!important;}
 </style>
-<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#2AABB8','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<script>(function(){var SEL='h1,h2,h3,h4,h5,h6,.section-label,.label,.hero-label,.hero-fullname,.nav-logo,.footer-logo,p,li,td,dd,figcaption,blockquote';function fondo(e){for(;e&&e.nodeType===1;e=e.parentElement){var c=getComputedStyle(e).backgroundColor,m=c.match(/[\d.]+/g);if(m&&(m.length<4||+m[3]>0.5))return (0.299*m[0]+0.587*m[1]+0.114*m[2])<128;}return false;}function pinta(w){}function f(r){(r||document).querySelectorAll(SEL).forEach(function(el){if(el.closest('a.btn,button,.nav-cta'))return;if(el.matches('p,li,td,dd,figcaption,blockquote')&&el.closest('nav,footer,.nav-links'))return;var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[],t;while(t=tw.nextNode())if(/INNAZ/.test(t.nodeValue)&&!(t.parentElement.closest('.innaz-w')))ns.push(t);ns.forEach(function(t){var fr=document.createDocumentFragment();t.nodeValue.split(/(INNAZ)/).forEach(function(p){if(p==='INNAZ'){var w=document.createElement('span');w.className='innaz-w';w.appendChild(document.createTextNode('INNA'));var z=document.createElement('span');z.className='innaz-z';z.textContent='Z';z.style.setProperty('color','#0097B2','important');w.appendChild(z);fr.appendChild(w);}else if(p)fr.appendChild(document.createTextNode(p));});t.parentNode.replaceChild(fr,t);});});document.querySelectorAll('.innaz-w').forEach(pinta);}function go(){f();var p=0;new MutationObserver(function(){if(p)return;p=setTimeout(function(){p=0;f();},120);}).observe(document.body,{childList:true,subtree:true});addEventListener('load',function(){document.querySelectorAll('.innaz-w').forEach(pinta);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <!-- PALETA-SECCIONES:FIN -->
 </head>
 <body>
@@ -1275,7 +1275,7 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
     btn.textContent = '✓ Mensaje enviado';
-    btn.style.background = '#1B8A96';
+    btn.style.background = '#007A90';
     btn.disabled = true;
     setTimeout(() => {
       btn.textContent = 'Enviar mensaje';
