@@ -77,7 +77,7 @@ async function confirmar(paso) {
     // Vuelve a donde iba (p. ej. la suscripción elegida): lo trae el propio enlace o, si no, lo guardado en este navegador
     let volver = d.volver || null;
     try { const v = JSON.parse(localStorage.getItem('innaz-volver') || 'null'); localStorage.removeItem('innaz-volver');
-      if (!volver && v && /^\/(mi-innaz(#[a-z]+)?|zlabs-preinscripcion|suscripciones(\?nivel=[a-z]{3,20})?)$/.test(v.a) && Date.now() - v.t < 2 * 3600 * 1000) volver = v.a; } catch {}
+      if (!volver && v && /^\/(mi-innaz(#[a-z]+)?|zlabs-preinscripcion|suscripciones(\?nivel=[a-z]{3,20})?|buscador(\.html)?|obras(\.html)?)$/.test(v.a) && Date.now() - v.t < 2 * 3600 * 1000) volver = v.a; } catch {}
     try { if (d.confirmado) sessionStorage.setItem('innaz-confirmado', '1'); } catch {}
     location.replace(volver || '/mi-innaz');
   } catch { msg.className = 'mensaje error'; msg.textContent = 'Error de conexión. Prueba otra vez.'; }

@@ -14,7 +14,7 @@ export const CONFIRMAR_SEGUNDOS = 48 * 3600;
 /** Páginas a las que se puede volver tras entrar o confirmar (nunca una dirección cualquiera: evita redirecciones abiertas). */
 export function volverValido(v) {
   if (typeof v !== 'string') return null;
-  return /^\/(mi-innaz(#[a-z]+)?|zlabs-preinscripcion|suscripciones(\?nivel=[a-z]{3,20})?)$/.test(v) ? v : null;
+  return /^\/(mi-innaz(#[a-z]+)?|zlabs-preinscripcion|suscripciones(\?nivel=[a-z]{3,20})?|buscador(\.html)?|obras(\.html)?)$/.test(v) ? v : null;
 }
 
 /** Envía el enlace «Confirma tu correo». extra: { boletin?, volver?, via? }. Devuelve { ok, simulado } o { error }. */

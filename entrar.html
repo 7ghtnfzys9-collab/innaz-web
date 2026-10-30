@@ -190,7 +190,7 @@ function marcar(campo, prefijo) { document.querySelectorAll('.con-error').forEac
 const ocupado = (b, si) => { if (b) b.disabled = si; };
 
 // Página a la que volver (suscripciones, ZLabs…): solo direcciones de esta web y de una lista cerrada
-const VOLVER_OK = /^\/(mi-innaz(#[a-z]+)?|zlabs-preinscripcion|suscripciones(\?nivel=[a-z]{3,20})?)$/;
+const VOLVER_OK = /^\/(mi-innaz(#[a-z]+)?|zlabs-preinscripcion|suscripciones(\?nivel=[a-z]{3,20})?|buscador(\.html)?|obras(\.html)?)$/;
 let volver = new URLSearchParams(location.search).get('volver'); if (!VOLVER_OK.test(volver || '')) volver = null;
 if (volver) try { localStorage.setItem('innaz-volver', JSON.stringify({ a: volver, t: Date.now() })); } catch {}
 function destino() {
