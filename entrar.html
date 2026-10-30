@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Entrar · Mi INNAZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Cormorant+SC:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mi-innaz.css">
+<style>
+  /* Acceso en dos pasos (31-10-2026, César): primero el correo; la web dice si hay que entrar o crear la cuenta */
+  .caja { max-width:440px; }
+  .acciones { display:flex; flex-direction:column; gap:10px; margin-top:18px; }
+  .acciones > button, .acciones > a.boton { width:100%; margin:0; text-align:center; justify-content:center; }
+  a.boton.google, button.google { margin-top:0; display:inline-flex; align-items:center; gap:10px; background:#fff; color:#1f1f1f; border:1px solid #747775; padding:12px 22px; font:inherit; cursor:pointer; text-decoration:none; }
+  a.boton.google:hover, button.google:hover { background:#f6f6f6; }
+  .separador { display:flex; align-items:center; gap:12px; color:var(--gris); font-size:.85rem; margin:20px 0 4px; }
+  .separador::before, .separador::after { content:''; flex:1; border-top:1px solid var(--linea); }
+  .enlace { background:none; border:0; padding:0; color:var(--teal-osc); text-decoration:underline; cursor:pointer; font:inherit; font-size:.9rem; }
+  .quien { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:10px 12px; background:#faf8f4; border:1px solid var(--linea); margin:10px 0 4px; word-break:break-all; }
+  .clave-caja { position:relative; }
+  .clave-caja input { padding-right:84px; }
+  .ver-clave { position:absolute; right:6px; top:50%; transform:translateY(-50%); background:none; border:0; color:var(--teal-osc); font:inherit; font-size:.85rem; cursor:pointer; padding:6px; margin:0; }
+  .dos { display:grid; grid-template-columns:1fr 1fr; gap:0 14px; }
+  @media (max-width:560px) { .dos { grid-template-columns:1fr; } }
+  select { width:100%; }
+  .pie { margin-top:20px; font-size:.9rem; color:var(--gris); }
+</style>
+</head>
+<body>
+<div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
+<main>
+  <div class="caja">
+    <p class="marca">INNA<span class="z">Z</span></p>
+
+    <!-- ── Paso 1: ¿quién eres? ── -->
+    <section id="v-inicio" class="oculto">
+      <!-- Si este navegador recuerda a la persona: su forma de entrar de la última vez -->
+      <div id="recuerdo" class="oculto">
+        <h1 id="rc-titulo">Hola de nuevo</h1>
+        <div id="rc-clave" class="oculto">
+          <div class="quien"><span id="rc-correo"></span></div>
+          <form id="f-rc" novalidate>
+            <input type="email" id="rc-usuario" autocomplete="username" class="oculto" tabindex="-1">
+            <label for="rc-pass">Contraseña</label>
+            <div class="clave-caja"><input id="rc-pass" type="password" autocomplete="current-password"><button type="button" class="ver-clave" data-ver="rc-pass">Mostrar</button></div>
+            <div class="acciones"><button type="submit">Entrar</button></div>
+          </form>
+          <p style="margin:10px 0 0"><button type="button" class="enlace" data-olvido="rc">¿Has olvidado tu contraseña?</button></p>
+        </div>
+        <div id="rc-otro" class="acciones"></div>
+        <p id="rc-msg" class="mensaje" role="status"></p>
+        <p class="pie"><button type="button" class="enlace" id="rc-mas">Entrar de otra forma</button> · <button type="button" class="enlace" id="rc-olvidar">No soy <span id="rc-nombre">yo</span></button></p>
+      </div>
+
+      <!-- Sin recuerdo: las tres formas, y el correo decide si se entra o se crea la cuenta -->
+      <div id="general">
+        <h1>Entra o crea tu cuenta</h1>
+        <div class="acciones">
+          <a class="boton google oculto" id="i-google" href="/api/acceso/google?accion=inicio">Continuar con Google</a>
+          <button type="button" class="secundario oculto" id="i-llave">Entrar con Face ID / Touch ID</button>
+        </div>
+        <p class="separador" id="i-sep">o con tu correo</p>
+        <form id="f-inicio" novalidate>
+          <label for="i-correo">Correo electrónico</label>
+          <input id="i-correo" type="email" autocomplete="username" inputmode="email">
+          <div class="acciones"><button type="submit">Continuar</button></div>
+        </form>
+        <p id="i-msg" class="mensaje" role="status"></p>
+      </div>
+    </section>
+
+    <!-- ── Paso 2 (cuenta que ya existe): la contraseña ── -->
+    <section id="v-pass" class="oculto">
+      <h1>Hola de nuevo</h1>
+      <div class="quien"><span id="p-correo"></span><button type="button" class="enlace" data-cambiar>Cambiar</button></div>
+      <div id="p-con-clave">
+        <form id="f-pass" novalidate>
+          <input type="email" id="p-usuario" autocomplete="username" class="oculto" tabindex="-1">
+          <label for="p-clave">Contraseña</label>
+          <div class="clave-caja"><input id="p-clave" type="password" autocomplete="current-password"><button type="button" class="ver-clave" data-ver="p-clave">Mostrar</button></div>
+          <div class="acciones"><button type="submit">Entrar</button></div>
+        </form>
+        <p style="margin:10px 0 0"><button type="button" class="enlace" data-olvido="p">¿Has olvidado tu contraseña?</button></p>
+      </div>
+      <div id="p-sin-clave" class="oculto">
+        <p>Tu cuenta no tiene contraseña: entra como lo hiciste al crearla o crea una contraseña ahora.</p>
+        <div class="acciones"><button type="button" data-olvido="p">Crear una contraseña</button></div>
+      </div>
+      <div id="p-otras" class="acciones"></div>
+      <p id="p-msg" class="mensaje" role="status"></p>
+      <div id="p-sim" class="simulado oculto"></div>
+    </section>
+
+    <!-- ── Paso 2 (correo nuevo): crear la cuenta ── -->
+    <section id="v-registro" class="oculto">
+      <h1>Crea tu cuenta</h1>
+      <p style="margin-bottom:0">Este correo todavía no tiene cuenta en INNAZ. Créala ahora: es gratis.</p>
+      <div class="quien"><span id="r-correo-txt"></span><button type="button" class="enlace" data-cambiar>Cambiar</button></div>
+      <form id="f-registro" novalidate>
+        <input type="email" id="r-correo" autocomplete="username" class="oculto" tabindex="-1">
+        <div class="dos">
+          <div><label for="r-nombre">Nombre</label><input id="r-nombre" type="text" autocomplete="given-name" maxlength="80"></div>
+          <div><label for="r-apellidos">Apellidos</label><input id="r-apellidos" type="text" autocomplete="family-name" maxlength="120"></div>
+        </div>
+        <label for="r-pais">País de residencia</label>
+        <select id="r-pais" autocomplete="country"></select>
+        <label for="r-clave">Contraseña <span class="nota">(al menos 12 caracteres)</span></label>
+        <div class="clave-caja"><input id="r-clave" type="password" autocomplete="new-password"><button type="button" class="ver-clave" data-ver="r-clave">Mostrar</button></div>
+        <div class="casilla"><input id="r-privacidad" type="checkbox"><label for="r-privacidad">Acepto la <a href="#" onclick="return false">política de privacidad</a> (borrador).</label></div>
+        <div class="casilla"><input id="r-boletin" type="checkbox"><label for="r-boletin">Quiero recibir el boletín de INNAZ.</label></div>
+        <div class="acciones">
+          <button type="submit">Crear mi cuenta</button>
+          <button type="button" id="r-llave" class="secundario oculto">Crearla con Face ID / Touch ID, sin contraseña</button>
+        </div>
+      </form>
+      <p id="r-msg" class="mensaje" role="status"></p>
+    </section>
+
+    <!-- ── «He olvidado mi contraseña»: enlace enviado ── -->
+    <section id="v-olvido" class="oculto">
+      <h1>Revisa tu correo</h1>
+      <p id="o-msg" class="mensaje" role="status"></p>
+      <div id="o-sim" class="simulado oculto"></div>
+      <p class="pie"><button type="button" class="enlace" data-cambiar>Volver</button></p>
+    </section>
+
+    <!-- ── Crear la contraseña con el enlace del correo ── -->
+    <section id="v-clave" class="oculto">
+      <h1>Crea tu contraseña</h1>
+      <div class="quien"><span id="c-quien"></span></div>
+      <form id="f-clave" novalidate>
+        <input type="email" id="c-correo" autocomplete="username" class="oculto" tabindex="-1">
+        <label for="c-clave">Contraseña nueva <span class="nota">(al menos 12 caracteres)</span></label>
+        <div class="clave-caja"><input id="c-clave" type="password" autocomplete="new-password"><button type="button" class="ver-clave" data-ver="c-clave">Mostrar</button></div>
+        <div class="acciones"><button type="submit">Guardar y entrar</button></div>
+      </form>
+      <p id="c-msg" class="mensaje" role="status"></p>
+    </section>
+
+    <!-- ── Vuelta de Google con un correo nuevo: faltan el país y la privacidad ── -->
+    <section id="v-google" class="oculto">
+      <h1>Un último paso</h1>
+      <div class="quien"><span id="g-correo"></span></div>
+      <form id="f-google" novalidate>
+        <div class="dos">
+          <div><label for="g-nombre">Nombre</label><input id="g-nombre" type="text" autocomplete="given-name" maxlength="80"></div>
+          <div><label for="g-apellidos">Apellidos</label><input id="g-apellidos" type="text" autocomplete="family-name" maxlength="120"></div>
+        </div>
+        <label for="g-pais">País de residencia</label>
+        <select id="g-pais" autocomplete="country"></select>
+        <div class="casilla"><input id="g-privacidad" type="checkbox"><label for="g-privacidad">Acepto la <a href="#" onclick="return false">política de privacidad</a> (borrador).</label></div>
+        <div class="casilla"><input id="g-boletin" type="checkbox"><label for="g-boletin">Quiero recibir el boletín de INNAZ.</label></div>
+        <div class="acciones"><button type="submit">Crear mi cuenta</button></div>
+      </form>
+      <p id="g-msg" class="mensaje" role="status"></p>
+    </section>
+  </div>
+</main>
+<script src="/llaves.js"></script>
+<script src="/paises.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const post = async (ruta, cuerpo) => { try { const r = await fetch(ruta, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) });
+  let d = {}; try { d = await r.json(); } catch {} return { ok: r.ok, status: r.status, d }; } catch { return { ok: false, status: 0, d: { error: 'Error de conexión. Prueba otra vez.' } }; } };
+const clave = c => post('/api/acceso/clave', c);
+const VISTAS = ['inicio', 'pass', 'registro', 'olvido', 'clave', 'google'];
+const TITULOS = { inicio: 'Entrar', pass: 'Entrar', registro: 'Crear mi cuenta', olvido: 'Revisa tu correo', clave: 'Crea tu contraseña', google: 'Crear mi cuenta' };
+function ver(v) { VISTAS.forEach(x => $('v-' + x).classList.toggle('oculto', x !== v)); document.title = TITULOS[v] + ' · Mi INNAZ'; }
+function aviso(id, texto, error = false) { const m = $(id); m.className = 'mensaje' + (error ? ' error' : ''); m.textContent = texto || ''; }
+function marcar(campo, prefijo) { document.querySelectorAll('.con-error').forEach(x => x.classList.remove('con-error'));
+  const el = campo && $(prefijo + '-' + campo); if (el) { el.classList.add('con-error'); el.focus(); } }
+const ocupado = (b, si) => { if (b) b.disabled = si; };
+
+// Página a la que volver (suscripciones, ZLabs…): solo direcciones de esta web y de una lista cerrada
+const VOLVER_OK = /^\/(mi-innaz(#[a-z]+)?|zlabs-preinscripcion|suscripciones(\?nivel=[a-z]{3,20})?)$/;
+let volver = new URLSearchParams(location.search).get('volver'); if (!VOLVER_OK.test(volver || '')) volver = null;
+if (volver) try { localStorage.setItem('innaz-volver', JSON.stringify({ a: volver, t: Date.now() })); } catch {}
+function destino() {
+  let v = volver; try { const x = JSON.parse(localStorage.getItem('innaz-volver') || 'null'); localStorage.removeItem('innaz-volver');
+    if (!v && x && VOLVER_OK.test(x.a) && Date.now() - x.t < 2 * 3600 * 1000) v = x.a; } catch {}
+  return v || '/mi-innaz';
+}
+
+// ── Recordar la última forma de entrar en ESTE navegador (César, 31-10-2026). Solo método, correo y nombre; nunca la contraseña. ──
+const RECUERDO = 'innaz-acceso';
+const leerRecuerdo = () => { try { const x = JSON.parse(localStorage.getItem(RECUERDO) || 'null'); return x && ['clave', 'llave', 'google'].includes(x.metodo) ? x : null; } catch { return null; } };
+const recordar = (metodo, extra = {}) => { try { const p = leerRecuerdo() || {}; localStorage.setItem(RECUERDO, JSON.stringify({ ...p, ...extra, metodo })); } catch {} };
+const olvidar = () => { try { localStorage.removeItem(RECUERDO); } catch {} };
+
+// ── Botones de Google y Face ID (se usan en varios sitios) ──
+let googleActivo = false;
+$('i-google').href = (() => '/api/acceso/google?accion=inicio' + (volver ? '&volver=' + encodeURIComponent(volver) : ''))();   // auditoría 30-10-2026
+const hayLlaves = !!(window.Llaves && Llaves.soportado());
+const urlGoogle = () => '/api/acceso/google?accion=inicio' + (volver ? '&volver=' + encodeURIComponent(volver) : '');
+function botonGoogle(texto = 'Continuar con Google') {
+  const a = document.createElement('a'); a.className = 'boton google'; a.textContent = texto; a.href = urlGoogle();
+  a.addEventListener('click', () => recordar('google')); return a;
+}
+function botonLlave(msgId, texto = 'Entrar con Face ID / Touch ID', clase = 'secundario') {
+  const b = document.createElement('button'); b.type = 'button'; b.className = clase; b.textContent = texto;
+  b.addEventListener('click', () => entrarConLlave(b, msgId)); return b;
+}
+async function entrarConLlave(b, msgId) {
+  ocupado(b, true); aviso(msgId, 'Sigue las indicaciones de tu aparato…');
+  const r = await Llaves.entrar(); ocupado(b, false);
+  if (!r.ok) { aviso(msgId, r.d.error, true); return; }
+  recordar('llave', { nombre: r.d.nombre || null, correo: r.d.correo || null }); location.replace(destino());
+}
+
+// ── Mostrar u ocultar la contraseña (un solo campo, sin repetirla) ──
+document.querySelectorAll('[data-ver]').forEach(b => b.addEventListener('click', () => {
+  const i = $(b.dataset.ver), mostrar = i.type === 'password'; i.type = mostrar ? 'text' : 'password'; b.textContent = mostrar ? 'Ocultar' : 'Mostrar'; i.focus();
+}));
+document.querySelectorAll('[data-cambiar]').forEach(b => b.addEventListener('click', () => { pintarInicio(true); ver('inicio'); $('i-correo').focus(); }));
+
+// ── Paso 1 ──
+let correoActual = '';
+function pintarInicio(sinRecuerdo = false) {
+  const rc = sinRecuerdo ? null : leerRecuerdo();
+  $('recuerdo').classList.toggle('oculto', !rc); $('general').classList.toggle('oculto', !!rc);
+  $('i-google').classList.toggle('oculto', !googleActivo); $('i-llave').classList.toggle('oculto', !hayLlaves);
+  $('i-sep').classList.toggle('oculto', !googleActivo && !hayLlaves);
+  if (!rc) return;
+  $('rc-titulo').textContent = rc.nombre ? `Hola de nuevo, ${rc.nombre}` : 'Hola de nuevo';
+  $('rc-nombre').textContent = rc.nombre || 'yo';
+  const otro = $('rc-otro'); otro.textContent = '';
+  $('rc-clave').classList.toggle('oculto', !(rc.metodo === 'clave' && rc.correo));
+  if (rc.metodo === 'clave' && rc.correo) { $('rc-correo').textContent = rc.correo; $('rc-usuario').value = rc.correo; setTimeout(() => $('rc-pass').focus(), 50); }
+  else if (rc.metodo === 'google' && googleActivo) otro.append(botonGoogle());
+  else if (rc.metodo === 'llave' && hayLlaves) otro.append(botonLlave('rc-msg', 'Entrar con Face ID / Touch ID', ''));
+  else { $('recuerdo').classList.add('oculto'); $('general').classList.remove('oculto'); }   // lo recordado no está disponible aquí
+}
+$('rc-mas').addEventListener('click', () => { pintarInicio(true); const rc = leerRecuerdo(); if (rc && rc.correo) $('i-correo').value = rc.correo; });
+$('rc-olvidar').addEventListener('click', () => { olvidar(); pintarInicio(true); $('i-correo').value = ''; $('i-correo').focus(); });
+$('i-google').addEventListener('click', () => recordar('google'));
+$('i-llave').addEventListener('click', () => entrarConLlave($('i-llave'), 'i-msg'));
+
+$('f-inicio').addEventListener('submit', async e => {
+  e.preventDefault(); const b = e.target.querySelector('button[type=submit]');
+  const correo = $('i-correo').value.trim(); if (!correo) { aviso('i-msg', 'Escribe tu correo.', true); marcar('correo', 'i'); return; }
+  ocupado(b, true); aviso('i-msg', 'Un momento…');
+  const r = await clave({ accion: 'comprobar', correo }); ocupado(b, false);
+  if (!r.ok) { aviso('i-msg', r.d.error || 'No se ha podido comprobar.', true); if (r.d.campo) marcar('correo', 'i'); return; }
+  aviso('i-msg', ''); correoActual = r.d.correo;
+  if (r.d.existe && r.d.activa === false) { aviso('i-msg', 'Esa cuenta no está activa. Si crees que es un error, escribe a info@innaz.es.', true); return; }
+  if (r.d.existe) pasoPass(r.d.clave); else pasoRegistro();
+});
+
+// ── Paso 2 · cuenta existente ──
+function pasoPass(tieneClave) {
+  $('p-correo').textContent = correoActual; $('p-usuario').value = correoActual; $('p-clave').value = ''; aviso('p-msg', ''); $('p-sim').classList.add('oculto');
+  $('p-con-clave').classList.toggle('oculto', !tieneClave); $('p-sin-clave').classList.toggle('oculto', !!tieneClave);
+  const o = $('p-otras'); o.textContent = '';
+  if (googleActivo || hayLlaves) { const s = document.createElement('p'); s.className = 'separador'; s.textContent = 'o entra con'; o.append(s); }
+  if (googleActivo) o.append(botonGoogle());
+  if (hayLlaves) o.append(botonLlave('p-msg'));
+  ver('pass'); if (tieneClave) setTimeout(() => $('p-clave').focus(), 50);
+}
+async function entrarConClave(correo, pass, msgId, b) {
+  if (!pass) { aviso(msgId, 'Escribe tu contraseña.', true); return; }
+  ocupado(b, true); aviso(msgId, 'Un momento…');
+  const r = await clave({ accion: 'entrar', correo, clave: pass }); ocupado(b, false);
+  if (!r.ok) { aviso(msgId, r.d.error || 'No se ha podido entrar.', true); return false; }
+  recordar('clave', { correo, nombre: r.d.nombre || null }); location.replace(destino()); return true;
+}
+$('f-pass').addEventListener('submit', async e => { e.preventDefault();
+  if ((await entrarConClave(correoActual, $('p-clave').value, 'p-msg', e.target.querySelector('button[type=submit]'))) === false) { $('p-clave').value = ''; $('p-clave').focus(); } });
+$('f-rc').addEventListener('submit', async e => { e.preventDefault();
+  if ((await entrarConClave($('rc-usuario').value, $('rc-pass').value, 'rc-msg', e.target.querySelector('button[type=submit]'))) === false) { $('rc-pass').value = ''; $('rc-pass').focus(); } });
+
+// «He olvidado» / «Crear una contraseña»: se envía el enlace al momento (un paso menos)
+document.querySelectorAll('[data-olvido]').forEach(b => b.addEventListener('click', async () => {
+  const correo = b.dataset.olvido === 'rc' ? $('rc-usuario').value : correoActual;
+  const msgId = b.dataset.olvido === 'rc' ? 'rc-msg' : 'p-msg';
+  ocupado(b, true); aviso(msgId, 'Un momento…');
+  const r = await clave({ accion: 'olvido', correo }); ocupado(b, false);
+  if (!r.ok) { aviso(msgId, r.d.error, true); return; }
+  ver('olvido'); aviso('o-msg', `Te hemos enviado a ${correo} un enlace para crear tu contraseña. Vale durante 48 horas.`);
+  const s = $('o-sim'); s.classList.toggle('oculto', !r.d.enlace_simulado);
+  if (r.d.enlace_simulado) { s.textContent = 'Modo simulación (solo en pruebas): este es el enlace que llegaría por correo → ';
+    const a = document.createElement('a'); a.href = r.d.enlace_simulado; a.textContent = 'crear contraseña'; a.onclick = () => setTimeout(() => location.reload(), 50); s.append(a); }
+}));
+
+// ── Paso 2 · correo nuevo: crear la cuenta ──
+function pasoRegistro() {
+  $('r-correo-txt').textContent = correoActual; $('r-correo').value = correoActual; aviso('r-msg', '');
+  $('r-llave').classList.toggle('oculto', !hayLlaves);
+  if (!$('r-pais').options.length) Paises.rellenar($('r-pais'), '');
+  ver('registro'); setTimeout(() => $('r-nombre').focus(), 50);
+}
+function datosRegistro(conClave) {
+  document.querySelectorAll('.con-error').forEach(x => x.classList.remove('con-error'));
+  const d = { correo: correoActual, nombre: $('r-nombre').value.trim(), apellidos: $('r-apellidos').value.trim(), pais: $('r-pais').value,
+              privacidad: $('r-privacidad').checked, boletin: $('r-boletin').checked, volver };
+  const falta = !d.nombre ? ['nombre', 'Escribe tu nombre.'] : !d.apellidos ? ['apellidos', 'Escribe tus apellidos.'] : !d.pais ? ['pais', 'Elige tu país de residencia.']
+    : conClave && !$('r-clave').value ? ['clave', 'Escribe una contraseña.'] : !d.privacidad ? ['privacidad', 'Para crear la cuenta tienes que aceptar la política de privacidad.'] : null;
+  if (falta) { aviso('r-msg', falta[1], true); marcar(falta[0], 'r'); return null; }
+  if (conClave) d.clave = $('r-clave').value;
+  return d;
+}
+function alta(d, metodo, nombre) {
+  recordar(metodo, { correo: correoActual, nombre });
+  try { if (d.enlace_simulado) sessionStorage.setItem('innaz-confirmar-sim', d.enlace_simulado); } catch {}   // el aviso amarillo de Mi INNAZ explica lo del correo
+  const v = destino(); location.replace(v === '/mi-innaz' ? '/mi-innaz?bienvenida=1' : v);
+}
+$('f-registro').addEventListener('submit', async e => {
+  e.preventDefault(); const d = datosRegistro(true); if (!d) return; const b = e.target.querySelector('button[type=submit]');
+  ocupado(b, true); aviso('r-msg', 'Un momento…');
+  const r = await clave({ accion: 'registro', ...d }); ocupado(b, false);
+  if (!r.ok) { aviso('r-msg', r.d.error || 'No se ha podido crear la cuenta.', true); marcar(r.d.campo, 'r'); return; }
+  alta(r.d, 'clave', d.nombre);
+});
+$('r-llave').addEventListener('click', async () => {
+  const d = datosRegistro(false); if (!d) return;
+  ocupado($('r-llave'), true); aviso('r-msg', 'Sigue las indicaciones de tu aparato…');
+  const r = await Llaves.crearCuenta(d); ocupado($('r-llave'), false);
+  if (!r.ok) { aviso('r-msg', r.d.error, true); marcar(r.d.campo, 'r'); return; }
+  alta(r.d, 'llave', d.nombre);
+});
+
+// ── Crear la contraseña con el enlace del correo ──
+$('f-clave').addEventListener('submit', async e => {
+  e.preventDefault(); const b = e.target.querySelector('button[type=submit]');
+  const pass = $('c-clave').value; if (!pass) { aviso('c-msg', 'Escribe la contraseña.', true); return; }
+  ocupado(b, true); aviso('c-msg', 'Un momento…');
+  const r = await clave({ accion: 'crear', ficha: $('f-clave').dataset.ficha, clave: pass }); ocupado(b, false);
+  if (!r.ok) { aviso('c-msg', r.d.error, true); return; }
+  recordar('clave', { correo: $('c-correo').value }); aviso('c-msg', r.d.mensaje); location.replace(r.d.deGestion ? '/gestion' : destino());   // un enlace de la gestión abre la gestión
+});
+
+// ── Vuelta de Google con un correo nuevo ──
+$('f-google').addEventListener('submit', async e => {
+  e.preventDefault(); document.querySelectorAll('.con-error').forEach(x => x.classList.remove('con-error')); const b = e.target.querySelector('button[type=submit]');
+  const d = { accion: 'alta', id: $('f-google').dataset.id, nombre: $('g-nombre').value.trim(), apellidos: $('g-apellidos').value.trim(), pais: $('g-pais').value,
+              privacidad: $('g-privacidad').checked, boletin: $('g-boletin').checked };
+  const falta = !d.nombre ? ['nombre', 'Escribe tu nombre.'] : !d.apellidos ? ['apellidos', 'Escribe tus apellidos.'] : !d.pais ? ['pais', 'Elige tu país de residencia.']
+    : !d.privacidad ? ['privacidad', 'Para crear la cuenta tienes que aceptar la política de privacidad.'] : null;
+  if (falta) { aviso('g-msg', falta[1], true); marcar(falta[0], 'g'); return; }
+  ocupado(b, true); aviso('g-msg', 'Un momento…');
+  const r = await post('/api/acceso/google', d); ocupado(b, false);
+  if (!r.ok) { aviso('g-msg', r.d.error || 'No se ha podido crear la cuenta.', true); marcar(r.d.campo, 'g'); return; }
+  recordar('google', { correo: $('g-correo').textContent, nombre: d.nombre });
+  location.replace(r.d.volver || '/mi-innaz?bienvenida=1');
+});
+
+// ── Arranque ──
+const ERRORES_G = { cancelado: 'Has cancelado la entrada con Google.', caducado: 'Ha pasado demasiado tiempo. Vuelve a pulsar «Continuar con Google».',
+  navegador: 'La vuelta de Google no corresponde a este navegador. Vuelve a pulsar «Continuar con Google».', sinverificar: 'Tu correo de Google no está verificado.',
+  inactiva: 'Esa cuenta no está activa en INNAZ.', apagado: 'La entrada con Google no está disponible ahora.', fallo: 'No se ha podido entrar con Google. Prueba otra vez o usa otra forma de entrar.' };
+window.addEventListener('hashchange', () => { if (location.hash.startsWith('#clave=')) location.reload(); });   // enlace abierto en esta misma pestaña
+(async () => {
+  const h = location.hash.slice(1);
+  if (h.startsWith('clave=')) {           // enlace de «He olvidado mi contraseña»
+    const ficha = h.slice(6); history.replaceState(null, '', location.pathname + location.search);
+    ver('clave'); $('f-clave').dataset.ficha = ficha;
+    const r = await clave({ accion: 'ver_enlace', ficha });
+    if (!r.ok) { $('f-clave').classList.add('oculto'); aviso('c-msg', r.d.error, true); $('c-msg').insertAdjacentHTML('beforeend', ' <a href="/entrar">Volver a la entrada</a>'); return; }
+    $('c-quien').textContent = r.d.correo; $('c-correo').value = r.d.correo; $('c-clave').focus(); return;
+  }
+  if (h.startsWith('google=')) {          // vuelta de Google con un correo nuevo
+    const id = h.slice(7); history.replaceState(null, '', location.pathname + location.search);
+    ver('google'); $('f-google').dataset.id = id; Paises.rellenar($('g-pais'), '');
+    const r = await post('/api/acceso/google', { accion: 'ver_alta', id });
+    if (!r.ok) { $('f-google').classList.add('oculto'); aviso('g-msg', r.d.error, true); return; }
+    $('g-correo').textContent = r.d.correo; $('g-nombre').value = r.d.nombre || ''; $('g-apellidos').value = r.d.apellidos || ''; $('g-pais').focus(); return;
+  }
+  // ¿Ya ha entrado? A Mi INNAZ (o a donde iba)
+  try { const y = await fetch('/api/acceso/yo', { cache: 'no-store' }).then(r => r.json()); if (y.conectado) { location.replace(destino()); return; } } catch {}
+  try { googleActivo = !!(await fetch('/api/acceso/google?accion=config').then(r => r.json())).activo; } catch {}
+  const gerror = h.startsWith('gerror=') ? (ERRORES_G[h.slice(7)] || ERRORES_G.fallo) : null;
+  if (h) history.replaceState(null, '', location.pathname + location.search);
+  pintarInicio(!!gerror); ver('inicio');
+  if (gerror) aviso('i-msg', gerror, true);
+  else if (!leerRecuerdo()) $('i-correo').focus();
+})();
+</script>
+</body>
+</html>

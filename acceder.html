@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Confirmar el correo · Mi INNAZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Cormorant+SC:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mi-innaz.css">
+</head>
+<body>
+<div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
+<main>
+  <div class="caja">
+    <p class="marca">INNA<span class="z">Z</span></p>
+    <h1>¡Ya casi estás!</h1>
+    <p>Pulsa el botón para confirmar tu correo y entrar en Mi INNAZ.</p>
+    <button id="b" type="button">Confirmar mi correo</button>
+    <!-- Auditoría 30-10-2026 (A1): si se confirma desde otro navegador, se pregunta antes -->
+    <div id="pregunta" class="oculto" style="margin-top:14px;padding:12px 14px;border-left:4px solid #c9a227;background:#fff8e1">
+      <p style="margin:0 0 8px"><strong>¿Has creado tú esta cuenta hace poco?</strong></p>
+      <p class="nota" style="margin:0 0 10px">Este navegador no es el que creó la cuenta de <span id="p-correo"></span>. Si no has sido tú, alguien ha usado tu correo: te la devolvemos y podrás ponerle tu propia contraseña.</p>
+      <button type="button" id="b-si">Sí, la he creado yo</button>
+      <button type="button" id="b-no" class="secundario" style="margin-left:8px">No he sido yo</button>
+    </div>
+    <p id="msg" class="mensaje" role="status"></p>
+  </div>
+</main>
+<script>
+// 30-10-2026: este enlace solo sirve para CONFIRMAR el correo de una cuenta nueva (el correo ya no sirve para entrar).
+// La ficha va detrás de «#»: no llega al servidor al abrir la página ni sale en ningún registro.
+const ficha = location.hash.slice(1);
+history.replaceState(null, '', location.pathname);   // se quita de la barra de direcciones
+const msg = document.getElementById('msg');
+if (!ficha) { msg.className = 'mensaje error'; msg.innerHTML = 'Falta el enlace. <a href="/entrar">Ir a la página de entrada</a>.'; document.getElementById('b').disabled = true; }
+const $ = id => document.getElementById(id);
+const post = async paso => { const r = await fetch('/api/acceso/entrar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ficha, paso }) }); return { ok: r.ok, d: await r.json() }; };
+const fallo = d => { msg.className = 'mensaje error'; msg.textContent = d.error || 'No se ha podido completar.'; msg.insertAdjacentHTML('beforeend', ' <a href="/entrar">Ir a la página de entrada</a>'); };
+$('b').addEventListener('click', async () => {
+  msg.className = 'mensaje'; msg.textContent = 'Un momento…';
+  try {
+    const c = await post('consultar'); if (!c.ok) { fallo(c.d); return; }
+    if (c.d.preguntar) { $('b').classList.add('oculto'); $('p-correo').textContent = c.d.correo; $('pregunta').classList.remove('oculto'); msg.textContent = ''; return; }
+    await confirmar('propia');
+  } catch { msg.className = 'mensaje error'; msg.textContent = 'Error de conexión. Prueba otra vez.'; }
+});
+$('b-si').addEventListener('click', () => confirmar('propia'));
+$('b-no').addEventListener('click', async () => {
+  msg.className = 'mensaje'; msg.textContent = 'Un momento…'; $('pregunta').classList.add('oculto');
+  try { const r = await post('recuperar'); if (!r.ok) { fallo(r.d); return; }
+    if (r.d.crearClave) { try { localStorage.removeItem('innaz-acceso'); } catch {} location.replace(r.d.crearClave); return; }
+    location.replace('/mi-innaz');
+  } catch { msg.className = 'mensaje error'; msg.textContent = 'Error de conexión. Prueba otra vez.'; }
+});
+async function confirmar(paso) {
+  msg.className = 'mensaje'; msg.textContent = 'Un momento…'; $('pregunta').classList.add('oculto');
+  try {
+    const { ok, d } = await post(paso);
+    if (!ok) { fallo(d); return; }
+    // Vuelve a donde iba (p. ej. la suscripción elegida): lo trae el propio enlace o, si no, lo guardado en este navegador
+    let volver = d.volver || null;
+    try { const v = JSON.parse(localStorage.getItem('innaz-volver') || 'null'); localStorage.removeItem('innaz-volver');
+      if (!volver && v && /^\/(mi-innaz(#[a-z]+)?|zlabs-preinscripcion|suscripciones(\?nivel=[a-z]{3,20})?)$/.test(v.a) && Date.now() - v.t < 2 * 3600 * 1000) volver = v.a; } catch {}
+    try { if (d.confirmado) sessionStorage.setItem('innaz-confirmado', '1'); } catch {}
+    location.replace(volver || '/mi-innaz');
+  } catch { msg.className = 'mensaje error'; msg.textContent = 'Error de conexión. Prueba otra vez.'; }
+}
+</script>
+</body>
+</html>

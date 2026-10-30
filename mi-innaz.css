@@ -1,0 +1,69 @@
+/* Mi INNAZ · web de pruebas · 27-10-2026 */
+:root { --teal:#0097B2; --teal-osc:#007A90; --tinta:#1a1a1a; --gris:#6b6b6b; --papel:#f6f4f0; --linea:#e5e1d8; --error:#a32020; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--papel); color:var(--tinta); font-family:'DM Sans',system-ui,sans-serif; font-size:16px; line-height:1.55; }
+.aviso-pruebas { background:#1a1a1a; color:#fff; text-align:center; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; padding:6px 16px; }
+main { max-width:520px; margin:48px auto; padding:0 16px; }
+.caja { background:#fff; border-top:4px solid var(--teal); padding:28px 28px 32px; }
+.marca { font-family:'Cormorant SC',Georgia,serif; font-size:1.6rem; font-weight:700; letter-spacing:.06em; margin:0 0 4px; }
+.marca .z { color:var(--teal); }
+h1 { font-family:'Cormorant',Georgia,serif; font-weight:600; font-size:1.7rem; margin:4px 0 16px; }
+label { display:block; font-size:.9rem; margin:14px 0 4px; }
+input[type=email], input[type=text], input[type=password] { width:100%; padding:10px 12px; font:inherit; border:1px solid #c9c4b8; background:#fff; }
+input:focus { outline:2px solid var(--teal); outline-offset:1px; }
+.casilla { display:flex; gap:8px; align-items:flex-start; font-size:.9rem; margin-top:12px; }
+.casilla input { margin-top:4px; }
+button { margin-top:20px; background:var(--teal); color:#fff; border:0; padding:12px 22px; font:inherit; cursor:pointer; }
+button:hover { background:var(--teal-osc); }
+button.secundario { background:transparent; color:var(--teal-osc); border:1px solid var(--teal-osc); }
+.mensaje { margin-top:16px; font-size:.95rem; }
+.mensaje.error { color:var(--error); }
+.simulado { margin-top:16px; padding:12px; background:#fff8e1; border:1px dashed #c9a227; font-size:.85rem; word-break:break-all; }
+.oculto { display:none; }
+.nota { color:var(--gris); font-size:.85rem; }
+ul.ventajas { padding-left:18px; } ul.ventajas li { margin:4px 0; }
+a { color:var(--teal-osc); }
+/* ZLabs · formulario de preinscripción (28-10-2026) */
+main.ancha { max-width:720px; }
+.z { color:var(--teal); }
+fieldset { border:0; border-top:1px solid var(--linea); margin:22px 0 0; padding:14px 0 0; }
+legend { font-family:'Cormorant SC',Georgia,serif; font-weight:700; font-size:1.15rem; padding:0 8px 0 0; }
+.dos { display:grid; grid-template-columns:1fr 1fr; gap:0 16px; }
+@media (max-width:600px) { .dos { grid-template-columns:1fr; } }
+input[type=tel], input[type=date], input[type=url], select { width:100%; padding:10px 12px; font:inherit; border:1px solid #c9c4b8; background:#fff; }
+.doc { display:grid; grid-template-columns:120px 1fr; gap:8px; }
+.opciones { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:600px) { .opciones { grid-template-columns:1fr; } }
+.opcion { display:flex; gap:10px; align-items:flex-start; border:1px solid var(--linea); padding:12px; margin:0; cursor:pointer; }
+.opcion:has(input:checked) { border-color:var(--teal); background:#e7f5f8; }
+.opcion small { color:var(--gris); }
+.con-error { outline:2px solid var(--error) !important; }
+.trampa { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.hecho { background:#e7f5f8; border-left:4px solid var(--teal); padding:14px 16px; }
+button:disabled { opacity:.5; cursor:not-allowed; }
+.casilla label { margin:0; }
+/* Dirección por partes (28-10-2026) */
+.tres { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0 16px; }
+.tres .ancho2 { grid-column:span 2; }
+fieldset.sub { border:0; padding:0; margin:14px 0 0; }
+fieldset.sub legend { font-family:inherit; font-weight:500; font-size:.95rem; }
+@media (max-width:600px) { .tres { grid-template-columns:1fr; } .tres .ancho2 { grid-column:auto; } }
+/* ZLabs dentro de Mi INNAZ (28-10-2026) */
+a.boton { display:inline-block; margin-top:12px; background:var(--teal); color:#fff; padding:12px 22px; text-decoration:none; }
+a.boton:hover { background:var(--teal-osc); }
+input.fijo { background:#f1efea; color:var(--gris); }
+.susc { border-left:4px solid var(--linea); padding:10px 14px; background:#faf9f6; margin:6px 0; }
+.susc.si { border-left-color:var(--teal); background:#e7f5f8; }
+.opcion.apagada { opacity:.6; cursor:not-allowed; }
+.zl-fila { border:1px solid var(--linea); padding:12px 14px; margin:8px 0; }
+.simular { border:1px dashed #c9a227; background:#fffbea; padding:10px 14px; margin-top:12px; font-size:.9rem; }
+.simular button { margin:6px 6px 0 0; padding:6px 12px; font-size:.85rem; }
+/* Corrección: lo cambiado, en azul (César, 28-10-2026) */
+.cambiado, input.cambiado, select.cambiado { color:#1a56c4 !important; font-weight:500; }
+input.cambiado, select.cambiado { border-color:#1a56c4; background:#f2f6fd; }
+.leyenda { font-size:.9rem; color:var(--gris); }
+/* Acciones peligrosas (31-10-2026: eliminar cuenta) */
+button.peligro { color:var(--error); border-color:var(--error); }
+button.peligro-lleno { background:var(--error); color:#fff; border:1px solid var(--error); }
+button.peligro-lleno:hover { background:#7f1818; }
+.enlace-mini { background:none; border:0; padding:0; margin:0; color:var(--teal-osc); text-decoration:underline; cursor:pointer; font:inherit; font-size:.85rem; }

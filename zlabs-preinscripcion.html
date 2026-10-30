@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Preinscripción · ZLabs 2027 · INNAZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Cormorant+SC:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mi-innaz.css">
+</head>
+<body>
+<div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
+<main class="ancha">
+  <div class="caja">
+    <p class="marca">INNA<span class="z">Z</span></p>
+    <h1>Preinscripción · <span class="z">Z</span>Labs 2027</h1>
+    <p>Del 5 al 11 de julio de 2027 en la Escuela Superior de Canto de Madrid. Lee antes las
+      <a href="#" onclick="return false">condiciones de acceso</a> (borrador).</p>
+    <p id="cerrada" class="mensaje error oculto">La preinscripción no está abierta todavía.</p>
+    <p id="cargando">Cargando…</p>
+
+    <!-- Sin sesión: la preinscripción se hace dentro de Mi INNAZ (28-10-2026) -->
+    <div id="entrar" class="oculto">
+      <p>La preinscripción se hace desde <strong>Mi INNAZ</strong>, tu espacio en la web de INNAZ. Así tus datos quedan guardados,
+        puedes ver en todo momento cómo va tu preinscripción y, si tienes suscripción, se reconoce sola.</p>
+      <p>El registro es gratuito. Si aún no tienes cuenta, puedes crearla en un momento y volverás aquí.</p>
+      <a class="boton" id="b-entrar" href="/entrar?volver=%2Fzlabs-preinscripcion">Entrar o crear mi cuenta</a>
+    </div>
+    <div id="ya" class="hecho oculto"></div>
+
+    <form id="f" class="oculto" novalidate>
+      <fieldset>
+        <legend>Modalidad</legend>
+        <div class="opciones">
+          <label class="opcion"><input type="radio" name="modalidad" value="activo"> <span><strong>Alumno activo</strong><br><small>135 € · 108 € con suscripción anual · selección por vídeo</small></span></label>
+          <label class="opcion"><input type="radio" name="modalidad" value="oyente"> <span><strong>Oyente</strong><br><small>10 € · gratis con suscripción anual · sin audición</small></span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Tus datos</legend>
+        <div class="dos">
+          <div><label for="nombre">Nombre</label><input id="nombre" type="text" autocomplete="given-name" maxlength="80" required></div>
+          <div><label for="apellidos">Apellidos</label><input id="apellidos" type="text" autocomplete="family-name" maxlength="120" required></div>
+        </div>
+        <div class="dos">
+          <div><label for="correo">Correo electrónico</label><input id="correo" type="email" readonly tabindex="-1" class="fijo">
+            <p class="nota">El de tu cuenta de Mi INNAZ.</p></div>
+          <div><label for="telefono">Teléfono</label><input id="telefono" type="tel" autocomplete="tel" required></div>
+        </div>
+        <div class="dos">
+          <div><label for="fecha_nacimiento">Fecha de nacimiento</label><input id="fecha_nacimiento" type="date" required></div>
+          <div><label for="documento_tipo">Documento</label>
+            <div class="doc"><select id="documento_tipo"><option value="dni">DNI</option><option value="nie">NIE</option><option value="pasaporte">Pasaporte</option></select>
+            <input id="documento" type="text" autocomplete="off" maxlength="20" required></div>
+            <p class="nota" id="nota-doc"></p></div>
+        </div>
+        <fieldset class="sub"><legend>Dirección postal</legend>
+        <div class="tres">
+          <div class="ancho2"><label for="dir_calle">Calle (tipo y nombre de la vía)</label><input id="dir_calle" type="text" autocomplete="address-line1" maxlength="120" placeholder="Calle Mayor"></div>
+          <div><label for="dir_numero">Número</label><input id="dir_numero" type="text" maxlength="10" placeholder="1 o s/n"></div>
+        </div>
+        <div class="tres">
+          <div><label for="dir_piso">Piso / puerta (opcional)</label><input id="dir_piso" type="text" autocomplete="address-line2" maxlength="30" placeholder="3.º B"></div>
+          <div><label for="dir_cp">Código postal</label><input id="dir_cp" type="text" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
+          <div><label for="dir_poblacion">Población</label><input id="dir_poblacion" type="text" autocomplete="address-level2" maxlength="80"></div>
+        </div>
+        <div class="dos">
+          <div><label for="dir_provincia">Provincia</label><input id="dir_provincia" type="text" autocomplete="address-level1" maxlength="80"></div>
+          <div><label for="dir_pais">País</label><input id="dir_pais" type="text" autocomplete="country-name" maxlength="60" value="España"></div>
+        </div>
+        </fieldset>
+        <p class="nota">El documento y la dirección se guardan cifrados y solo se usan para la matrícula y las facturas.</p>
+        <div class="dos">
+          <div><label for="centro">Centro de estudios (opcional)</label><input id="centro" type="text" maxlength="150"></div>
+        </div>
+        <div class="casilla"><input id="guardar_mis_datos" type="checkbox" checked><label for="guardar_mis_datos">Guardar también estos datos en «Mis datos» para la próxima vez.</label></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Tu suscripción y el precio</legend>
+        <p id="susc-texto" class="susc">…</p>
+        <p class="nota">Descuento con <strong>suscripción anual pagada</strong> vigente el 5 de julio de 2027 (la prueba gratis no cuenta):
+          alumno activo 108 € en vez de 135 €; oyente gratis en vez de 10 €. Se comprueba en el momento del pago. Ahora no se paga nada.</p>
+      </fieldset>
+
+      <fieldset id="bloque-activo" class="oculto">
+        <legend>Audición (solo alumnos activos)</legend>
+        <label for="cuerda">Cuerda</label>
+        <select id="cuerda"><option value="">Elige…</option><option value="soprano">Soprano</option><option value="mezzosoprano">Mezzosoprano</option><option value="tenor">Tenor</option><option value="baritono">Barítono</option></select>
+        <label for="video_romanza">Enlace al vídeo 1: una romanza de zarzuela de libre elección</label>
+        <input id="video_romanza" type="url" placeholder="https://…" maxlength="500">
+        <label for="video_texto">Enlace al vídeo 2: lectura del texto propuesto</label>
+        <input id="video_texto" type="url" placeholder="https://…" maxlength="500">
+        <p class="nota">Texto para el vídeo 2: <em>pendiente de publicar</em>. Sube los vídeos a YouTube (como «oculto», no privado), Vimeo, Google Drive o similar, y pega aquí el enlace. Comprueba que se pueden ver sin pedir permiso.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Aceptaciones</legend>
+        <div class="casilla"><input id="acepta_condiciones" type="checkbox"><label for="acepta_condiciones">He leído y acepto las <a href="#" onclick="return false">condiciones de ZLabs 2027</a> (borrador).</label></div>
+        <div class="casilla"><input id="acepta_privacidad" type="checkbox"><label for="acepta_privacidad">He leído y acepto la <a href="#" onclick="return false">política de privacidad</a> (borrador).</label></div>
+        <div class="casilla"><input id="acepta_imagen" type="checkbox"><label for="acepta_imagen">Acepto la grabación del curso y la cesión de mi imagen y mi voz para su difusión por INNAZ y la ESCM.</label></div>
+      </fieldset>
+
+      <!-- Campo trampa para robots: las personas no lo ven -->
+      <div class="trampa" aria-hidden="true"><label for="web">No rellenar</label><input id="web" type="text" tabindex="-1" autocomplete="off"></div>
+
+      <button type="submit" id="enviar">Enviar preinscripción</button>
+    </form>
+    <p id="msg" class="mensaje" role="status"></p>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const modalidad = () => (document.querySelector('input[name=modalidad]:checked') || {}).value;
+document.querySelectorAll('input[name=modalidad]').forEach(r => r.addEventListener('change', () =>
+  $('bloque-activo').classList.toggle('oculto', modalidad() !== 'activo')));
+
+// ── Dentro de Mi INNAZ (28-10-2026): hay que haber entrado; se rellena con «Mis datos» ──
+const DATOS = ['nombre','apellidos','telefono','fecha_nacimiento','documento_tipo','centro','dir_calle','dir_numero','dir_piso','dir_cp','dir_poblacion','dir_provincia','dir_pais'];
+(async () => {
+  try {
+    const z = await fetch('/api/zlabs/yo', { cache: 'no-store' }).then(r => r.json());
+    $('cargando').classList.add('oculto');
+    if (!z.conectado) {
+      try { localStorage.setItem('innaz-volver', JSON.stringify({ a: '/zlabs-preinscripcion', t: Date.now() })); } catch {}
+      $('entrar').classList.remove('oculto'); return;
+    }
+    if (!z.abierta) { $('cerrada').classList.remove('oculto'); return; }
+    $('susc-texto').textContent = z.suscripcion.texto;
+    $('susc-texto').classList.toggle('si', !!z.suscripcion.descuento);
+    // Una preinscripción por persona (César, 28-10-2026). Si ya la tiene, se le manda a Mi INNAZ,
+    // salvo quien quedó en reserva o no admitido como activo: puede inscribirse además como oyente.
+    const vivas = z.preinscripciones.filter(p => p.estado !== 'anulada');
+    if (!z.puede) { const y = $('ya'); y.classList.remove('oculto');
+      y.textContent = `Ya tienes una preinscripción en ZLabs ${z.edicion} (${vivas[0] ? vivas[0].referencia : ''}). Para cambiar de modalidad, cancélala antes. `;
+      const a = document.createElement('a'); a.href = '/mi-innaz#zlabs'; a.textContent = 'Verla en Mi INNAZ'; y.append(a); return; }
+    if (z.puede === 'oyente') {
+      const act = document.querySelector('input[name=modalidad][value=activo]');
+      act.disabled = true; act.closest('label').classList.add('apagada');
+      act.closest('label').querySelector('small').textContent = `Ya presentado (${vivas[0].referencia} · ${vivas[0].estado_texto})`;
+      document.querySelector('input[name=modalidad][value=oyente]').checked = true; }
+    const d = await fetch('/api/mi/datos', { cache: 'no-store' }).then(r => r.json());
+    $('correo').value = d.correo || '';
+    DATOS.forEach(k => { if ($(k) && d[k]) $(k).value = d[k]; });
+    if (!$('dir_pais').value) $('dir_pais').value = 'España';
+    if (d.documento_fin) { $('documento').placeholder = 'Guardado: …' + d.documento_fin; $('documento').required = false;
+      $('nota-doc').textContent = 'Déjalo vacío para usar el de «Mis datos».'; }
+    $('f').classList.remove('oculto');
+  } catch { $('cargando').textContent = 'Error de conexión. Recarga la página.'; }
+})();
+
+$('f').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  document.querySelectorAll('.con-error').forEach(x => x.classList.remove('con-error'));
+  const v = id => $(id).value;
+  const cuerpo = {
+    modalidad: modalidad(), nombre: v('nombre'), apellidos: v('apellidos'), correo: v('correo'), telefono: v('telefono'),
+    fecha_nacimiento: v('fecha_nacimiento'), documento_tipo: v('documento_tipo'), documento: v('documento'),
+    ...Object.fromEntries(['dir_calle','dir_numero','dir_piso','dir_cp','dir_poblacion','dir_provincia','dir_pais'].map(k => [k, v(k)])), centro: v('centro'),
+    guardar_mis_datos: $('guardar_mis_datos').checked,
+    cuerda: v('cuerda'), video_romanza: v('video_romanza'), video_texto: v('video_texto'),
+    acepta_condiciones: $('acepta_condiciones').checked, acepta_privacidad: $('acepta_privacidad').checked,
+    acepta_imagen: $('acepta_imagen').checked, web: v('web'),
+  };
+  $('msg').className = 'mensaje'; $('msg').textContent = 'Enviando…'; $('enviar').disabled = true;
+  try {
+    const r = await fetch('/api/zlabs/preinscripcion', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) });
+    const d = await r.json();
+    if (!r.ok) {
+      $('msg').className = 'mensaje error'; $('msg').textContent = d.error || 'No se ha podido enviar.';
+      if (d.entrar) { $('msg').insertAdjacentHTML('beforeend', ' <a href="/entrar">Entrar</a>'); }
+      if (d.campo && $(d.campo)) { $(d.campo).classList.add('con-error'); $(d.campo).focus(); }
+      $('enviar').disabled = false; return;
+    }
+    $('f').classList.add('oculto');
+    $('msg').innerHTML = '';
+    const p = document.createElement('div'); p.className = 'hecho';
+    p.innerHTML = '<strong>¡Preinscripción recibida!</strong><br>Tu referencia es <strong></strong>. Te hemos enviado un correo de confirmación.<br><span></span><br><a href="/mi-innaz#zlabs">Verla en Mi INNAZ →</a>';
+    p.querySelectorAll('strong')[1].textContent = d.referencia;
+    p.querySelector('span').textContent = d.suscripcion || '';
+    $('ya').classList.add('oculto');
+    $('msg').append(p);
+    if (d.enlace_simulado) {   // solo en la web de pruebas
+      const s = document.createElement('div'); s.className = 'simulado';
+      s.append('Modo simulación (solo en pruebas): este es el enlace para cancelar o corregir que llegaría por correo → ');
+      const a = document.createElement('a'); a.href = d.enlace_simulado; a.textContent = 'abrir enlace'; s.append(a); $('msg').append(s);
+    }
+  } catch { $('msg').className = 'mensaje error'; $('msg').textContent = 'Error de conexión. Prueba otra vez.'; $('enviar').disabled = false; }
+});
+</script>
+</body>
+</html>

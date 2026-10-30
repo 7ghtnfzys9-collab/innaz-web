@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Gestión interna · INNAZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Cormorant+SC:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mi-innaz.css">
+<style>
+  .qr { display:flex; justify-content:center; margin:16px 0; }
+  .qr svg { width:200px; height:200px; }
+  .clave { font-family: ui-monospace, Menlo, monospace; letter-spacing:.08em; word-break:break-all; background:#f6f4f0; padding:8px; }
+  input.codigo { font-size:1.5rem; letter-spacing:.3em; text-align:center; width:100%; padding:10px; border:1px solid #c9c4b8; font-family: ui-monospace, Menlo, monospace; }
+  ol li { margin:6px 0; }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; } td { padding:4px 6px; border-bottom:1px solid #e5e1d8; vertical-align:top; }
+  /* ZLabs · selección (28-10-2026) */
+  .zl-cont { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:10px 0 16px; }
+  .zl-cont div { border:1px solid #e5e1d8; padding:8px 10px; font-size:.85rem; }
+  .zl-cont b { display:block; font-size:1.25rem; }
+  .zl-cont .lleno { border-color:#0097B2; background:#e7f5f8; }
+  .zl-cont .pasado { border-color:#a32020; background:#fbebeb; }
+  .zl-fila { border-top:1px solid #e5e1d8; padding:10px 0; display:grid; grid-template-columns:1.4fr 1fr 1.6fr; gap:10px; font-size:.88rem; }
+  .zl-fila select, .zl-fila input { width:100%; padding:6px 8px; font:inherit; font-size:.85rem; border:1px solid #c9c4b8; background:#fff; margin-top:4px; }
+  .zl-fila button { margin-top:6px; padding:6px 12px; font-size:.8rem; }
+  .zl-fila .anulada { opacity:.5; }
+  .zl-etq { display:inline-block; font-size:.72rem; padding:1px 6px; border:1px solid #c9c4b8; margin-left:4px; }
+  .zl-etq.pend { border-color:#c9a227; background:#fff8e1; }
+  /* Pestañas por sección (28-10-2026). Cada pestaña redefine --teal/--teal-osc: botones, enlaces y bordes toman su color. */
+  .pestanas { display:flex; flex-wrap:wrap; gap:4px; border-bottom:2px solid var(--linea); margin:18px 0 0; }
+  .pestanas button { margin:0; padding:9px 16px; background:#f3f1ec; color:#555; border:0; border-top:3px solid var(--c); font-weight:500; }
+  .pestanas button:hover { background:color-mix(in srgb, var(--c) 15%, #fff); }
+  .pestanas button[aria-selected="true"] { background:var(--c); color:#fff; }
+  .pestana { padding-top:6px; }
+  .pestana h2 { color:var(--teal-osc); }
+  .z, .marca .z { color:#0097B2 !important; }   /* la Z de INNAZ y de ZLabs, siempre turquesa */
+  /* Suscripciones (28-10-2026) */
+  .campo { width:100%; padding:8px 10px; font:inherit; border:1px solid #c9c4b8; background:#fff; box-sizing:border-box; }
+  .su-rej { display:grid; grid-template-columns:1fr 1fr; gap:4px 14px; }
+  .su-rej label { margin-top:8px; }
+  .su-etq { display:inline-block; font-size:.72rem; padding:1px 6px; border:1px solid #c9c4b8; margin-left:4px; white-space:nowrap; }
+  .su-etq.grat { border-color:#0097B2; background:#e7f5f8; }
+  .su-etq.mal { border-color:#a32020; background:#fbebeb; }
+  .su-etq.pend { border-color:#c9a227; background:#fff8e1; }
+  .su-acc button, .su-acc select, .su-acc input { margin:2px 4px 2px 0; padding:4px 8px; font-size:.8rem; }
+  .su-acc select, .su-acc input { border:1px solid #c9c4b8; background:#fff; font:inherit; font-size:.8rem; }
+  .su-acc select { width:auto; max-width:100%; }
+  .su-acc input[type=date] { width:auto; }
+  .su-linea { display:flex; gap:8px; align-items:stretch; margin:14px 0 10px; }
+  .su-linea input { flex:1 1 auto; min-width:0; } .su-linea button { margin:0; } .su-linea select { flex:0 0 260px; width:260px; }
+  @media (max-width:760px) { .su-linea { flex-wrap:wrap; } .su-linea input { flex:1 1 60%; } .su-linea select { flex:1 1 100%; width:100%; } }
+  .su-chips { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0; }
+  .rol { border:1px solid #d9d4c8; border-left:4px solid var(--teal); padding:10px 14px; margin:8px 0; background:#fff; }
+  .rol .su-acc button { margin:6px 6px 0 0; padding:4px 10px; font-size:.8rem; }
+  .r-permisos { columns:2 280px; column-gap:24px; margin-top:10px; }
+  .r-permisos fieldset { break-inside:avoid; border:0; padding:0; margin:0 0 10px; }
+  .r-permisos legend { font-weight:600; font-size:.9rem; padding:0; }
+  .r-permisos label { display:flex; gap:6px; font-size:.85rem; margin:3px 0; align-items:flex-start; } .r-permisos input { margin-top:3px; }
+  .p-edit { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; } .p-edit input { padding:5px 8px; font:inherit; font-size:.85rem; border:1px solid #c9c4b8; }
+  .p-edit button { margin:0; padding:5px 10px; font-size:.8rem; }
+  .su-chips button { margin:0; padding:5px 10px; font-size:.82rem; background:#f3f1ec; color:#444; border:1px solid #ddd8cc; }
+  .su-chips button[aria-pressed="true"] { background:var(--teal); color:#fff; border-color:var(--teal); }
+  .su-chips b { font-weight:600; margin-left:4px; }
+  .su-barra { display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; margin:4px 0 10px; }
+  .su-barra label { margin:0; font-size:.85rem; } .su-barra select { width:auto; margin-top:2px; }
+  .su-tabla tr.fila { cursor:pointer; } .su-tabla tr.fila:hover td, .su-tabla tr.fila:focus-visible td { background:#f3fafb; } .su-tabla tr.fila:focus-visible { outline:2px solid var(--teal); }
+  .su-tabla th { text-align:left; font-weight:500; font-size:.8rem; color:#666; padding:4px 6px; border-bottom:1px solid #d9d4c8; }
+  .su-paginas { display:flex; gap:10px; align-items:center; margin-top:10px; } .su-paginas button { margin:0; padding:5px 12px; font-size:.85rem; }
+  .su-caja { border:1px solid #d9d4c8; border-left:4px solid var(--teal); padding:12px 16px; margin:12px 0; background:#fff; }
+  .su-caja.amarilla { border-left-color:#c9a227; background:#fffdf3; }
+  .ve-tabla th.nv { text-align:center; min-width:96px; } .ve-tabla td.nv { text-align:center; vertical-align:top; padding:4px 2px; white-space:nowrap; }
+  .ve-tabla td.tx { min-width:260px; line-height:1.35; } .ve-tabla tr.grupo td { background:#f3f1ec; font-weight:600; padding:6px; }
+  .ve-tabla tr.oculta td { opacity:.5; } .ve-tabla .ve-det { width:68px; padding:2px 4px; font:inherit; font-size:.75rem; border:1px solid #d9d4c8; margin-left:2px; }
+  .ve-tabla .estrella { background:none; border:0; cursor:pointer; font-size:1rem; color:#c9c4b8; padding:0 2px; margin:0; } .ve-tabla .estrella.si { color:#c9a227; }
+  .ve-tabla .ve-edit { background:none; border:0; color:var(--teal-osc); text-decoration:underline; cursor:pointer; font:inherit; font-size:.8rem; padding:0; margin-left:6px; }
+  .ve-tabla .cod { color:#888; font-size:.75rem; margin-right:4px; } .ve-tabla .etq { font-size:.7rem; background:#eee; padding:1px 6px; margin-left:6px; }
+  .su-caja h4 { font-size:1rem; }
+  .su-caja .su-acc { margin-top:10px; }
+  @media (max-width:760px) { .su-rej { grid-template-columns:1fr; }
+    #su-lista tr, #su-f-hist tr, #su-pend tr { display:block; border-bottom:1px solid #e5e1d8; padding:6px 0; }
+    #su-lista td, #su-f-hist td, #su-pend td { display:block; border:0; padding:2px 6px; } #su-lista th, #su-f-hist th { display:none; } .x-no { display:block; border:0; padding:2px 6px; } }
+  @media (max-width:760px) { .zl-fila { grid-template-columns:1fr; } .zl-cont { grid-template-columns:1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
+<main>
+  <div class="caja">
+    <p class="marca">INNA<span class="z">Z</span></p>
+    <h1 id="titulo">Gestión</h1>
+
+    <!-- Entrar con correo y contraseña (César, 30-10-2026) -->
+    <form id="v-entrar" class="oculto" novalidate>
+      <label for="e-correo">Correo</label>
+      <input id="e-correo" type="email" autocomplete="username" required>
+      <label for="e-clave">Contraseña</label>
+      <input id="e-clave" type="password" autocomplete="current-password" required class="campo">
+      <button type="submit" id="b-entrar">Entrar</button>
+      <p style="margin-top:14px"><a href="#" id="a-olvido">He olvidado mi contraseña</a></p>
+    </form>
+
+    <!-- He olvidado mi contraseña -->
+    <form id="v-olvido" class="oculto" novalidate>
+      <p>Escribe tu correo y te enviaremos un enlace para crear una contraseña nueva.</p>
+      <label for="o-correo">Correo</label>
+      <input id="o-correo" type="email" autocomplete="username" required>
+      <button type="submit" id="b-olvido">Enviarme el enlace</button>
+      <p style="margin-top:14px"><a href="#" id="a-volver">← Volver</a></p>
+      <div id="o-sim" class="simulado oculto"></div>
+    </form>
+
+    <!-- Crear la contraseña (con el enlace del correo) -->
+    <form id="v-clave" class="oculto" novalidate>
+      <p id="c-intro"></p>
+      <input type="email" id="c-usuario" autocomplete="username" class="oculto" readonly>
+      <label for="c-clave">Contraseña nueva <span class="nota">(al menos 12 caracteres)</span></label>
+      <input id="c-clave" type="password" autocomplete="new-password" required class="campo" minlength="12">
+      <label for="c-clave2">Repite la contraseña</label>
+      <input id="c-clave2" type="password" autocomplete="new-password" required class="campo" minlength="12">
+      <p class="nota">Consejo: una frase de varias palabras es fácil de recordar y difícil de adivinar. Es personal e intransferible.</p>
+      <button type="submit" id="b-clave">Guardar y entrar</button>
+    </form>
+
+    <!-- Panel -->
+    <div id="v-panel" class="oculto">
+      <p><strong id="p-nombre"></strong><span id="p-sep"> · </span><span id="p-correo"></span></p>
+      <p><strong>Roles:</strong> <span id="p-perfiles"></span></p>
+      <p class="nota" id="p-hasta"></p>
+      <!-- Pestañas (César, 28-10-2026): una por cada sección asignada, con el color de su pilar -->
+      <nav id="pestanas" class="pestanas" role="tablist"></nav>
+      <p id="sin-secciones" class="nota oculto">Tu rol todavía no tiene ninguna sección con página propia.</p>
+      <!-- Pestaña «Panel de control»: SOLO organización de personas y roles -->
+      <div id="t-panel" class="pestana oculto" role="tabpanel">
+      <!-- Personas (César, 29-10-2026): mismo formato que Roles: tarjetas, «Modificar», «Quitar» y «+ Añadir una persona» -->
+      <div id="m-personas" class="oculto">
+        <h2 style="font-family:'Cormorant',Georgia,serif;font-weight:600">Personas</h2>
+        <p class="nota">Quienes trabajan en la gestión de INNAZ y sus roles. Conviene que haya al menos <strong>dos Administradores</strong>: si uno no puede entrar, el otro le restablece la contraseña.</p>
+        <div id="pe-lista"></div>
+        <button type="button" id="pe-nuevo" class="secundario">+ Añadir una persona</button>
+        <div id="pe-form" class="su-caja oculto">
+          <h4 id="pe-form-tit" style="margin:0 0 8px">Nueva persona</h4>
+          <div class="su-rej">
+            <div><label for="pe-nombre">Nombre</label><input id="pe-nombre" class="campo" autocomplete="off" maxlength="80"></div>
+            <div><label for="pe-apellidos">Apellidos</label><input id="pe-apellidos" class="campo" autocomplete="off" maxlength="120"></div>
+            <div style="grid-column:1/-1"><label for="pe-correo">Correo</label><input id="pe-correo" class="campo" type="email" autocomplete="off"></div>
+          </div>
+          <p style="margin:12px 0 4px"><strong>Roles</strong></p>
+          <div id="pe-roles" class="r-permisos"></div>
+          <p class="nota" id="pe-nota">Si no tiene cuenta, se crea con estos datos (cuenta de trabajo). Le llegará un correo con un enlace para crear su contraseña (vale 48 horas).</p>
+          <button type="button" id="pe-guardar">Guardar</button> <button type="button" id="pe-cancelar" class="secundario">Cancelar</button>
+        </div>
+      </div>
+      <!-- Roles (César, 29-10-2026): crear, modificar y borrar roles · solo Administrador (perfiles.gestionar) -->
+      <div id="m-roles" class="oculto">
+        <h2 style="font-family:'Cormorant',Georgia,serif;font-weight:600">Roles</h2>
+        <p class="nota">Cada rol es un conjunto de permisos. El rol Administrador tiene siempre todos y no se modifica. Un rol solo se puede borrar si nadie lo tiene.</p>
+        <div id="r-lista"></div>
+        <button type="button" id="r-nuevo" class="secundario">+ Crear un rol</button>
+        <div id="r-form" class="su-caja oculto">
+          <h4 id="r-form-tit" style="margin:0 0 8px">Nuevo rol</h4>
+          <div class="su-rej">
+            <div><label for="r-nombre">Nombre</label><input id="r-nombre" class="campo" maxlength="60"></div>
+            <div><label for="r-desc">Descripción (para qué sirve)</label><input id="r-desc" class="campo" maxlength="200"></div>
+          </div>
+          <div class="casilla"><input id="r-aprob" type="checkbox"><label for="r-aprob">Sus cambios públicos esperan el visto bueno de Presidencia</label></div>
+          <div id="r-permisos" class="r-permisos"></div>
+          <button type="button" id="r-guardar">Guardar el rol</button> <button type="button" id="r-cancelar" class="secundario">Cancelar</button>
+        </div>
+      </div>
+      </div>
+      <!-- Pestaña «ZLabs» (pilar Formación) · selección: con el permiso «zlabs.ver» -->
+      <div id="t-zlabs" class="pestana oculto" role="tabpanel">
+      <div id="m-zlabs" class="oculto">
+        <h2 style="font-family:'Cormorant',Georgia,serif;font-weight:600"><span class="z">Z</span>Labs <span id="zl-ed"></span> · selección</h2>
+        <p class="nota">Alumnos activos por cuerda (admitidos / plazas). Los vídeos se abren en otra pestaña.</p>
+        <div class="zl-cont" id="zl-cont"></div>
+        <label for="zl-filtro">Mostrar</label>
+        <select id="zl-filtro" style="width:100%;padding:8px 10px;font:inherit;border:1px solid #c9c4b8;background:#fff">
+          <option value="todas">Todos los activos</option><option value="recibida">Pendientes de revisar</option>
+          <option value="admitida">Admitidos</option><option value="reserva">Reserva</option><option value="no_admitida">No admitidos</option>
+          <option value="anulada">Cancelados por el candidato</option><option value="oyente">Oyentes</option></select>
+        <div id="zl-lista"></div>
+        <div id="zl-comunicar" class="oculto" style="margin-top:16px">
+          <div id="zl-hecho" class="hecho oculto" role="status" style="margin-bottom:12px"></div>
+          <button type="button" id="b-comunicar">Enviar resultados</button>
+          <p class="nota">Envía un correo a cada activo admitido, en reserva o no admitido cuyo resultado aún no se le ha comunicado (o ha cambiado desde entonces).</p>
+        </div>
+      </div>
+      </div>
+      <!-- Pestaña «Suscripciones» (reordenada por César, 28-10-2026): buscar → listado con filtros → ficha con todas las acciones -->
+      <div id="t-suscripciones" class="pestana oculto" role="tabpanel">
+      <div id="m-sus" class="oculto">
+        <div id="su-pend-caja" class="oculto" style="border:1px solid #e6d9a6;border-left:4px solid #c9a227;background:#fff8e1;padding:10px 14px;margin:12px 0">
+          <strong>Pendientes de visto bueno</strong>
+          <table id="su-pend" style="margin-top:6px"></table>
+        </div>
+        <!-- Vista: listado -->
+        <div id="su-vista-lista">
+          <div class="su-linea">
+            <input id="su-q" class="campo" type="search" autocomplete="off" placeholder="Buscar por correo, nombre o número">
+            <button id="b-su-q" type="button">Buscar</button>
+            <select id="su-f-estado" class="campo" aria-label="Mostrar"></select>
+          </div>
+          <div class="su-barra">
+            <label>Nivel <select id="su-f-nivel" class="campo"><option value="">Todos</option></select></label>
+            <label>Ordenar por <select id="su-f-orden" class="campo"><option value="recientes">Registro más reciente</option><option value="nombre">Nombre</option><option value="correo">Correo</option><option value="numero">Número</option><option value="vence">Fecha de fin</option></select></label>
+            <span class="nota" id="su-lanz"></span>
+          </div>
+          <table id="su-lista" class="su-tabla"></table>
+          <div class="su-paginas"><button type="button" class="secundario" id="su-ant">← Anteriores</button> <span id="su-pag" class="nota"></span> <button type="button" class="secundario" id="su-sig">Siguientes →</button></div>
+          <!-- Ventajas por nivel · César, 30-10-2026 -->
+          <details id="ve-caja" class="su-caja oculto" style="margin-top:22px">
+            <summary><strong>Ventajas de cada nivel</strong> <span class="nota" id="ve-resumen"></span></summary>
+            <p class="nota">Marca la casilla para dar una ventaja a un nivel. El <em>detalle</em> es un matiz corto («2 al año», «10 %»). La estrella ★ la <strong>destaca</strong>:
+              las destacadas (máximo <span id="ve-max">6</span>) son las que salen en la tarjeta del nivel en la página pública de suscripciones; en Mi INNAZ se ven todas.
+              <strong>Estudiante</strong> hereda las de Colaborador. Las ventajas no se borran: se ponen en «oculto».</p>
+            <div style="display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:6px 0 10px">
+              <label>Mostrar <select id="ve-filtro" class="campo" style="width:auto"><option value="activas">activas y próximamente</option><option value="todas">todas (también ocultas)</option></select></label>
+              <span id="ve-msg" class="nota" role="status"></span>
+            </div>
+            <div style="overflow-x:auto"><table id="ve-tabla" class="su-tabla ve-tabla"></table></div>
+            <div id="ve-nueva" class="oculto" style="margin-top:14px;padding-top:10px;border-top:1px solid #e5e1d8">
+              <strong>Añadir una ventaja</strong>
+              <div class="su-rej" style="margin-top:8px">
+                <div style="grid-column:1/-1"><label for="ve-texto">Texto (lo que verá el suscriptor)</label><input id="ve-texto" class="campo" maxlength="200"></div>
+                <div><label for="ve-grupo">Grupo</label><input id="ve-grupo" class="campo" list="ve-grupos" maxlength="40" placeholder="Zarzuteca, Formación…"><datalist id="ve-grupos"></datalist></div>
+                <div><label for="ve-estado">Estado</label><select id="ve-estado" class="campo"><option value="activo">Activa</option><option value="proximamente">Próximamente</option><option value="oculto">Oculta</option></select></div>
+                <div><label for="ve-codigo">Código (vacío = automático)</label><input id="ve-codigo" class="campo" maxlength="6" placeholder="A17"></div>
+              </div>
+              <button type="button" id="b-ve-crear">Añadir la ventaja</button>
+            </div>
+          </details>
+          <!-- Códigos de centro por curso (alumnos, 50 %) · César, 29-10-2026 -->
+          <details id="su-cod-caja" class="su-caja oculto" style="margin-top:22px">
+            <summary><strong>Códigos de centro (alumnos, 50 %)</strong></summary>
+            <p class="nota">Un código por conservatorio o escuela asociada y curso. El centro se lo da a sus alumnos; caduca al acabar el curso (por defecto, el 31 de agosto).
+              Más adelante se cotejará con el listado de matriculados de cada centro.</p>
+            <table id="su-cod" class="su-tabla"></table>
+            <div class="su-rej" style="margin-top:10px">
+              <div><label for="cc-centro">Centro</label><input id="cc-centro" class="campo" maxlength="150" placeholder="Real Conservatorio Superior de Música de Madrid"></div>
+              <div><label for="cc-curso">Curso</label><input id="cc-curso" class="campo" maxlength="9" placeholder="2026-27"></div>
+              <div><label for="cc-codigo">Código (vacío = automático)</label><input id="cc-codigo" class="campo" maxlength="20" placeholder="RCSMM-2627"></div>
+              <div><label for="cc-hasta">Vale hasta (vacío = 31 de agosto)</label><input id="cc-hasta" class="campo" type="date"></div>
+            </div>
+            <button type="button" id="b-cc">Crear código</button>
+          </details>
+        </div>
+        <!-- Vista: ficha -->
+        <div id="su-vista-ficha" class="oculto">
+          <p><button type="button" class="secundario" id="su-volver" style="margin:10px 0 0">← Volver al listado</button></p>
+          <h3 id="su-f-tit" style="margin:10px 0 2px"></h3>
+          <p class="nota" id="su-f-sub" style="margin:0 0 10px"></p>
+          <div id="su-f-pend"></div>
+          <div id="su-f-actual"></div>
+          <div id="su-f-form" class="su-caja oculto">
+            <h4 style="margin:0 0 6px">Dar de alta</h4>
+            <p class="nota" id="su-f-form-nota" style="margin:0 0 6px">No tiene suscripción. Puedes darle una de pago (cobrada fuera de la web) o un acceso gratuito.</p>
+            <p><label style="display:inline;margin-right:16px"><input type="radio" name="su-tipo" value="gratuito" checked> Acceso gratuito</label>
+               <label style="display:inline"><input type="radio" name="su-tipo" value="pago"> Alta de pago (manual)</label></p>
+            <div class="su-rej">
+              <div><label for="su-nivel">Nivel</label><select id="su-nivel" class="campo"></select></div>
+              <div><label for="su-desde">Desde</label><input id="su-desde" class="campo" type="date"></div>
+              <div class="su-g"><label for="su-hasta">Hasta (vacío = sin fecha de fin)</label><input id="su-hasta" class="campo" type="date"></div>
+              <div class="su-g"><label for="su-motivo">Motivo</label><select id="su-motivo" class="campo"></select></div>
+              <div class="su-g" style="grid-column:1/-1"><label for="su-nota">Nota interna (obligatoria con «Otro»)</label><input id="su-nota" class="campo" maxlength="200"></div>
+              <div class="su-p oculto"><label for="su-per">Periodicidad</label><select id="su-per" class="campo"><option value="anual">Anual</option><option value="mensual">Mensual</option></select></div>
+              <div class="su-p oculto"><label for="su-forma">Forma de pago</label><select id="su-forma" class="campo"></select></div>
+              <div class="su-p oculto"><label for="su-ref">Referencia del cobro</label><input id="su-ref" class="campo" maxlength="80"></div>
+              <div class="su-p oculto"><label for="su-imp">Importe (€)</label><input id="su-imp" class="campo" inputmode="decimal"></div>
+            </div>
+            <button id="b-su-dar" type="button">Dar acceso gratuito</button>
+            <p class="nota" id="su-nota-aprob"></p>
+          </div>
+          <details id="su-f-hist-caja" style="margin-top:14px"><summary class="nota">Historial</summary><table id="su-f-hist" class="su-tabla"></table></details>
+          <!-- Eliminar la cuenta (31-10-2026, César): solo con el permiso «cuentas.eliminar» -->
+          <details id="su-f-baja" class="oculto" style="margin-top:14px"><summary class="nota" style="color:#a32020">Eliminar la cuenta de esta persona…</summary>
+            <div class="su-caja" style="border-left:4px solid #a32020;background:#fdf3f3">
+              <div id="su-f-baja-res"></div>
+              <label>Para confirmarlo, escribe <strong>ELIMINAR</strong> <input id="su-f-baja-conf" class="campo" autocomplete="off" style="width:10em"></label>
+              <button type="button" id="b-su-baja" style="background:#a32020;border-color:#a32020;margin-left:8px">Eliminar la cuenta</button>
+            </div>
+          </details>
+        </div>
+      </div>
+      </div>
+      <!-- Común a todas las pestañas (auditoría 29-10-2026: antes solo se veía en Panel de control) -->
+      <details style="margin-top:20px"><summary class="nota">Tus permisos</summary><table id="p-permisos"></table></details>
+      <!-- Cambiar mi contraseña (César, 30-10-2026) -->
+      <details id="cambiar-caja" style="margin-top:8px"><summary class="nota">Cambiar mi contraseña</summary>
+        <form id="f-cambiar" novalidate style="max-width:420px">
+          <input type="email" id="x-usuario" autocomplete="username" class="oculto" readonly>
+          <label for="x-actual">Contraseña actual</label><input id="x-actual" type="password" autocomplete="current-password" class="campo">
+          <label for="x-nueva">Contraseña nueva <span class="nota">(al menos 12 caracteres)</span></label><input id="x-nueva" type="password" autocomplete="new-password" class="campo">
+          <label for="x-nueva2">Repite la nueva</label><input id="x-nueva2" type="password" autocomplete="new-password" class="campo">
+          <button type="submit" id="b-cambiar">Cambiar mi contraseña</button>
+        </form>
+      </details>
+    </div>
+
+    <p id="msg" class="mensaje" role="status"></p>
+    <p><button type="button" id="b-salir" class="secundario">Salir</button></p>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+// Pantallas: entrar, olvido, crear contraseña y panel (30-10-2026: correo y contraseña, sin segundo factor)
+const ver = id => { ['v-entrar','v-olvido','v-clave','v-panel'].forEach(v => $(v).classList.toggle('oculto', v !== id));
+  $('b-salir').closest('p').classList.toggle('oculto', id !== 'v-panel');
+  if (id !== 'v-panel') $(id).append($('msg')); };   // el aviso, justo debajo del botón
+// El mensaje se muestra siempre a la vista (27-10-2026: en pantallas pequeñas quedaba debajo, fuera de la vista).
+const msg = (t, error) => { const m = $('msg'); m.className = 'mensaje' + (error ? ' error' : ''); m.textContent = t || '';
+  if (t) { m.style.cssText = 'padding:10px 12px;border-left:4px solid ' + (error ? '#a32020' : '#0097B2') + ';background:#faf8f4';
+           m.scrollIntoView({ block: 'center', behavior: 'smooth' }); } else m.style.cssText = ''; };
+const post = (cuerpo) => fetch('/api/gestion/acceso', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+  .then(async r => ({ ok: r.ok, status: r.status, d: await r.json().catch(() => ({ error: 'Respuesta inesperada (' + r.status + ').' })) }))
+  .catch(() => ({ ok: false, d: { error: 'Error de conexión. Prueba otra vez.' } }));
+
+async function panel() {
+  const r = await fetch('/api/gestion/panel', { cache: 'no-store' });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { ver('v-entrar'); if (r.status !== 401) msg(d.error, true); $('e-correo').focus(); return; }
+  ver('v-panel'); msg('');
+  $('x-usuario').value = d.usuario.correo;
+  $('p-nombre').textContent = d.usuario.nombre || ''; $('p-sep').classList.toggle('oculto', !d.usuario.nombre);
+  $('p-correo').textContent = d.usuario.correo;
+  $('p-perfiles').textContent = d.perfiles.map(p => p.nombre).join(', ');
+  if (d.gestionHasta) $('p-hasta').textContent = 'Permiso de gestión hasta las ' + new Date(d.gestionHasta * 1000).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) + '. Después se vuelve a pedir la contraseña.';
+  const t = $('p-permisos'); t.textContent = '';
+  for (const p of d.permisos) { const tr = t.insertRow(); tr.insertCell().textContent = p.grupo; tr.insertCell().textContent = p.texto; }
+  secciones = d.secciones || []; permisosYo = d.permisos.map(p => p.clave);
+  const nav = $('pestanas'); nav.textContent = '';
+  for (const sc of secciones) { const b = document.createElement('button'); b.type = 'button'; b.role = 'tab'; b.dataset.clave = sc.clave;
+    b.style.setProperty('--c', sc.color); b.textContent = sc.nombre; b.onclick = () => { history.replaceState(null, '', '#' + sc.clave); elegir(sc.clave); }; nav.append(b); }
+  // Con una sola sección la pestaña se queda visible: hace de etiqueta (César, 28-10-2026).
+  $('sin-secciones').classList.toggle('oculto', secciones.length > 0);
+  const pedida = location.hash.slice(1);
+  if (secciones.length) await elegir(secciones.some(x => x.clave === pedida) ? pedida : secciones[0].clave);
+}
+// ── Pestañas (César, 28-10-2026) ───────────────────────────────────────
+let secciones = [], permisosYo = [], cargadas = {};
+async function elegir(clave) {
+  const sc = secciones.find(x => x.clave === clave); if (!sc) return;
+  document.querySelectorAll('#pestanas button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.clave === clave)));
+  document.querySelectorAll('.pestana').forEach(p => p.classList.toggle('oculto', p.id !== 't-' + clave));
+  const caja = document.querySelector('.caja');                  // el color de la sección tiñe la página
+  caja.style.setProperty('--teal', sc.color); caja.style.setProperty('--teal-osc', sc.oscuro);
+  $('titulo').textContent = 'Gestión · ' + sc.nombre; document.title = sc.nombre + ' · Gestión INNAZ';
+  document.querySelector('main').style.maxWidth = '980px';
+  if (cargadas[clave]) return;
+  // Personas y Roles a la vez (antes, en serie). Si algo falla, la pestaña no se da por cargada y se reintenta al volver.
+  const tareas = [];
+  if (clave === 'panel' && permisosYo.includes('perfiles.asignar')) tareas.push(personas());
+  if (clave === 'panel' && permisosYo.includes('perfiles.gestionar')) tareas.push(roles());
+  if (clave === 'zlabs' && permisosYo.includes('zlabs.ver')) tareas.push(zlabs());
+  if (clave === 'suscripciones' && permisosYo.includes('suscriptores.ver')) tareas.push(suscripciones());
+  const res = await Promise.allSettled(tareas);
+  cargadas[clave] = res.every(x => x.status === 'fulfilled' && x.value !== false);
+}
+// Tras cualquier cambio en Personas o Roles se refrescan los dos (los contadores «N personas» de los roles dependen de las personas).
+const refrescarPanel = () => Promise.all([peDatos ? personas() : null, rolesDatos ? roles() : null]);
+window.addEventListener('hashchange', () => elegir(location.hash.slice(1)));
+
+// ── Módulo 3: personas y perfiles ──────────────────────────────────────
+const postP = (cuerpo) => fetch('/api/gestion/personas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+  .then(async r => ({ ok: r.ok, d: await r.json().catch(() => ({ error: 'Respuesta inesperada del servidor (' + r.status + ').' })) }))
+  .catch(() => ({ ok: false, d: { error: 'Error de conexión. Prueba otra vez.' } }));
+// En la web de pruebas los correos no se envían: el enlace (para crear contraseña) se muestra junto al mensaje
+// Se enseña para COPIARLO y pasárselo a la persona: si lo abre aquí quien está en la gestión, entraría con la otra cuenta (30-10-2026)
+let simPendiente = null;
+function mostrarSim(d) { if (d && d.enlace_simulado) simPendiente = { enlace: d.enlace_simulado, correo: d.correo || null }; }
+function pintarSim() {
+  if (!simPendiente) return; const { enlace, correo } = simPendiente; simPendiente = null;
+  const caja = el('div', null, 'simulado'); caja.style.margin = '10px 0 0';
+  caja.append(el('strong', 'Web de pruebas: el correo no se envía de verdad.'), el('br'),
+    'Copia este enlace y pásaselo a la persona. No lo abras tú: entrarías con su cuenta y se cerraría la tuya.', el('br'));
+  const t = el('input'); t.value = enlace; t.readOnly = true; t.style.cssText = 'width:100%;margin:6px 0;padding:6px 8px;font:inherit;font-size:.8rem;border:1px solid #c9a227;background:#fff';
+  t.onclick = () => t.select();
+  const b = el('button', 'Copiar el enlace'); b.type = 'button'; b.className = 'secundario'; b.style.cssText = 'margin:0;padding:5px 12px;font-size:.85rem';
+  b.onclick = async () => { try { await navigator.clipboard.writeText(enlace); b.textContent = '✓ Copiado'; } catch { t.select(); b.textContent = 'Selecciónalo y copia (⌘C)'; } };
+  caja.append(t, b);
+  const tarjeta = [...document.querySelectorAll('#pe-lista .rol')].find(c => correo && c.textContent.includes(correo));
+  (tarjeta || $('m-personas')).append(caja); caja.scrollIntoView({ block: 'center', behavior: 'smooth' });
+}
+let pendiente = null, reloj = null;   // acciones delicadas: hay que pulsar dos veces en menos de 8 segundos
+const armar = (clave, b, textoOriginal) => { pendiente = clave; clearTimeout(reloj);
+  reloj = setTimeout(() => { if (pendiente === clave) { pendiente = null; b.textContent = textoOriginal; } }, 8000); };
+function botonDoble(texto, clave, accion) {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'secundario';
+  b.style.cssText = 'margin:2px 4px 2px 0;padding:4px 10px;font-size:.8rem'; b.textContent = texto;
+  b.onclick = async () => {
+    if (pendiente !== clave) { armar(clave, b, texto); b.textContent = '¿Seguro? Pulsa otra vez'; return; }
+    pendiente = null; msg('Un momento…');
+    const r = await accion(); msg(r.d.mensaje || r.d.error, !r.ok); mostrarSim(r.d); await refrescarPanel(); pintarSim();
+  };
+  return b;
+}
+let peDatos = null, peEditando = null;
+async function personas() {
+  let r, d;
+  try { r = await fetch('/api/gestion/personas', { cache: 'no-store' }); d = await r.json(); }
+  catch { msg('No se ha podido cargar la lista de personas. Prueba a recargar la página.', true); return false; }
+  if (!r.ok) { msg(d.error || 'No se ha podido cargar la lista de personas.', true); return false; }
+  peDatos = d; $('m-personas').classList.remove('oculto');
+  const L = $('pe-lista'); L.textContent = '';
+  for (const pe of d.personas) {
+    const yoFila = pe.correo === d.yo;
+    const c = el('div', null, 'rol');
+    const h = el('div'); h.append(el('strong', [pe.nombre, pe.apellidos].filter(Boolean).join(' ') || '(sin nombre)'));
+    if (yoFila) h.append(' ', el('span', 'tú', 'su-etq'));
+    for (const p of pe.perfiles) h.append(' ', el('span', p.nombre, 'su-etq' + (p.id === 'administrador' ? ' grat' : '')));
+    if (!pe.tieneClave) h.append(' ', el('span', 'aún no ha creado su contraseña', 'su-etq pend'));
+    c.append(h, el('div', pe.correo, 'nota'));
+    const ac = el('div', null, 'su-acc');
+    const bm = el('button', 'Modificar'); bm.type = 'button'; bm.className = 'secundario'; bm.onclick = () => peForm(pe); ac.append(bm);
+    if (!yoFila) ac.append(botonDoble('Quitar', 'q|' + pe.correo, () => postP({ accion: 'quitar', correo: pe.correo })));
+    const esAdminFila = pe.perfiles.some(x => x.id === 'administrador');
+    if (!yoFila && d.puedeRestablecer && (d.soyAdmin || !esAdminFila))
+      ac.append(botonDoble(pe.tieneClave ? 'Restablecer contraseña' : 'Reenviar el enlace', 'f|' + pe.correo, () => postP({ accion: 'restablecer_clave', correo: pe.correo })));
+    c.append(ac); L.append(c);
+  }
+}
+function peForm(pe) {
+  peEditando = pe || null; $('pe-form').classList.remove('oculto');
+  $('pe-form-tit').textContent = pe ? 'Modificar a ' + ([pe.nombre, pe.apellidos].filter(Boolean).join(' ') || pe.correo) : 'Nueva persona';
+  $('pe-nombre').value = pe ? (pe.nombre || '') : ''; $('pe-apellidos').value = pe ? (pe.apellidos || '') : ''; $('pe-correo').value = pe ? pe.correo : '';
+  $('pe-nota').classList.toggle('oculto', !!pe);
+  const yoFila = pe && pe.correo === peDatos.yo;
+  const R = $('pe-roles'); R.textContent = '';
+  for (const ro of peDatos.perfiles) { const lb = el('label'); const cb = el('input'); cb.type = 'checkbox'; cb.value = ro.id;
+    cb.checked = !!pe && pe.perfiles.some(x => x.id === ro.id); if (yoFila && ro.id === 'administrador' && cb.checked) cb.disabled = true;   // no te quitas el Administrador a ti mismo
+    lb.append(cb, ro.nombre); R.append(lb); }
+  $('pe-guardar').textContent = 'Guardar';
+  $('pe-form').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('pe-nombre').focus();
+}
+$('pe-nuevo').onclick = () => peForm(null);
+$('pe-cancelar').onclick = () => { $('pe-form').classList.add('oculto'); peEditando = null; };
+$('pe-guardar').onclick = async () => {
+  const nombre = $('pe-nombre').value.trim(), apellidos = $('pe-apellidos').value.trim(), correo = $('pe-correo').value.trim();
+  if (!nombre || !apellidos || !correo) { msg('Escribe el nombre, los apellidos y el correo.', true); return; }
+  const marcados = [...document.querySelectorAll('#pe-roles input:checked')].map(x => x.value);
+  const antes = peEditando ? peEditando.perfiles.map(x => x.id) : [];
+  const nuevos = marcados.filter(x => !antes.includes(x));
+  if (!peEditando && !marcados.length) { msg('Marca al menos un rol.', true); return; }
+  if (peEditando && !marcados.length) { msg('Para quitarle todos los roles, usa «Quitar».', true); return; }
+  const b = $('pe-guardar');
+  if (nuevos.includes('administrador') && pendiente !== 'admin|' + correo) { armar('admin|' + correo, b, 'Guardar'); b.textContent = '¿Seguro? El Administrador tiene acceso a todo. Pulsa otra vez'; return; }
+  pendiente = null; b.disabled = true; msg('Un momento…');
+  // Una sola petición con todo el formulario (auditoría 29-10-2026: antes, una por dato y por rol; si fallaba una, quedaba a medias)
+  const r = await postP({ accion: 'guardar', correo: peEditando ? peEditando.correo : correo, nuevoCorreo: peEditando ? correo : undefined, nombre, apellidos, roles: marcados });
+  b.disabled = false; b.textContent = 'Guardar'; msg(r.d.mensaje || r.d.error, !r.ok); mostrarSim(r.d && { ...r.d, correo: r.d.correo || correo });
+  if (r.ok) { $('pe-form').classList.add('oculto'); peEditando = null; await refrescarPanel(); pintarSim(); }
+};
+
+// ── Roles (César, 29-10-2026) ──────────────────────────────────────────
+let rolesDatos = null, rolEditando = null;
+const postR = (cuerpo) => fetch('/api/gestion/roles', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+  .then(async r => ({ ok: r.ok, d: await r.json().catch(() => ({ error: 'Respuesta inesperada (' + r.status + ').' })) })).catch(() => ({ ok: false, d: { error: 'Error de conexión.' } }));
+async function roles() {
+  let r, d;
+  try { r = await fetch('/api/gestion/roles', { cache: 'no-store' }); d = await r.json(); }
+  catch { msg('No se ha podido cargar la lista de roles. Prueba a recargar la página.', true); return false; }
+  if (!r.ok) { msg(d.error || 'No se ha podido cargar la lista de roles.', true); return false; }
+  rolesDatos = d; $('m-roles').classList.remove('oculto');
+  const L = $('r-lista'); L.textContent = '';
+  const txt = Object.fromEntries(d.catalogo.map(x => [x.clave, x]));
+  for (const ro of d.roles) {
+    const c = el('div', null, 'rol');
+    const h = el('div'); h.append(el('strong', ro.nombre), ' ', el('span', ro.personas + (ro.personas === 1 ? ' persona' : ' personas'), 'su-etq'));
+    if (ro.sistema) h.append(' ', el('span', 'todos los permisos', 'su-etq grat')); else if (ro.aprobacion) h.append(' ', el('span', 'con visto bueno de Presidencia', 'su-etq'));
+    c.append(h); if (ro.descripcion) c.append(el('div', ro.descripcion, 'nota'));
+    if (!ro.sistema) {
+      const grupos = {}; for (const k of ro.permisos) if (txt[k]) (grupos[txt[k].grupo] ||= []).push(k);
+      c.append(el('div', Object.entries(grupos).map(([g, ks]) => g + ': ' + ks.length).join(' · ') || 'Sin permisos', 'nota'));
+      const ac = el('div', null, 'su-acc');
+      const be = el('button', 'Modificar'); be.type = 'button'; be.className = 'secundario'; be.onclick = () => rolForm(ro); ac.append(be);
+      ac.append(botonDobleR('Borrar', 'rb|' + ro.id, () => postR({ accion: 'borrar', id: ro.id })));
+      c.append(ac);
+    }
+    L.append(c);
+  }
+}
+function botonDobleR(texto, clave, accion) {
+  const b = el('button', texto); b.type = 'button'; b.className = 'secundario';
+  b.onclick = async () => { if (pendiente !== clave) { armar(clave, b, texto); b.textContent = '¿Seguro? Pulsa otra vez'; return; }
+    pendiente = null; msg('Un momento…'); const r = await accion(); msg(r.d.mensaje || r.d.error, !r.ok); await refrescarPanel(); };
+  return b;
+}
+function rolForm(ro) {
+  rolEditando = ro ? ro.id : null; $('r-form').classList.remove('oculto');
+  $('r-form-tit').textContent = ro ? 'Modificar el rol «' + ro.nombre + '»' : 'Nuevo rol';
+  $('r-nombre').value = ro ? ro.nombre : ''; $('r-desc').value = ro ? (ro.descripcion || '') : ''; $('r-aprob').checked = ro ? ro.aprobacion : true;
+  const P = $('r-permisos'); P.textContent = ''; const grupos = {};
+  for (const x of rolesDatos.catalogo) (grupos[x.grupo] ||= []).push(x);
+  for (const [g, xs] of Object.entries(grupos)) { const fs = el('fieldset'); fs.append(el('legend', g));
+    for (const x of xs) { const lb = el('label'); const cb = el('input'); cb.type = 'checkbox'; cb.value = x.clave; cb.checked = !!ro && ro.permisos.includes(x.clave);
+      lb.append(cb, x.texto + (x.publico ? ' (público)' : '')); fs.append(lb); }
+    P.append(fs); }
+  $('r-form').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('r-nombre').focus();
+}
+$('r-nuevo').onclick = () => rolForm(null);
+$('r-cancelar').onclick = () => { $('r-form').classList.add('oculto'); rolEditando = null; };
+$('r-guardar').onclick = async () => {
+  const permisos = [...document.querySelectorAll('#r-permisos input:checked')].map(x => x.value);
+  msg('Un momento…');
+  const r = await postR({ accion: rolEditando ? 'editar' : 'crear', id: rolEditando, nombre: $('r-nombre').value.trim(), descripcion: $('r-desc').value.trim(), aprobacion: $('r-aprob').checked, permisos });
+  msg(r.d.mensaje || r.d.error, !r.ok);
+  if (r.ok) { $('r-form').classList.add('oculto'); rolEditando = null; await refrescarPanel(); }
+};
+
+// ── ZLabs · selección (28-10-2026) ─────────────────────────────────────
+const ESTADO_TXT = { recibida: 'Pendiente', admitida: 'Admitido', reserva: 'Reserva', no_admitida: 'No admitido', anulada: 'Cancelada' };
+let zlDatos = null, zlArmado = false;
+const postZ = (cuerpo) => fetch('/api/gestion/zlabs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+  .then(async r => ({ ok: r.ok, d: await r.json().catch(() => ({ error: 'Respuesta inesperada (' + r.status + ').' })) }))
+  .catch(() => ({ ok: false, d: { error: 'Error de conexión.' } }));
+function el(tag, txt, cls) { const e = document.createElement(tag); if (txt != null) e.textContent = txt; if (cls) e.className = cls; return e; }
+function enlace(url, txt) { const a = el('a', txt); a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; return a; }
+async function zlabs() {
+  const r = await fetch('/api/gestion/zlabs', { cache: 'no-store' });
+  const d = await r.json(); if (!r.ok) { msg(d.error, true); return false; }   // false: la pestaña se reintenta al volver
+  zlDatos = d; document.querySelector('main').style.maxWidth = '980px';
+  $('m-zlabs').classList.remove('oculto'); $('zl-ed').textContent = d.edicion;
+  const c = $('zl-cont'); c.textContent = '';
+  for (const k of Object.keys(d.recuento)) { const x = d.recuento[k]; const b = el('div', null, x.admitida > x.plazas ? 'pasado' : x.admitida === x.plazas ? 'lleno' : '');
+    b.append(el('span', x.nombre), el('b', `${x.admitida} / ${x.plazas}`), el('span', `${x.total} candidatos · ${x.recibida} pendientes · ${x.reserva} reserva`)); c.append(b); }
+  const o = el('div'); o.append(el('span', 'Oyentes'), el('b', String(d.oyentes))); c.append(o);
+  $('zl-comunicar').classList.toggle('oculto', !d.puede.comunicar);
+  $('b-comunicar').textContent = d.pendientes ? `Enviar resultados (${d.pendientes} pendiente${d.pendientes === 1 ? '' : 's'})` : 'No hay resultados pendientes de enviar'; $('b-comunicar').disabled = !d.pendientes;
+  pintarZ();
+}
+function pintarZ() {
+  const d = zlDatos, f = $('zl-filtro').value, lista = $('zl-lista'); lista.textContent = '';
+  const filas = d.lista.filter(x => f === 'oyente' ? x.modalidad === 'oyente'
+    : x.modalidad === 'activo' && (f === 'todas' ? x.estado !== 'anulada' : x.estado === f));
+  if (!filas.length) { lista.append(el('p', 'No hay ninguno.', 'nota')); return; }
+  for (const x of filas) {
+    const fila = el('div', null, 'zl-fila' + (x.estado === 'anulada' ? ' anulada' : ''));
+    const a = el('div'); a.append(el('strong', `${x.nombre} ${x.apellidos}`), el('br'), el('span', `${x.referencia} · ${x.edad} años`));
+    if (x.modalidad === 'activo') a.append(el('br'), el('span', x.cuerda ? ({soprano:'Soprano',mezzosoprano:'Mezzosoprano',tenor:'Tenor',baritono:'Barítono'})[x.cuerda] : ''));
+    a.append(el('br'), el('span', [x.centro, x.num_suscriptor].filter(Boolean).join(' · '), 'nota'));
+    const b = el('div'); b.append(el('span', x.correo), el('br'), el('span', x.telefono));
+    if (x.modalidad === 'activo') { b.append(el('br'), enlace(x.video_romanza, '▶ Romanza'), document.createTextNode('  '), enlace(x.video_texto, '▶ Texto')); }
+    if (d.puede.datos) { const v = el('a', 'Ver documento y dirección'); v.href = '#'; v.className = 'nota';
+      v.onclick = async e => { e.preventDefault(); const r = await fetch('/api/gestion/zlabs?datos=' + encodeURIComponent(x.id)); const j = await r.json();
+        v.replaceWith(el('span', r.ok ? `${j.documento_tipo.toUpperCase()} ${j.documento} · ${j.direccion}` : j.error, 'nota')); };
+      b.append(el('br'), v); }
+    const cc = el('div');
+    const etq = el('span', x.modalidad === 'oyente' ? ({ admitida: 'Plaza confirmada', reserva: 'Lista de espera', anulada: 'Cancelada' })[x.estado] || x.estado : ESTADO_TXT[x.estado] || x.estado, 'zl-etq'); cc.append(el('span', 'Estado:'), etq);
+    if (x.pendienteComunicar) cc.append(el('span', 'sin comunicar', 'zl-etq pend'));
+    else if (x.comunicado && x.comunicado_estado) cc.append(el('span', '✓ comunicado el ' + new Date(x.comunicado * 1000).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) + ' (' + (ESTADO_TXT[x.comunicado_estado] || x.comunicado_estado) + ')', 'zl-etq'));
+    if (x.modalidad === 'activo' && x.estado !== 'anulada' && d.puede.seleccionar) {
+      const sel = document.createElement('select');
+      for (const k of ['recibida','admitida','reserva','no_admitida']) sel.add(new Option(ESTADO_TXT[k], k, false, k === x.estado));
+      const papel = document.createElement('input'); papel.placeholder = 'Papel (p. ej. Paca, El niño)'; papel.value = x.papel || ''; papel.maxLength = 80;
+      const notas = document.createElement('input'); notas.placeholder = 'Notas de la comisión'; notas.value = x.notas || ''; notas.maxLength = 1000;
+      const g = el('button', 'Guardar'); g.type = 'button';
+      g.onclick = async () => { g.disabled = true; const r = await postZ({ accion: 'estado', id: x.id, estado: sel.value, papel: papel.value, notas: notas.value });
+        msg(r.d.mensaje || r.d.error, !r.ok || r.d.aviso); g.disabled = false; if (r.ok) await zlabs(); };
+      cc.append(sel, papel, notas, g);
+    } else if (x.modalidad === 'oyente' && x.estado === 'reserva' && d.puede.seleccionar) {   // oyente en espera (César, 29-10-2026)
+      const g = el('button', 'Dar plaza'); g.type = 'button'; g.className = 'secundario'; let armado = false;
+      g.onclick = async () => { if (!armado) { armado = true; g.textContent = '¿Seguro? Se le avisa por correo. Pulsa otra vez'; setTimeout(() => { if (armado) { armado = false; g.textContent = 'Dar plaza'; } }, 8000); return; }
+        armado = false; g.disabled = true; const r = await postZ({ accion: 'plaza_oyente', id: x.id }); msg(r.d.mensaje || r.d.error, !r.ok); g.disabled = false; if (r.ok) await zlabs(); };
+      cc.append(el('br'), g);
+    } else if (x.papel || x.notas) cc.append(el('br'), el('span', [x.papel, x.notas].filter(Boolean).join(' · '), 'nota'));
+    fila.append(a, b, cc); lista.append(fila);
+  }
+}
+$('zl-filtro').addEventListener('change', pintarZ);
+$('b-comunicar').addEventListener('click', async () => {
+  const b = $('b-comunicar');
+  if (!zlArmado) { zlArmado = true; const t = b.textContent; b.textContent = `¿Enviar ${zlDatos.pendientes} correos? Pulsa otra vez`;
+    setTimeout(() => { if (zlArmado) { zlArmado = false; b.textContent = t; } }, 8000); return; }
+  zlArmado = false; b.disabled = true; msg('Enviando…');
+  const r = await postZ({ accion: 'comunicar' }); msg(r.d.mensaje || r.d.error, !r.ok); await zlabs();
+  if (r.ok) { const h = $('zl-hecho'); h.classList.remove('oculto');
+    h.textContent = '✓ ' + r.d.mensaje + ' (' + new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) + '). En cada ficha verás cuándo se comunicó.'; }
+});
+
+
+// ── Suscripciones (reordenado por César, 28-10-2026) ──────────────────
+const FORMA_TXT = { transferencia: 'Transferencia', bizum: 'Bizum', tpv: 'TPV', manual: 'Otro (manual)', otro: 'Otro' };
+let suDatos = null, suPersona = null, suArmado = null, suReloj = null;
+const suFiltro = { estado: 'todos', nivel: '', orden: 'recientes', q: '', pagina: 1 };
+const postS = (cuerpo) => fetch('/api/gestion/suscripciones', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+  .then(async r => ({ ok: r.ok, status: r.status, d: await r.json().catch(() => ({ error: 'Respuesta inesperada (' + r.status + ').' })) }))
+  .catch(() => ({ ok: false, d: { error: 'Error de conexión.' } }));
+const hoyISO = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Madrid' });
+const eurTxt = n => n == null ? '' : n.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' });
+function suBoton(texto, clave, accion, doble = false) {
+  const b = el('button', texto); b.type = 'button'; b.className = 'secundario';
+  b.onclick = async () => {
+    if (doble && suArmado !== clave) { suArmado = clave; clearTimeout(suReloj); b.textContent = '¿Seguro? Pulsa otra vez';
+      suReloj = setTimeout(() => { if (suArmado === clave) { suArmado = null; b.textContent = texto; } }, 8000); return; }
+    suArmado = null; b.disabled = true; msg('Un momento…');
+    const r = await accion(); msg(r.d.mensaje || r.d.error, !r.ok); b.disabled = false;
+    await suRefrescar();
+  };
+  return b;
+}
+const ETQ = { 'de pago': '', gratuito: 'grat', 'prueba gratis': 'grat', programada: '', caducada: 'mal', retirada: 'mal', registrado: '' };
+function suEtq(txt, cls) { return el('span', txt, 'su-etq' + (cls ? ' ' + cls : '')); }
+
+async function suscripciones() {
+  await Promise.all([suPortada(true), suLista()]);   // a la vez (auditoría 29-10-2026)
+}
+// Tras cualquier acción: portada (pendientes, códigos, lanzamiento) y, a la vez, la ficha abierta o el listado (contadores y filas)
+const suRefrescar = () => Promise.all([suPortada(), suPersona ? suFicha(suPersona) : suLista()]);
+let suCuentas = null;
+function suPintarCuentas() { if (!suCuentas) return; for (const o of $('su-f-estado').options) o.textContent = `${o.dataset.nombre} (${suCuentas[o.value] ?? 0})`; }
+async function suPortada(primera = false) {
+  const r = await fetch('/api/gestion/suscripciones', { cache: 'no-store' });
+  const d = await r.json(); if (!r.ok) { msg(d.error, true); return; }
+  suDatos = d; $('m-sus').classList.remove('oculto');
+  if (primera) {
+    for (const n of d.opciones.niveles) { $('su-nivel').add(new Option(n.nombre, n.clave)); $('su-f-nivel').add(new Option(n.nombre, n.clave)); }
+    for (const m of d.opciones.motivos) $('su-motivo').add(new Option(m.nombre, m.clave));
+    for (const f of d.opciones.formas) $('su-forma').add(new Option(FORMA_TXT[f] || f, f));
+    $('su-desde').value = hoyISO();
+    $('su-nota-aprob').textContent = d.puede.aprobar ? '' : 'Un acceso gratuito queda pendiente del visto bueno de Presidencia hasta que lo apruebe.';
+    const se = $('su-f-estado'); se.textContent = '';
+    for (const f of d.filtros) { const o = new Option(f.nombre, f.clave); o.dataset.nombre = f.nombre; se.add(o); }
+    se.onchange = () => { suFiltro.estado = se.value; suFiltro.pagina = 1; suLista(); };
+    suPintarCuentas();
+  }
+  $('su-lanz').textContent = 'Lanzamiento (3 meses gratis): ' + d.lanzamiento.usados + ' de ' + d.lanzamiento.max + ' dados.';
+  // Ventajas por nivel (30-10-2026): la caja se ve con 'suscriptores.ver'; editar, con 'beneficios.editar'
+  $('ve-caja').classList.remove('oculto'); if (primera) veCargar();
+  // Códigos de centro (29-10-2026)
+  $('su-cod-caja').classList.toggle('oculto', !d.codigos);
+  if (d.codigos) { const tc = $('su-cod'); tc.textContent = '';
+    const h = tc.createTHead().insertRow(); for (const x of ['Código', 'Centro', 'Curso', 'Vale hasta', 'Usado', '']) h.append(el('th', x));
+    const tb = tc.createTBody();
+    if (!d.codigos.length) { const c = tb.insertRow().insertCell(); c.colSpan = 6; c.textContent = 'Todavía no hay ningún código.'; }
+    for (const c of d.codigos) { const tr = tb.insertRow(); if (!c.vigente) tr.style.opacity = '.55';
+      tr.insertCell().append(el('strong', c.codigo)); tr.insertCell().textContent = c.centro; tr.insertCell().textContent = c.curso;
+      tr.insertCell().textContent = c.hasta + (c.vigente ? '' : c.activo ? ' (caducado)' : ' (desactivado)'); tr.insertCell().textContent = c.usos + (c.usos === 1 ? ' vez' : ' veces');
+      const ca = tr.insertCell(); ca.className = 'su-acc';
+      ca.append(suBoton(c.activo ? 'Desactivar' : 'Activar', 'cc|' + c.codigo, () => postS({ accion: 'codigo_activo', codigo: c.codigo, activo: !c.activo }), c.activo)); } }
+  const pc = $('su-pend'); pc.textContent = '';
+  $('su-pend-caja').classList.toggle('oculto', !d.pendientes.length);
+  for (const c of d.pendientes) {
+    const tr = pc.insertRow();
+    const c1 = tr.insertCell(); const a = el('a', c.persona || '—'); a.href = '#'; a.onclick = e => { e.preventDefault(); suFicha(c.usuario); }; c1.append(a);
+    tr.insertCell().textContent = c.tipoTexto + (c.nivel ? ' · ' + c.nivel : '') + (c.desde ? ' · desde ' + c.desde : '') + ' · hasta ' + c.hasta + (c.motivo ? ' · ' + c.motivo : '') + (c.nota ? ' (' + c.nota + ')' : '');
+    tr.insertCell().textContent = 'Propuesto por ' + c.propuestoPor + ' el ' + c.propuestoEn;
+    const ca = tr.insertCell(); ca.className = 'su-acc';
+    if (d.puede.aprobar) ca.append(suBoton('Aprobar', 'ap|' + c.id, () => postS({ accion: 'aprobar', pendiente: c.id })), suBoton('Rechazar', 'rc|' + c.id, () => postS({ accion: 'rechazar', pendiente: c.id }), true));
+    else ca.textContent = 'Pendiente';
+  }
+}
+async function suLista() {
+  const qs = new URLSearchParams({ lista: 1, estado: suFiltro.estado, nivel: suFiltro.nivel, orden: suFiltro.orden, q: suFiltro.q, pagina: suFiltro.pagina });
+  const r = await fetch('/api/gestion/suscripciones?' + qs, { cache: 'no-store' });
+  const d = await r.json(); if (!r.ok) { msg(d.error, true); return; }
+  suCuentas = d.cuentas; suPintarCuentas();
+  $('su-f-estado').value = suFiltro.estado;
+  const t = $('su-lista'); t.textContent = '';
+  const h = t.createTHead().insertRow(); for (const x of ['Nº', 'Persona', 'Nivel', 'Estado', 'Hasta', '']) h.append(el('th', x));
+  const tb = t.createTBody();
+  if (!d.filas.length) { const c = tb.insertRow().insertCell(); c.colSpan = 6; c.textContent = 'No hay nadie con esos filtros.'; }
+  for (const f of d.filas) {
+    const tr = tb.insertRow(); tr.className = 'fila'; tr.onclick = () => suFicha(f.id);
+    tr.tabIndex = 0; tr.setAttribute('role', 'link'); tr.onkeydown = e => { if (e.key === 'Enter') suFicha(f.id); };   // también con teclado
+    tr.insertCell().textContent = f.numero || '—';
+    const c2 = tr.insertCell(); c2.append(f.correo); if (f.nombre) c2.append(el('div', f.nombre, 'nota'));
+    tr.insertCell().textContent = f.nivel || 'Registrado';
+    const c4 = tr.insertCell(); c4.append(suEtq(f.estado + (f.motivo ? ' · ' + f.motivo : ''), ETQ[f.estado]));
+    if (f.pendiente) c4.append(suEtq((f.pendiente.mejora ? 'mejora a ' : 'pide ') + f.pendiente.nivel + ' · ' + eurTxt(f.pendiente.importe), 'pend'));
+    tr.insertCell().textContent = f.hasta || (f.sinFin ? 'sin fin' : '');
+    tr.insertCell().append(el('span', 'Ficha →', 'nota'));
+  }
+  $('su-pag').textContent = `${d.total} personas · página ${d.pagina} de ${d.paginas}`;
+  $('su-ant').disabled = d.pagina <= 1; $('su-sig').disabled = d.pagina >= d.paginas;
+}
+$('su-ant').onclick = () => { suFiltro.pagina--; suLista(); };
+$('su-sig').onclick = () => { suFiltro.pagina++; suLista(); };
+$('su-f-nivel').onchange = () => { suFiltro.nivel = $('su-f-nivel').value; suFiltro.pagina = 1; suLista(); };
+$('su-f-orden').onchange = () => { suFiltro.orden = $('su-f-orden').value; suFiltro.pagina = 1; suLista(); };
+const suBuscar = () => { suFiltro.q = $('su-q').value.trim(); suFiltro.pagina = 1; suLista(); };
+$('b-su-q').addEventListener('click', suBuscar);
+$('su-q').addEventListener('keydown', e => { if (e.key === 'Enter') suBuscar(); });
+$('su-volver').onclick = () => { suPersona = null; $('su-vista-ficha').classList.add('oculto'); $('su-vista-lista').classList.remove('oculto'); suLista(); };
+
+function suDetalle(f) {
+  const p = el('p', null, 'nota'); p.style.margin = '4px 0 0';
+  p.append([f.desde ? 'Desde ' + f.desde : null, 'hasta ' + (f.hasta || 'sin fin'), f.forma ? FORMA_TXT[f.forma] : null, f.referencia, f.importe != null ? eurTxt(f.importe) : null, f.por ? 'por ' + f.por : null].filter(Boolean).join(' · '));
+  if (f.notas) p.append(el('br'), f.notas);
+  return p;
+}
+async function suFicha(uid) {
+  const r = await fetch('/api/gestion/suscripciones?usuario=' + encodeURIComponent(uid), { cache: 'no-store' });
+  const d = await r.json(); if (!r.ok) { msg(d.error, true); return; }
+  suPersona = uid; $('su-vista-lista').classList.add('oculto'); $('su-vista-ficha').classList.remove('oculto');
+  $('su-f-tit').textContent = (d.usuario.numero ? d.usuario.numero + ' · ' : '') + d.usuario.correo;
+  $('su-f-sub').textContent = [d.usuario.nombre, 'registrado el ' + d.usuario.alta, d.usuario.estado !== 'activo' ? 'cuenta ' + d.usuario.estado : null].filter(Boolean).join(' · ');
+  const P = suDatos.puede, a = d.actual, pe = d.pendiente;
+  // Solicitud pendiente de pago
+  const cp = $('su-f-pend'); cp.textContent = '';
+  if (pe) {
+    const c = el('div', null, 'su-caja amarilla');
+    c.append(el('h4', (pe.mejora ? 'Mejora pendiente de pago: ' : 'Solicitud pendiente de pago: ') + pe.nivelNombre + ' · ' + (pe.periodicidad === 'anual' ? 'anual' : 'mensual') + (pe.importe != null ? ' · ' + eurTxt(pe.importe) : '')));
+    c.append(el('p', 'Solicitada el ' + pe.desde + (pe.notas ? ' · ' + pe.notas : ''), 'nota'));
+    const ca = el('div', null, 'su-acc');
+    if (P.alta) {
+      const fo = el('select'); for (const x of suDatos.opciones.formas) fo.add(new Option(FORMA_TXT[x] || x, x));
+      const rf = el('input'); rf.placeholder = 'Referencia del cobro'; rf.size = 16;
+      const im = el('input'); im.value = pe.importe != null ? pe.importe.toFixed(2).replace('.', ',').replace(',00', '') : ''; im.size = 7; im.title = 'Importe recibido (€)';
+      ca.append(fo, rf, im, ' € ', suBoton('Confirmar pago', 'pg|' + pe.id, () => postS({ accion: 'activar', id: pe.id, forma: fo.value, referencia: rf.value.trim(), importe: im.value.trim() }), true));
+      if (pe.lanzamiento) ca.append(el('br'), suBoton('Activar con 3 meses gratis (lanzamiento)', 'lz|' + pe.id, () => postS({ accion: 'activar', id: pe.id, prueba: true }), true));
+    }
+    if (P.editar) ca.append(el('br'), suBoton('Anular la solicitud', 'an|' + pe.id, () => postS({ accion: 'anular', id: pe.id }), true));
+    c.append(ca); cp.append(c);
+  }
+  // Suscripción actual
+  const ca0 = $('su-f-actual'); ca0.textContent = '';
+  if (a) {
+    const c = el('div', null, 'su-caja');
+    const h = el('h4', 'Suscripción actual: ' + a.nivelNombre + ' '); h.append(suEtq(a.gratuito ? 'gratuita' + (a.motivo ? ' · ' + a.motivo : '') : a.prueba ? 'prueba gratis' : (a.periodicidad === 'anual' ? 'de pago · anual' : 'de pago · mensual'), a.gratuito || a.prueba ? 'grat' : ''));
+    if (a.situacion === 'programada') h.append(suEtq('programada'));
+    c.append(h, suDetalle(a));
+    const ac = el('div', null, 'su-acc');
+    if (P.alta && !a.gratuito && !a.prueba) ac.append(suBoton('Renovar un periodo', 'rn|' + a.id, () => postS({ accion: 'renovar', id: a.id }), true));
+    if (P.editar) {
+      const sel = el('select'); for (const n of suDatos.opciones.niveles) sel.add(new Option(n.nombre, n.clave)); sel.value = a.nivel;
+      ac.append(sel, suBoton('Cambiar nivel (corrección, sin cobro)', 'nv|' + a.id, () => postS({ accion: 'nivel', id: a.id, nivel: sel.value }), true));
+      if (a.gratuito) { const fi = el('input'); fi.type = 'date'; fi.title = 'Nueva fecha de fin (vacía = sin fin)';
+        ac.append(el('br'), 'Nueva fecha de fin: ', fi, suBoton('Cambiar fin', 'fn|' + a.id, () => postS({ accion: 'fin', id: a.id, hasta: fi.value || null }), true)); }
+    }
+    if (P.alta && !a.gratuito && !a.prueba) {   // activar la gratuidad de la suscripción (César, 28-10-2026)
+      const mo = el('select'); for (const m of suDatos.opciones.motivos) mo.add(new Option(m.nombre, m.clave));
+      const fh = el('input'); fh.type = 'date'; fh.title = 'Fin del acceso gratuito (vacío = sin fin)';
+      const no = el('input'); no.placeholder = 'Nota interna'; no.size = 14;
+      ac.append(el('br'), 'Pasar a gratuita: ', mo, ' hasta ', fh, no, suBoton('Pasar a gratuita', 'cv|' + a.id, () => postS({ accion: 'convertir', id: a.id, motivo: mo.value, hasta: fh.value || null, nota: no.value.trim() }), true));
+    }
+    if (P.editar) ac.append(el('br'), suBoton('Retirar desde hoy', 'rt|' + a.id, () => postS({ accion: 'retirar', id: a.id }), true));
+    c.append(ac); ca0.append(c);
+  }
+  // Alta (solo si no tiene suscripción, o si la que tiene es gratuita/prueba y se le da una de pago)
+  const puedeAlta = P.alta && (!a || a.gratuito || a.prueba);
+  $('su-f-form').classList.toggle('oculto', !puedeAlta);
+  if (puedeAlta) {
+    $('su-f-form-nota').textContent = !a ? 'No tiene suscripción. Puedes darle una de pago (cobrada fuera de la web) o un acceso gratuito.'
+      : `Tiene ${a.gratuito ? 'acceso gratuito' : 'prueba gratis'}: solo se le puede dar un alta de pago, y entonces terminará la que tiene (una sola por persona).`;
+    document.querySelector('input[name=su-tipo][value=gratuito]').disabled = !!a;
+    if (a) document.querySelector('input[name=su-tipo][value=pago]').checked = true;
+    suTipo();
+  }
+  // Historial
+  const th = $('su-f-hist'); th.textContent = '';
+  $('su-f-hist-caja').classList.toggle('oculto', !d.historial.length);
+  for (const f of d.historial) { const tr = th.insertRow(); const c1 = tr.insertCell(); c1.append(el('strong', f.nivelNombre), ' ');
+    c1.append(suEtq(f.situacion + (f.gratuito ? ' · gratuita' : ''), ['caducada', 'retirada'].includes(f.situacion) ? 'mal' : '')); tr.insertCell().append(suDetalle(f)); }
+  // Eliminar la cuenta (31-10-2026)
+  const bj = $('su-f-baja'); bj.classList.toggle('oculto', !d.baja); bj.open = false; $('su-f-baja-conf').value = '';
+  if (d.baja) {
+    const res = $('su-f-baja-res'); res.textContent = '';
+    const lin = t => res.append(el('p', t, 'nota'));
+    if (d.baja.roles.length) { lin(`Tiene roles en la gestión (${d.baja.roles.join(', ')}). Quítaselos antes en «Personas».`); $('b-su-baja').disabled = true; }
+    else {
+      $('b-su-baja').disabled = false;
+      lin('Se borran al momento sus datos, su contraseña, sus llaves, Google y sus preinscripciones de ZLabs. Le llega un correo de aviso. No se puede deshacer.');
+      if (d.baja.suscripcion) lin(`Su suscripción ${d.baja.suscripcion.nombre} (${d.baja.suscripcion.tipo === 'pago' ? 'de pago' : d.baja.suscripcion.tipo}) termina hoy. Si procede un reembolso, se decide y se hace a mano.`);
+      if (d.baja.bloqueada) lin('⚠ Tiene un periodo pagado en curso: desde Mi INNAZ no puede eliminar su cuenta hasta que termine. Elimínala aquí solo si lo pide por escrito (derecho de supresión).');
+      if (d.baja.zlabs.length) lin(`ZLabs: se borran ${d.baja.zlabs.map(z => z.referencia + ' (' + z.estado + ')').join(', ')}.`);
+      lin('Si hubo pagos, sus datos de facturación quedan bloqueados y cifrados el tiempo que obliga la ley.');
+    }
+  }
+  window.scrollTo({ top: $('t-suscripciones').offsetTop - 10, behavior: 'smooth' });
+}
+$('b-su-baja').addEventListener('click', async () => {
+  if (!suPersona) return;
+  if ($('su-f-baja-conf').value.trim().toUpperCase() !== 'ELIMINAR') { msg('Escribe ELIMINAR para confirmar.', true); $('su-f-baja-conf').focus(); return; }
+  $('b-su-baja').disabled = true; msg('Eliminando…');
+  const r = await postS({ accion: 'eliminar', usuario: suPersona, confirmar: 'ELIMINAR' });
+  $('b-su-baja').disabled = false; msg(r.d.mensaje || r.d.error, !r.ok);
+  if (r.ok) $('su-volver').click();
+});
+function suTipo() {
+  const pago = document.querySelector('input[name=su-tipo]:checked').value === 'pago';
+  document.querySelectorAll('.su-g').forEach(x => x.classList.toggle('oculto', pago));
+  document.querySelectorAll('.su-p').forEach(x => x.classList.toggle('oculto', !pago));
+  $('b-su-dar').textContent = pago ? 'Dar de alta (pagado)' : 'Dar acceso gratuito';
+}
+document.querySelectorAll('input[name=su-tipo]').forEach(x => x.addEventListener('change', suTipo));
+// ── Ventajas por nivel (César, 30-10-2026) ─────────────────────────────
+let veDatos = null;
+const postV = cuerpo => fetch('/api/gestion/ventajas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+  .then(async r => ({ ok: r.ok, d: await r.json().catch(() => ({ error: 'Respuesta inesperada (' + r.status + ').' })) })).catch(() => ({ ok: false, d: { error: 'Error de conexión.' } }));
+const veMsg = (t, mal) => { const m = $('ve-msg'); m.textContent = t || ''; m.style.color = mal ? '#a32020' : ''; };
+async function veCargar() {
+  const r = await fetch('/api/gestion/ventajas', { cache: 'no-store' }); const d = await r.json();
+  if (!r.ok) { veMsg(d.error, true); return; }
+  veDatos = d; $('ve-max').textContent = d.maxDestacadas; $('ve-nueva').classList.toggle('oculto', !d.puede.editar);
+  const dl = $('ve-grupos'); dl.textContent = ''; for (const g of d.grupos) dl.append(new Option(g));
+  vePintar();
+}
+function vePintar() {
+  const d = veDatos, puede = d.puede.editar, todas = $('ve-filtro').value === 'todas';
+  const t = $('ve-tabla'); t.textContent = '';
+  const h = t.createTHead().insertRow(); h.append(el('th', 'Ventaja'));
+  for (const n of d.niveles) { const th = el('th', n.nombre); th.className = 'nv'; h.append(th); }
+  const tb = t.createTBody(); let grupo = null, visibles = 0;
+  const ESTADO = { activo: null, proximamente: 'próximamente', oculto: 'oculta' };
+  for (const v of d.ventajas) {
+    if (!todas && v.estado === 'oculto') continue; visibles++;
+    if (v.grupo !== grupo) { grupo = v.grupo; const tr = tb.insertRow(); tr.className = 'grupo'; const c = tr.insertCell(); c.colSpan = d.niveles.length + 1; c.textContent = grupo; }
+    const tr = tb.insertRow(); if (v.estado === 'oculto') tr.className = 'oculta';
+    const tx = tr.insertCell(); tx.className = 'tx'; tx.append(el('span', v.codigo, 'cod'), v.texto);
+    if (ESTADO[v.estado]) tx.append(el('span', ESTADO[v.estado], 'etq'));
+    if (puede) { const e = el('button', 'Editar', 've-edit'); e.type = 'button'; e.onclick = () => veEditar(v, tx); tx.append(e); }
+    for (const n of d.niveles) {
+      const c = tr.insertCell(); c.className = 'nv'; const a = v.niveles[n.clave];
+      const cb = el('input'); cb.type = 'checkbox'; cb.checked = !!a; cb.disabled = !puede; cb.title = `${v.codigo} en ${n.nombre}`; cb.setAttribute('aria-label', `${v.texto} · ${n.nombre}`);
+      c.append(cb);
+      if (a) {
+        const det = el('input'); det.className = 've-det'; det.value = a.detalle || ''; det.placeholder = 'detalle'; det.maxLength = 80; det.disabled = !puede; det.title = 'Detalle (p. ej. «2 al año»)';
+        const st = el('button', '★', 'estrella' + (a.destacada ? ' si' : '')); st.type = 'button'; st.title = a.destacada ? 'Destacada en la página pública (pulsa para quitar)' : 'Destacar en la página pública'; st.disabled = !puede;
+        st.onclick = async () => { const r = await postV({ accion: 'asignar', codigo: v.codigo, nivel: n.clave, si: true, detalle: det.value, destacada: !a.destacada }); veMsg(r.d.mensaje || r.d.error, !r.ok); if (r.ok) await veCargar(); };
+        det.onchange = async () => { const r = await postV({ accion: 'asignar', codigo: v.codigo, nivel: n.clave, si: true, detalle: det.value, destacada: a.destacada }); veMsg(r.d.mensaje || r.d.error, !r.ok); if (r.ok) await veCargar(); };
+        c.append(det, st);
+      }
+      cb.onchange = async () => { cb.disabled = true; const r = await postV({ accion: 'asignar', codigo: v.codigo, nivel: n.clave, si: cb.checked, detalle: a?.detalle || '', destacada: false }); veMsg(r.d.mensaje || r.d.error, !r.ok); await veCargar(); };
+    }
+  }
+  const dest = d.niveles.map(n => `${n.nombre}: ${d.ventajas.filter(v => v.niveles[n.clave]).length} (${d.ventajas.filter(v => v.niveles[n.clave]?.destacada).length} ★)`).join(' · ');
+  $('ve-resumen').textContent = `— ${visibles} ventajas · ${dest}`;
+}
+function veEditar(v, celda) {
+  celda.textContent = '';
+  const tx = el('input'); tx.className = 'campo'; tx.value = v.texto; tx.maxLength = 200;
+  const gr = el('input'); gr.className = 'campo'; gr.value = v.grupo; gr.maxLength = 40; gr.setAttribute('list', 've-grupos'); gr.style.width = '12em';
+  const es = el('select'); es.className = 'campo'; es.style.width = 'auto'; for (const [k, n] of [['activo', 'Activa'], ['proximamente', 'Próximamente'], ['oculto', 'Oculta']]) es.add(new Option(n, k)); es.value = v.estado;
+  const ok = el('button', 'Guardar'); ok.type = 'button'; ok.style.cssText = 'margin:4px 6px 0 0;padding:4px 10px;font-size:.8rem';
+  const no = el('button', 'Cancelar', 'secundario'); no.type = 'button'; no.style.cssText = 'margin:4px 0 0;padding:4px 10px;font-size:.8rem';
+  const fila = el('div'); fila.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;align-items:center'; fila.append(gr, es, ok, no);
+  celda.append(el('span', v.codigo, 'cod'), tx, fila); tx.focus();
+  no.onclick = () => vePintar();
+  ok.onclick = async () => { ok.disabled = true; const r = await postV({ accion: 'editar', codigo: v.codigo, texto: tx.value, grupo: gr.value, estado: es.value }); veMsg(r.d.mensaje || r.d.error, !r.ok); if (r.ok) await veCargar(); else ok.disabled = false; };
+}
+$('ve-filtro').addEventListener('change', vePintar);
+$('b-ve-crear').addEventListener('click', async () => {
+  const b = $('b-ve-crear'); b.disabled = true; veMsg('Un momento…');
+  const r = await postV({ accion: 'crear', texto: $('ve-texto').value, grupo: $('ve-grupo').value, estado: $('ve-estado').value, codigo: $('ve-codigo').value });
+  b.disabled = false; veMsg(r.d.mensaje || r.d.error, !r.ok);
+  if (r.ok) { ['ve-texto', 've-codigo'].forEach(k => $(k).value = ''); await veCargar(); }
+});
+$('b-cc').addEventListener('click', async () => {
+  const b = $('b-cc'); b.disabled = true; msg('Un momento…');
+  const r = await postS({ accion: 'codigo_crear', centro: $('cc-centro').value.trim(), curso: $('cc-curso').value.trim(), codigo: $('cc-codigo').value.trim(), hasta: $('cc-hasta').value || null });
+  b.disabled = false; msg(r.d.mensaje || r.d.error, !r.ok);
+  if (r.ok) { ['cc-centro', 'cc-codigo', 'cc-hasta'].forEach(k => $(k).value = ''); await suPortada(); $('su-cod-caja').open = true; }
+});
+let suConfirmaGratuito = false;
+$('b-su-dar').addEventListener('click', async () => {
+  if (!suPersona) return;
+  const pago = document.querySelector('input[name=su-tipo]:checked').value === 'pago';
+  const cuerpo = pago
+    ? { accion: 'pago', usuario: suPersona, nivel: $('su-nivel').value, desde: $('su-desde').value, periodicidad: $('su-per').value,
+        forma: $('su-forma').value, referencia: $('su-ref').value.trim(), importe: $('su-imp').value.trim(), cerrarGratuito: suConfirmaGratuito }
+    : { accion: 'gratuito', usuario: suPersona, nivel: $('su-nivel').value, desde: $('su-desde').value, hasta: $('su-hasta').value || null,
+        motivo: $('su-motivo').value, nota: $('su-nota').value.trim() };
+  const b = $('b-su-dar'); b.disabled = true; msg('Un momento…');
+  const r = await postS(cuerpo); b.disabled = false;
+  if (r.status === 409 && r.d.aviso) { suConfirmaGratuito = true; b.textContent = 'Confirmar: dar de alta y cerrar el gratuito'; msg(r.d.error, true); return; }
+  suConfirmaGratuito = false; msg(r.d.mensaje || r.d.error, !r.ok);
+  if (r.ok) { ['su-hasta', 'su-nota', 'su-ref', 'su-imp'].forEach(k => $(k).value = ''); await suRefrescar(); }
+});
+
+async function arrancar() {
+  // ¿Viene del enlace del correo para crear la contraseña? (#clave=…)
+  const m = location.hash.match(/^#clave=([A-Za-z0-9_-]{20,100})$/);
+  if (m) {
+    const ficha = m[1]; history.replaceState(null, '', location.pathname);   // fuera de la barra de direcciones
+    const r = await post({ accion: 'ver_enlace', ficha });
+    ver('v-clave');
+    if (!r.ok) { $('c-intro').textContent = ''; $('v-clave').querySelectorAll('input,button,label,.nota').forEach(x => x.classList.add('oculto')); msg(r.d.error, true); return; }
+    $('titulo').textContent = r.d.motivo === 'alta' ? 'Crea tu contraseña' : 'Contraseña nueva';
+    $('c-intro').textContent = (r.d.nombre ? 'Hola, ' + r.d.nombre + '. ' : '') + 'Vas a crear la contraseña de ' + r.d.correo + ' para la gestión de INNAZ.';
+    $('c-usuario').value = r.d.correo;
+    $('v-clave').onsubmit = async ev => { ev.preventDefault();
+      if ($('c-clave').value !== $('c-clave2').value) { msg('Las dos contraseñas no coinciden.', true); $('c-clave2').focus(); return; }
+      $('b-clave').disabled = true; msg('Un momento…');
+      const x = await post({ accion: 'crear', ficha, clave: $('c-clave').value }); $('b-clave').disabled = false;
+      if (!x.ok) { msg(x.d.error, true); return; }
+      $('titulo').textContent = 'Gestión'; msg(''); await panel(); msg(x.d.mensaje); };
+    $('c-clave').focus(); return;
+  }
+  const e = await fetch('/api/gestion/acceso', { cache: 'no-store' }).then(r => r.json()).catch(() => ({}));
+  if (e.gestion) return panel();
+  ver('v-entrar'); if (e.usuario) $('e-correo').value = e.usuario.correo; ($('e-correo').value ? $('e-clave') : $('e-correo')).focus();
+}
+$('v-entrar').addEventListener('submit', async ev => { ev.preventDefault();
+  const correo = $('e-correo').value.trim(), clave = $('e-clave').value;
+  if (!correo || !clave) { msg('Escribe tu correo y tu contraseña.', true); return; }
+  $('b-entrar').disabled = true; msg('Un momento…');
+  const r = await post({ accion: 'entrar', correo, clave }); $('b-entrar').disabled = false;
+  if (!r.ok) { msg(r.d.error, true); $('e-clave').select(); return; }
+  $('e-clave').value = ''; msg(''); await panel();
+});
+$('a-olvido').addEventListener('click', ev => { ev.preventDefault(); $('o-correo').value = $('e-correo').value; $('o-sim').classList.add('oculto'); msg(''); ver('v-olvido'); $('o-correo').focus(); });
+$('a-volver').addEventListener('click', ev => { ev.preventDefault(); msg(''); ver('v-entrar'); });
+$('v-olvido').addEventListener('submit', async ev => { ev.preventDefault();
+  $('b-olvido').disabled = true; msg('Un momento…');
+  const r = await post({ accion: 'olvido', correo: $('o-correo').value }); $('b-olvido').disabled = false;
+  msg(r.d.mensaje || r.d.error, !r.ok);
+  if (r.d.enlace_simulado) { const s = $('o-sim'); s.classList.remove('oculto'); s.textContent = 'Modo simulación (solo en pruebas): este es el enlace que llegaría por correo → ';
+    const a = document.createElement('a'); a.href = r.d.enlace_simulado; a.textContent = 'crear contraseña'; a.onclick = () => setTimeout(() => location.reload(), 50); s.append(a); }
+});
+$('f-cambiar').addEventListener('submit', async ev => { ev.preventDefault();
+  if ($('x-nueva').value !== $('x-nueva2').value) { msg('Las dos contraseñas nuevas no coinciden.', true); return; }
+  $('b-cambiar').disabled = true; msg('Un momento…');
+  const r = await post({ accion: 'cambiar', actual: $('x-actual').value, nueva: $('x-nueva').value }); $('b-cambiar').disabled = false;
+  msg(r.d.mensaje || r.d.error, !r.ok); if (r.ok) { ['x-actual', 'x-nueva', 'x-nueva2'].forEach(k => $(k).value = ''); $('cambiar-caja').open = false; }
+  if (r.d.entrar) ver('v-entrar');
+});
+$('b-salir').addEventListener('click', async () => { await fetch('/api/acceso/salir', { method: 'POST' }); location.replace('/gestion'); });
+window.addEventListener('hashchange', () => { if (/^#clave=/.test(location.hash)) location.reload(); });
+arrancar();
+</script>
+</body>
+</html>

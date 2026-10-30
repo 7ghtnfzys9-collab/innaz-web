@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Instalar · Mi INNAZ pruebas</title>
+<link rel="stylesheet" href="mi-innaz.css">
+</head>
+<body>
+<div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
+<main>
+  <div class="caja">
+    <p class="marca">INNA<span class="z">Z</span></p>
+    <h1>Crear la base de datos de pruebas</h1>
+    <p>Crea la base o la pone al día. No borra nada: lo que ya existe no se toca.</p>
+    <button id="b" type="button">Crear o actualizar la base de datos</button>
+    <pre id="msg" class="mensaje" style="white-space:pre-wrap"></pre>
+  </div>
+</main>
+<script>
+const msg = document.getElementById('msg');
+document.getElementById('b').addEventListener('click', async () => {
+  msg.textContent = '';
+  for (const paso of ['estructura', 'semilla', 'migrar']) {
+    const r = await fetch('/api/instalar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ paso }) });
+    const d = await r.json();
+    msg.textContent += (d.ok ? '✓ ' : '✗ ') + (d.hecho || d.error) + (d.recuento ? '\n  ' + JSON.stringify(d.recuento) : '') + '\n';
+    if (!d.ok) return;
+  }
+  msg.textContent += '\nListo. Ya se puede probar en /entrar';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Mi preinscripción · ZLabs 2027 · INNAZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Cormorant+SC:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mi-innaz.css">
+</head>
+<body>
+<div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
+<main class="ancha">
+  <div class="caja">
+    <p class="marca">INNA<span class="z">Z</span></p>
+    <h1>Mi preinscripción · <span class="z">Z</span>Labs 2027</h1>
+    <p id="cargando">Cargando…</p>
+    <div id="resumen" class="oculto">
+      <p>Referencia <strong id="r-ref"></strong> · <span id="r-mod"></span><br>Estado: <strong id="r-estado"></strong></p>
+      <p id="r-bloqueada" class="nota oculto"></p>
+    </div>
+
+    <form id="f" class="oculto" novalidate>
+      <p class="leyenda">Lo que cambies se verá <span class="cambiado">en azul</span>; lo que siga en negro se mantiene igual.</p>
+      <fieldset>
+        <legend>Tus datos</legend>
+        <div class="dos">
+          <div><label for="nombre">Nombre</label><input id="nombre" type="text" maxlength="80"></div>
+          <div><label for="apellidos">Apellidos</label><input id="apellidos" type="text" maxlength="120"></div>
+        </div>
+        <div class="dos">
+          <div><label for="correo">Correo electrónico</label><input id="correo" type="email"></div>
+          <div><label for="telefono">Teléfono</label><input id="telefono" type="tel"></div>
+        </div>
+        <div class="dos">
+          <div><label for="fecha_nacimiento">Fecha de nacimiento</label><input id="fecha_nacimiento" type="date"></div>
+          <div><label for="documento_tipo">Documento</label>
+            <div class="doc"><select id="documento_tipo"><option value="dni">DNI</option><option value="nie">NIE</option><option value="pasaporte">Pasaporte</option></select>
+            <input id="documento" type="text" autocomplete="off" maxlength="20"></div></div>
+        </div>
+        <p class="nota" id="nota-doc"></p>
+        <p class="nota" id="nota-dir">Dirección: déjala vacía para no cambiarla; si escribes algo, rellénala entera.</p>
+        <fieldset class="sub"><legend>Dirección postal</legend>
+        <div class="tres">
+          <div class="ancho2"><label for="dir_calle">Calle (tipo y nombre de la vía)</label><input id="dir_calle" type="text" autocomplete="address-line1" maxlength="120" placeholder="Calle Mayor"></div>
+          <div><label for="dir_numero">Número</label><input id="dir_numero" type="text" maxlength="10" placeholder="1 o s/n"></div>
+        </div>
+        <div class="tres">
+          <div><label for="dir_piso">Piso / puerta (opcional)</label><input id="dir_piso" type="text" autocomplete="address-line2" maxlength="30" placeholder="3.º B"></div>
+          <div><label for="dir_cp">Código postal</label><input id="dir_cp" type="text" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
+          <div><label for="dir_poblacion">Población</label><input id="dir_poblacion" type="text" autocomplete="address-level2" maxlength="80"></div>
+        </div>
+        <div class="dos">
+          <div><label for="dir_provincia">Provincia</label><input id="dir_provincia" type="text" autocomplete="address-level1" maxlength="80"></div>
+          <div><label for="dir_pais">País</label><input id="dir_pais" type="text" autocomplete="country-name" maxlength="60" placeholder="España"></div>
+        </div>
+        </fieldset>
+        <div class="dos">
+          <div><label for="centro">Centro de estudios (opcional)</label><input id="centro" type="text" maxlength="150"></div>
+
+        </div>
+      </fieldset>
+      <fieldset id="bloque-activo" class="oculto">
+        <legend>Audición</legend>
+        <label for="cuerda">Cuerda</label>
+        <select id="cuerda"><option value="">Elige…</option><option value="soprano">Soprano</option><option value="mezzosoprano">Mezzosoprano</option><option value="tenor">Tenor</option><option value="baritono">Barítono</option></select>
+        <label for="video_romanza">Enlace al vídeo 1: romanza de zarzuela</label><input id="video_romanza" type="url" maxlength="500">
+        <label for="video_texto">Enlace al vídeo 2: lectura del texto</label><input id="video_texto" type="url" maxlength="500">
+      </fieldset>
+      <div class="casilla oculto" id="c-mis-datos"><input id="guardar_mis_datos" type="checkbox" checked><label for="guardar_mis_datos">Guardar también los cambios en «Mis datos».</label></div>
+      <button type="submit" id="guardar">Guardar cambios</button>
+      <button type="button" id="cancelar" class="secundario">Cancelar mi preinscripción</button>
+      <p class="nota">Para cambiar de modalidad (activo u oyente), cancela esta preinscripción y haz otra nueva.</p>
+    </form>
+    <p id="msg" class="mensaje" role="status"></p>
+    <p id="volver" class="oculto"><a href="/mi-innaz#zlabs">← Volver a Mi INNAZ</a></p>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+// La parte secreta del enlace va tras «#»: se lee y se borra de la barra de direcciones.
+// Desde Mi INNAZ (28-10-2026) llega «#ref=ZL27-XXXXXX» y se usa la sesión abierta en vez del enlace secreto.
+const trozo = location.hash.slice(1);
+const ref = trozo.startsWith('ref=') ? trozo.slice(4) : null;
+const ficha = ref ? null : trozo;
+if (!ref) history.replaceState(null, '', location.pathname);
+const CAMPOS = ['nombre','apellidos','correo','telefono','fecha_nacimiento','documento_tipo','centro','cuerda','video_romanza','video_texto'];
+const DIR = ['dir_calle','dir_numero','dir_piso','dir_cp','dir_poblacion','dir_provincia','dir_pais'];
+const TODOS = [...CAMPOS, 'documento', ...DIR];
+// Valores de partida: lo que se escriba distinto se pinta en azul (César, 28-10-2026)
+let original = {};
+function fijarOriginal() { original = Object.fromEntries(TODOS.map(k => [k, $(k).value])); marcar(); }
+function marcar() { TODOS.forEach(k => $(k).classList.toggle('cambiado', $(k).value !== original[k])); }
+TODOS.forEach(k => { $(k).addEventListener('input', marcar); $(k).addEventListener('change', marcar); });
+let modalidad = null;
+
+async function api(accion, datos) {
+  const r = await fetch('/api/zlabs/mi', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ref ? { ref, accion, datos } : { ficha, accion, datos }) });
+  return [r.ok, await r.json()];
+}
+function aviso(txt, error) { $('msg').className = 'mensaje' + (error ? ' error' : ''); $('msg').textContent = txt; }
+
+(async () => {
+  if (!ficha && !ref) { $('cargando').textContent = 'Falta el enlace personal. Ábrelo desde el correo de confirmación.'; return; }
+  const [ok, d] = await api('ver').catch(() => [false, { error: 'Error de conexión.' }]);
+  $('cargando').classList.add('oculto');
+  if (!ok) { aviso(d.error || 'No se ha podido abrir la preinscripción.', true); if (ref) $('volver').classList.remove('oculto');
+    if (d.entrar) $('msg').insertAdjacentHTML('beforeend', ' <a href="/entrar">Entrar en Mi INNAZ</a>'); return; }
+  if (d.ir_a_cuenta) { location.replace('/zlabs-mi-preinscripcion#ref=' + d.ref); location.reload(); return; }   // se gestiona en Mi INNAZ
+  const p = d.p; modalidad = p.modalidad;
+  $('resumen').classList.remove('oculto');
+  if (ref) $('volver').classList.remove('oculto');
+  $('r-ref').textContent = p.referencia;
+  $('r-mod').textContent = p.modalidad === 'activo' ? 'Alumno activo' : 'Oyente';
+  $('r-estado').textContent = d.estado_texto;
+  if (!d.editable) { const b = $('r-bloqueada'); b.classList.remove('oculto');
+    b.textContent = d.estado === 'anulada' ? 'Esta preinscripción está cancelada.' : `Ya no se puede cambiar desde aquí. Si necesitas algo, escríbenos a ${d.contacto}.`; return; }
+  [...CAMPOS, 'documento', ...DIR].forEach(k => { if ($(k) && p[k] != null) $(k).value = p[k]; });
+  if (d.cuenta) { $('correo').readOnly = true; $('correo').classList.add('fijo'); }   // hecha desde Mi INNAZ: el correo es el de la cuenta
+  if (ref) { $('nota-dir').classList.add('oculto'); $('c-mis-datos').classList.remove('oculto'); }   // con la sesión salen todos los datos
+  else $('nota-doc').textContent = `Documento guardado terminado en …${p.documento_fin}. Deja el número vacío para no cambiarlo.`;
+  fijarOriginal();
+  $('bloque-activo').classList.toggle('oculto', modalidad !== 'activo');
+  $('f').classList.remove('oculto');
+})();
+
+$('f').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  document.querySelectorAll('.con-error').forEach(x => x.classList.remove('con-error'));
+  const datos = Object.fromEntries(CAMPOS.map(k => [k, $(k).value]));
+  datos.documento = $('documento').value; DIR.forEach(k => datos[k] = $(k).value);
+  aviso('Guardando…'); $('guardar').disabled = true;
+  const cuerpo = ref ? { ref, accion: 'corregir', datos, guardar_mis_datos: $('guardar_mis_datos').checked } : null;
+  const [ok, d] = await (cuerpo
+    ? fetch('/api/zlabs/mi', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) }).then(async r => [r.ok, await r.json()])
+    : api('corregir', datos)).catch(() => [false, { error: 'Error de conexión.' }]);
+  $('guardar').disabled = false;
+  if (!ok) { aviso(d.error, true); if (d.campo && $(d.campo)) { $(d.campo).classList.add('con-error'); $(d.campo).focus(); } return; }
+  if (!ref) { $('documento').value = ''; DIR.forEach(k => $(k).value = ''); }   // con el enlace antiguo no se enseñan
+  fijarOriginal(); aviso(d.mensaje);
+});
+
+// Cancelar: hay que pulsar dos veces (sin ventanas emergentes).
+let armado = false;
+$('cancelar').addEventListener('click', async () => {
+  if (!armado) { armado = true; $('cancelar').textContent = 'Pulsa otra vez para confirmar la cancelación';
+    setTimeout(() => { armado = false; $('cancelar').textContent = 'Cancelar mi preinscripción'; }, 6000); return; }
+  $('cancelar').disabled = true;
+  const [ok, d] = await api('cancelar').catch(() => [false, { error: 'Error de conexión.' }]);
+  if (!ok) { aviso(d.error, true); $('cancelar').disabled = false; return; }
+  $('f').classList.add('oculto'); $('r-estado').textContent = 'Cancelada'; aviso(d.mensaje);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Mi INNAZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Cormorant+SC:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mi-innaz.css">
+<style>
+.curso{border:1px solid #d9d9d9;border-left:4px solid #0097B2;padding:12px 14px;margin:12px 0;background:#fff}
+.curso.apagado{border-left-color:#bbb;opacity:.65}
+.curso-tit{font-family:'Cormorant',Georgia,serif;font-weight:600;font-size:1.25rem}
+.curso-estado{margin:6px 0}
+.pasos{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:8px 0}
+.pasos li{font-size:.8rem;padding:3px 9px;border:1px solid #ccc;border-radius:12px;color:#777}
+.pasos li.hecho{background:#0097B2;border-color:#0097B2;color:#fff}
+.pasos li.actual{border-color:#0097B2;color:#0097B2;font-weight:500}
+.curso-sig{margin:6px 0;font-size:.95rem}
+/* Pestañas de Mi INNAZ (César, 28-10-2026): Inicio y ventajas · Mi suscripción · Mis datos · Mis ZLabs */
+.pestanas{display:flex;flex-wrap:wrap;gap:4px;border-bottom:2px solid var(--linea);margin:18px 0 0}
+.pestanas button{margin:0;padding:9px 16px;background:#f3f1ec;color:#555;border:0;border-top:3px solid var(--c,#0097B2);font-weight:500}
+.pestanas button:hover{background:color-mix(in srgb,var(--c,#0097B2) 15%,#fff)}
+.pestanas button[aria-selected="true"]{background:var(--c,#0097B2);color:#fff}
+.pestana{padding-top:8px}
+.pestana h2{font-family:'Cormorant',Georgia,serif;font-weight:600}
+.ficha-susc{border:1px solid var(--linea);border-left:4px solid var(--teal);padding:14px 16px;background:#fff;margin:12px 0}
+.ficha-susc dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:8px 0 0}
+.ficha-susc dt{color:var(--gris)}
+.ficha-susc dd{margin:0}
+.pago-caja{border:1px solid #e6d9a6;border-left:4px solid #c9a227;background:#fff8e1;padding:14px 16px;margin:12px 0}
+.pago-caja table td{padding:2px 12px 2px 0}
+@media (max-width:600px){.pestanas button{flex:1 1 45%}}
+  #reauth:not(.oculto) { display:flex; }
+</style>
+</head>
+<body>
+<div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
+<main class="ancha">
+  <div class="caja" id="caja">
+    <p class="marca">INNA<span class="z">Z</span></p>
+    <h1 id="saludo">Mi INNAZ</h1>
+    <p id="bienvenida" class="oculto">¡Tu cuenta está creada!</p>
+    <p id="confirmado" class="mensaje oculto" role="status" style="padding:10px 12px;border-left:4px solid #0097B2;background:#faf8f4">✓ Correo confirmado. Ya puedes suscribirte e inscribirte en ZLabs.</p>
+    <!-- Reautenticación para acciones sensibles · auditoría 30-10-2026 (decisión B) -->
+    <div id="reauth" class="oculto" role="dialog" aria-modal="true" aria-labelledby="ra-titulo" style="position:fixed;inset:0;background:rgba(0,0,0,.45);align-items:center;justify-content:center;padding:16px;z-index:50">
+      <div class="caja" style="max-width:420px;width:100%;margin:0">
+        <h2 id="ra-titulo" style="margin-top:0">Confirma que eres tú</h2>
+        <p class="nota">Por seguridad, para esta acción necesitamos que vuelvas a identificarte.</p>
+        <form id="f-ra" class="oculto" novalidate>
+          <input type="email" id="ra-usuario" autocomplete="username" class="oculto" tabindex="-1">
+          <label for="ra-clave">Tu contraseña</label>
+          <input id="ra-clave" type="password" autocomplete="current-password">
+          <button type="submit" style="margin-top:12px">Continuar</button>
+        </form>
+        <div id="ra-otras" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"></div>
+        <p id="ra-msg" class="mensaje" role="status"></p>
+        <p style="margin:14px 0 0"><button type="button" id="ra-cancelar" class="secundario">Cancelar</button></p>
+      </div>
+    </div>
+    <!-- Datos básicos obligatorios que faltan (cuentas antiguas) · César, 30-10-2026 -->
+    <section id="completar" class="oculto" style="padding:14px 16px;border-left:4px solid #c9a227;background:#fff8e1;margin:10px 0">
+      <h2 style="margin-top:0">Completa tus datos básicos</h2>
+      <p>Para seguir usando Mi INNAZ necesitamos tu nombre, tus apellidos y tu país de residencia.</p>
+      <form id="f-completar" novalidate>
+        <div class="dos">
+          <div><label for="k-nombre">Nombre</label><input id="k-nombre" type="text" autocomplete="given-name" maxlength="80"></div>
+          <div><label for="k-apellidos">Apellidos</label><input id="k-apellidos" type="text" autocomplete="family-name" maxlength="120"></div>
+        </div>
+        <label for="k-pais">País de residencia</label><select id="k-pais" autocomplete="country"></select>
+        <button type="submit" style="margin-top:14px">Guardar y continuar</button>
+        <p id="k-msg" class="mensaje" role="status"></p>
+      </form>
+    </section>
+    <!-- Resultado al volver de la página de suscripciones (28-10-2026) -->
+    <p id="solicitud" class="mensaje oculto" role="status" style="padding:10px 12px;border-left:4px solid #0097B2;background:#faf8f4"></p>
+    <!-- Cuenta nueva con el correo sin confirmar (contraseña o Face ID, 30-10-2026) -->
+    <div id="confirmar" class="oculto" role="status" style="padding:10px 14px;border-left:4px solid #c9a227;background:#fff8e1;margin:10px 0">
+      <strong>Confirma tu correo.</strong> Te hemos enviado un enlace a <span id="confirmar-correo"></span>. Hasta que lo pulses no podrás suscribirte ni inscribirte en ZLabs.
+      <br><button type="button" id="b-reenviar" class="secundario" style="margin:8px 0 0;padding:5px 12px;font-size:.85rem">Enviarme otra vez el enlace</button>
+      <span id="confirmar-msg" class="nota" style="margin-left:8px"></span>
+      <div id="confirmar-sim" class="simulado oculto"></div>
+    </div>
+    <nav id="pestanas" class="pestanas" role="tablist">
+      <button type="button" role="tab" data-p="inicio">Inicio y ventajas</button>
+      <button type="button" role="tab" data-p="suscripcion">Mi suscripción</button>
+      <button type="button" role="tab" data-p="datos">Mis datos</button>
+      <button type="button" role="tab" data-p="zlabs" style="--c:#6F8AC6">Mis <span class="z">Z</span>Labs</button>
+    </nav>
+
+    <!-- Pestaña · Inicio y ventajas -->
+    <section id="p-inicio" class="pestana" role="tabpanel">
+      <p id="pendiente" class="oculto" style="padding:10px 12px;border-left:4px solid #c9a227;background:#fff8e1"></p>
+      <p><strong>Correo:</strong> <span id="correo"></span></p>
+      <p><strong>Nivel:</strong> <span id="nivel"></span> <a id="a-susc" class="oculto" href="/suscripciones" style="margin-left:8px;font-size:.9rem">Ver suscripciones →</a></p>
+      <p><strong>Boletín:</strong> <span id="boletin"></span></p>
+      <h2>Tus ventajas</h2>
+      <ul class="ventajas" id="ventajas"></ul>
+    </section>
+
+    <!-- Pestaña · Mi suscripción (punto 3, 28-10-2026) -->
+    <section id="p-suscripcion" class="pestana oculto" role="tabpanel">
+      <h2>Mi suscripción</h2>
+      <div id="su-actual"></div>
+      <div id="su-pago" class="pago-caja oculto"></div>
+      <p><a class="boton" id="su-boton" href="/suscripciones">Ver suscripciones</a></p>
+      <p class="nota">Solo se puede tener una suscripción. Para bajar de nivel, cambiar de mensual a anual o darte de baja, escríbenos a <a href="mailto:info@innaz.es">info@innaz.es</a>.</p>
+    </section>
+
+    <!-- Pestaña · Mis ZLabs (antes «Mis cursos», renombrado por César el 28-10-2026) -->
+    <section id="p-zlabs" class="pestana oculto" role="tabpanel" style="--teal:#6F8AC6;--teal-osc:#4C66A3">
+      <h2 style="font-family:'Cormorant',Georgia,serif;font-weight:600">Mis <span class="z" style="color:#0097B2">Z</span>Labs</h2>
+      <p id="zl-error" class="nota oculto">No se ha podido cargar ZLabs ahora mismo.</p>
+      <div id="zlabs" class="oculto">
+      <p id="zl-vacio" class="nota oculto">Todavía no estás inscrito en ningún ZLabs.</p>
+      <div id="zl-lista"></div>
+      <p id="zl-susc" class="susc"></p>
+      <a class="boton oculto" id="zl-nueva" href="/zlabs-preinscripcion">Preinscribirme en ZLabs</a>
+      <p id="zl-cerrada" class="nota oculto">La preinscripción no está abierta ahora.</p>
+      <div class="simular oculto" id="simular"><strong>Solo en la web de pruebas:</strong> simular una suscripción para probar el descuento.<br>
+        <button type="button" data-t="anual">Anual pagada</button><button type="button" data-t="prueba">En prueba gratis</button>
+        <button type="button" data-t="mensual">Mensual</button><button type="button" data-t="quitar" class="secundario">Quitar</button>
+        <span id="sim-msg" class="nota"></span></div>
+      </div>
+    </section>
+
+    <!-- Pestaña · Mis datos (28-10-2026) -->
+    <section id="p-datos" class="pestana oculto" role="tabpanel">
+    <h2>Mis datos</h2>
+    <p class="nota">Se usan para rellenar solos tus formularios (ZLabs, facturas…). Nombre, apellidos y país son obligatorios. El documento y la dirección
+      se guardan cifrados y solo hacen falta para suscribirte o inscribirte en ZLabs.</p>
+    <form id="f-datos" novalidate>
+      <div class="dos">
+        <div><label for="nombre">Nombre</label><input id="nombre" type="text" autocomplete="given-name" maxlength="80"></div>
+        <div><label for="apellidos">Apellidos</label><input id="apellidos" type="text" autocomplete="family-name" maxlength="120"></div>
+      </div>
+      <div class="dos">
+        <div><label for="pais">País de residencia</label><select id="pais" autocomplete="country"></select></div>
+        <div></div>
+      </div>
+      <div class="dos">
+        <div><label for="telefono">Teléfono</label><input id="telefono" type="tel" autocomplete="tel"></div>
+        <div><label for="fecha_nacimiento">Fecha de nacimiento</label><input id="fecha_nacimiento" type="date"></div>
+      </div>
+      <div class="dos">
+        <div><label for="documento_tipo">Documento</label>
+          <div class="doc"><select id="documento_tipo"><option value="dni">DNI</option><option value="nie">NIE</option><option value="pasaporte">Pasaporte</option></select>
+          <input id="documento" type="text" autocomplete="off" maxlength="20"></div>
+          <p class="nota" id="nota-doc"></p></div>
+        <div><label for="centro">Centro de estudios (opcional)</label><input id="centro" type="text" maxlength="150"></div>
+      </div>
+      <fieldset class="sub"><legend>Dirección postal</legend>
+      <div class="tres">
+        <div class="ancho2"><label for="dir_calle">Calle (tipo y nombre de la vía)</label><input id="dir_calle" type="text" autocomplete="address-line1" maxlength="120"></div>
+        <div><label for="dir_numero">Número</label><input id="dir_numero" type="text" maxlength="10" placeholder="1 o s/n"></div>
+      </div>
+      <div class="tres">
+        <div><label for="dir_piso">Piso / puerta (opcional)</label><input id="dir_piso" type="text" autocomplete="address-line2" maxlength="30"></div>
+        <div><label for="dir_cp">Código postal</label><input id="dir_cp" type="text" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
+        <div><label for="dir_poblacion">Población</label><input id="dir_poblacion" type="text" autocomplete="address-level2" maxlength="80"></div>
+      </div>
+      <div class="dos">
+        <div><label for="dir_provincia">Provincia</label><input id="dir_provincia" type="text" autocomplete="address-level1" maxlength="80"></div>
+        <div><label for="dir_pais">País</label><input id="dir_pais" type="text" autocomplete="country-name" maxlength="60"></div>
+      </div>
+      </fieldset>
+      <button type="submit" id="g-datos">Guardar mis datos</button>
+      <p id="msg-datos" class="mensaje" role="status"></p>
+    </form>
+    <!-- Contraseña de Mi INNAZ · 30-10-2026 -->
+    <div id="mi-clave" style="margin-top:22px;padding-top:6px;border-top:1px solid var(--linea)">
+      <h3 id="mc-titulo">Mi contraseña</h3>
+      <p id="mc-nota" class="nota"></p>
+      <p id="mc-google" class="nota oculto"><span id="mc-google-txt"></span> <button type="button" id="mc-google-quitar" class="enlace-mini">Quitar Google</button></p>
+      <form id="f-clave" novalidate>
+        <input type="email" id="mc-correo" autocomplete="username" class="oculto" tabindex="-1">
+        <div id="mc-actual-caja"><label for="mc-actual">Contraseña actual</label><input id="mc-actual" type="password" autocomplete="current-password"></div>
+        <div class="dos">
+          <div><label for="mc-nueva">Contraseña nueva</label><input id="mc-nueva" type="password" autocomplete="new-password"></div>
+          <div><label for="mc-nueva2">Repítela</label><input id="mc-nueva2" type="password" autocomplete="new-password"></div>
+        </div>
+        <p class="nota" style="margin-top:4px">Al menos 12 caracteres. Al cambiarla se cierran tus sesiones en otros navegadores.</p>
+        <button type="submit" id="mc-boton" class="secundario">Cambiar mi contraseña</button>
+        <p id="mc-msg" class="mensaje" role="status"></p>
+      </form>
+    </div>
+    <!-- Llaves de acceso (Face ID / Touch ID) · 29-10-2026 -->
+    <div id="llaves" style="margin-top:22px;padding-top:6px;border-top:1px solid var(--linea)"></div>
+    <!-- Eliminar mi cuenta · 31-10-2026 (César): se borra al momento, tras confirmar -->
+    <div id="baja" style="margin-top:28px;padding-top:6px;border-top:1px solid var(--linea)">
+      <h3>Eliminar mi cuenta</h3>
+      <p class="nota">Se borran tus datos y tus formas de entrar, y no se puede deshacer. Podrás volver a registrarte cuando quieras.</p>
+      <button type="button" id="b-baja" class="secundario peligro">Eliminar mi cuenta…</button>
+      <div id="baja-caja" class="oculto" style="margin-top:12px;padding:12px 14px;border-left:4px solid var(--error);background:#fdf3f3">
+        <div id="baja-resumen"></div>
+        <label for="baja-confirmar">Para confirmarlo, escribe <strong>ELIMINAR</strong></label>
+        <input id="baja-confirmar" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        <button type="button" id="b-baja-ok" class="peligro-lleno" style="margin-top:12px">Eliminar mi cuenta para siempre</button>
+        <button type="button" id="b-baja-no" class="secundario" style="margin-top:12px;margin-left:8px">Cancelar</button>
+        <p id="baja-msg" class="mensaje" role="status"></p>
+      </div>
+    </div>
+    </section>
+    <p style="margin-top:28px"><button id="salir" class="secundario" type="button">Salir</button></p>
+  </div>
+</main>
+<script src="/llaves.js"></script>
+<script src="/paises.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+(async () => {
+  const d = await fetch('/api/acceso/yo', { cache: 'no-store' }).then(r => r.json());
+  if (!d.conectado) { location.replace('/entrar'); return; }
+  yo = d;
+  // Recuerdo de la forma de entrar en este navegador (31-10-2026): se completa con el nombre y el correo de la cuenta
+  try { const x = JSON.parse(localStorage.getItem('innaz-acceso') || 'null'); if (x) localStorage.setItem('innaz-acceso', JSON.stringify({ ...x, nombre: d.usuario.nombre || x.nombre || null, correo: d.usuario.correo })); } catch {}
+  if (new URLSearchParams(location.search).get('bienvenida')) $('bienvenida').classList.remove('oculto');
+  try { if (sessionStorage.getItem('innaz-confirmado')) { sessionStorage.removeItem('innaz-confirmado'); $('confirmado').classList.remove('oculto'); } } catch {}
+  if (d.faltan && d.faltan.length) completar(d);
+  pintarClave(d);
+  try { const so = JSON.parse(sessionStorage.getItem('innaz-solicitud') || 'null'); sessionStorage.removeItem('innaz-solicitud');
+    if (so) { const e = $('solicitud'); e.textContent = so.mensaje || so.error; e.classList.remove('oculto');
+      if (so.error) { e.classList.add('error'); e.style.borderLeftColor = '#a32020'; } } } catch {}
+  if (!d.pendiente && !d.actual) $('a-susc').classList.remove('oculto');   // 28-10-2026
+  if (d.correoVerificado === false) {   // cuenta nueva sin confirmar (30-10-2026)
+    $('confirmar').classList.remove('oculto'); $('confirmar-correo').textContent = d.usuario.correo;
+    const sim = (() => { try { const x = sessionStorage.getItem('innaz-confirmar-sim'); sessionStorage.removeItem('innaz-confirmar-sim'); return x; } catch { return null; } })();
+    const verSim = enlace => { if (!enlace) return; const s = $('confirmar-sim'); s.classList.remove('oculto'); s.textContent = 'Modo simulación (solo en pruebas): este es el enlace que llegaría por correo → ';
+      const a = document.createElement('a'); a.href = enlace; a.textContent = 'confirmar mi correo'; s.append(a); };
+    verSim(sim);
+    $('b-reenviar').addEventListener('click', async () => {
+      $('b-reenviar').disabled = true;
+      const r = await fetch('/api/llaves', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: 'reenviar_confirmacion' }) })
+        .then(async x => ({ ok: x.ok, d: await x.json() })).catch(() => ({ ok: false, d: { error: 'Error de conexión.' } }));
+      $('b-reenviar').disabled = false; $('confirmar-msg').textContent = r.d.mensaje || r.d.error; verSim(r.d.enlace_simulado);
+    });
+  }
+  if (d.pendiente) { const e = $('pendiente'); e.classList.remove('oculto'); e.textContent = '';
+    e.append(`Tienes una ${d.pendiente.mejora_de ? 'mejora' : 'solicitud'} de suscripción ${d.pendiente.nombre} pendiente de pago. `);
+    const a = document.createElement('a'); a.href = '#suscripcion'; a.textContent = 'Ver cómo pagar →'; e.append(a); }
+  miSuscripcion(d);
+  $('saludo').textContent = d.usuario.nombre ? '¡Hola, ' + d.usuario.nombre + '!' : 'Mi INNAZ';
+  $('correo').textContent = d.usuario.correo;
+  $('nivel').textContent = (d.suscripcion ? d.suscripcion.nombre : 'Registrado') + (d.numero ? ' · nº ' + d.numero : '');
+  $('boletin').textContent = d.usuario.boletin ? 'sí' : 'no';
+  for (const v of d.ventajas) { const li = document.createElement('li'); li.textContent = v.texto + (v.detalle ? ' (' + v.detalle + ')' : ''); $('ventajas').append(li); }
+  if (!d.ventajas.length) { const li = document.createElement('li'); li.textContent = 'Ninguna todavía.'; $('ventajas').append(li); }
+})();
+let yo = null;
+// ── Datos básicos que faltan (30-10-2026): hasta completarlos no se ven las pestañas ──
+function completar(d) {
+  $('completar').classList.remove('oculto'); $('pestanas').style.display = 'none';   // .pestanas tiene display propio: .oculto no basta
+  document.querySelectorAll('.pestana').forEach(x => x.classList.add('oculto'));
+  Paises.rellenar($('k-pais'), '');
+  if (d.usuario.nombre) $('k-nombre').value = d.usuario.nombre;
+  ($(['k-nombre', 'k-apellidos', 'k-pais'].find(k => !$(k).value) || 'k-nombre')).focus();
+}
+$('f-completar').addEventListener('submit', async ev => {
+  ev.preventDefault(); const m = $('k-msg'); m.className = 'mensaje'; m.textContent = 'Guardando…';
+  document.querySelectorAll('.con-error').forEach(x => x.classList.remove('con-error'));
+  const r = await fetch('/api/acceso/clave', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ accion: 'completar', nombre: $('k-nombre').value, apellidos: $('k-apellidos').value, pais: $('k-pais').value }) })
+    .then(async x => ({ ok: x.ok, d: await x.json() })).catch(() => ({ ok: false, d: { error: 'Error de conexión. Prueba otra vez.' } }));
+  if (!r.ok) { m.className = 'mensaje error'; m.textContent = r.d.error; if (r.d.campo && $('k-' + r.d.campo)) { $('k-' + r.d.campo).classList.add('con-error'); $('k-' + r.d.campo).focus(); } return; }
+  location.reload();
+});
+// ── Mi contraseña (30-10-2026) ──
+function pintarClave(d) {
+  const tiene = !!d.tieneClave; $('mc-correo').value = d.usuario.correo;
+  $('mc-actual-caja').classList.toggle('oculto', !tiene);
+  $('mc-titulo').textContent = tiene ? 'Mi contraseña' : 'Crear una contraseña';
+  $('mc-nota').textContent = tiene ? 'Para cambiarla, escribe la actual y la nueva.' : 'Tu cuenta no tiene contraseña (entras con Face ID / Touch ID). Si creas una, podrás entrar también con tu correo y contraseña desde cualquier aparato.';
+  $('mc-boton').textContent = tiene ? 'Cambiar mi contraseña' : 'Crear mi contraseña';
+  $('mc-google').classList.toggle('oculto', !d.google);
+  if (d.google) $('mc-google-txt').textContent = 'También entras con tu cuenta de Google (' + d.google + ').';
+  if (!tiene && d.google) $('mc-nota').textContent = 'Tu cuenta no tiene contraseña (entras con Google). Si creas una, podrás entrar también con tu correo y contraseña.';
+}
+$('f-clave').addEventListener('submit', async ev => {
+  ev.preventDefault(); const m = $('mc-msg'); m.className = 'mensaje';
+  if (!$('mc-nueva').value) { m.className = 'mensaje error'; m.textContent = 'Escribe la contraseña nueva.'; return; }
+  if ($('mc-nueva').value !== $('mc-nueva2').value) { m.className = 'mensaje error'; m.textContent = 'Las dos contraseñas nuevas no coinciden.'; return; }
+  m.textContent = 'Guardando…'; $('mc-boton').disabled = true;
+  const r = await sensible(() => fetch('/api/acceso/clave', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ accion: 'cambiar', actual: $('mc-actual').value, nueva: $('mc-nueva').value }) })
+    .then(async x => ({ ok: x.ok, d: await x.json() })).catch(() => ({ ok: false, d: { error: 'Error de conexión. Prueba otra vez.' } })));
+  $('mc-boton').disabled = false;
+  if (r.cancelado) { m.textContent = ''; return; }
+  if (!r.ok) { m.className = 'mensaje error'; m.textContent = r.d.error; return; }
+  m.textContent = '✓ ' + r.d.mensaje; ['mc-actual', 'mc-nueva', 'mc-nueva2'].forEach(k => $(k).value = '');
+  if (yo) { yo.tieneClave = true; pintarClave(yo); }
+});
+// ── Reautenticación (auditoría 30-10-2026): devuelve true si la persona se ha vuelto a identificar ──
+let raResolver = null;
+window.INNAZ_reauth = () => new Promise(res => {
+  raResolver = res; const d = yo || {};
+  $('ra-usuario').value = d.usuario?.correo || ''; $('ra-clave').value = ''; aviso2('ra-msg', '');
+  $('f-ra').classList.toggle('oculto', !d.tieneClave);
+  const o = $('ra-otras'); o.textContent = '';
+  if (d.tieneLlaves && window.Llaves && Llaves.soportado()) { const b = document.createElement('button'); b.type = 'button'; b.className = 'secundario'; b.textContent = 'Usar Face ID / Touch ID'; b.style.margin = '0';
+    b.onclick = async () => { b.disabled = true; aviso2('ra-msg', 'Sigue las indicaciones de tu aparato…'); const r = await Llaves.entrar(); b.disabled = false;
+      if (!r.ok) { aviso2('ra-msg', r.d.error, true); return; } cerrarRa(true); }; o.append(b); }
+  if (d.google) { const a = document.createElement('a'); a.className = 'boton'; a.style.margin = '0'; a.textContent = 'Continuar con Google'; a.href = '/api/acceso/google?accion=inicio&volver=' + encodeURIComponent('/mi-innaz#datos'); o.append(a); }
+  if (!d.tieneClave && !o.children.length) aviso2('ra-msg', 'No hay forma de volver a identificarte en este aparato. Sal y vuelve a entrar.', true);
+  $('reauth').classList.remove('oculto'); setTimeout(() => (d.tieneClave ? $('ra-clave') : $('ra-cancelar')).focus(), 50);
+});
+function aviso2(id, t, e = false) { const m = $(id); m.className = 'mensaje' + (e ? ' error' : ''); m.textContent = t || ''; }
+function cerrarRa(ok) { $('reauth').classList.add('oculto'); if (ok && yo) yo.reauth = true; const r = raResolver; raResolver = null; if (r) r(ok); }
+$('ra-cancelar').addEventListener('click', () => cerrarRa(false));
+$('f-ra').addEventListener('submit', async ev => {
+  ev.preventDefault(); const b = ev.target.querySelector('button'); b.disabled = true; aviso2('ra-msg', 'Un momento…');
+  const r = await fetch('/api/acceso/clave', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: 'reautenticar', clave: $('ra-clave').value }) })
+    .then(async x => ({ ok: x.ok, d: await x.json() })).catch(() => ({ ok: false, d: { error: 'Error de conexión. Prueba otra vez.' } }));
+  b.disabled = false; if (!r.ok) { aviso2('ra-msg', r.d.error, true); $('ra-clave').value = ''; $('ra-clave').focus(); return; } cerrarRa(true);
+});
+/** Llama a la API; si pide reautenticación, la resuelve y reintenta una vez. */
+async function sensible(hacer) { let r = await hacer(); if (!r.ok && r.d && r.d.reauth) { if (!(await window.INNAZ_reauth())) return { ok: false, d: { error: 'Cancelado.' }, cancelado: true }; r = await hacer(); } return r; }
+// ── Quitar Google de las formas de entrar (31-10-2026) ──
+$('mc-google-quitar').addEventListener('click', async () => {
+  const m = $('mc-msg'); m.className = 'mensaje'; m.textContent = 'Un momento…';
+  const r = await sensible(() => fetch('/api/acceso/google', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: 'quitar' }) })
+    .then(async x => ({ ok: x.ok, d: await x.json() })).catch(() => ({ ok: false, d: { error: 'Error de conexión. Prueba otra vez.' } })));
+  if (r.cancelado) { m.textContent = ''; return; }
+  if (!r.ok) { m.className = 'mensaje error'; m.textContent = r.d.error; return; }
+  m.textContent = '✓ ' + r.d.mensaje; if (yo) { yo.google = null; pintarClave(yo); }
+  try { const x = JSON.parse(localStorage.getItem('innaz-acceso') || 'null'); if (x && x.metodo === 'google') localStorage.removeItem('innaz-acceso'); } catch {}
+});
+// ── Eliminar mi cuenta (31-10-2026) ──
+const fechaCorta = s => s ? new Date(s * 1000).toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' }) : null;
+$('b-baja').addEventListener('click', async () => {
+  const caja = $('baja-caja'), res = $('baja-resumen'); caja.classList.remove('oculto'); $('b-baja').classList.add('oculto'); res.textContent = 'Comprobando…';
+  const r = await fetch('/api/mi/eliminar', { cache: 'no-store' }).then(async x => ({ ok: x.ok, d: await x.json() })).catch(() => ({ ok: false, d: { error: 'Error de conexión.' } }));
+  res.textContent = '';
+  if (!r.ok) { res.textContent = r.d.error; return; }
+  const p = t => { const e = document.createElement('p'); e.style.margin = '0 0 8px'; e.textContent = t; res.append(e); };
+  const bloquear = texto => { p(texto); $('baja-caja').querySelectorAll('label,input,#b-baja-ok').forEach(x => x.classList.add('oculto')); $('b-baja-no').textContent = 'Entendido'; };
+  $('baja-caja').querySelectorAll('label,input,#b-baja-ok').forEach(x => x.classList.remove('oculto')); $('b-baja-no').textContent = 'Cancelar';
+  if (r.d.roles.length) { bloquear(`Tu cuenta tiene roles en la gestión de INNAZ (${r.d.roles.join(', ')}). Antes de eliminarla, pide a un Administrador que te los quite.`); return; }
+  if (r.d.bloqueada) { bloquear(r.d.bloqueada); return; }   // César, 31-10-2026: con un periodo pagado en curso, no se elimina hasta que termine
+  p('Al eliminar tu cuenta:');
+  if (r.d.suscripcion) p(`· Tu acceso ${r.d.suscripcion.nombre} (${r.d.suscripcion.tipo === 'gratuita' ? 'gratuito' : 'de prueba'}) termina hoy.`);
+  if (r.d.zlabs.length) p(`· Se borran tus preinscripciones de ZLabs (${r.d.zlabs.map(z => z.referencia).join(', ')}) y pierdes la plaza si la tenías.`);
+  p('· Se borran tus datos, tu contraseña, tus llaves y Google como forma de entrar.');
+  p('· Si alguna vez pagaste, guardaremos bloqueados solo los datos que la ley obliga a conservar, el tiempo que exige.');
+  $('baja-confirmar').focus();
+});
+$('b-baja-no').addEventListener('click', () => { $('baja-caja').classList.add('oculto'); $('b-baja').classList.remove('oculto'); $('baja-confirmar').value = ''; $('baja-msg').textContent = ''; });
+$('b-baja-ok').addEventListener('click', async () => {
+  const m = $('baja-msg'); m.className = 'mensaje';
+  if ($('baja-confirmar').value.trim().toUpperCase() !== 'ELIMINAR') { m.className = 'mensaje error'; m.textContent = 'Escribe ELIMINAR para confirmarlo.'; $('baja-confirmar').focus(); return; }
+  $('b-baja-ok').disabled = true; m.textContent = 'Eliminando…';
+  const r = await sensible(() => fetch('/api/mi/eliminar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ confirmar: 'ELIMINAR' }) })
+    .then(async x => ({ ok: x.ok, d: await x.json() })).catch(() => ({ ok: false, d: { error: 'Error de conexión. Prueba otra vez.' } })));
+  $('b-baja-ok').disabled = false;
+  if (r.cancelado) { m.textContent = ''; return; }
+  if (!r.ok) { m.className = 'mensaje error'; m.textContent = r.d.error; return; }
+  try { localStorage.removeItem('innaz-acceso'); } catch {}
+  const c = $('caja'); c.textContent = '';
+  const h = document.createElement('h1'); h.textContent = 'Tu cuenta se ha eliminado';
+  const t = document.createElement('p'); t.textContent = r.d.mensaje;
+  const a = document.createElement('a'); a.className = 'boton'; a.href = '/entrar'; a.textContent = 'Volver a la entrada';
+  c.append(Object.assign(document.createElement('p'), { className: 'marca', innerHTML: 'INNA<span class="z">Z</span>' }), h, t, a);
+});
+// ── Pestañas (César, 28-10-2026) ───────────────────────────────────────
+const cargadas = {};   // auditoría 29-10-2026: cada pestaña pide sus datos la primera vez que se abre
+function pestana(clave) {
+  if (!$('p-' + clave)) clave = 'inicio';
+  if (!$('completar').classList.contains('oculto')) return;   // primero, los datos básicos
+  document.querySelectorAll('#pestanas button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.p === clave)));
+  document.querySelectorAll('.pestana').forEach(x => x.classList.toggle('oculto', x.id !== 'p-' + clave));
+  if (!cargadas[clave]) { cargadas[clave] = true; if (clave === 'datos') { cargarDatos(); if (window.Llaves) Llaves.pintar('llaves'); } if (clave === 'zlabs') cargarZLabs(); }
+}
+document.querySelectorAll('#pestanas button').forEach(b => b.addEventListener('click', () => { history.replaceState(null, '', '#' + b.dataset.p); pestana(b.dataset.p); }));
+window.addEventListener('hashchange', () => pestana(location.hash.slice(1)));
+pestana(location.hash.slice(1) || 'inicio');
+
+// ── Mi suscripción (punto 3, 28-10-2026) ──────────────────────────────
+const fechaTxt = s => s ? new Date(s * 1000).toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' }) : null;
+const eurosTxt = c => { const [e, d] = (c / 100).toFixed(2).split('.'); return e.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (d !== '00' ? ',' + d : '') + ' €'; };
+function miSuscripcion(d) {
+  const caja = $('su-actual'); caja.textContent = '';
+  const a = d.actual, ficha = document.createElement('div'); ficha.className = 'ficha-susc';
+  const dl = document.createElement('dl'); const fila = (k, v) => { if (v == null || v === '') return; const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; dl.append(dt, dd); };
+  if (!a) { ficha.append(Object.assign(document.createElement('strong'), { textContent: 'Registrado' }), ' · registro gratuito: boletín, avisos y tu espacio Mi INNAZ.'); fila('Número', d.numero); }
+  else {
+    ficha.append(Object.assign(document.createElement('strong'), { textContent: a.nombre }), a.gratuito ? ' · acceso gratuito' : a.estado === 'prueba' ? ' · prueba gratis del lanzamiento' : ' · suscripción de pago');
+    fila('Número', d.numero);
+    if (a.gratuito && a.causa) fila('Motivo', 'Concedido ' + a.causa);
+    if (!a.gratuito && a.estado !== 'prueba') fila('Pago', a.periodicidad === 'anual' ? 'Anual' : 'Mensual');
+    fila(a.programada ? 'Empieza' : 'Desde', fechaTxt(a.desde));
+    fila('Hasta', a.hasta ? fechaTxt(a.hasta) : 'sin fecha de fin');
+  }
+  ficha.append(dl); caja.append(ficha);
+  const pc = $('su-pago'); pc.textContent = ''; pc.classList.toggle('oculto', !d.pendiente);
+  if (d.pendiente) { const p = d.pendiente;
+    pc.append(Object.assign(document.createElement('strong'), { textContent: `${p.mejora_de ? 'Mejora' : 'Solicitud'} pendiente de pago: ${p.nombre}` }),
+      document.createElement('br'), (p.mejora_de ? 'Diferencia a pagar: ' : (p.periodicidad === 'anual' ? 'Anual: ' : 'Mensual: ')) + eurosTxt(p.importe_cent));
+    if (p.transferencia) { const tr = p.transferencia, tb = document.createElement('table');
+      for (const [k, v] of [['IBAN', tr.iban], ['Titular', tr.titular], ['Concepto', tr.concepto], ['Importe', tr.importe]]) if (v) { const r = tb.insertRow(); r.insertCell().textContent = k; const c = r.insertCell(); c.append(Object.assign(document.createElement('strong'), { textContent: v })); }
+      pc.append(Object.assign(document.createElement('p'), { textContent: 'Haz una transferencia a la cuenta de INNAZ con estos datos. Cuando la recibamos, activaremos tu suscripción y te avisaremos.', style: 'margin:10px 0 6px' }), tb); }
+    else pc.append(Object.assign(document.createElement('p'), { textContent: 'Te escribiremos con las instrucciones para pagar por transferencia. Cuando recibamos el pago, se activará.', style: 'margin:10px 0 0' }));
+  }
+  const b = $('su-boton');
+  b.textContent = !a ? 'Suscribirme' : (a.gratuito || a.estado === 'prueba') ? 'Ver suscripciones de pago' : 'Mejorar mi suscripción';
+}
+
+$('salir').addEventListener('click', async () => {
+  await fetch('/api/acceso/salir', { method: 'POST' });
+  location.replace('/entrar');
+});
+
+// ── Mis datos (28-10-2026) ─────────────────────────────────────────────
+const CAMPOS_DATOS = ['nombre','apellidos','pais','telefono','fecha_nacimiento','documento_tipo','centro','dir_calle','dir_numero','dir_piso','dir_cp','dir_poblacion','dir_provincia','dir_pais'];
+async function cargarDatos() {
+  const r = await fetch('/api/mi/datos', { cache: 'no-store' }); if (!r.ok) return;
+  const d = await r.json();
+  if (!$('pais').options.length) Paises.rellenar($('pais'), '');
+  CAMPOS_DATOS.forEach(k => { if ($(k)) $(k).value = d[k] || ''; });
+  $('documento').value = '';
+  $('documento').placeholder = d.documento_fin ? 'Guardado: …' + d.documento_fin : '';
+  $('nota-doc').textContent = d.documento_fin ? 'Déjalo vacío para no cambiarlo.' : '';
+}
+$('f-datos').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  document.querySelectorAll('.con-error').forEach(x => x.classList.remove('con-error'));
+  const datos = Object.fromEntries(CAMPOS_DATOS.map(k => [k, $(k).value])); datos.documento = $('documento').value;
+  const m = $('msg-datos'); m.className = 'mensaje'; m.textContent = 'Guardando…'; $('g-datos').disabled = true;
+  try {
+    const r = await fetch('/api/mi/datos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) });
+    const d = await r.json(); $('g-datos').disabled = false;
+    if (!r.ok) { m.className = 'mensaje error'; m.textContent = d.error || 'No se ha podido guardar.'; if (d.campo && $(d.campo)) { $(d.campo).classList.add('con-error'); $(d.campo).focus(); } return; }
+    m.textContent = '✓ ' + d.mensaje; if ($('nombre').value) $('saludo').textContent = '¡Hola, ' + $('nombre').value + '!';
+    await cargarDatos();
+  } catch { $('g-datos').disabled = false; m.className = 'mensaje error'; m.textContent = 'Error de conexión. Prueba otra vez.'; }
+});
+
+// ── ZLabs (28-10-2026) ──────────────────────────────────────────────────
+async function cargarZLabs() {
+  const z = await fetch('/api/zlabs/yo', { cache: 'no-store' }).then(r => r.json()).catch(() => null);
+  if (!z || !z.conectado) { $('zl-error').classList.remove('oculto'); return; }
+  $('zlabs').classList.remove('oculto');
+  const lista = $('zl-lista'); lista.textContent = '';
+  const el = (tag, cls, txt) => { const x = document.createElement(tag); if (cls) x.className = cls; if (txt != null) x.textContent = txt; return x; };
+  const fecha = z.inicio.split('-').reverse().join('/');
+  // Primero los vivos; los cancelados, al final y en gris.
+  const orden = [...z.preinscripciones].sort((a, b) => (a.estado === 'anulada') - (b.estado === 'anulada'));
+  for (const p of orden) {
+    const d = el('div', 'curso' + (p.estado === 'anulada' ? ' apagado' : ''));
+    const h = el('div', 'curso-tit'); const zz = el('span', 'z', 'Z');
+    h.append(zz, 'Labs ' + z.edicion + ' · Escuela Superior de Canto de Madrid'); d.append(h);
+    d.append(el('div', 'nota', 'Empieza el ' + fecha + ' · ' + (p.modalidad === 'activo' ? 'Alumno/a activo/a' + (p.cuerda ? ' (' + p.cuerda + ')' : '') : 'Oyente') + ' · Ref. ' + p.referencia));
+    const e = el('div', 'curso-estado'); e.append(el('strong', null, p.estado_texto)); if (p.papel) e.append(' · Papel: ' + p.papel); d.append(e);
+    if (p.estado !== 'anulada' && p.estado !== 'no_admitida') {
+      const ol = el('ol', 'pasos');
+      for (const s of p.pasos) ol.append(el('li', s.hecho ? 'hecho' : (s.actual ? 'actual' : ''), (s.hecho ? '✓ ' : '') + s.t));
+      d.append(ol);
+    }
+    if (p.siguiente) d.append(el('p', 'curso-sig', p.siguiente));
+    if (p.estado !== 'anulada') { const a = el('a', null, p.editable ? 'Ver, corregir o cancelar →' : 'Ver mi inscripción →');
+      a.href = '/zlabs-mi-preinscripcion#ref=' + p.referencia; d.append(a); }
+    lista.append(d);
+  }
+  $('zl-vacio').classList.toggle('oculto', z.preinscripciones.length > 0);
+  // Una preinscripción por persona; quien quedó en reserva o no admitido como activo puede venir además de oyente.
+  $('zl-nueva').classList.toggle('oculto', !z.puede);
+  $('zl-nueva').textContent = z.puede === 'oyente' ? 'Inscribirme también como oyente' : 'Preinscribirme en ZLabs';
+  $('zl-nueva').href = '/zlabs-preinscripcion' + (z.puede === 'oyente' ? '?oyente=1' : '');
+  $('zl-cerrada').classList.toggle('oculto', z.abierta);
+  $('zl-susc').textContent = z.suscripcion.texto; $('zl-susc').classList.toggle('si', !!z.suscripcion.descuento);
+}
+if (/pruebas|localhost|test\.local/.test(location.hostname)) {
+  $('simular').classList.remove('oculto');
+  $('simular').querySelectorAll('button').forEach(b => b.addEventListener('click', async () => {
+    const r = await fetch('/api/mi/simular-suscripcion', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipo: b.dataset.t }) });
+    const d = await r.json(); $('sim-msg').textContent = d.mensaje || d.error || '';
+    cargarZLabs();
+  }));
+}
+</script>
+</body>
+</html>

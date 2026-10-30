@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Suscríbete · INNAZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Cormorant+SC:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mi-innaz.css">
+<style>
+/* Página de suscripciones (28-10-2026, punto 2). Mismos textos y precios que el bloque «Suscríbete a INNAZ» de innaz.es. */
+main.planes { max-width:1100px; }
+.intro { max-width:760px; }
+.rejilla { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:22px 0 10px; }
+.plan { border:1px solid var(--linea); padding:20px 18px 18px; display:flex; flex-direction:column; background:#fff; position:relative; }
+.plan.destacado { border:2px solid var(--teal); }
+.plan.elegido { outline:3px solid var(--teal); outline-offset:-1px; background:#f3fafb; }
+.etiqueta { position:absolute; top:-11px; left:16px; background:var(--teal); color:#fff; font-size:.72rem; letter-spacing:.06em; padding:2px 8px; text-transform:uppercase; }
+.plan h2 { font-family:'Cormorant SC',Georgia,serif; font-weight:700; font-size:1.3rem; margin:0; letter-spacing:.03em; }
+.precio { font-family:'Cormorant',Georgia,serif; font-size:2.3rem; font-weight:600; line-height:1.1; margin:8px 0 0; }
+.precio small { font-family:'DM Sans',sans-serif; font-size:.95rem; color:var(--gris); font-weight:400; }
+.periodo { color:var(--gris); font-size:.85rem; margin:2px 0 12px; }
+.plan ul { list-style:none; padding:0; margin:0 0 16px; font-size:.9rem; flex:1; }
+.plan li { padding:5px 0 5px 18px; border-top:1px solid var(--linea); position:relative; }
+.plan li::before { content:'·'; position:absolute; left:4px; color:var(--teal); font-weight:700; }
+.plan button { margin-top:auto; width:100%; }
+.extra { font-size:.9rem; border-top:1px solid var(--linea); padding-top:12px; }
+.extra p { margin:6px 0; }
+.legal { font-size:.82rem; color:var(--gris); }
+#formulario { border-top:4px solid var(--teal); background:#fff; margin-top:22px; padding:22px 24px 26px; }
+#formulario h2 { font-family:'Cormorant',Georgia,serif; font-weight:600; font-size:1.5rem; margin:0 0 6px; }
+.total { font-size:1.05rem; margin:14px 0 0; padding:10px 12px; background:#e7f5f8; border-left:4px solid var(--teal); }
+.plan .estado { margin-top:auto; padding:10px; text-align:center; font-size:.9rem; background:#f3f1ec; color:var(--gris); }
+.plan.actual { border-color:var(--teal); }
+.aviso-yo { padding:12px 14px; border-left:4px solid #c9a227; background:#fff8e1; margin:14px 0 0; }
+.confirmar { padding:12px 14px; border-left:4px solid #c9a227; background:#fff8e1; margin:14px 0 0; }
+.gratis { margin:18px 0 0; padding:14px 16px; border:1px dashed var(--linea); background:#fff; }
+@media (max-width:980px) { .rejilla { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:560px) { .rejilla { grid-template-columns:1fr; } #formulario { padding:18px 16px 22px; } }
+</style>
+</head>
+<body>
+<div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
+<main class="planes">
+  <div class="caja">
+    <p class="marca">INNA<span class="z">Z</span></p>
+    <h1>Suscríbete a INNAZ</h1>
+    <p class="intro">Tu suscripción sostiene el trabajo de INNAZ en sus cuatro pilares. La Zarzuteca es un catálogo abierto: la ficha de cada
+      obra puede consultarse libremente y sin registro. Con tu apoyo se localizan, cotejan y atribuyen los materiales de cada obra.</p>
+
+    <p id="aviso-yo" class="aviso-yo oculto"></p>
+    <div class="rejilla" id="rejilla">
+      <div class="plan" data-nivel="simpatizante">
+        <h2>Simpatizante</h2>
+        <p class="precio" data-precio="mensual"></p><p class="periodo" data-periodo></p>
+        <ul>
+          <li>Búsqueda avanzada y colecciones de obras</li>
+          <li>Documentación de los <span class="z">Z</span>Labs y plaza de oyente gratis</li>
+          <li>Preventa y descuento en los eventos de INNAZ</li>
+          <li>Descuentos en zarzuela y en concursos</li>
+          <li>Certificado y carné digital de suscriptor</li>
+        </ul>
+        <button type="button">Suscribirme</button>
+      </div>
+      <div class="plan destacado" data-nivel="colaborador">
+        <span class="etiqueta">Recomendado</span>
+        <h2>Colaborador</h2>
+        <p class="precio" data-precio="mensual"></p><p class="periodo" data-periodo></p>
+        <ul>
+          <li>Todo lo del nivel Simpatizante</li>
+          <li>Partituras para canto y piano y libretos de la Editorial INNAZ</li>
+          <li>Ficha de obra en PDF y exportación de búsquedas</li>
+          <li>Invitaciones a ensayos y actos privados</li>
+          <li>Asesoramiento gratuito del Sello de Calidad</li>
+        </ul>
+        <button type="button">Suscribirme</button>
+      </div>
+      <div class="plan" data-nivel="protector">
+        <h2>Protector</h2>
+        <p class="precio" data-precio="mensual"></p><p class="periodo" data-periodo></p>
+        <ul>
+          <li>Todo lo del nivel Colaborador</li>
+          <li>Cinco consultas documentales al año</li>
+          <li>Catálogo completo en datos abiertos</li>
+          <li>Ediciones nuevas 15 días antes, con tu nombre en los créditos</li>
+          <li>Encuentros con artistas</li>
+        </ul>
+        <button type="button">Suscribirme</button>
+      </div>
+      <div class="plan" data-nivel="mecenas">
+        <h2>Mecenas</h2>
+        <p class="precio" id="precio-mecenas"></p><p class="periodo">al año</p>
+        <ul>
+          <li>Todo lo del nivel Protector</li>
+          <li>Tu nombre como mecenas de un estreno</li>
+          <li>Dos plazas en la cena de la Gala Anual</li>
+          <li>Distinción de INNAZ</li>
+        </ul>
+        <a class="boton" href="https://www.innaz.es/#contacto" style="text-align:center;margin-top:auto">Quiero información</a>
+      </div>
+    </div>
+
+    <div class="extra">
+      <p><strong>Alumnos de conservatorios y escuelas asociadas:</strong> 50 % de descuento en cualquier suscripción.</p>
+      <p><strong>Lanzamiento:</strong> los 50 primeros suscriptores de los niveles Simpatizante y Colaborador tendrán los tres primeros
+        meses gratis (no aplicable a alumnos de conservatorios y escuelas asociadas).</p>
+      <p class="nota">Suscripción mensual o anual. Algunas ventajas se irán activando a medida que arranquen sus actividades.</p>
+    </div>
+
+    <div class="gratis">
+      <strong>¿Solo quieres registrarte?</strong> El registro es gratuito: recibirás el boletín y los avisos de INNAZ y tendrás tu espacio Mi INNAZ.
+      <a href="/entrar">Registrarme gratis</a>
+    </div>
+
+    <!-- Formulario: aparece al elegir un nivel -->
+    <section id="formulario" class="oculto" aria-live="polite">
+      <h2 id="f-titulo"></h2>
+      <form id="f" novalidate>
+        <div id="f-periodo" class="opciones" style="margin-top:10px">
+          <label class="opcion"><input type="radio" name="periodicidad" value="anual" checked><span><strong>Anual</strong><br><small id="p-anual"></small></span></label>
+          <label class="opcion"><input type="radio" name="periodicidad" value="mensual"><span><strong>Mensual</strong><br><small id="p-mensual"></small></span></label>
+        </div>
+        <div class="casilla"><input id="alumno" type="checkbox"><label for="alumno">Soy alumno de un conservatorio o escuela asociada (50 % de descuento, con el código de mi centro)</label></div>
+        <div id="f-centro" class="oculto">
+          <label for="codigoCentro">Código de tu centro</label>
+          <input id="codigoCentro" type="text" maxlength="20" autocomplete="off" style="text-transform:uppercase" placeholder="p. ej. RCSM-2627">
+          <p class="nota">Te lo da tu conservatorio o escuela; vale para el curso actual.</p>
+        </div>
+        <p class="total" id="total"></p>
+        <div id="confirmar" class="confirmar oculto"><p id="confirmar-txt" style="margin:0 0 8px"></p>
+          <button type="button" id="b-confirmar" style="margin:0">Sí, quiero esta suscripción</button></div>
+
+        <!-- Sin haber entrado (30-10-2026): primero se entra o se crea la cuenta y se vuelve aquí con el nivel elegido -->
+        <div id="f-registro">
+          <p>Para suscribirte, primero entra en Mi INNAZ o crea tu cuenta gratuita. Después volverás aquí con este nivel ya elegido.</p>
+          <a class="boton" id="a-entrar" href="/entrar">Entrar o crear mi cuenta</a>
+        </div>
+        <p id="f-conectado" class="nota oculto"></p>
+
+        <button type="submit" id="b-enviar">Solicitar la suscripción</button>
+        <p class="nota">Todavía no se cobra en la web: se paga por transferencia a la cuenta de INNAZ. Te daremos los datos y, cuando recibamos el pago, se activará.</p>
+      </form>
+      <p id="msg" class="mensaje" role="status"></p>
+      <div id="sim" class="simulado oculto"></div>
+    </section>
+
+    <p class="legal">La suscripción a INNAZ es un servicio y <strong>no otorga por sí sola la condición de socio</strong> de INNAZ, que se rige por
+      los Estatutos y requiere la aprobación de la Junta Directiva.</p>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const euros = c => { const [e, d] = (c / 100).toFixed(2).split('.'); return e.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (d !== '00' ? ',' + d : '') + ' €'; };   // 1.000 €, 24,50 €
+const fecha = s => new Date(s * 1000).toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' });
+let planes = {}, elegido = null, yo = null;
+
+(async () => {
+  let p;
+  try { p = await fetch('/api/planes', { cache: 'no-store' }).then(r => r.json()); }
+  catch { $('msg').textContent = 'No se han podido cargar los precios. Recarga la página.'; return; }
+  for (const x of p.planes) planes[x.clave] = x;
+  yo = p.yo || null;
+  if (p.mecenas?.minimo) $('precio-mecenas').innerHTML = '<small>desde</small> ' + euros(p.mecenas.minimo);
+  // Ventajas destacadas desde el panel de ventajas (30-10-2026). Si la API no las trae, se quedan los textos fijos de esta página.
+  const ORDEN = ['simpatizante', 'colaborador', 'protector', 'mecenas'], NOMBRES = { ...Object.fromEntries(p.planes.map(x => [x.clave, x.nombre])), mecenas: p.mecenas?.nombre || 'Mecenas' };
+  document.querySelectorAll('.plan').forEach(c => {
+    const k = c.dataset.nivel, v = k === 'mecenas' ? p.mecenas?.ventajas : planes[k]?.ventajas; if (!v) return;
+    const ul = c.querySelector('ul'); ul.textContent = '';
+    const i = ORDEN.indexOf(k);
+    if (i > 0) { const li = document.createElement('li'); li.textContent = 'Todo lo del nivel ' + NOMBRES[ORDEN[i - 1]]; ul.append(li); }
+    for (const t of v) { const li = document.createElement('li'); li.textContent = t; ul.append(li); }
+    if (!v.length && i === 0) { const li = document.createElement('li'); li.textContent = 'Las ventajas de este nivel se están definiendo.'; ul.append(li); }
+  });
+  // Quien ya ha entrado: su suscripción actual (una sola por persona, César 28-10-2026)
+  const a = yo?.actual;
+  if (a) { const t = $('aviso-yo'); t.classList.remove('oculto');
+    t.textContent = a.gratuito ? `Tienes acceso gratuito de ${a.nombre}${a.vence ? ' hasta el ' + fecha(a.vence) : ''}. Si pides una suscripción de pago, lo mantendrás hasta que INNAZ reciba el pago.`
+      : a.prueba ? `Estás en la prueba gratis de ${a.nombre}${a.vence ? ' hasta el ' + fecha(a.vence) : ''}.`
+      : `Tu suscripción actual es ${a.nombre} (${a.periodicidad}), hasta el ${fecha(a.vence)}. Puedes mejorarla a un nivel superior` + (a.periodicidad === 'anual' ? ': se te descuenta la parte de los meses que te quedan.' : '.'); }
+  if (yo?.pendiente) { const t = $('aviso-yo'); t.classList.remove('oculto'); t.textContent = (a ? t.textContent + ' ' : '') + `Tienes una solicitud de ${yo.pendiente.nombre} pendiente de pago; si pides otra, la sustituye.`; }
+  document.querySelectorAll('.plan').forEach(c => {
+    const x = planes[c.dataset.nivel]; if (!x) return;
+    c.querySelector('[data-precio]').innerHTML = euros(x.mensual) + ' <small>al mes</small>';
+    c.querySelector('[data-periodo]').textContent = 'o ' + euros(x.anual) + ' al año';
+    const b = c.querySelector('button');
+    if (a && !a.gratuito && !a.prueba) {   // de pago: su nivel y los inferiores no se piden aquí
+      const cz = yo.cotiza[x.clave][a.periodicidad === 'anual' ? 'anual' : 'mensual'];
+      if (x.clave === a.nivel) { c.classList.add('actual'); b.replaceWith(Object.assign(document.createElement('p'), { className: 'estado', textContent: 'Tu suscripción actual' })); return; }
+      if (cz.error) { b.replaceWith(Object.assign(document.createElement('p'), { className: 'estado', textContent: 'Escríbenos para cambiar a este nivel' })); return; }
+      b.textContent = 'Mejorar · pagas ' + euros(cz.importe);
+    }
+    b.addEventListener('click', () => elegir(x.clave));
+  });
+  const pedido = new URLSearchParams(location.search).get('nivel');
+  if (pedido && planes[pedido]) elegir(pedido);
+})();
+
+function elegir(clave) {
+  elegido = planes[clave];
+  document.querySelectorAll('.plan').forEach(c => c.classList.toggle('elegido', c.dataset.nivel === clave));
+  $('formulario').classList.remove('oculto'); $('confirmar').classList.add('oculto');
+  const a = yo?.actual, mejora = a && !a.gratuito && !a.prueba;
+  $('f-titulo').textContent = (mejora ? 'Mejorar a ' : 'Suscripción ') + elegido.nombre;
+  $('p-anual').textContent = euros(elegido.anual) + ' al año'; $('p-mensual').textContent = euros(elegido.mensual) + ' al mes';
+  document.querySelectorAll('input[name=periodicidad]').forEach(x => x.disabled = false);
+  if (mejora && a.periodicidad === 'anual') {   // con cuota anual, la mejora también es anual (César, 29-10-2026)
+    document.querySelector(`input[name=periodicidad][value=${a.periodicidad}]`).checked = true;
+    document.querySelectorAll('input[name=periodicidad]').forEach(x => x.disabled = x.value !== a.periodicidad);
+  }
+  $('alumno').closest('.casilla').classList.toggle('oculto', !!mejora); if (mejora) { $('alumno').checked = false; $('f-centro').classList.add('oculto'); }
+  $('f-registro').classList.toggle('oculto', !!yo); $('b-enviar').classList.toggle('oculto', !yo);
+  $('a-entrar').href = '/entrar?volver=' + encodeURIComponent('/suscripciones?nivel=' + clave);
+  if (yo) { const c = $('f-conectado'); c.classList.remove('oculto'); c.textContent = 'Has entrado como ' + yo.correo + '. La solicitud quedará en tu cuenta.'; }
+  $('msg').textContent = ''; $('sim').classList.add('oculto');
+  total();
+  history.replaceState(null, '', '?nivel=' + clave);
+  $('formulario').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function plan(extra = {}) {
+  return { nivel: elegido.clave, periodicidad: document.querySelector('input[name=periodicidad]:checked').value, alumno: $('alumno').checked, codigoCentro: $('codigoCentro').value.trim(), ...extra };
+}
+function total() {
+  if (!elegido) return;
+  const p = plan(), cz = yo?.cotiza?.[p.nivel]?.[p.periodicidad];
+  if (cz && cz.tipo === 'mejora') { $('total').textContent = cz.credito ? `Pagas ${euros(cz.importe)}: la cuota anual de ${euros(cz.cuota)} menos ${euros(cz.credito)} por los ${cz.meses} meses que te quedan. Empieza un año nuevo cuando INNAZ reciba el pago.`
+    : `Pagas la cuota de ${euros(cz.importe)}. Empieza cuando INNAZ reciba el pago y tu suscripción actual termina entonces.`; return; }
+  let c = elegido[p.periodicidad]; if (p.alumno) c = Math.round(c / 2);
+  $('total').textContent = 'Total: ' + euros(c) + (p.periodicidad === 'anual' ? ' al año' : ' al mes') + (p.alumno ? ' (con el 50 % para alumnos)' : '');
+}
+$('alumno').addEventListener('change', () => { $('f-centro').classList.toggle('oculto', !$('alumno').checked); total(); });
+document.querySelectorAll('input[name=periodicidad]').forEach(x => x.addEventListener('change', total));
+
+async function enviarConectado(confirmar) {
+  const m = $('msg');
+  const r = await fetch('/api/mi/suscribirse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(plan({ confirmar })) });
+  const d = await r.json();
+  if (r.status === 409 && d.aviso) {   // tiene acceso gratuito o prueba: se le avisa antes (César, 28-10-2026)
+    m.textContent = ''; $('confirmar-txt').textContent = d.mensaje; $('confirmar').classList.remove('oculto'); return; }
+  if (!r.ok) { m.className = 'mensaje error'; m.textContent = d.error || 'No se ha podido enviar.';
+    if (d.datos || d.confirmar) { const a = document.createElement('a'); a.href = d.datos ? '/mi-innaz#datos' : '/mi-innaz'; a.textContent = d.datos ? ' Ir a Mis datos →' : ' Ir a Mi INNAZ →'; m.append(a); }
+    return; }
+  try { sessionStorage.setItem('innaz-solicitud', JSON.stringify({ ok: true, mensaje: d.mensaje })); } catch {}
+  location.href = '/mi-innaz#suscripcion';
+}
+$('b-confirmar').addEventListener('click', async () => { $('b-confirmar').disabled = true; try { await enviarConectado(true); } finally { $('b-confirmar').disabled = false; } });
+
+$('f').addEventListener('submit', async e => {
+  e.preventDefault(); if (!elegido) return;
+  const m = $('msg'); m.className = 'mensaje'; m.textContent = 'Un momento…'; $('sim').classList.add('oculto');
+  const b = $('b-enviar'); b.disabled = true;
+  try {
+    if (yo) { await enviarConectado(false); return; }
+    location.href = $('a-entrar').href;
+  } catch { m.className = 'mensaje error'; m.textContent = 'Error de conexión. Prueba otra vez.'; }
+  finally { b.disabled = false; }
+});
+</script>
+</body>
+</html>

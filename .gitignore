@@ -13,3 +13,6 @@ _to_delete/
 # Basura de macOS.
 .DS_Store
 ._*
+
+# 30-10-2026: referencia de variables de Mi INNAZ (no se publica; la configuración va en el panel de Cloudflare)
+_variables-mi-innaz-referencia.toml
