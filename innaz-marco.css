@@ -1,0 +1,65 @@
+/* innaz-marco.css · 30-10-2026 · Cabecera, menú y pie de innaz.es para las páginas de Mi INNAZ
+   (entrar, acceder, mi-innaz, suscripciones, ZLabs). Copia fiel de los estilos del menú y del pie de las
+   páginas públicas (que-es-innaz.html), para que todo parezca una sola web. Si cambia el menú de la web,
+   cambiar aquí también. */
+:root {
+  --black:#0B0B0B; --teal:#0097B2; --teal-dark:#007A90; --teal-light:#E7F5F8;
+  --cream:#F8F4EE; --border:#E2DAD0; --text:#1A1A1A; --muted:#777; --white:#FFFFFF;
+}
+body { background:var(--cream); }
+nav#navbar {
+  position:fixed; top:0; left:0; width:100%; z-index:100; padding:1.1rem 3.5rem;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(248,244,238,.95); backdrop-filter:blur(14px); border-bottom:1px solid var(--border);
+}
+.nav-logo { font-family:'Cormorant SC',serif; font-size:1.65rem; font-weight:700; color:var(--black); text-decoration:none; letter-spacing:.08em; }
+.nav-logo span { color:var(--teal); }
+.nav-links { display:flex; gap:2.5rem; list-style:none; align-items:center; margin:0; padding:0; }
+.nav-links li { margin:0; }
+.nav-links a { font-size:.78rem; font-weight:500; color:var(--text); text-decoration:none; letter-spacing:.12em; text-transform:uppercase; opacity:.65; transition:opacity .2s,color .2s; }
+.nav-links a:hover { opacity:1; color:var(--teal); }
+.nav-links a.active { opacity:1; color:var(--teal); }
+.nav-links a.active:not(.nav-cta)::after { content:''; display:block; height:2px; background:var(--teal); margin-top:3px; border-radius:2px; }
+.nav-cta { background:var(--teal)!important; color:#fff!important; opacity:1!important; padding:.5rem 1.3rem; border-radius:2px; }
+.nav-cta:hover { background:var(--teal-dark)!important; }
+.nav-links a.nav-cta.active { text-decoration:underline; text-decoration-color:#fff; text-decoration-thickness:2px; text-underline-offset:4px; }
+.nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; margin:0; }
+.nav-hamburger:hover { background:none; }
+.nav-hamburger span { display:block; width:24px; height:1.5px; background:var(--text); }
+.zz-drop { position:relative; }
+.zz-drop-t { cursor:pointer; }
+.zz-car { display:inline-block; margin-left:.35em; font-size:.8em; line-height:1; transition:transform .18s; }
+.zz-drop.open .zz-car { transform:rotate(180deg); }
+.zz-drop-m { display:none; list-style:none; position:absolute; top:calc(100% + .95rem); left:50%; transform:translateX(-50%); min-width:12.5rem;
+  background:#F8F4EE; border:1px solid #E2DAD0; border-radius:4px; box-shadow:0 10px 28px rgba(0,0,0,.12); padding:.35rem 0; margin:0; z-index:120; }
+.zz-drop.open > .zz-drop-m { display:block; }
+.zz-drop-m li { display:block; }
+.zz-drop-m a { display:block; padding:.6rem 1.15rem; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; opacity:.75; }
+.zz-drop-m a:hover { opacity:1; color:#0097B2; background:rgba(0,151,178,.09); }
+.zz-drop-m a::after { display:none!important; }
+@media (max-width:960px) {
+  nav#navbar, footer.innaz-pie { padding-left:1.6rem; padding-right:1.6rem; }
+  .nav-links { display:none; }
+  .nav-hamburger { display:flex; }
+  .nav-links.open { display:flex; flex-direction:column; position:fixed; inset:0; top:58px; background:var(--cream); padding:2.2rem 1.6rem; gap:1.3rem; align-items:flex-start; z-index:99; }
+  .nav-links.open a { opacity:1; font-size:.95rem; }
+  .zz-drop { width:100%; }
+  .zz-drop-m { position:static; transform:none; min-width:0; border:none; background:transparent; box-shadow:none; padding:.55rem 0 0 1rem; border-left:2px solid #E2DAD0; margin-top:.5rem; }
+  .zz-drop-m a { padding:.45rem 0; font-size:.8rem; }
+}
+/* Hueco bajo la barra fija y pie al final aunque la página sea corta */
+html, body { min-height:100%; }
+body.con-marco { display:flex; flex-direction:column; min-height:100vh; }
+body.con-marco > main { flex:1; margin-top:0; padding-top:7.5rem; padding-bottom:4rem; width:100%; }
+@media (max-width:960px) { body.con-marco > main { padding-top:6rem; } }
+footer.innaz-pie { background:#080808; padding:2.4rem 3.5rem; }
+footer.innaz-pie .footer-inner { max-width:1140px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.2rem; }
+footer.innaz-pie .footer-logo { font-family:'Cormorant SC',serif; font-size:1.4rem; font-weight:700; color:rgba(255,255,255,.88); }
+footer.innaz-pie .footer-logo span { color:var(--teal); }
+footer.innaz-pie .footer-copy { font-size:.76rem; color:rgba(255,255,255,.6); margin:0; }
+/* Aviso de web de pruebas: solo se ve en *.pages.dev (lo decide innaz-marco.js); abajo, para no tapar el menú */
+.aviso-pruebas { display:none; position:fixed; left:0; right:0; bottom:0; z-index:200; }
+body.es-pruebas .aviso-pruebas { display:block; }
+
+/* La marca dentro de la caja sobra con la cabecera de la web (30-10-2026) */
+body.con-marco .marca { display:none; }

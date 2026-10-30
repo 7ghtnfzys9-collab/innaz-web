@@ -7,7 +7,8 @@
 <title>Suscríbete · INNAZ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Cormorant+SC:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="innaz-marco.css">
 <link rel="stylesheet" href="mi-innaz.css">
 <style>
 /* Página de suscripciones (28-10-2026, punto 2). Mismos textos y precios que el bloque «Suscríbete a INNAZ» de innaz.es. */
@@ -42,6 +43,19 @@ main.planes { max-width:1100px; }
 </style>
 </head>
 <body>
+<nav id="navbar">
+  <a href="index.html#inicio" class="nav-logo">INNA<span>Z</span></a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="que-es-innaz.html">Qué es INNAZ</a></li>
+    <li class="zz-drop"><a href="index.html#pilares" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Pilares<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="proyecto-formacion.html">Formación</a></li><li><a href="proyecto-recuperacion.html">Recuperación</a></li><li><a href="proyecto-interpretacion.html">Interpretación</a></li><li><a href="proyecto-creacion.html">Creación</a></li></ul></li>
+    <li><a href="buscador.html">Zarzuteca</a></li>
+    <li class="zz-drop"><a href="index.html#noticias" class="zz-drop-t" aria-haspopup="true" aria-expanded="false">Actualidad<span class="zz-car">▾</span></a><ul class="zz-drop-m"><li><a href="cartelera.html">Cartelera</a></li><li><a href="valoraciones.html">Valoraciones</a></li><li><a href="noticias.html">Noticias</a></li></ul></li>
+    <li><a href="suscripciones.html" class="nav-cta active">Suscríbete</a></li>
+    <li><a id="nav-entrar" href="entrar.html">Entrar</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
 <div class="aviso-pruebas">Web de pruebas · no es innaz.es</div>
 <main class="planes">
   <div class="caja">
@@ -257,5 +271,12 @@ $('f').addEventListener('submit', async e => {
   finally { b.disabled = false; }
 });
 </script>
+<footer class="innaz-pie">
+  <div class="footer-inner">
+    <div class="footer-logo">INNA<span>Z</span></div>
+    <p class="footer-copy">© 2026 Instituto Nacional de Zarzuela · Todos los derechos reservados</p>
+  </div>
+</footer>
+<script src="innaz-marco.js"></script>
 </body>
 </html>
