@@ -16,6 +16,9 @@ input:focus { outline:2px solid var(--teal); outline-offset:1px; }
 button { margin-top:20px; background:var(--teal); color:#fff; border:0; padding:12px 22px; font:inherit; cursor:pointer; }
 button:hover { background:var(--teal-osc); }
 button.secundario { background:transparent; color:var(--teal-osc); border:1px solid var(--teal-osc); }
+/* 31-10-2026: al pasar el ratón o tocar, los botones con borde se rellenaban del mismo turquesa que su texto y este desaparecía */
+button.secundario:hover, button.secundario:focus-visible { background:#e7f5f8; color:var(--teal-osc); }
+.enlace-mini:hover, .enlace-mini:focus { background:none; color:var(--teal); }
 .mensaje { margin-top:16px; font-size:.95rem; }
 .mensaje.error { color:var(--error); }
 .simulado { margin-top:16px; padding:12px; background:#fff8e1; border:1px dashed #c9a227; font-size:.85rem; word-break:break-all; }

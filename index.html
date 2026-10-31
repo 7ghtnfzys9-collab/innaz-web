@@ -451,10 +451,11 @@
     .plan-period { font-size: .78rem; color: var(--muted); margin-bottom: 1.6rem; }
     .plan-card.featured .plan-period { color: rgba(255,255,255,.65); }
     .plan-feats { list-style: none; margin-bottom: 2rem; }
+    /* 31-10-2026: sin flex en el <li> (con flex, la «Z» turquesa de INNAZ y de ZLabs partía la frase en trozos); viñeta en absoluto */
     .plan-feats li {
       font-size: .86rem; color: var(--muted);
-      padding: .38rem 0; display: flex; gap: .6rem;
-      align-items: flex-start; line-height: 1.5;
+      padding: .38rem 0 .38rem 1.1rem; display: block; position: relative;
+      line-height: 1.5;
       border-bottom: 1px solid var(--border);
     }
     .plan-card.featured .plan-feats li {
@@ -463,7 +464,7 @@
     }
     .plan-feats li::before {
       content: '✦'; color: var(--teal); font-size: .48rem;
-      margin-top: .42em; flex-shrink: 0;
+      position: absolute; left: .1rem; top: 1.25em; line-height: 1;
     }
     .btn-plan {
       width: 100%; padding: .82rem;
@@ -476,6 +477,11 @@
     .btn-plan:hover, .plan-card.featured .btn-plan {
       background: var(--teal); color: var(--white);
     }
+    /* 31-10-2026: cabecera de «Suscríbete a INNAZ» con un solo botón a la derecha */
+    .socio-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .socio-cabecera .section-title { margin-bottom: 0; }
+    .btn-plan.socio-cta { width: auto; padding: .95rem 2.2rem; background: var(--teal); color: var(--white); flex-shrink: 0; }
+    .btn-plan.socio-cta:hover { background: var(--teal-dark); border-color: var(--teal-dark); }
 
     /* ─── PLANES: mensual/anual, nota y aviso legal ─── */
     .plan-period strong { color: var(--teal-dark); font-weight: 600; }
@@ -1032,7 +1038,11 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
   <div class="section-inner">
     <div class="reveal">
       <p class="section-label">Apóyanos</p>
-      <h2 class="section-title">Suscríbete a INNAZ</h2>
+      <!-- 31-10-2026 (César): un solo botón, a la derecha del título, en lugar de uno por tarjeta -->
+      <div class="socio-cabecera">
+        <h2 class="section-title">Suscríbete a INNAZ</h2>
+        <button type="button" class="btn-plan lleno socio-cta" onclick="solicitarPlan('')">Quiero suscribirme</button>
+      </div>
       <p class="socio-intro">
         Tu suscripción sostiene el trabajo de INNAZ en sus cuatro pilares. La Zarzuteca
         es un catálogo abierto: la ficha de cada obra —autoría, teatro, personajes,
@@ -1055,7 +1065,6 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
           <li>Descuentos en zarzuela y en concursos</li>
           <li>Certificado y carné digital de suscriptor</li>
         </ul>
-        <button class="btn-plan" onclick="solicitarPlan('Simpatizante')">Quiero suscribirme</button>
       </div>
 
       <div class="plan-card featured reveal">
@@ -1070,7 +1079,6 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
           <li>Invitaciones a ensayos y actos privados</li>
           <li>Asesoramiento gratuito del Sello de Calidad</li>
         </ul>
-        <button class="btn-plan" onclick="solicitarPlan('Colaborador')">Quiero suscribirme</button>
       </div>
 
       <div class="plan-card reveal">
@@ -1084,7 +1092,6 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
           <li>Ediciones nuevas 15 días antes, con tu nombre en los créditos</li>
           <li>Encuentros con artistas</li>
         </ul>
-        <button class="btn-plan" onclick="solicitarPlan('Protector')">Quiero suscribirme</button>
       </div>
 
       <div class="plan-card reveal">
@@ -1097,7 +1104,6 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
           <li>Dos plazas en la cena de la Gala Anual</li>
           <li>Distinción de INNAZ</li>
         </ul>
-        <button class="btn-plan" onclick="solicitarPlan('Mecenas')">Quiero información</button>
       </div>
 
     </div>
@@ -1255,7 +1261,7 @@ header.lh .inner,header.page-head .inner,header.page-head .section-inner,header.
     planElegido = plan;
     var caja = document.getElementById('avisoPlan');
     var nom = document.getElementById('avisoPlanNombre');
-    if (nom) nom.textContent = plan;
+    if (nom) nom.textContent = plan || 'a INNAZ';   // 31-10-2026: botón único de la cabecera
     if (caja) { caja.classList.add('abierto'); var b = document.getElementById('avisoPlanCerrar'); if (b) b.focus(); }
   }
   function cerrarAvisoPlan() {

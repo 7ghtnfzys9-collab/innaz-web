@@ -21,14 +21,19 @@
   .separador { display:flex; align-items:center; gap:12px; color:var(--gris); font-size:.85rem; margin:20px 0 4px; }
   .separador::before, .separador::after { content:''; flex:1; border-top:1px solid var(--linea); }
   .enlace { background:none; border:0; padding:0; color:var(--teal-osc); text-decoration:underline; cursor:pointer; font:inherit; font-size:.9rem; }
+  .enlace:hover, .enlace:focus, .enlace:active { background:none; color:var(--teal); }   /* 31-10-2026: antes se ponía turquesa entero y desaparecía el texto */
   .quien { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:10px 12px; background:#faf8f4; border:1px solid var(--linea); margin:10px 0 4px; word-break:break-all; }
   .clave-caja { position:relative; }
   .clave-caja input { padding-right:84px; }
   .ver-clave { position:absolute; right:6px; top:50%; transform:translateY(-50%); background:none; border:0; color:var(--teal-osc); font:inherit; font-size:.85rem; cursor:pointer; padding:6px; margin:0; }
+  .ver-clave:hover, .ver-clave:focus, .ver-clave:active { background:none; color:var(--teal); }   /* 31-10-2026: «Mostrar» se quedaba turquesa sin texto */
   .dos { display:grid; grid-template-columns:1fr 1fr; gap:0 14px; }
   @media (max-width:560px) { .dos { grid-template-columns:1fr; } }
   select { width:100%; }
   .pie { margin-top:20px; font-size:.9rem; color:var(--gris); }
+  /* 31-10-2026: la forma de entrar de la última vez, señalada (sin esconder las demás) */
+  .habitual:not(form) { box-shadow:0 0 0 3px #e7f5f8, 0 0 0 4px var(--teal); }
+  form.habitual #i-correo { border-color:var(--teal); }
 </style>
 </head>
 <body>
@@ -73,6 +78,7 @@
       <!-- Sin recuerdo: las tres formas, y el correo decide si se entra o se crea la cuenta -->
       <div id="general">
         <h1>Entra o crea tu cuenta</h1>
+        <p id="i-ultima" class="nota oculto" style="margin:-6px 0 4px"></p>
         <div class="acciones">
           <a class="boton google oculto" id="i-google" href="/api/acceso/google?accion=inicio">Continuar con Google</a>
           <button type="button" class="secundario oculto" id="i-llave">Entrar con Face ID / Touch ID</button>
@@ -124,6 +130,8 @@
         <select id="r-pais" autocomplete="country"></select>
         <label for="r-clave">Contraseña <span class="nota">(al menos 12 caracteres)</span></label>
         <div class="clave-caja"><input id="r-clave" type="password" autocomplete="new-password"><button type="button" class="ver-clave" data-ver="r-clave">Mostrar</button></div>
+        <label for="r-clave2">Repite la contraseña</label>
+        <div class="clave-caja"><input id="r-clave2" type="password" autocomplete="new-password"><button type="button" class="ver-clave" data-ver="r-clave2">Mostrar</button></div>
         <div class="casilla"><input id="r-privacidad" type="checkbox"><label for="r-privacidad">Acepto la <a href="#" onclick="return false">política de privacidad</a> (borrador).</label></div>
         <div class="casilla"><input id="r-boletin" type="checkbox"><label for="r-boletin">Quiero recibir el boletín de INNAZ.</label></div>
         <div class="acciones">
@@ -150,6 +158,8 @@
         <input type="email" id="c-correo" autocomplete="username" class="oculto" tabindex="-1">
         <label for="c-clave">Contraseña nueva <span class="nota">(al menos 12 caracteres)</span></label>
         <div class="clave-caja"><input id="c-clave" type="password" autocomplete="new-password"><button type="button" class="ver-clave" data-ver="c-clave">Mostrar</button></div>
+        <label for="c-clave2">Repite la contraseña</label>
+        <div class="clave-caja"><input id="c-clave2" type="password" autocomplete="new-password"><button type="button" class="ver-clave" data-ver="c-clave2">Mostrar</button></div>
         <div class="acciones"><button type="submit">Guardar y entrar</button></div>
       </form>
       <p id="c-msg" class="mensaje" role="status"></p>
@@ -225,7 +235,7 @@ async function entrarConLlave(b, msgId) {
   recordar('llave', { nombre: r.d.nombre || null, correo: r.d.correo || null }); location.replace(destino());
 }
 
-// ── Mostrar u ocultar la contraseña (un solo campo, sin repetirla) ──
+// ── Mostrar u ocultar la contraseña (31-10-2026: al crearla se escribe dos veces; cada campo tiene su «Mostrar») ──
 document.querySelectorAll('[data-ver]').forEach(b => b.addEventListener('click', () => {
   const i = $(b.dataset.ver), mostrar = i.type === 'password'; i.type = mostrar ? 'text' : 'password'; b.textContent = mostrar ? 'Ocultar' : 'Mostrar'; i.focus();
 }));
@@ -234,11 +244,20 @@ document.querySelectorAll('[data-cambiar]').forEach(b => b.addEventListener('cli
 // ── Paso 1 ──
 let correoActual = '';
 function pintarInicio(sinRecuerdo = false) {
-  const rc = sinRecuerdo ? null : leerRecuerdo();
-  $('recuerdo').classList.toggle('oculto', !rc); $('general').classList.toggle('oculto', !!rc);
+  // 31-10-2026 (César): siempre el cuadro completo (Google, Face ID y correo). Lo recordado solo rellena el correo
+  // y señala la forma de entrar de la última vez; ya no se esconde lo demás tras «Entrar de otra forma».
+  $('recuerdo').classList.add('oculto'); $('general').classList.remove('oculto');
   $('i-google').classList.toggle('oculto', !googleActivo); $('i-llave').classList.toggle('oculto', !hayLlaves);
   $('i-sep').classList.toggle('oculto', !googleActivo && !hayLlaves);
+  ['i-google', 'i-llave', 'f-inicio'].forEach(id => $(id).classList.remove('habitual'));
+  $('i-ultima').classList.add('oculto');
+  const rc = sinRecuerdo ? null : leerRecuerdo();
   if (!rc) return;
+  if (rc.correo && !$('i-correo').value) $('i-correo').value = rc.correo;
+  const marca = rc.metodo === 'google' && googleActivo ? 'i-google' : rc.metodo === 'llave' && hayLlaves ? 'i-llave' : rc.metodo === 'clave' ? 'f-inicio' : null;
+  const COMO = { 'i-google': 'con Google', 'i-llave': 'con Face ID / Touch ID', 'f-inicio': 'con tu correo y contraseña' };
+  if (marca) { $(marca).classList.add('habitual'); const u = $('i-ultima'); u.textContent = (rc.nombre ? `Hola de nuevo, ${rc.nombre}. ` : '') + `La última vez entraste ${COMO[marca]}.`; u.classList.remove('oculto'); }
+  return;
   $('rc-titulo').textContent = rc.nombre ? `Hola de nuevo, ${rc.nombre}` : 'Hola de nuevo';
   $('rc-nombre').textContent = rc.nombre || 'yo';
   const otro = $('rc-otro'); otro.textContent = '';
@@ -311,7 +330,8 @@ function datosRegistro(conClave) {
   const d = { correo: correoActual, nombre: $('r-nombre').value.trim(), apellidos: $('r-apellidos').value.trim(), pais: $('r-pais').value,
               privacidad: $('r-privacidad').checked, boletin: $('r-boletin').checked, volver };
   const falta = !d.nombre ? ['nombre', 'Escribe tu nombre.'] : !d.apellidos ? ['apellidos', 'Escribe tus apellidos.'] : !d.pais ? ['pais', 'Elige tu país de residencia.']
-    : conClave && !$('r-clave').value ? ['clave', 'Escribe una contraseña.'] : !d.privacidad ? ['privacidad', 'Para crear la cuenta tienes que aceptar la política de privacidad.'] : null;
+    : conClave && !$('r-clave').value ? ['clave', 'Escribe una contraseña.']
+    : conClave && $('r-clave').value !== $('r-clave2').value ? ['clave2', 'Las dos contraseñas no coinciden.'] : !d.privacidad ? ['privacidad', 'Para crear la cuenta tienes que aceptar la política de privacidad.'] : null;
   if (falta) { aviso('r-msg', falta[1], true); marcar(falta[0], 'r'); return null; }
   if (conClave) d.clave = $('r-clave').value;
   return d;
@@ -340,6 +360,7 @@ $('r-llave').addEventListener('click', async () => {
 $('f-clave').addEventListener('submit', async e => {
   e.preventDefault(); const b = e.target.querySelector('button[type=submit]');
   const pass = $('c-clave').value; if (!pass) { aviso('c-msg', 'Escribe la contraseña.', true); return; }
+  if (pass !== $('c-clave2').value) { aviso('c-msg', 'Las dos contraseñas no coinciden.', true); $('c-clave2').focus(); return; }   // 31-10-2026 (César): se escribe dos veces
   ocupado(b, true); aviso('c-msg', 'Un momento…');
   const r = await clave({ accion: 'crear', ficha: $('f-clave').dataset.ficha, clave: pass }); ocupado(b, false);
   if (!r.ok) { aviso('c-msg', r.d.error, true); return; }
