@@ -83,6 +83,22 @@
     #su-lista tr, #su-f-hist tr, #su-pend tr { display:block; border-bottom:1px solid #e5e1d8; padding:6px 0; }
     #su-lista td, #su-f-hist td, #su-pend td { display:block; border:0; padding:2px 6px; } #su-lista th, #su-f-hist th { display:none; } .x-no { display:block; border:0; padding:2px 6px; } }
   @media (max-width:760px) { .zl-fila { grid-template-columns:1fr; } .zl-cont { grid-template-columns:1fr 1fr; } }
+  /* Panel · Personas y Roles (30-10-2026) */
+  details.bloque-panel { margin:18px 0 6px; }
+  details.bloque-panel > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px; }
+  details.bloque-panel > summary::-webkit-details-marker { display:none; }
+  details.bloque-panel > summary h2 { font-family:'Cormorant',Georgia,serif; font-weight:600; margin:0; }
+  details.bloque-panel > summary .flecha { color:var(--teal-osc); font-size:1rem; transition:transform .18s; }
+  details.bloque-panel[open] > summary .flecha { transform:rotate(180deg); }
+  details.bloque-panel > summary:focus-visible { outline:2px solid var(--teal); outline-offset:3px; }
+  button.peq { margin:6px 6px 0 0; padding:4px 10px; font-size:.8rem; }
+  .botonera { display:flex; flex-wrap:wrap; align-items:center; margin-top:12px; }
+  .rol .su-caja { margin:12px 0 4px; }
+  button.peligro { background:#a32020; color:#fff; border:0; } button.peligro:hover { background:#7e1818; }
+  dialog.dlg { border:0; border-top:4px solid var(--teal); padding:22px 24px; max-width:440px; width:calc(100% - 32px); box-shadow:0 18px 50px rgba(0,0,0,.25); }
+  dialog.dlg::backdrop { background:rgba(0,0,0,.35); }
+  dialog.dlg h3 { font-family:'Cormorant',Georgia,serif; font-weight:600; font-size:1.35rem; margin:0 0 8px; }
+  dialog.dlg p { margin:0; font-size:.92rem; line-height:1.55; }
 </style>
 </head>
 <body>
@@ -134,12 +150,12 @@
       <p id="sin-secciones" class="nota oculto">Tu rol todavía no tiene ninguna sección con página propia.</p>
       <!-- Pestaña «Panel de control»: SOLO organización de personas y roles -->
       <div id="t-panel" class="pestana oculto" role="tabpanel">
-      <!-- Personas (César, 29-10-2026): mismo formato que Roles: tarjetas, «Modificar», «Quitar» y «+ Añadir una persona» -->
-      <div id="m-personas" class="oculto">
-        <h2 style="font-family:'Cormorant',Georgia,serif;font-weight:600">Personas</h2>
+      <!-- Personas (César, 29-10-2026; desplegable y botones nuevos el 30-10-2026) -->
+      <details id="m-personas" class="bloque-panel oculto">
+        <summary><h2>Personas</h2><span class="flecha" aria-hidden="true">▾</span></summary>
+        <button type="button" id="pe-nuevo" class="secundario peq">Añadir Persona</button>
         <p class="nota">Quienes trabajan en la gestión de INNAZ y sus roles. Conviene que haya al menos <strong>dos Administradores</strong>: si uno no puede entrar, el otro le restablece la contraseña.</p>
         <div id="pe-lista"></div>
-        <button type="button" id="pe-nuevo" class="secundario">+ Añadir una persona</button>
         <div id="pe-form" class="su-caja oculto">
           <h4 id="pe-form-tit" style="margin:0 0 8px">Nueva persona</h4>
           <div class="su-rej">
@@ -150,15 +166,15 @@
           <p style="margin:12px 0 4px"><strong>Roles</strong></p>
           <div id="pe-roles" class="r-permisos"></div>
           <p class="nota" id="pe-nota">Si no tiene cuenta, se crea con estos datos (cuenta de trabajo). Le llegará un correo con un enlace para crear su contraseña (vale 48 horas).</p>
-          <button type="button" id="pe-guardar">Guardar</button> <button type="button" id="pe-cancelar" class="secundario">Cancelar</button>
+          <div class="botonera"><button type="button" id="pe-guardar" class="peq">Guardar</button><button type="button" id="pe-cancelar" class="secundario peq">Cancelar</button><button type="button" id="pe-restablecer" class="secundario peq oculto">Restablecer contraseña</button></div>
         </div>
-      </div>
+      </details>
       <!-- Roles (César, 29-10-2026): crear, modificar y borrar roles · solo Administrador (perfiles.gestionar) -->
-      <div id="m-roles" class="oculto">
-        <h2 style="font-family:'Cormorant',Georgia,serif;font-weight:600">Roles</h2>
-        <p class="nota">Cada rol es un conjunto de permisos. El rol Administrador tiene siempre todos y no se modifica. Un rol solo se puede borrar si nadie lo tiene.</p>
+      <details id="m-roles" class="bloque-panel oculto">
+        <summary><h2>Roles</h2><span class="flecha" aria-hidden="true">▾</span></summary>
+        <button type="button" id="r-nuevo" class="secundario peq">Crear Rol</button>
+        <p class="nota">Cada rol es un conjunto de permisos. El rol Administrador tiene siempre todos y no se modifica. Un rol solo se puede eliminar si nadie lo tiene.</p>
         <div id="r-lista"></div>
-        <button type="button" id="r-nuevo" class="secundario">+ Crear un rol</button>
         <div id="r-form" class="su-caja oculto">
           <h4 id="r-form-tit" style="margin:0 0 8px">Nuevo rol</h4>
           <div class="su-rej">
@@ -167,9 +183,9 @@
           </div>
           <div class="casilla"><input id="r-aprob" type="checkbox"><label for="r-aprob">Sus cambios públicos esperan el visto bueno de Presidencia</label></div>
           <div id="r-permisos" class="r-permisos"></div>
-          <button type="button" id="r-guardar">Guardar el rol</button> <button type="button" id="r-cancelar" class="secundario">Cancelar</button>
+          <div class="botonera"><button type="button" id="r-guardar" class="peq">Guardar el rol</button><button type="button" id="r-cancelar" class="secundario peq">Cancelar</button></div>
         </div>
-      </div>
+      </details>
       </div>
       <!-- Pestaña «ZLabs» (pilar Formación) · selección: con el permiso «zlabs.ver» -->
       <div id="t-zlabs" class="pestana oculto" role="tabpanel">
@@ -286,24 +302,18 @@
         </div>
       </div>
       </div>
-      <!-- Común a todas las pestañas (auditoría 29-10-2026: antes solo se veía en Panel de control) -->
-      <details style="margin-top:20px"><summary class="nota">Tus permisos</summary><table id="p-permisos"></table></details>
-      <!-- Cambiar mi contraseña (César, 30-10-2026) -->
-      <details id="cambiar-caja" style="margin-top:8px"><summary class="nota">Cambiar mi contraseña</summary>
-        <form id="f-cambiar" novalidate style="max-width:420px">
-          <input type="email" id="x-usuario" autocomplete="username" class="oculto" readonly>
-          <label for="x-actual">Contraseña actual</label><input id="x-actual" type="password" autocomplete="current-password" class="campo">
-          <label for="x-nueva">Contraseña nueva <span class="nota">(al menos 12 caracteres)</span></label><input id="x-nueva" type="password" autocomplete="new-password" class="campo">
-          <label for="x-nueva2">Repite la nueva</label><input id="x-nueva2" type="password" autocomplete="new-password" class="campo">
-          <button type="submit" id="b-cambiar">Cambiar mi contraseña</button>
-        </form>
-      </details>
+      <!-- 30-10-2026 (César): fuera «Tus permisos» y «Cambiar mi contraseña». La contraseña se crea de nuevo con «He olvidado mi contraseña» o la restablece quien tenga ese permiso. -->
     </div>
 
     <p id="msg" class="mensaje" role="status"></p>
     <p><button type="button" id="b-salir" class="secundario">Salir</button></p>
   </div>
 </main>
+<!-- Ventana de confirmación (César, 30-10-2026): eliminar personas y roles, restablecer contraseñas, dar el Administrador -->
+<dialog id="dlg" class="dlg" aria-labelledby="dlg-tit">
+  <h3 id="dlg-tit"></h3><p id="dlg-txt"></p>
+  <div class="botonera"><button type="button" id="dlg-si" class="peq"></button><button type="button" id="dlg-no" class="secundario peq">Cancelar</button></div>
+</dialog>
 <script>
 const $ = id => document.getElementById(id);
 // Pantallas: entrar, olvido, crear contraseña y panel (30-10-2026: correo y contraseña, sin segundo factor)
@@ -323,13 +333,10 @@ async function panel() {
   const d = await r.json().catch(() => ({}));
   if (!r.ok) { ver('v-entrar'); if (r.status !== 401) msg(d.error, true); $('e-correo').focus(); return; }
   ver('v-panel'); msg('');
-  $('x-usuario').value = d.usuario.correo;
   $('p-nombre').textContent = d.usuario.nombre || ''; $('p-sep').classList.toggle('oculto', !d.usuario.nombre);
   $('p-correo').textContent = d.usuario.correo;
   $('p-perfiles').textContent = d.perfiles.map(p => p.nombre).join(', ');
   if (d.gestionHasta) $('p-hasta').textContent = 'Permiso de gestión hasta las ' + new Date(d.gestionHasta * 1000).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) + '. Después se vuelve a pedir la contraseña.';
-  const t = $('p-permisos'); t.textContent = '';
-  for (const p of d.permisos) { const tr = t.insertRow(); tr.insertCell().textContent = p.grupo; tr.insertCell().textContent = p.texto; }
   secciones = d.secciones || []; permisosYo = d.permisos.map(p => p.clave);
   const nav = $('pestanas'); nav.textContent = '';
   for (const sc of secciones) { const b = document.createElement('button'); b.type = 'button'; b.role = 'tab'; b.dataset.clave = sc.clave;
@@ -397,6 +404,23 @@ function botonDoble(texto, clave, accion) {
   };
   return b;
 }
+/* Ventana de confirmación (30-10-2026): devuelve true si se pulsa el botón de acción */
+function confirmar(titulo, texto, boton, peligro = true) {
+  const d = $('dlg'); $('dlg-tit').textContent = titulo; $('dlg-txt').textContent = texto;
+  const si = $('dlg-si'); si.textContent = boton; si.className = 'peq' + (peligro ? ' peligro' : '');
+  return new Promise(res => {
+    const fin = v => { si.onclick = null; $('dlg-no').onclick = null; d.onclose = null; if (d.open) d.close(); res(v); };
+    si.onclick = () => fin(true); $('dlg-no').onclick = () => fin(false); d.onclose = () => fin(false);
+    d.showModal(); $('dlg-no').focus();
+  });
+}
+async function accionConfirmada(titulo, texto, boton, accion, peligro = true) {
+  if (!(await confirmar(titulo, texto, boton, peligro))) return;
+  msg('Un momento…'); const r = await accion(); msg(r.d.mensaje || r.d.error, !r.ok); mostrarSim(r.d);
+  await refrescarPanel(); pintarSim();
+}
+/* Los formularios se abren dentro de la tarjeta (empujan hacia abajo a las demás). Antes de repintar la lista, vuelven a su sitio. */
+function guardarForm(id, tras) { const f = $(id); f.classList.add('oculto'); $(tras).after(f); }
 let peDatos = null, peEditando = null;
 async function personas() {
   let r, d;
@@ -404,6 +428,7 @@ async function personas() {
   catch { msg('No se ha podido cargar la lista de personas. Prueba a recargar la página.', true); return false; }
   if (!r.ok) { msg(d.error || 'No se ha podido cargar la lista de personas.', true); return false; }
   peDatos = d; $('m-personas').classList.remove('oculto');
+  guardarForm('pe-form', 'pe-lista'); peEditando = null;
   const L = $('pe-lista'); L.textContent = '';
   for (const pe of d.personas) {
     const yoFila = pe.correo === d.yo;
@@ -414,16 +439,19 @@ async function personas() {
     if (!pe.tieneClave) h.append(' ', el('span', 'aún no ha creado su contraseña', 'su-etq pend'));
     c.append(h, el('div', pe.correo, 'nota'));
     const ac = el('div', null, 'su-acc');
-    const bm = el('button', 'Modificar'); bm.type = 'button'; bm.className = 'secundario'; bm.onclick = () => peForm(pe); ac.append(bm);
-    if (!yoFila) ac.append(botonDoble('Quitar', 'q|' + pe.correo, () => postP({ accion: 'quitar', correo: pe.correo })));
-    const esAdminFila = pe.perfiles.some(x => x.id === 'administrador');
-    if (!yoFila && d.puedeRestablecer && (d.soyAdmin || !esAdminFila))
-      ac.append(botonDoble(pe.tieneClave ? 'Restablecer contraseña' : 'Reenviar el enlace', 'f|' + pe.correo, () => postP({ accion: 'restablecer_clave', correo: pe.correo })));
+    const bm = el('button', 'Modificar'); bm.type = 'button'; bm.className = 'secundario'; bm.onclick = () => peForm(pe, c); ac.append(bm);
+    const quien = [pe.nombre, pe.apellidos].filter(Boolean).join(' ') || pe.correo;
+    if (!yoFila) { const be = el('button', 'Eliminar'); be.type = 'button'; be.className = 'secundario';
+      be.onclick = () => accionConfirmada('Eliminar a ' + quien, quien + ' dejará de estar en la gestión: se le retiran todos sus roles y ya no podrá entrar en el panel. Su cuenta no se borra (si es suscriptor, lo sigue siendo). Le llegará un aviso por correo.', 'Eliminar', () => postP({ accion: 'quitar', correo: pe.correo }));
+      ac.append(be); }
     c.append(ac); L.append(c);
   }
 }
-function peForm(pe) {
-  peEditando = pe || null; $('pe-form').classList.remove('oculto');
+function peForm(pe, tarjeta) {
+  if (pe && peEditando && peEditando.correo === pe.correo && !$('pe-form').classList.contains('oculto')) { guardarForm('pe-form', 'pe-lista'); peEditando = null; return; }   // segundo clic: se pliega
+  peEditando = pe || null;
+  if (tarjeta) tarjeta.append($('pe-form')); else $('pe-nuevo').after($('pe-form'));
+  $('pe-form').classList.remove('oculto');
   $('pe-form-tit').textContent = pe ? 'Modificar a ' + ([pe.nombre, pe.apellidos].filter(Boolean).join(' ') || pe.correo) : 'Nueva persona';
   $('pe-nombre').value = pe ? (pe.nombre || '') : ''; $('pe-apellidos').value = pe ? (pe.apellidos || '') : ''; $('pe-correo').value = pe ? pe.correo : '';
   $('pe-nota').classList.toggle('oculto', !!pe);
@@ -433,10 +461,20 @@ function peForm(pe) {
     cb.checked = !!pe && pe.perfiles.some(x => x.id === ro.id); if (yoFila && ro.id === 'administrador' && cb.checked) cb.disabled = true;   // no te quitas el Administrador a ti mismo
     lb.append(cb, ro.nombre); R.append(lb); }
   $('pe-guardar').textContent = 'Guardar';
-  $('pe-form').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('pe-nombre').focus();
+  // Restablecer contraseña: dentro del cuadro, a la derecha de Guardar y Cancelar (César, 30-10-2026)
+  const rb = $('pe-restablecer'), esAdminFila = !!pe && pe.perfiles.some(x => x.id === 'administrador');
+  const puede = !!pe && !yoFila && peDatos.puedeRestablecer && (peDatos.soyAdmin || !esAdminFila);
+  rb.classList.toggle('oculto', !puede);
+  if (puede) { rb.textContent = pe.tieneClave ? 'Restablecer contraseña' : 'Reenviar el enlace';
+    const quien = [pe.nombre, pe.apellidos].filter(Boolean).join(' ') || pe.correo;
+    rb.onclick = () => accionConfirmada(pe.tieneClave ? 'Restablecer la contraseña' : 'Reenviar el enlace',
+      pe.tieneClave ? 'La contraseña actual de ' + quien + ' deja de valer y se cierran sus sesiones. Le llegará un correo con un enlace para crear otra (vale 48 horas).'
+                    : 'Le llegará a ' + quien + ' un correo nuevo con el enlace para crear su contraseña (vale 48 horas).',
+      pe.tieneClave ? 'Restablecer' : 'Reenviar', () => postP({ accion: 'restablecer_clave', correo: pe.correo }), !!pe.tieneClave); }
+  $('pe-form').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); $('pe-nombre').focus();
 }
 $('pe-nuevo').onclick = () => peForm(null);
-$('pe-cancelar').onclick = () => { $('pe-form').classList.add('oculto'); peEditando = null; };
+$('pe-cancelar').onclick = () => { guardarForm('pe-form', 'pe-lista'); peEditando = null; };
 $('pe-guardar').onclick = async () => {
   const nombre = $('pe-nombre').value.trim(), apellidos = $('pe-apellidos').value.trim(), correo = $('pe-correo').value.trim();
   if (!nombre || !apellidos || !correo) { msg('Escribe el nombre, los apellidos y el correo.', true); return; }
@@ -444,14 +482,14 @@ $('pe-guardar').onclick = async () => {
   const antes = peEditando ? peEditando.perfiles.map(x => x.id) : [];
   const nuevos = marcados.filter(x => !antes.includes(x));
   if (!peEditando && !marcados.length) { msg('Marca al menos un rol.', true); return; }
-  if (peEditando && !marcados.length) { msg('Para quitarle todos los roles, usa «Quitar».', true); return; }
+  if (peEditando && !marcados.length) { msg('Para quitarle todos los roles, usa «Eliminar».', true); return; }
   const b = $('pe-guardar');
-  if (nuevos.includes('administrador') && pendiente !== 'admin|' + correo) { armar('admin|' + correo, b, 'Guardar'); b.textContent = '¿Seguro? El Administrador tiene acceso a todo. Pulsa otra vez'; return; }
-  pendiente = null; b.disabled = true; msg('Un momento…');
+  if (nuevos.includes('administrador') && !(await confirmar('Dar el rol Administrador', 'El Administrador tiene acceso a todo: personas, roles, suscripciones y todas las secciones. ¿Se lo das a ' + correo + '?', 'Dar el Administrador', false))) return;
+  b.disabled = true; msg('Un momento…');
   // Una sola petición con todo el formulario (auditoría 29-10-2026: antes, una por dato y por rol; si fallaba una, quedaba a medias)
   const r = await postP({ accion: 'guardar', correo: peEditando ? peEditando.correo : correo, nuevoCorreo: peEditando ? correo : undefined, nombre, apellidos, roles: marcados });
   b.disabled = false; b.textContent = 'Guardar'; msg(r.d.mensaje || r.d.error, !r.ok); mostrarSim(r.d && { ...r.d, correo: r.d.correo || correo });
-  if (r.ok) { $('pe-form').classList.add('oculto'); peEditando = null; await refrescarPanel(); pintarSim(); }
+  if (r.ok) { guardarForm('pe-form', 'pe-lista'); peEditando = null; await refrescarPanel(); pintarSim(); }
 };
 
 // ── Roles (César, 29-10-2026) ──────────────────────────────────────────
@@ -464,6 +502,7 @@ async function roles() {
   catch { msg('No se ha podido cargar la lista de roles. Prueba a recargar la página.', true); return false; }
   if (!r.ok) { msg(d.error || 'No se ha podido cargar la lista de roles.', true); return false; }
   rolesDatos = d; $('m-roles').classList.remove('oculto');
+  guardarForm('r-form', 'r-lista'); rolEditando = null;
   const L = $('r-lista'); L.textContent = '';
   const txt = Object.fromEntries(d.catalogo.map(x => [x.clave, x]));
   for (const ro of d.roles) {
@@ -475,8 +514,12 @@ async function roles() {
       const grupos = {}; for (const k of ro.permisos) if (txt[k]) (grupos[txt[k].grupo] ||= []).push(k);
       c.append(el('div', Object.entries(grupos).map(([g, ks]) => g + ': ' + ks.length).join(' · ') || 'Sin permisos', 'nota'));
       const ac = el('div', null, 'su-acc');
-      const be = el('button', 'Modificar'); be.type = 'button'; be.className = 'secundario'; be.onclick = () => rolForm(ro); ac.append(be);
-      ac.append(botonDobleR('Borrar', 'rb|' + ro.id, () => postR({ accion: 'borrar', id: ro.id })));
+      const be = el('button', 'Modificar'); be.type = 'button'; be.className = 'secundario'; be.onclick = () => rolForm(ro, c); ac.append(be);
+      const bx = el('button', 'Eliminar'); bx.type = 'button'; bx.className = 'secundario';
+      bx.onclick = () => accionConfirmada('Eliminar el rol «' + ro.nombre + '»',
+        ro.personas ? 'Este rol lo tienen ' + ro.personas + (ro.personas === 1 ? ' persona' : ' personas') + ': no se puede eliminar hasta que se lo retires a todas.'
+                    : 'El rol y sus permisos desaparecen. No afecta a ninguna persona (nadie lo tiene).', 'Eliminar', () => postR({ accion: 'borrar', id: ro.id }));
+      ac.append(bx);
       c.append(ac);
     }
     L.append(c);
@@ -488,8 +531,11 @@ function botonDobleR(texto, clave, accion) {
     pendiente = null; msg('Un momento…'); const r = await accion(); msg(r.d.mensaje || r.d.error, !r.ok); await refrescarPanel(); };
   return b;
 }
-function rolForm(ro) {
-  rolEditando = ro ? ro.id : null; $('r-form').classList.remove('oculto');
+function rolForm(ro, tarjeta) {
+  if (ro && rolEditando === ro.id && !$('r-form').classList.contains('oculto')) { guardarForm('r-form', 'r-lista'); rolEditando = null; return; }   // segundo clic: se pliega
+  rolEditando = ro ? ro.id : null;
+  if (tarjeta) tarjeta.append($('r-form')); else $('r-nuevo').after($('r-form'));
+  $('r-form').classList.remove('oculto');
   $('r-form-tit').textContent = ro ? 'Modificar el rol «' + ro.nombre + '»' : 'Nuevo rol';
   $('r-nombre').value = ro ? ro.nombre : ''; $('r-desc').value = ro ? (ro.descripcion || '') : ''; $('r-aprob').checked = ro ? ro.aprobacion : true;
   const P = $('r-permisos'); P.textContent = ''; const grupos = {};
@@ -498,16 +544,16 @@ function rolForm(ro) {
     for (const x of xs) { const lb = el('label'); const cb = el('input'); cb.type = 'checkbox'; cb.value = x.clave; cb.checked = !!ro && ro.permisos.includes(x.clave);
       lb.append(cb, x.texto + (x.publico ? ' (público)' : '')); fs.append(lb); }
     P.append(fs); }
-  $('r-form').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('r-nombre').focus();
+  $('r-form').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); $('r-nombre').focus();
 }
 $('r-nuevo').onclick = () => rolForm(null);
-$('r-cancelar').onclick = () => { $('r-form').classList.add('oculto'); rolEditando = null; };
+$('r-cancelar').onclick = () => { guardarForm('r-form', 'r-lista'); rolEditando = null; };
 $('r-guardar').onclick = async () => {
   const permisos = [...document.querySelectorAll('#r-permisos input:checked')].map(x => x.value);
   msg('Un momento…');
   const r = await postR({ accion: rolEditando ? 'editar' : 'crear', id: rolEditando, nombre: $('r-nombre').value.trim(), descripcion: $('r-desc').value.trim(), aprobacion: $('r-aprob').checked, permisos });
   msg(r.d.mensaje || r.d.error, !r.ok);
-  if (r.ok) { $('r-form').classList.add('oculto'); rolEditando = null; await refrescarPanel(); }
+  if (r.ok) { guardarForm('r-form', 'r-lista'); rolEditando = null; await refrescarPanel(); }
 };
 
 // ── ZLabs · selección (28-10-2026) ─────────────────────────────────────
@@ -910,14 +956,7 @@ $('v-olvido').addEventListener('submit', async ev => { ev.preventDefault();
   if (r.d.enlace_simulado) { const s = $('o-sim'); s.classList.remove('oculto'); s.textContent = 'Modo simulación (solo en pruebas): este es el enlace que llegaría por correo → ';
     const a = document.createElement('a'); a.href = r.d.enlace_simulado; a.textContent = 'crear contraseña'; a.onclick = () => setTimeout(() => location.reload(), 50); s.append(a); }
 });
-$('f-cambiar').addEventListener('submit', async ev => { ev.preventDefault();
-  if ($('x-nueva').value !== $('x-nueva2').value) { msg('Las dos contraseñas nuevas no coinciden.', true); return; }
-  $('b-cambiar').disabled = true; msg('Un momento…');
-  const r = await post({ accion: 'cambiar', actual: $('x-actual').value, nueva: $('x-nueva').value }); $('b-cambiar').disabled = false;
-  msg(r.d.mensaje || r.d.error, !r.ok); if (r.ok) { ['x-actual', 'x-nueva', 'x-nueva2'].forEach(k => $(k).value = ''); $('cambiar-caja').open = false; }
-  if (r.d.entrar) ver('v-entrar');
-});
-$('b-salir').addEventListener('click', async () => { await fetch('/api/acceso/salir', { method: 'POST' }); location.replace('/gestion'); });
+$('b-salir').addEventListener('click', async () => { await fetch('/api/acceso/salir', { method: 'POST' }); try { sessionStorage.removeItem('innaz-yo'); } catch {} location.replace('/gestion'); });
 window.addEventListener('hashchange', () => { if (/^#clave=/.test(location.hash)) location.reload(); });
 arrancar();
 </script>

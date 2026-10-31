@@ -421,6 +421,7 @@ function miSuscripcion(d) {
 
 $('salir').addEventListener('click', async () => {
   await fetch('/api/acceso/salir', { method: 'POST' });
+  try { sessionStorage.removeItem('innaz-yo'); } catch {}   // auditoría de la unión (B5)
   location.replace('/entrar');
 });
 

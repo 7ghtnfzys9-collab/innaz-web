@@ -71,6 +71,19 @@ Si no esperabas este cambio, avisa a Presidencia.
 Instituto Nacional de Zarzuela · https://innaz.es`,
   },
   // Un solo correo por cambio de roles (auditoría 29-10-2026): lo que entra y lo que sale, en el mismo aviso
+  // Auditoría de la unión (30-10-2026, M3): aviso al correo ANTERIOR cuando la gestión cambia el correo de una cuenta de trabajo
+  'aviso-correo-cambiado': {
+    asunto: () => 'El correo de tu cuenta de gestión en INNAZ ha cambiado',
+    html: d => marco(`
+<p>${d.nombre ? 'Hola, ' + esc(d.nombre) + ':' : 'Hola:'}</p>
+<p>Desde la gestión de INNAZ se ha cambiado el correo de tu cuenta de trabajo a <strong>${esc(d.nuevo)}</strong>. A partir de ahora se entra con ese correo.</p>
+<p style="font-size:13px;color:#6b6b6b">Si no lo esperabas, avisa a Presidencia cuanto antes.</p>`),
+    texto: d => `${d.nombre ? 'Hola, ' + d.nombre + ':' : 'Hola:'}
+
+Desde la gestión de INNAZ se ha cambiado el correo de tu cuenta de trabajo a ${d.nuevo}. A partir de ahora se entra con ese correo.
+
+Si no lo esperabas, avisa a Presidencia cuanto antes.`,
+  },
   'aviso-roles': {
     asunto: d => d.altas.length && d.bajas.length ? 'Cambios en tus roles de gestión en INNAZ'
                 : d.altas.length ? `Tienes ${d.altas.length === 1 ? 'un rol' : 'roles'} de gestión en INNAZ: ${d.altas.join(', ')}`

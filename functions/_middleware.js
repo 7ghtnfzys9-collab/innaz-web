@@ -66,17 +66,25 @@ export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
 
+  // Auditoría de la unión (30-10-2026, B1): la ruta se compara DESCODIFICADA (/%65ntrar es /entrar para el servidor de estáticos)
+  let ruta = url.pathname; try { ruta = decodeURIComponent(ruta); } catch { ruta = url.pathname; }
+
   // 6. Interruptor: sin MI_INNAZ = 'si', la web se comporta como antes de la unión (innaz.es hoy).
   if (env.MI_INNAZ !== 'si') {
-    if (RUTAS_MI_INNAZ.test(url.pathname)) {
-      return url.pathname.startsWith('/api/')
-        ? new Response(JSON.stringify({ error: 'No encontrado' }), { status: 404, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } })
-        : new Response(PAGINA_404, { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' } });
+    if (RUTAS_MI_INNAZ.test(ruta)) {
+      if (ruta.startsWith('/api/')) return new Response(JSON.stringify({ error: 'No encontrado' }), { status: 404, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
+      // Auditoría (B2): el 404 de la web pública, no el de Mi INNAZ
+      try { const r = await env.ASSETS.fetch(new URL('/404.html', request.url));
+        return new Response(r.body, { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } }); }
+      catch { return new Response(PAGINA_404, { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' } }); }
     }
     return next();
   }
 
-  const enPruebas = env.MODO !== 'produccion';
+  // Auditoría de la unión (30-10-2026, M1): MODO es obligatorio y «pruebas» NO es el valor por defecto. Sin MODO válido, la web
+  // de Mi INNAZ no abre (antes, un MODO ausente o mal escrito dejaba innaz.es en modo pruebas: base al día sola, correo simulado…).
+  if (!['pruebas', 'produccion'].includes(env.MODO)) return new Response('Falta la variable MODO (pruebas o produccion) en la configuración de Cloudflare.', { status: 503 });
+  const enPruebas = env.MODO === 'pruebas';
 
   if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method)) {
     const origen = request.headers.get('Origin');
@@ -88,8 +96,8 @@ export async function onRequest(context) {
   if (!env.SAL) return new Response('Falta el secreto SAL en la configuración de Cloudflare.', { status: 503 });
   if (enPruebas && env.CLAVE_PRUEBAS) {   // 30-10-2026: solo si se ha puesto la contraseña (en pruebas.innaz-web.pages.dev ya cierra Cloudflare Access)
     // La hoja de estilos se sirve siempre (la usa la propia página de la contraseña).
-    const libre = url.pathname === '/mi-innaz.css' || url.pathname === '/robots.txt';
-    if (url.pathname === RUTA_GATE) {
+    const libre = ruta === '/mi-innaz.css' || ruta === '/robots.txt';
+    if (ruta === RUTA_GATE) {
       if (request.method === 'POST') {
         const f = await request.formData().catch(() => null);
         const clave = f && f.get('clave');
@@ -105,7 +113,7 @@ export async function onRequest(context) {
       return paginaGate('', url.searchParams.get('destino') || '/');
     }
     if (!libre && !(await cookieCorrecta(request, env)) && !(await basicCorrecto(request, env))) {
-      if (url.pathname.startsWith('/api/')) {
+      if (ruta.startsWith('/api/')) {
         return new Response(JSON.stringify({ error: 'Web de pruebas: hace falta la contraseña' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
       }
       // El «#…» del enlace mágico lo conserva el navegador al redirigir.
@@ -114,23 +122,23 @@ export async function onRequest(context) {
   }
 
   // 5. Base al día sola en pruebas (una vez por instancia; si falla, se reintenta en la siguiente petición)
-  if (enPruebas && !globalThis.__innazBaseAlDia && env.DB && !url.pathname.startsWith('/mi-innaz.css') && url.pathname !== RUTA_GATE) {
+  if (enPruebas && !globalThis.__innazBaseAlDia && env.DB && !ruta.startsWith('/mi-innaz.css') && ruta !== RUTA_GATE) {
     try { const h = await ponerAlDia(env); globalThis.__innazBaseAlDia = true; if (h.length) console.log('Base puesta al día:', h.join(' · ')); }
     catch (e) { console.error('No se ha podido poner al día la base:', e); }
   }
 
   // 4. Gestión interna
-  const esPaginaGestion = ['/gestion', '/gestion/', '/gestion.html'].includes(url.pathname);
-  const esGestion = esPaginaGestion || url.pathname.startsWith('/api/gestion/');
+  const esPaginaGestion = ['/gestion', '/gestion/', '/gestion.html'].includes(ruta);
+  const esGestion = esPaginaGestion || ruta.startsWith('/api/gestion/');
   // 30-10-2026 (César): la gestión se abre con correo y contraseña. La página y su ruta de acceso se sirven a cualquiera
   // (es el formulario de entrada); el resto de /api/gestion/ sigue cerrado: sin sesión 401, con una cuenta sin roles 404.
-  const libreGestion = esPaginaGestion || url.pathname === '/api/gestion/acceso';
+  const libreGestion = esPaginaGestion || ruta === '/api/gestion/acceso';
   if (esGestion && !libreGestion) {
     const s = await leerSesion(env, request);
     if (!s) {
       // la API responde ella misma «Hay que entrar primero» (401)
     } else if (!(await perfilesDe(env, s.usuario.id)).length) {
-      return url.pathname.startsWith('/api/')
+      return ruta.startsWith('/api/')
         ? new Response(JSON.stringify({ error: 'No encontrado' }), { status: 404, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } })
         : new Response(PAGINA_404, { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' } });
     }
@@ -142,6 +150,8 @@ export async function onRequest(context) {
   if (esGestion) resp.headers.set('Cache-Control', 'no-store');
   resp.headers.set('X-Content-Type-Options', 'nosniff');
   resp.headers.set('Referrer-Policy', 'same-origin');   // el enlace mágico no sale hacia otras webs
-  resp.headers.set('X-Frame-Options', 'DENY');
+  // Auditoría de la unión (30-10-2026): ahora pasan por aquí también las páginas públicas (_routes.json «/*»);
+  // el DENY de marcos solo para Mi INNAZ y la gestión, para no cambiar el comportamiento de la web pública.
+  if (esGestion || RUTAS_MI_INNAZ.test(ruta)) resp.headers.set('X-Frame-Options', 'DENY');
   return resp;
 }

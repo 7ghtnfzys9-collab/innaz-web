@@ -203,6 +203,9 @@ export async function onRequestPost({ request, env }) {
       if (!nuevo) return json({ error: 'El correo nuevo no es válido.' }, 400);
       const cambiaCorreo = !!u && nuevo !== u.correo;
       if (u && u.estado !== 'activo') return json({ error: 'La cuenta de esa persona no está activa.' }, 400);
+      // Auditoría de la unión (30-10-2026, M3): desde la gestión solo se cambia el correo de quien ya está en la gestión.
+      // El de un suscriptor lo cambia él desde Mi INNAZ (si no, con «He olvidado mi contraseña» se podría tomar su cuenta).
+      if (cambiaCorreo && !(await perfilesDe(env, u.id)).length) return json({ error: 'Esa cuenta no es de la gestión: su correo solo lo puede cambiar la propia persona desde Mi INNAZ. Asígnale el rol con su correo actual.' }, 400);
       if (cambiaCorreo && await DB.prepare('SELECT 1 FROM usuarios WHERE correo = ? AND id <> ?').bind(nuevo, u.id).first())
         return json({ error: 'Ya hay otra cuenta con ese correo.' }, 409);
       const actuales = u ? (await perfilesDe(env, u.id)).map(x => x.id) : [];
@@ -227,6 +230,7 @@ export async function onRequestPost({ request, env }) {
       await DB.batch(ops);
       if (creada) { try { await asignarNumero(env, id, t); } catch (e) { console.error('numero:', e); } }
       if (bajas.length && !cambiaCorreo) await bajarSesionSiSinRoles(env, id);
+      if (cambiaCorreo) await enviar(env, 'aviso-correo-cambiado', u.correo, { nombre: u.nombre, nuevo }).catch(() => {});   // al correo anterior (auditoría M3)
       await anotarSeguro(env, s.usuario.id, creada ? 'cuenta.alta_gestion' : 'persona.guardar', id,
         { correo: nuevo, nombre, altas, bajas, ...(cambiaCorreo ? { antes: u.correo } : {}) });
       // 30-10-2026: quien aún no tiene contraseña recibe el enlace para crearla (con sus roles); quien ya la tiene, el aviso de roles
@@ -254,6 +258,7 @@ export async function onRequestPost({ request, env }) {
       let nuevo = d.nuevoCorreo ? limpiarCorreo(d.nuevoCorreo) : u.correo;
       if (!nuevo) return json({ error: 'El correo nuevo no es válido.' }, 400);
       const cambiaCorreo = nuevo !== u.correo;
+      if (cambiaCorreo && !(await perfilesDe(env, u.id)).length) return json({ error: 'Esa cuenta no es de la gestión: su correo solo lo puede cambiar la propia persona desde Mi INNAZ.' }, 400);   // auditoría de la unión (M3)
       if (cambiaCorreo && await DB.prepare('SELECT 1 FROM usuarios WHERE correo = ? AND id <> ?').bind(nuevo, u.id).first())
         return json({ error: 'Ya hay otra cuenta con ese correo.' }, 409);
       await DB.batch([
@@ -263,6 +268,7 @@ export async function onRequestPost({ request, env }) {
         ...(cambiaCorreo && !yoMismo ? [DB.prepare('DELETE FROM sesiones WHERE usuario_id = ?').bind(u.id)] : []),   // con el correo nuevo tendrá que volver a entrar
       ]);
       await anotarSeguro(env, s.usuario.id, 'persona.editar', u.id, { nombre, cambiaCorreo, antes: cambiaCorreo ? u.correo : undefined, correo: nuevo });
+      if (cambiaCorreo) await enviar(env, 'aviso-correo-cambiado', u.correo, { nombre: u.nombre, nuevo }).catch(() => {});   // al correo anterior (auditoría M3)
       return json({ ok: true, mensaje: `Datos de ${nombre} ${apellidos} guardados.${cambiaCorreo ? ' A partir de ahora entra con ' + nuevo + '.' : ''}` });
     }
     // ── Quitar a una persona de la gestión: todos sus roles fuera (la cuenta no se borra; César, 29-10-2026) ──

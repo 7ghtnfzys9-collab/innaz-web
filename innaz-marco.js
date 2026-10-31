@@ -1,6 +1,6 @@
 /* innaz-marco.js · 30-10-2026 · Comportamiento común de la cabecera de innaz.es en las páginas de Mi INNAZ:
    desplegables del menú, aviso de pruebas, «Z» de INNAZ en turquesa y el botón «Entrar» / «Mi INNAZ».
-   El botón: pregunta a /api/acceso/yo una vez (se recuerda 1 minuto en sessionStorage). Con sesión, «Entrar» pasa a
+   El botón: pregunta a /api/acceso/estado (datos mínimos) una vez (se recuerda 1 minuto en sessionStorage). Con sesión, «Entrar» pasa a
    «Mi INNAZ»; si la ruta no existe (interruptor MI_INNAZ apagado, p. ej. en innaz.es antes del paso a real), se oculta. */
 (function () {
   document.body.classList.add('con-marco');
@@ -45,7 +45,7 @@
     var c = sessionStorage.getItem('innaz-yo'), ahora = Date.now();
     if (c) { c = JSON.parse(c); if (ahora - c.t < 60 * 1000) { pintar(c.yo); return; } }
   } catch (e) {}
-  fetch('/api/acceso/yo', { credentials: 'same-origin', cache: 'no-store' })
+  fetch('/api/acceso/estado', { credentials: 'same-origin', cache: 'no-store' })
     .then(function (r) { return r.status === 404 ? null : r.json(); })
     .then(function (yo) { try { sessionStorage.setItem('innaz-yo', JSON.stringify({ t: Date.now(), yo: yo })); } catch (e) {} pintar(yo); })
     .catch(function () {});

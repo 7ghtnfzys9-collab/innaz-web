@@ -1,5 +1,5 @@
 /* innaz-sesion.js · 30-10-2026 · Unión de Mi INNAZ con las páginas públicas de innaz.es
-   Pregunta a /api/acceso/yo (como mucho una vez por minuto; se recuerda en sessionStorage).
+   Pregunta a /api/acceso/estado (solo conectado, nombre de pila y códigos de ventaja; como mucho una vez por minuto, en sessionStorage).
    · Si Mi INNAZ está APAGADO (la ruta da 404: innaz.es hasta el paso a real) o hay un error, NO cambia nada:
      la página queda exactamente como antes de la unión.
    · Si está ENCENDIDO:
@@ -63,7 +63,7 @@
     }
     // Ventajas
     var tengo = {};
-    (yo.ventajas || []).forEach(function (v) { tengo[v.codigo || v] = 1; });
+    (yo.ventajas || []).forEach(function (v) { tengo[typeof v === 'string' ? v : v.codigo] = 1; });
     var cerradas = [].slice.call(document.querySelectorAll('[data-ventaja]')).filter(function (el) { return !tengo[el.getAttribute('data-ventaja')]; });
     if (cerradas.length) { estilos(); cerradas.forEach(function (el) { bloquear(el, yo); }); }
   }
@@ -71,7 +71,7 @@
   function arrancar() {
     var c = leer();
     if (c) { aplicar(c.yo); return; }
-    fetch('/api/acceso/yo', { credentials: 'same-origin', cache: 'no-store' })
+    fetch('/api/acceso/estado', { credentials: 'same-origin', cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })     // 404 = Mi INNAZ apagado
       .then(function (yo) { guardar(yo); aplicar(yo); })
       .catch(function () {});

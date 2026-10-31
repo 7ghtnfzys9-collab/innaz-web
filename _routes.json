@@ -1,15 +1,8 @@
 {
   "version": 1,
-  "include": [
-    "/api/*",
-    "/gestion", "/gestion/*", "/gestion.html",
-    "/entrar", "/entrar.html", "/acceder", "/acceder.html",
-    "/mi-innaz", "/mi-innaz.html",
-    "/suscripciones", "/suscripciones.html",
-    "/zlabs-preinscripcion", "/zlabs-preinscripcion.html",
-    "/zlabs-mi-preinscripcion", "/zlabs-mi-preinscripcion.html",
-    "/instalar", "/instalar.html", "/pruebas-entrar",
-    "/llaves.js", "/paises.js"
-  ],
-  "exclude": []
+  "include": ["/*"],
+  "exclude": [
+    "/*.js", "/*.css", "/*.svg", "/*.png", "/*.jpg", "/*.jpeg", "/*.webp", "/*.ico", "/*.json", "/*.txt", "/*.xml", "/*.pdf",
+    "/personas/*", "/equipo/*", "/firma/*", "/musical-lanzarote/*", "/cartelera-2026-27-4c072eb0c3/*"
+  ]
 }
